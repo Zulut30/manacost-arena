@@ -248,9 +248,19 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
       console.warn('[Scraper] Blizzard API failed, using HearthArena images:', (e as Error).message);
     }
 
+    // ── Load cards_ru.json for authoritative rarity overrides ───────────────
+    let cardsRuDb: Record<string, { rarity: string; mana: number; type: string }> = {};
+    try {
+      cardsRuDb = JSON.parse(readFileSync(join(DATA_DIR, 'cards_ru.json'), 'utf-8'));
+      console.log(`[Scraper] cards_ru.json loaded: ${Object.keys(cardsRuDb).length} cards`);
+    } catch {
+      console.warn('[Scraper] cards_ru.json not found, rarity from HearthArena DOM');
+    }
+
     // ── Build global card lookup (images + stats), keyed by cardId ─────────
     const cardLookup: Record<string, {
       cost?: number; attack?: number; health?: number; type?: string;
+      rarity?: string;
       imageHa: string; imageRu: string | null;
     }> = {};
 
@@ -260,11 +270,19 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
       let imageRu: string | null = null;
       if (blizzardMap && hs?.dbfId) imageRu = blizzardMap.get(hs.dbfId) ?? null;
       if (!imageRu && blizzardByName) imageRu = blizzardByName.get(normalizeRu(card.name)) ?? null;
+      // Rarity: prefer cards_ru.json, fallback to HearthArena DOM class
+      const ruCard = cardsRuDb[card.cardId];
+      const rarityFromDom = HA_RARITY[card.rarityKey] ?? 'common';
+      const rarity = ruCard
+        ? (ruCard.rarity === 'free' ? 'common' : ruCard.rarity)
+        : rarityFromDom;
+
       cardLookup[card.cardId] = {
-        cost:    hs?.cost,
+        cost:    ruCard?.mana ?? hs?.cost,
         attack:  hs?.attack,
         health:  hs?.health,
-        type:    hs?.type,
+        type:    ruCard?.type ?? hs?.type,
+        rarity,
         imageHa: card.imageHa,
         imageRu,
       };
@@ -307,13 +325,19 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
             description: TIER_DESC[t],
             cards: Array.from(bySection[sid][t].values())
               .sort((a, b) => b.score - a.score)
-              .map(card => ({
-                name:     card.name,
-                score:    card.score,
-                rarity:   HA_RARITY[card.rarityKey] ?? 'common',
-                cardId:   card.cardId,
-                classKey: card.classKey,  // 'any' = neutral, else class-specific
-              })),
+              .map(card => {
+                const ruCard = cardsRuDb[card.cardId];
+                const rarity = ruCard
+                  ? (ruCard.rarity === 'free' ? 'common' : ruCard.rarity)
+                  : (HA_RARITY[card.rarityKey] ?? 'common');
+                return {
+                  name:     card.name,
+                  score:    card.score,
+                  rarity,
+                  cardId:   card.cardId,
+                  classKey: card.classKey,
+                };
+              }),
           }));
 
         const totalCards = tiers.reduce((s, t) => s + t.cards.length, 0);

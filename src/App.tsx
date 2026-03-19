@@ -26,6 +26,8 @@ interface CardLookup {
   type?: string;
   imageHa: string;       // HearthArena CDN — Russian
   imageRu: string | null; // Blizzard API    — Russian (premium)
+  // Authoritative rarity from cards_ru.json (optional, overrides TierCard.rarity when present)
+  rarityDb?: string;
 }
 
 /** Minimal card entry inside a tier */
@@ -131,7 +133,10 @@ function formatDate(iso: string | null): string {
 }
 
 function mergeCard(tc: TierCard, lookup: Record<string, CardLookup>): CardData {
-  return { ...tc, ...(lookup[tc.cardId] ?? {}) };
+  const lu = lookup[tc.cardId] as any ?? {};
+  // rarity in lookup (cards_ru.json) overrides DOM-scraped rarity from HearthArena
+  const rarity: string = lu.rarity ?? tc.rarity;
+  return { ...tc, ...lu, rarity };
 }
 
 // ─── Card image helpers ───────────────────────────────────────────────────────
@@ -317,13 +322,16 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
 // ─── HSCard ───────────────────────────────────────────────────────────────────
 
 const HSCard: React.FC<{ card: CardData; onClick: () => void }> = memo(({ card, onClick }) => {
-  const [imgErr, setImgErr] = useState(false);
+  // Multi-step fallback: imageRu → imageHa → hsJson enUS
+  const sources = [
+    card.imageRu  || null,
+    card.imageHa  || null,
+    card.cardId   ? hsImgUrl(card.cardId) : null,
+  ].filter(Boolean) as string[];
 
-  const thumbSrc = imgErr ? null
-    : card.imageRu  ? card.imageRu
-    : card.imageHa  ? card.imageHa
-    : card.cardId   ? hsImgUrl(card.cardId)
-    : null;
+  const [srcIdx, setSrcIdx] = useState(0);
+  const thumbSrc = sources[srcIdx] ?? null;
+  const handleErr = useCallback(() => setSrcIdx(i => i + 1), []);
 
   if (thumbSrc) {
     return (
@@ -331,7 +339,7 @@ const HSCard: React.FC<{ card: CardData; onClick: () => void }> = memo(({ card, 
         <div className="transform transition-all duration-200 group-hover:scale-110 group-hover:z-10"
           style={{ filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.85))' }}>
           <img src={thumbSrc} alt={card.name} loading="lazy"
-            onError={() => setImgErr(true)}
+            onError={handleErr}
             className="w-28 sm:w-32 md:w-36 h-auto" />
         </div>
       </div>
@@ -840,8 +848,15 @@ const LegendaryCardThumb: React.FC<{
   size: 'lg' | 'sm';
   onClick: () => void;
 }> = ({ card, size, onClick }) => {
-  const [imgErr, setImgErr] = useState(false);
-  const src = imgErr ? null : (card.imageHa || null);
+  // Fallback chain: imageRu → imageHa → hsJson enUS
+  const sources = [
+    card.imageRu || null,
+    card.imageHa || null,
+    card.cardId  ? hsImgUrl(card.cardId) : null,
+  ].filter(Boolean) as string[];
+
+  const [srcIdx, setSrcIdx] = useState(0);
+  const src = sources[srcIdx] ?? null;
   const wClass = size === 'lg' ? 'w-36' : 'w-20';
 
   if (src) {
@@ -857,7 +872,7 @@ const LegendaryCardThumb: React.FC<{
             src={src}
             alt={card.name}
             loading="lazy"
-            onError={() => setImgErr(true)}
+            onError={() => setSrcIdx(i => i + 1)}
             className="w-full h-auto"
           />
         </div>
@@ -1057,14 +1072,6 @@ function Legendaries({ data, loading, error }: {
                       onClick={() => setModalCard({ card: toLegendaryCardData(pc), tier: 'C' })}
                     />
                     <span className="text-[9px] text-[#6b4c2a] text-center leading-tight max-w-[80px]">{pc.name}</span>
-                    {pc.cost !== undefined && (
-                      <div className="flex items-center gap-0.5 justify-center">
-                        <div className="relative" style={{ width: '14px', height: '14px' }}>
-                          <img src={MANA_ICON} alt="мана" className="w-full h-full object-contain" />
-                          <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-[8px] drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">{pc.cost}</span>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
