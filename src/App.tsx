@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Trophy, Scroll, Info, Swords, RefreshCw, Loader2, AlertTriangle, X, Search } from 'lucide-react';
+import { Trophy, Scroll, Info, Swords, RefreshCw, Loader2, AlertTriangle, X, Search, Star } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -88,6 +88,24 @@ const CLASS_ICON_BY_ID: Record<string, string> = {
   warlock: '/class_icon/warlock.png',
   warrior: '/class_icon/warrior.png',
 };
+
+interface LegendaryCard {
+  cardId: string;
+  name: string;
+  cost?: number;
+  imageHa?: string;
+  imageRu?: string | null;
+}
+interface LegendaryGroup {
+  keyCard: LegendaryCard;
+  cards: LegendaryCard[];
+  winRate: number;
+}
+interface LegendariesData {
+  groups: LegendaryGroup[];
+  updatedAt: string | null;
+  source: string;
+}
 
 interface WinratesData {
   classes: ClassData[];
@@ -726,10 +744,203 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
   );
 }
 
+// ─── Legendaries tab ──────────────────────────────────────────────────────────
+
+function winRateBadgeColor(wr: number): string {
+  if (wr >= 60) return '#16a34a';
+  if (wr >= 50) return '#ca8a04';
+  return '#dc2626';
+}
+
+const LegendaryCardThumb: React.FC<{
+  card: LegendaryCard;
+  size: 'lg' | 'sm';
+  onClick: () => void;
+}> = ({ card, size, onClick }) => {
+  const [imgErr, setImgErr] = useState(false);
+  const src = imgErr ? null : (card.imageHa || null);
+  const wClass = size === 'lg' ? 'w-36' : 'w-20';
+
+  if (src) {
+    return (
+      <div
+        className={`${wClass} flex-shrink-0 cursor-pointer group`}
+        onClick={onClick}
+        title={card.name}
+      >
+        <div className="transform transition-all duration-200 group-hover:scale-110"
+          style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.8))' }}>
+          <img
+            src={src}
+            alt={card.name}
+            loading="lazy"
+            onError={() => setImgErr(true)}
+            className="w-full h-auto"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`${wClass} flex-shrink-0 cursor-pointer rounded-xl bg-[#2c1e16] border-2 border-[#a88a45] flex items-center justify-center p-2 text-center`}
+      style={{ minHeight: size === 'lg' ? '120px' : '72px' }}
+      onClick={onClick}
+      title={card.name}
+    >
+      <span className="font-hs text-[#fcd34d] text-[10px] leading-tight">{card.name}</span>
+    </div>
+  );
+};
+
+function Legendaries({ data, loading, error }: {
+  data: LegendariesData; loading: boolean; error: boolean;
+}) {
+  const [sortBy, setSortBy] = useState<'winrate' | 'date'>('winrate');
+  const [modalCard, setModalCard] = useState<{ card: CardData; tier: string } | null>(null);
+
+  const sorted = [...(data.groups ?? [])].sort((a, b) =>
+    sortBy === 'winrate' ? b.winRate - a.winRate : 0,
+  );
+
+  const toLegendaryCardData = (lc: LegendaryCard): CardData => ({
+    name:     lc.name,
+    score:    0,
+    rarity:   'legendary',
+    cardId:   lc.cardId,
+    classKey: 'any',
+    cost:     lc.cost,
+    imageHa:  lc.imageHa,
+    imageRu:  lc.imageRu ?? null,
+  });
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 pb-5 gap-4"
+        style={{ borderBottom: '2px solid #c4a46a' }}>
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Легендарные группы</h2>
+          <p className="text-[#8b6c42] text-sm mt-1">
+            Наборы карт для выбора первого легендарного существа на Арене
+            {data.updatedAt && <> — обновлено {formatDate(data.updatedAt)}</>}
+          </p>
+        </div>
+        {/* Sort buttons */}
+        <div className="flex gap-2 flex-shrink-0">
+          {(['winrate', 'date'] as const).map(s => (
+            <button
+              key={s}
+              onClick={() => setSortBy(s)}
+              className="px-4 py-2 rounded-full text-xs font-bold transition-all border"
+              style={{
+                background: sortBy === s
+                  ? 'linear-gradient(135deg,#6b4c2a,#3a2210)'
+                  : 'linear-gradient(135deg,#ede0c0,#e0cc9e)',
+                border: `1.5px solid ${sortBy === s ? '#a88a45' : '#c4a46a'}`,
+                color: sortBy === s ? '#fcd34d' : '#6b4c2a',
+              }}
+            >
+              {s === 'winrate' ? 'По винрейту' : 'По дате'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {error && (
+        <div className="flex items-center gap-2 text-[#8b6c42] text-xs mb-5 px-3 py-2 rounded-lg bg-[#8b4513]/10 border border-[#8b4513]/20">
+          <AlertTriangle size={13} /><span>Нет данных — возможно, scraper ещё не запущен</span>
+        </div>
+      )}
+
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div key={i} className="skeleton h-64 w-full rounded-2xl" style={{ animationDelay: `${i * 0.05}s` }} />
+          ))}
+        </div>
+      ) : sorted.length === 0 ? (
+        <div className="text-center py-14 rounded-2xl"
+          style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '2px dashed #c4a46a' }}>
+          <div className="text-4xl mb-3">⭐</div>
+          <p className="text-xl font-hs text-[#8b4513] tracking-wide">Нет данных</p>
+          <p className="text-[#8b6c42] mt-2 text-sm">Запустите npm run scrape для загрузки легендарных групп.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {sorted.map((group, idx) => (
+            <div
+              key={`${group.keyCard.cardId}-${idx}`}
+              className="anim-scale-in rounded-2xl flex flex-col items-center p-4 gap-3 transition-all duration-200 cursor-default"
+              style={{
+                animationDelay: `${idx * 0.04}s`,
+                background: 'linear-gradient(145deg,#ede0c0,#e0cc9e)',
+                border: '1.5px solid #c4a46a',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6), 0 3px 10px rgba(0,0,0,0.18)',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
+                (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 24px rgba(0,0,0,0.28)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLDivElement).style.transform = '';
+                (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.6), 0 3px 10px rgba(0,0,0,0.18)';
+              }}
+            >
+              {/* Key card image */}
+              <LegendaryCardThumb
+                card={group.keyCard}
+                size="lg"
+                onClick={() => setModalCard({ card: toLegendaryCardData(group.keyCard), tier: 'S' })}
+              />
+
+              {/* Key card name + win rate */}
+              <div className="flex flex-col items-center gap-1 w-full">
+                <span className="font-hs text-[#3d2208] text-base text-center leading-tight">{group.keyCard.name}</span>
+                <span
+                  className="px-3 py-1 rounded-full text-white text-xs font-bold shadow-md"
+                  style={{ background: winRateBadgeColor(group.winRate) }}
+                >
+                  {group.winRate.toFixed(1)}% винрейт
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div className="w-full h-px" style={{ background: '#c4a46a' }} />
+
+              {/* Package cards */}
+              <div className="flex gap-2 justify-center flex-wrap">
+                {group.cards.map((pc, ci) => (
+                  <div key={`${pc.cardId}-${ci}`} className="flex flex-col items-center gap-0.5">
+                    <LegendaryCardThumb
+                      card={pc}
+                      size="sm"
+                      onClick={() => setModalCard({ card: toLegendaryCardData(pc), tier: 'C' })}
+                    />
+                    <span className="text-[9px] text-[#6b4c2a] text-center leading-tight max-w-[80px]">{pc.name}</span>
+                    {pc.cost !== undefined && (
+                      <span className="text-[8px] text-[#2b5c85] font-bold">{pc.cost} маны</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {modalCard && (
+        <CardModal card={modalCard.card} tier={modalCard.tier} onClose={() => setModalCard(null)} />
+      )}
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'winrates' | 'tierlist'>('winrates');
+  const [activeTab, setActiveTab] = useState<'winrates' | 'tierlist' | 'legendaries'>('winrates');
 
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
@@ -737,12 +948,17 @@ export default function App() {
   const [tierlistData, setTierlistData] = useState<TierlistData>({
     sections: [], cards: {}, updatedAt: null, source: 'initial',
   });
+  const [legendariesData, setLegendariesData] = useState<LegendariesData>({
+    groups: [], updatedAt: null, source: 'hsreplay.net',
+  });
 
-  const [loadingWinrates, setLoadingWinrates] = useState(true);
-  const [loadingTierlist, setLoadingTierlist] = useState(true);
-  const [errorWinrates,   setErrorWinrates]   = useState(false);
-  const [errorTierlist,   setErrorTierlist]   = useState(false);
-  const [refreshing,      setRefreshing]      = useState(false);
+  const [loadingWinrates,    setLoadingWinrates]    = useState(true);
+  const [loadingTierlist,    setLoadingTierlist]    = useState(true);
+  const [loadingLegendaries, setLoadingLegendaries] = useState(true);
+  const [errorWinrates,      setErrorWinrates]      = useState(false);
+  const [errorTierlist,      setErrorTierlist]      = useState(false);
+  const [errorLegendaries,   setErrorLegendaries]   = useState(false);
+  const [refreshing,         setRefreshing]         = useState(false);
 
   const fetchWinrates = useCallback(async () => {
     try {
@@ -764,7 +980,17 @@ export default function App() {
     finally  { setLoadingTierlist(false); }
   }, []);
 
-  useEffect(() => { fetchWinrates(); fetchTierlist(); }, [fetchWinrates, fetchTierlist]);
+  const fetchLegendaries = useCallback(async () => {
+    try {
+      const res = await fetch('/api/legendaries');
+      if (!res.ok) throw new Error('not ok');
+      setLegendariesData(await res.json());
+      setErrorLegendaries(false);
+    } catch { setErrorLegendaries(true); }
+    finally  { setLoadingLegendaries(false); }
+  }, []);
+
+  useEffect(() => { fetchWinrates(); fetchTierlist(); fetchLegendaries(); }, [fetchWinrates, fetchTierlist, fetchLegendaries]);
 
   const handleRefresh = useCallback(async () => {
     if (refreshing) return;
@@ -808,8 +1034,9 @@ export default function App() {
         {/* Tab switcher */}
         <div className="flex justify-center gap-2 sm:gap-4 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 sm:px-4 w-full max-w-6xl">
           {([
-            { id: 'winrates', label: 'Винрейт', icon: Trophy },
-            { id: 'tierlist', label: 'Тир-лист', icon: Scroll },
+            { id: 'winrates',    label: 'Винрейт',    icon: Trophy },
+            { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll },
+            { id: 'legendaries', label: 'Легендарки', icon: Star  },
           ] as const).map(tab => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
@@ -843,6 +1070,9 @@ export default function App() {
           {activeTab === 'tierlist' && (
             <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
               onRefresh={handleRefresh} refreshing={refreshing} />
+          )}
+          {activeTab === 'legendaries' && (
+            <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
           )}
         </div>
       </main>

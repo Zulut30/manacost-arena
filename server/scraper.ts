@@ -411,15 +411,134 @@ function saveData(filename: string, data: object) {
   writeFileSync(join(DATA_DIR, filename), JSON.stringify(data, null, 2), 'utf-8');
 }
 
+// ─── HSReplay Legendaries ─────────────────────────────────────────────────────
+
+export async function scrapeLegendaries(): Promise<boolean> {
+  console.log('[Scraper] HSReplay Legendaries: launching browser...');
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+  });
+
+  try {
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    );
+
+    // Intercept the card_packages API response
+    let packagesData: any = null;
+    page.on('response', async (response) => {
+      const url = response.url();
+      if (url.includes('card_packages/free')) {
+        try {
+          const text = await response.text();
+          packagesData = JSON.parse(text);
+          console.log('[Scraper] HSReplay: intercepted card_packages/free response');
+        } catch (e) {
+          console.warn('[Scraper] HSReplay: failed to parse intercepted response:', (e as Error).message);
+        }
+      }
+    });
+
+    await page.goto('https://hsreplay.net/arena/legendaries/', { waitUntil: 'networkidle2', timeout: 60000 });
+    // Wait a bit for any delayed XHR
+    await new Promise(r => setTimeout(r, 8000));
+
+    if (!packagesData) throw new Error('card_packages/free response not intercepted');
+
+    const allPackages: Array<{
+      package_key_card_id: string;
+      package_card_ids: string[];
+      win_rate: number;
+    }> = packagesData?.data?.ALL ?? [];
+
+    if (allPackages.length < 10) throw new Error(`Too few legendary packages: ${allPackages.length}`);
+    console.log(`[Scraper] HSReplay: ${allPackages.length} legendary packages found`);
+
+    // ── Fetch HearthstoneJSON for ruRU names and stats ──────────────────────
+    console.log('[Scraper] HearthstoneJSON: fetching ruRU card data...');
+    const hsRes = await fetch('https://api.hearthstonejson.com/v1/latest/ruRU/cards.json', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ManacostArena/1.0)' },
+    });
+    if (!hsRes.ok) throw new Error(`HearthstoneJSON HTTP ${hsRes.status}`);
+    const hsCards: any[] = await hsRes.json();
+
+    // Build maps: cardId → { name, cost, dbfId }
+    const hsNameMap = new Map<string, string>();
+    const hsCostMap = new Map<string, number>();
+    const hsDbfMap  = new Map<string, number>();
+    for (const c of hsCards) {
+      if (!c.id) continue;
+      if (c.name)  hsNameMap.set(c.id, c.name);
+      if (c.cost !== undefined) hsCostMap.set(c.id, c.cost);
+      if (c.dbfId) hsDbfMap.set(c.id, c.dbfId);
+    }
+    console.log(`[Scraper] HearthstoneJSON: ${hsNameMap.size} ruRU card names indexed`);
+
+    // ── Optionally get Blizzard Russian image URLs ──────────────────────────
+    let blizzardMap: Map<number, string> | null = null;
+    try {
+      const token = await getBlizzardToken();
+      const maps = await buildBlizzardImageMap(token);
+      blizzardMap = maps.byDbfId;
+    } catch (e) {
+      console.warn('[Scraper] Blizzard API failed for legendaries:', (e as Error).message);
+    }
+
+    // ── Build groups ────────────────────────────────────────────────────────
+    const haImgUrl = (cardId: string) =>
+      `https://cdn.heartharena.com/images/renders/ruRU/${cardId}.webp`;
+
+    const groups = allPackages.map(pkg => {
+      const keyId   = pkg.package_key_card_id;
+      const keyDbf  = hsDbfMap.get(keyId);
+      const imageRu = (blizzardMap && keyDbf) ? (blizzardMap.get(keyDbf) ?? null) : null;
+
+      const keyCard = {
+        cardId:  keyId,
+        name:    hsNameMap.get(keyId) ?? keyId,
+        imageHa: haImgUrl(keyId),
+        imageRu,
+      };
+
+      const cards = pkg.package_card_ids.map(cid => ({
+        cardId:  cid,
+        name:    hsNameMap.get(cid) ?? cid,
+        cost:    hsCostMap.get(cid) ?? 0,
+        imageHa: haImgUrl(cid),
+      }));
+
+      return { keyCard, cards, winRate: pkg.win_rate };
+    });
+
+    saveData('legendaries.json', {
+      groups,
+      updatedAt: new Date().toISOString(),
+      source: 'hsreplay.net',
+    });
+    console.log(`[Scraper] HSReplay: saved ${groups.length} legendary groups`);
+    return true;
+
+  } catch (err) {
+    console.error('[Scraper] HSReplay Legendaries error:', (err as Error).message);
+    return false;
+  } finally {
+    await browser.close();
+  }
+}
+
 export async function scrapeAll() {
   console.log('[Scraper] Starting full scrape...');
-  const [wr, tl] = await Promise.allSettled([
+  const [wr, tl, lg] = await Promise.allSettled([
     scrapeFirestoneWinrates(),
     scrapeHearthArenaTierlist(),
+    scrapeLegendaries(),
   ]);
   return {
-    winrates: wr.status === 'fulfilled' && wr.value,
-    tierlist: tl.status === 'fulfilled' && tl.value,
+    winrates:    wr.status === 'fulfilled' && wr.value,
+    tierlist:    tl.status === 'fulfilled' && tl.value,
+    legendaries: lg.status === 'fulfilled' && lg.value,
   };
 }
 
