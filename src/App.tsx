@@ -59,6 +59,7 @@ interface CardData extends TierCard, Partial<CardLookup> {}
 
 // ─── Class icons (from /public/class_icon/) ───────────────────────────────────
 
+/** Maps tier-list section IDs → icon path */
 const CLASS_ICON: Record<string, string> = {
   'death-knight': '/class_icon/deathknight.png',
   'demon-hunter': '/class_icon/demonhunter.png',
@@ -71,6 +72,21 @@ const CLASS_ICON: Record<string, string> = {
   shaman:         '/class_icon/shaman.png',
   warlock:        '/class_icon/warlock.png',
   warrior:        '/class_icon/warrior.png',
+};
+
+/** Maps winrate class IDs (dk/dh/…) → icon path */
+const CLASS_ICON_BY_ID: Record<string, string> = {
+  dk:      '/class_icon/deathknight.png',
+  dh:      '/class_icon/demonhunter.png',
+  druid:   '/class_icon/druid.png',
+  hunter:  '/class_icon/hunter.png',
+  mage:    '/class_icon/mage.png',
+  paladin: '/class_icon/paladin.png',
+  priest:  '/class_icon/priest.png',
+  rogue:   '/class_icon/rogue.png',
+  shaman:  '/class_icon/shaman.png',
+  warlock: '/class_icon/warlock.png',
+  warrior: '/class_icon/warrior.png',
 };
 
 interface WinratesData {
@@ -271,23 +287,45 @@ const HSCard: React.FC<{ card: CardData; onClick: () => void }> = ({ card, onCli
 
 // ─── Skeleton / misc ──────────────────────────────────────────────────────────
 
-const Skeleton: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`animate-pulse bg-[#c4a46a]/40 rounded-lg ${className}`} />
+const Skeleton: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className = '', style }) => (
+  <div className={`skeleton ${className}`} style={style} />
 );
 
 const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefresh: () => void; refreshing: boolean }> =
-  ({ updatedAt, source, onRefresh, refreshing }) => (
-    <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
-      <div className="flex items-center gap-2 text-[#fcd34d] bg-gradient-to-b from-[#4a3018] to-[#2c1e16] px-3 sm:px-4 py-1.5 rounded-full border-2 border-[#a88a45] shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-        <Info size={14} />
-        <span className="font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
-          {updatedAt ? `Обновлено: ${formatDate(updatedAt)}` : 'Загружается...'}
+  ({ updatedAt, onRefresh, refreshing }) => (
+    <div className="flex flex-wrap items-center gap-2">
+      {/* Timestamp pill */}
+      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs"
+        style={{
+          background: 'linear-gradient(135deg,#3a2210,#2c1e16)',
+          border: '1.5px solid #6b4c2a',
+          color: '#e8d5a5',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+        }}>
+        <Info size={12} className="text-[#a88a45]" />
+        <span className="font-medium">
+          {updatedAt ? formatDate(updatedAt) : 'Загружается…'}
         </span>
       </div>
-      <button onClick={onRefresh} disabled={refreshing} title="Обновить данные с сайтов"
-        className="flex items-center gap-1.5 text-[#e8d5a5] bg-gradient-to-b from-[#3a2210] to-[#1a110a] px-3 py-1.5 rounded-full border-2 border-[#6b4c2a] shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:from-[#4a3018] hover:to-[#2c1e16] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-        {refreshing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-        <span className="font-bold text-xs">{refreshing ? 'Парсинг...' : 'Обновить'}</span>
+      {/* Refresh button */}
+      <button
+        onClick={onRefresh}
+        disabled={refreshing}
+        title="Обновить данные"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+        style={{
+          background: refreshing
+            ? 'linear-gradient(135deg,#5a3a1a,#3a2210)'
+            : 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+          border: '1.5px solid #a88a45',
+          color: '#fcd34d',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+        }}
+      >
+        {refreshing
+          ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} />
+          : <RefreshCw size={12} />}
+        <span>{refreshing ? 'Парсинг…' : 'Обновить'}</span>
       </button>
     </div>
   );
@@ -298,52 +336,144 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
   classes: ClassData[]; loading: boolean; error: boolean;
   updatedAt: string | null; source: string; onRefresh: () => void; refreshing: boolean;
 }) {
+  // Trigger bar fill animation after mount
+  const [barsVisible, setBarsVisible] = useState(false);
+  useEffect(() => {
+    if (!loading) {
+      const t = setTimeout(() => setBarsVisible(true), 80);
+      return () => clearTimeout(t);
+    }
+  }, [loading]);
+
+  const maxWinrate = Math.max(...classes.map(c => c.winrate), 1);
+
   return (
-    <div className="animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b-2 border-[#8b4513] pb-4 gap-4">
-        <h2 className="text-3xl font-hs text-[#4a3018]">Винрейт классов на Арене</h2>
+    <div>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 pb-5 gap-4"
+        style={{ borderBottom: '2px solid #c4a46a' }}>
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Винрейт классов</h2>
+          <p className="text-[#8b6c42] text-sm mt-1">Статистика побед на Арене — текущий патч</p>
+        </div>
         <UpdateBadge updatedAt={updatedAt} source={source} onRefresh={onRefresh} refreshing={refreshing} />
       </div>
+
       {error && (
-        <div className="flex items-center gap-2 text-[#8b6c42] text-xs mb-4 opacity-70">
-          <AlertTriangle size={13} /><span>Сервер недоступен — показаны кэшированные данные</span>
+        <div className="flex items-center gap-2 text-[#8b6c42] text-xs mb-5 px-3 py-2 rounded-lg bg-[#8b4513]/10 border border-[#8b4513]/20">
+          <AlertTriangle size={13} /><span>Нет соединения — показаны кэшированные данные</span>
         </div>
       )}
-      <div className="space-y-3 sm:space-y-4">
+
+      <div className="space-y-2.5 sm:space-y-3">
         {loading
-          ? Array.from({ length: 11 }).map((_, i) => <Skeleton key={i} className="h-14 sm:h-16 w-full" />)
-          : classes.map((cls, index) => (
-              <div key={cls.id}
-                className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 bg-gradient-to-r from-[#e8d5a5] to-[#dcb883] p-3 sm:p-4 rounded-xl border-2 border-[#b58b5a] shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_12px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 transition-all relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#ffffff20] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                <div className="flex items-center justify-between sm:w-52 relative z-10">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gradient-to-br from-[#4a3018] to-[#2c1e16] border-2 border-[#a88a45] text-center font-hs text-lg sm:text-xl text-[#fcd34d]">
-                      #{index + 1}
-                    </div>
-                    <div className="font-bold text-base sm:text-lg text-[#4a3018]">{cls.name}</div>
-                  </div>
-                  <div className="sm:hidden font-bold text-[#8b4513]">{cls.winrate.toFixed(1)}%</div>
-                </div>
-                <div className="flex-grow bg-[#2c1e16] h-6 sm:h-8 rounded-full overflow-hidden border-2 border-[#4a3018] relative shadow-[inset_0_3px_8px_rgba(0,0,0,0.8)] z-10">
-                  <div className="h-full flex items-center px-3 sm:px-4 text-xs sm:text-sm font-bold transition-all duration-1000 rounded-r-full relative"
+          ? Array.from({ length: 11 }).map((_, i) => (
+              <div key={i} className="skeleton h-16 sm:h-[72px] w-full" style={{ animationDelay: `${i * 0.06}s` }} />
+            ))
+          : classes.map((cls, index) => {
+              const icon    = CLASS_ICON_BY_ID[cls.id];
+              const barPct  = barsVisible ? Math.max((cls.winrate / maxWinrate) * 100, 6) : 0;
+              const delay   = `${0.05 + index * 0.06}s`;
+              const barDelay = `${0.2 + index * 0.06}s`;
+
+              return (
+                <div
+                  key={cls.id}
+                  className="anim-fade-up group relative flex items-center gap-3 sm:gap-4 rounded-2xl overflow-hidden cursor-default"
+                  style={{
+                    animationDelay: delay,
+                    background: 'linear-gradient(135deg, #ede0c0 0%, #e2cfa0 50%, #d8c090 100%)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.18)',
+                    border: '1.5px solid #c9a86c',
+                    padding: '10px 14px',
+                    transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 20px rgba(0,0,0,0.25)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLDivElement).style.transform = '';
+                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.18)';
+                  }}
+                >
+                  {/* Rank badge */}
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-hs text-sm"
                     style={{
-                      width: `${Math.max(cls.winrate, 10)}%`,
-                      backgroundImage: `linear-gradient(180deg, ${cls.color}ee, ${cls.color})`,
-                      color: cls.textDark ? '#111' : '#fff',
-                      textShadow: cls.textDark ? 'none' : '0 1px 3px rgba(0,0,0,0.9)',
-                      boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3)',
+                      background: index === 0
+                        ? 'linear-gradient(135deg,#fcd34d,#d97706)'
+                        : index === 1
+                        ? 'linear-gradient(135deg,#d1d5db,#9ca3af)'
+                        : index === 2
+                        ? 'linear-gradient(135deg,#d97706,#92400e)'
+                        : 'linear-gradient(135deg,#4a3018,#2c1e16)',
+                      color: '#fff',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.3)',
+                      border: '1.5px solid rgba(255,255,255,0.2)',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                    }}
+                  >
+                    #{index + 1}
+                  </div>
+
+                  {/* Class icon */}
+                  {icon && (
+                    <img src={icon} alt={cls.name}
+                      className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
+                      draggable={false}
+                    />
+                  )}
+
+                  {/* Class name */}
+                  <div className="flex-shrink-0 w-28 sm:w-40">
+                    <span className="font-hs text-sm sm:text-base text-[#3d2208] tracking-wide leading-tight">
+                      {cls.name}
+                    </span>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="flex-grow relative h-7 sm:h-8 rounded-full overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(180deg,#1a0e06 0%,#2c1a0e 100%)',
+                      boxShadow: 'inset 0 3px 8px rgba(0,0,0,0.85), inset 0 -1px 2px rgba(255,255,255,0.05)',
+                      border: '1.5px solid #0a0502',
                     }}>
-                    <span className="hidden sm:inline relative z-10">{cls.winrate.toFixed(1)}%</span>
+                    {/* Fill */}
+                    <div className="absolute inset-y-0 left-0 flex items-center overflow-hidden rounded-full"
+                      style={{
+                        width:      `${barPct}%`,
+                        transition: `width 1.1s cubic-bezier(0.4, 0, 0.2, 1) ${barDelay}`,
+                        backgroundImage: `linear-gradient(180deg, ${cls.color}ff 0%, ${cls.color}cc 100%)`,
+                        boxShadow: `inset 0 2px 5px rgba(255,255,255,0.25), inset 0 -2px 5px rgba(0,0,0,0.35), 0 0 12px ${cls.color}66`,
+                      }}>
+                      {/* Shine stripe */}
+                      <div className="absolute inset-x-0 top-0 h-[40%] rounded-t-full"
+                        style={{ background: 'linear-gradient(180deg,rgba(255,255,255,0.3),transparent)' }} />
+                      {/* Winrate label inside bar */}
+                      <span className="relative z-10 pl-3 font-bold text-xs sm:text-sm tracking-wide"
+                        style={{
+                          color: cls.textDark ? 'rgba(0,0,0,0.85)' : '#fff',
+                          textShadow: cls.textDark ? 'none' : '0 1px 4px rgba(0,0,0,0.9)',
+                          opacity: barsVisible ? 1 : 0,
+                          transition: `opacity 0.3s ease ${parseFloat(barDelay) + 0.6}s`,
+                        }}>
+                        {cls.winrate.toFixed(1)}%
+                      </span>
+                    </div>
                   </div>
+
+                  {/* Games count */}
+                  {(cls.games ?? 0) > 0 && (
+                    <div className="flex-shrink-0 hidden lg:block text-right min-w-[88px]">
+                      <span className="text-xs text-[#8b6c42] font-medium">
+                        {cls.games!.toLocaleString('ru-RU')} игр
+                      </span>
+                    </div>
+                  )}
                 </div>
-                {(cls.games ?? 0) > 0 && (
-                  <div className="hidden md:block text-xs text-[#8b6c42] min-w-[80px] text-right relative z-10">
-                    {cls.games!.toLocaleString('ru-RU')} игр
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
       </div>
     </div>
   );
@@ -475,10 +605,11 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
   return (
     <div className="animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 border-b-2 border-[#8b4513] pb-4 gap-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pb-5 gap-4"
+        style={{ borderBottom: '2px solid #c4a46a' }}>
         <div>
-          <h2 className="text-3xl font-hs text-[#4a3018]">Тир-лист HearthArena</h2>
-          <p className="text-[#6b4c2a] mt-1 font-body text-sm">Оценки карт для каждого класса из текущего патча.</p>
+          <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Тир-лист HearthArena</h2>
+          <p className="text-[#8b6c42] mt-1 text-sm">Оценки карт для каждого класса — текущий патч.</p>
         </div>
         <UpdateBadge updatedAt={data.updatedAt} source={data.source} onRefresh={onRefresh} refreshing={refreshing} />
       </div>
@@ -490,14 +621,26 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
       )}
 
       {loading ? (
-        <div className="flex flex-col items-center py-16 gap-4">
-          <Loader2 size={48} className="animate-spin text-[#a88a45]" />
-          <p className="font-hs text-[#6b4c2a] text-xl">Загрузка тир-листа...</p>
+        <div className="flex flex-col items-center py-20 gap-5">
+          <div className="relative w-16 h-16">
+            <div className="absolute inset-0 rounded-full border-4 border-[#a88a45]/20" />
+            <div className="absolute inset-0 rounded-full border-4 border-t-[#fcd34d] border-r-transparent border-b-transparent border-l-transparent"
+              style={{ animation: 'spin 1s linear infinite' }} />
+            <div className="absolute inset-2 rounded-full border-2 border-t-transparent border-r-[#a88a45]/60 border-b-transparent border-l-transparent"
+              style={{ animation: 'spin 0.7s linear infinite reverse' }} />
+          </div>
+          <p className="font-hs text-[#6b4c2a] text-xl tracking-wide">Загрузка тир-листа…</p>
+          <p className="text-[#8b6c42] text-sm">Получаем данные с HearthArena</p>
         </div>
       ) : (
         <>
           {/* Class tabs */}
-          <div className="mb-5 bg-[#2c1e16]/30 rounded-xl p-2 border border-[#a88a45]/30">
+          <div className="mb-5 rounded-2xl p-2 scrollbar-hs"
+            style={{
+              background: 'linear-gradient(135deg,rgba(26,17,10,0.45),rgba(44,30,22,0.3))',
+              border: '1.5px solid rgba(168,138,69,0.25)',
+              boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.3)',
+            }}>
             <ClassTabs sections={sections} activeId={activeClassId} onChange={handleClassChange} />
           </div>
 
@@ -521,7 +664,12 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
           )}
 
           {/* Filters */}
-          <div className="mb-6 flex flex-col sm:flex-row gap-3 bg-[#e8d5a5] p-3 sm:p-4 rounded-xl border-2 border-[#c4a46a] shadow-[inset_0_3px_8px_rgba(139,69,19,0.2)]">
+          <div className="mb-6 flex flex-col sm:flex-row gap-3 p-3 sm:p-4 rounded-2xl"
+            style={{
+              background: 'linear-gradient(135deg,#ede0c0,#e4d0a0)',
+              border: '1.5px solid #c4a46a',
+              boxShadow: 'inset 0 2px 6px rgba(139,69,19,0.18), 0 1px 0 rgba(255,255,255,0.6)',
+            }}>
             <div className="flex-grow relative">
               <label htmlFor="card-search" className="block text-xs font-bold text-[#8b4513] mb-1 uppercase tracking-wider">Поиск</label>
               <div className="relative">
@@ -544,19 +692,19 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
 
           {/* Tiers */}
           <div className="space-y-10">
-            {filteredTiers.length > 0 ? filteredTiers.map(tierGroup => (
-              <div key={tierGroup.tier}>
+            {filteredTiers.length > 0 ? filteredTiers.map((tierGroup, tierIdx) => (
+              <div key={tierGroup.tier} className="anim-fade-up" style={{ animationDelay: `${tierIdx * 0.07}s` }}>
                 {/* Tier header */}
-                <div className="flex items-center gap-4 mb-5 ml-0 md:ml-2">
-                  <div className={`w-12 h-12 md:w-14 md:h-14 flex-shrink-0 flex items-center justify-center text-2xl md:text-3xl font-hs rounded-full border-[3px] shadow-[0_4px_10px_rgba(0,0,0,0.6),inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-4px_6px_rgba(0,0,0,0.4)] ${TIER_COLORS[tierGroup.tier] || TIER_COLORS['C']}`}>
+                <div className="flex items-center gap-4 mb-5">
+                  <div className={`w-12 h-12 md:w-14 md:h-14 flex-shrink-0 flex items-center justify-center text-2xl md:text-3xl font-hs rounded-full border-[3px] shadow-[0_4px_14px_rgba(0,0,0,0.7),inset_0_4px_6px_rgba(255,255,255,0.35),inset_0_-4px_6px_rgba(0,0,0,0.45)] ${TIER_COLORS[tierGroup.tier] || TIER_COLORS['C']}`}>
                     <span className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{tierGroup.tier}</span>
                   </div>
-                  <div>
+                  <div className="flex-grow">
                     <div className="flex items-baseline gap-2">
-                      <h3 className="text-xl md:text-2xl font-hs text-[#4a3018]">{tierLabelFull[tierGroup.tier] ?? tierGroup.label}</h3>
-                      <span className="text-xs text-[#8b6c42]">{tierGroup.cards.length} карт</span>
+                      <h3 className="text-xl md:text-2xl font-hs text-[#3d2208] tracking-wide">{tierLabelFull[tierGroup.tier] ?? tierGroup.label}</h3>
+                      <span className="text-xs font-medium text-[#8b6c42] bg-[#8b6c42]/10 px-2 py-0.5 rounded-full border border-[#8b6c42]/20">{tierGroup.cards.length} карт</span>
                     </div>
-                    <p className="text-sm text-[#6b4c2a] font-body mt-0.5">{tierGroup.description}</p>
+                    <p className="text-sm text-[#6b4c2a] mt-0.5">{tierGroup.description}</p>
                   </div>
                 </div>
 
@@ -565,19 +713,26 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
                   {tierGroup.cards.map((tc, idx) => {
                     const card = mergeCard(tc, cards);
                     return (
-                      <HSCard
+                      <div
                         key={`${tc.cardId}-${idx}`}
-                        card={card}
-                        onClick={() => setModalCard({ card, tier: tierGroup.tier })}
-                      />
+                        className="anim-scale-in"
+                        style={{ animationDelay: `${tierIdx * 0.07 + idx * 0.018}s` }}
+                      >
+                        <HSCard
+                          card={card}
+                          onClick={() => setModalCard({ card, tier: tierGroup.tier })}
+                        />
+                      </div>
                     );
                   })}
                 </div>
               </div>
             )) : (
-              <div className="text-center py-12 bg-[#e8d5a5] rounded-xl border-2 border-dashed border-[#c4a46a]">
-                <p className="text-xl font-hs text-[#8b4513]">Карты не найдены</p>
-                <p className="text-[#6b4c2a] mt-2">Попробуйте изменить фильтры.</p>
+              <div className="text-center py-14 rounded-2xl"
+                style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '2px dashed #c4a46a' }}>
+                <div className="text-4xl mb-3">🃏</div>
+                <p className="text-xl font-hs text-[#8b4513] tracking-wide">Карты не найдены</p>
+                <p className="text-[#8b6c42] mt-2 text-sm">Попробуйте изменить фильтры.</p>
               </div>
             )}
           </div>
