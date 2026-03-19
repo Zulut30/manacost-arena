@@ -26,6 +26,7 @@ interface CardData {
   type: string;
   class: string;
   score?: number;
+  cardId?: string | null;  // HearthstoneJSON card ID for art rendering
 }
 
 interface TierGroup {
@@ -102,7 +103,44 @@ function formatDate(iso: string | null): string {
 
 // ─── Components ───────────────────────────────────────────────────────────────
 
+// HearthstoneJSON render URL
+const hsImgUrl = (cardId: string) =>
+  `https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${cardId}.png`;
+
+// Score pill colour
+const scoreBg = (score: number) =>
+  score >= 100 ? '#16a34a' : score >= 75 ? '#ca8a04' : '#dc2626';
+
 const HSCard: React.FC<{ card: CardData }> = ({ card }) => {
+  const [imgErr, setImgErr] = useState(false);
+
+  // ── Real Hearthstone card render ──────────────────────────────────────────
+  if (card.cardId && !imgErr) {
+    return (
+      <div className="relative flex-shrink-0 group cursor-pointer">
+        <div className="transform transition-all duration-200 group-hover:scale-110 group-hover:z-10">
+          <img
+            src={hsImgUrl(card.cardId)}
+            alt={card.name}
+            loading="lazy"
+            onError={() => setImgErr(true)}
+            className="w-28 sm:w-32 md:w-36 h-auto drop-shadow-[0_6px_16px_rgba(0,0,0,0.85)]"
+          />
+        </div>
+        {/* Score badge */}
+        {card.score !== undefined && card.score > 0 && (
+          <div
+            className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-white text-[10px] font-bold border border-white/80 shadow-md z-20"
+            style={{ background: scoreBg(card.score) }}
+          >
+            {card.score}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── Fallback card (no cardId or broken image) ─────────────────────────────
   const rarityColors: Record<string, string> = {
     free: '#d1d1d1', common: '#ffffff', rare: '#0070dd', epic: '#a335ee', legendary: '#ff8000',
   };
@@ -112,65 +150,42 @@ const HSCard: React.FC<{ card: CardData }> = ({ card }) => {
     warrior: '#7a1e1e', priest: '#3a3a3a', dk: '#1f252d', dh: '#224722',
   };
   const bgColor = classColors[card.class] || '#5c5248';
-
-  // If card has a score but no cost info — show score badge style (heartharena mode)
+  const hasCost  = card.cost > 0;
   const hasStats = card.attack !== undefined && card.health !== undefined;
-  const hasCost = card.cost !== undefined && card.cost > 0;
-  const hasScore = card.score !== undefined && card.score > 0;
-
-  // Score color: green for high, yellow for mid, red for low
-  const scoreColor = hasScore
-    ? card.score >= 100 ? '#22c55e'
-      : card.score >= 75 ? '#eab308'
-      : '#ef4444'
-    : '#2563eb';
+  const hasScore = (card.score ?? 0) > 0;
+  const gemBg    = hasCost
+    ? 'linear-gradient(135deg,#60a5fa,#2563eb,#1e3a8a)'
+    : hasScore ? `linear-gradient(135deg,${scoreBg(card.score!)}cc,${scoreBg(card.score!)})` : '#555';
 
   return (
     <div
-      className="relative w-28 h-40 sm:w-32 sm:h-48 md:w-40 md:h-56 rounded-xl box-hs flex flex-col items-center justify-center p-1 sm:p-2 text-center transform transition-transform hover:scale-105 hover:z-10 cursor-pointer overflow-hidden border-2 border-[#1a110a]"
+      className="relative w-28 h-40 sm:w-32 sm:h-48 md:w-36 md:h-52 rounded-xl flex flex-col items-center justify-center text-center transform transition-transform hover:scale-105 hover:z-10 cursor-pointer overflow-hidden border-2 border-[#1a110a]"
       style={{ backgroundColor: bgColor }}
     >
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h20v20H0V0zm10 10l10 10H0L10 10z\' fill=\'%23000000\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E')] z-0"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/90 z-0"></div>
-      <div className="absolute inset-1 border-2 border-white/10 rounded-lg z-0 pointer-events-none"></div>
-
-      {/* Rarity Gem */}
-      <div
-        className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-4 sm:w-4 sm:h-6 rounded-full z-20 border-[1.5px] border-[#3a2210]"
-        style={{
-          background: `radial-gradient(circle at 30% 30%, #fff 0%, ${rarityColors[card.rarity] || '#fff'} 40%, #000 100%)`,
-          boxShadow: `0 0 10px ${rarityColors[card.rarity] || '#fff'}88, inset 0 2px 4px rgba(255,255,255,0.6)`,
-        }}
-      ></div>
-
-      {/* Top-left gem: mana cost OR heartharena score */}
-      <div
-        className="absolute -top-2 -left-2 w-9 h-9 sm:w-11 sm:h-11 rounded-full border-[2px] sm:border-[3px] flex items-center justify-center text-white font-hs text-lg sm:text-2xl shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.6)] z-20"
-        style={{
-          background: hasCost
-            ? 'linear-gradient(135deg, #60a5fa, #2563eb, #1e3a8a)'
-            : `linear-gradient(135deg, ${scoreColor}cc, ${scoreColor}, ${scoreColor}88)`,
-          borderColor: hasCost ? '#1e3a8a' : scoreColor,
-        }}
-      >
-        <span className="drop-shadow-[0_2px_3px_rgba(0,0,0,1)] text-[10px] sm:text-sm leading-none">
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/90" />
+      <div className="absolute inset-1 border-2 border-white/10 rounded-lg pointer-events-none" />
+      {/* Rarity gem */}
+      <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-4 sm:w-4 sm:h-5 rounded-full z-20 border border-[#3a2210]"
+        style={{ background: `radial-gradient(circle at 30% 30%,#fff 0%,${rarityColors[card.rarity]||'#fff'} 40%,#000 100%)`, boxShadow:`0 0 8px ${rarityColors[card.rarity]||'#fff'}88` }} />
+      {/* Mana / score gem */}
+      <div className="absolute -top-2 -left-2 w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 flex items-center justify-center text-white font-hs text-base sm:text-xl shadow-[0_4px_8px_rgba(0,0,0,0.8)] z-20"
+        style={{ background: gemBg, borderColor: hasCost ? '#1e3a8a' : scoreBg(card.score ?? 0) }}>
+        <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,1)] text-xs sm:text-sm leading-none">
           {hasCost ? card.cost : hasScore ? card.score : '?'}
         </span>
       </div>
-
-      {/* Card Name Ribbon */}
-      <div className="z-10 mt-auto mb-3 sm:mb-5 w-[112%] -ml-[6%] bg-gradient-to-b from-[#4a3018] to-[#2c1e16] border-y-2 border-[#a88a45] py-1 px-1 sm:py-1.5 sm:px-2 shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] relative">
-        <span className="font-hs text-[#fcd34d] text-[9px] sm:text-[11px] leading-tight drop-shadow-[0_2px_2px_rgba(0,0,0,1)] block text-center truncate relative z-10">{card.name}</span>
+      {/* Name ribbon */}
+      <div className="z-10 mt-auto mb-2 sm:mb-4 w-[112%] -ml-[6%] bg-gradient-to-b from-[#4a3018] to-[#2c1e16] border-y-2 border-[#a88a45] py-1 px-1">
+        <span className="font-hs text-[#fcd34d] text-[9px] sm:text-[11px] leading-tight drop-shadow block text-center truncate">{card.name}</span>
       </div>
-
-      {/* Stats (only if available) */}
+      {/* Attack / Health */}
       {hasStats && (
         <>
-          <div className="absolute -bottom-2 -left-2 w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-[#fde047] via-[#eab308] to-[#a16207] rounded-full border-[2px] sm:border-[3px] border-[#422006] flex items-center justify-center text-black font-hs text-lg sm:text-2xl shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.6)] z-20">
-            <span className="drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">{card.attack}</span>
+          <div className="absolute -bottom-2 -left-2 w-9 h-9 bg-gradient-to-br from-[#fde047] via-[#eab308] to-[#a16207] rounded-full border-2 border-[#422006] flex items-center justify-center text-black font-hs text-lg shadow-lg z-20">
+            {card.attack}
           </div>
-          <div className="absolute -bottom-2 -right-2 w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-[#f87171] via-[#dc2626] to-[#7f1d1d] rounded-full border-[2px] sm:border-[3px] border-[#450a0a] flex items-center justify-center text-white font-hs text-lg sm:text-2xl shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.4)] z-20">
-            <span className="drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">{card.health}</span>
+          <div className="absolute -bottom-2 -right-2 w-9 h-9 bg-gradient-to-br from-[#f87171] via-[#dc2626] to-[#7f1d1d] rounded-full border-2 border-[#450a0a] flex items-center justify-center text-white font-hs text-lg shadow-lg z-20">
+            {card.health}
           </div>
         </>
       )}

@@ -6,27 +6,34 @@
       "cards": [
         {
           "name": "Туманность",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 9,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 150
+          "score": 150,
+          "cardId": "GDB_479"
         },
         {
           "name": "Упырь-куклокрад",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 1,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 145
+          "score": 145,
+          "cardId": "MIS_006"
         },
         {
           "name": "Агграмар Мститель",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 3,
+          "health": 7,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 137
+          "score": 137,
+          "cardId": "TTN_092"
         },
         {
           "name": "Святыня Каражан",
@@ -34,295 +41,381 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 135
+          "score": 135,
+          "cardId": null
         },
         {
           "name": "Йогг-Сарон Освобожденный",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 9,
+          "attack": 7,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 130
+          "score": 130,
+          "cardId": "YOG_516"
         },
         {
           "name": "Аргус Изумрудная Звезда",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 5,
+          "health": 9,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 130
+          "score": 130,
+          "cardId": "TTN_862"
         },
         {
           "name": "Великий дракорекс",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 5,
+          "health": 12,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 130
+          "score": 130,
+          "cardId": "DINO_401"
         },
         {
           "name": "Игнис Вечное Пламя",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 2,
+          "health": 4,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 129
+          "score": 129,
+          "cardId": "TTN_751"
         },
         {
           "name": "Лоскутные спутники",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 127
+          "score": 127,
+          "cardId": "TOY_353"
         },
         {
           "name": "Медив Освященный",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 7,
+          "health": 7,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 127
+          "score": 127,
+          "cardId": "TIME_890"
         },
         {
           "name": "Шоумен",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 4,
+          "health": 4,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 126
+          "score": 126,
+          "cardId": "VAC_301"
         },
         {
           "name": "Темница Йогг-Сарона",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "health": 3,
+          "rarity": "legendary",
+          "type": "location",
           "class": "neutral",
-          "score": 125
+          "score": 125,
+          "cardId": "TTN_090"
         },
         {
           "name": "Хранительница жизни Эонар",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 5,
+          "health": 7,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 122
+          "score": 122,
+          "cardId": "TTN_903"
         },
         {
           "name": "Силаг из Бездны",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 3,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 121
+          "score": 121,
+          "cardId": "TSC_219"
         },
         {
           "name": "Гелбин из будущего",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 119
+          "score": 119,
+          "cardId": "TIME_009"
         },
         {
           "name": "Темный наездник",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 1,
+          "attack": 2,
+          "health": 1,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 118
+          "score": 118,
+          "cardId": "EDR_456"
         },
         {
           "name": "Амитус Миротворица",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 1,
+          "health": 8,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 117
+          "score": 117,
+          "cardId": "TTN_858"
         },
         {
           "name": "Тени вчерашнего дня",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 6,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 116
+          "score": 116,
+          "cardId": "TIME_610"
         },
         {
           "name": "Живой таран",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 116
+          "score": 116,
+          "cardId": "SW_458"
         },
         {
           "name": "Анкилодон",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 7,
+          "health": 5,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 115
+          "score": 115,
+          "cardId": "DINO_422"
         },
         {
           "name": "Разъяренные птахи",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 6,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 115
+          "score": 115,
+          "cardId": "VAC_410"
         },
         {
           "name": "Тиранда",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 5,
+          "health": 7,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 115
+          "score": 115,
+          "cardId": "EDR_464"
         },
         {
           "name": "Флибустьер-утопленник",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 4,
+          "health": 4,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 115
+          "score": 115,
+          "cardId": "TSC_933"
         },
         {
           "name": "Испытание огнем",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 115
+          "score": 115,
+          "cardId": "TTN_470"
         },
         {
           "name": "Ярость ледяного змея",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 114
+          "score": 114,
+          "cardId": "RLK_063"
         },
         {
           "name": "Топиор Огнекуст",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 5,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 114
+          "score": 114,
+          "cardId": "REV_314"
         },
         {
           "name": "Цунами",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 8,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 114
+          "score": 114,
+          "cardId": "VAC_509"
         },
         {
           "name": "Глиняный матриарх",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 3,
+          "health": 7,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 114
+          "score": 114,
+          "cardId": "TOY_380"
         },
         {
           "name": "Ритуал новолуния",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 5,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 114
+          "score": 114,
+          "cardId": "EDR_461"
         },
         {
           "name": "Насыщение пламенем Тьмы",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 114
+          "score": 114,
+          "cardId": "FIR_939"
         },
         {
           "name": "Зеленая исследовательница",
-          "cost": 0,
+          "cost": 6,
+          "attack": 4,
+          "health": 8,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 113
+          "score": 113,
+          "cardId": "DRG_313"
         },
         {
           "name": "Древняя исследовательница",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 113
+          "score": 113,
+          "cardId": "DRG_254"
         },
         {
           "name": "Верховный магистр Роммат",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 9,
+          "attack": 5,
+          "health": 7,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 113
+          "score": 113,
+          "cardId": "RLK_803"
         },
         {
           "name": "Потомок Смертокрыла",
-          "cost": 0,
+          "cost": 5,
+          "attack": 6,
+          "health": 6,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 113
+          "score": 113,
+          "cardId": "ONY_035"
         },
         {
           "name": "Ловчий пламени Тьмы",
-          "cost": 0,
+          "cost": 4,
+          "attack": 4,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 112
+          "score": 112,
+          "cardId": "FIR_924"
         },
         {
           "name": "Демоническая динамика",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 112
+          "score": 112,
+          "cardId": "ETC_083"
         },
         {
           "name": "Здоровяк-официант",
-          "cost": 0,
+          "cost": 4,
+          "attack": 2,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 111
+          "score": 111,
+          "cardId": "REV_958"
         },
         {
           "name": "Анахронос",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 8,
+          "health": 8,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 111
+          "score": 111,
+          "cardId": "RLK_919"
         },
         {
           "name": "Зеркало души",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "rarity": "legendary",
+          "type": "spell",
           "class": "neutral",
-          "score": 111
+          "score": 111,
+          "cardId": "BT_198"
         },
         {
           "name": "Тесс Седогрив",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 111
+          "score": 111,
+          "cardId": "GIL_598"
         }
       ]
     },
@@ -332,219 +425,278 @@
       "cards": [
         {
           "name": "Поглощающая гниль",
-          "cost": 0,
+          "cost": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "GDB_478"
         },
         {
           "name": "Ночная эльфийка-охотница",
-          "cost": 0,
+          "cost": 5,
+          "attack": 3,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "TOY_101"
         },
         {
           "name": "Порождение безумия",
-          "cost": 0,
+          "cost": 2,
+          "attack": 1,
+          "health": 1,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "EDR_105"
         },
         {
           "name": "Вероломный мучитель",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 5,
+          "health": 4,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "EDR_102"
         },
         {
           "name": "Командный дух",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 0,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "TOY_028"
         },
         {
           "name": "Кактусовый голем",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 1,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "WW_818"
         },
         {
           "name": "Наблюдатель мифов",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 1,
+          "health": 4,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "TTN_078"
         },
         {
           "name": "Укротитель Плети",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "RLK_821"
         },
         {
           "name": "Реликвия королей",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "TLC_334"
         },
         {
           "name": "Капитан-храмовник",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 8,
+          "health": 8,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "AV_339"
         },
         {
           "name": "Слово Тьмы: Кража",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "DEEP_021"
         },
         {
           "name": "Сомнительная покупка",
-          "cost": 0,
+          "cost": 4,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "MIS_903"
         },
         {
           "name": "Тихоступ Черного Железа",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 4,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "WON_073"
         },
         {
           "name": "Ультрафиолетовый крушитель",
-          "cost": 0,
+          "cost": 3,
+          "attack": 3,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "GDB_901"
         },
         {
           "name": "Катар из болотных шипов",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 5,
+          "attack": 4,
+          "health": 2,
+          "rarity": "epic",
+          "type": "weapon",
           "class": "neutral",
-          "score": 99
+          "score": 99,
+          "cardId": "BT_102"
         },
         {
           "name": "Сектант-металлист",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 1,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "ETC_209"
         },
         {
           "name": "Заразное дыхание",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "EDR_814"
         },
         {
           "name": "Менеджер Марин",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "VAC_702"
         },
         {
           "name": "Лесные саженцы",
-          "cost": 0,
+          "cost": 1,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "TTN_950"
         },
         {
           "name": "Связка бананов",
-          "cost": 0,
+          "cost": 1,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "ETC_201"
         },
         {
           "name": "Манускрипт справедливости",
-          "cost": 0,
+          "cost": 5,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "BT_011"
         },
         {
           "name": "Хранитель снов",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 3,
+          "health": 4,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "EDR_256"
         },
         {
           "name": "Незримый Опу",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 6,
+          "health": 4,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "TLC_522"
         },
         {
           "name": "Жидкая магма",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "VAC_323"
         },
         {
           "name": "Разбиватель наледи",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 3,
+          "health": 2,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "AV_260"
         },
         {
           "name": "Экстрактор анимы",
-          "cost": 0,
+          "cost": 2,
+          "attack": 1,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "REV_332"
         },
         {
           "name": "Спортоведение",
-          "cost": 0,
+          "cost": 1,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 98
+          "score": 98,
+          "cardId": "SCH_237"
         },
         {
           "name": "Временной великан",
@@ -552,15 +704,19 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": null
         },
         {
           "name": "Гематург",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 2,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "RLK_066"
         },
         {
           "name": "Дорнозму",
@@ -568,55 +724,68 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": null
         },
         {
           "name": "Наблюдатель в бочке",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "DED_507"
         },
         {
           "name": "Командир Змеиных Колец",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 3,
+          "health": 7,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "TSC_609"
         },
         {
           "name": "Сигнал бедствия",
-          "cost": 0,
+          "cost": 4,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "GDB_883"
         },
         {
           "name": "Дистанционное управление",
-          "cost": 0,
+          "cost": 2,
+          "attack": 1,
+          "health": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "weapon",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "TOY_358"
         },
         {
           "name": "Нераскрытое дело",
-          "cost": 0,
+          "cost": 4,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "REV_505"
         },
         {
           "name": "Великая мудрость",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "RLK_546"
         },
         {
           "name": "Аура Меггакрута",
@@ -624,31 +793,41 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": null
         },
         {
           "name": "Тиранножабр",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 6,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "TLC_240"
         },
         {
           "name": "Меднокрыл",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 9,
+          "health": 7,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "AV_340"
         },
         {
           "name": "Дух-наставник",
-          "cost": 0,
+          "cost": 5,
+          "attack": 5,
+          "health": 5,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 97
+          "score": 97,
+          "cardId": "CORE_AV_328"
         }
       ]
     },
@@ -658,27 +837,36 @@
       "cards": [
         {
           "name": "Сгусток смолы",
-          "cost": 0,
+          "cost": 5,
+          "attack": 4,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TLC_468"
         },
         {
           "name": "Замерзший барон",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "RLK_708"
         },
         {
           "name": "Герой в криостазисе",
-          "cost": 0,
+          "cost": 1,
+          "attack": 2,
+          "health": 1,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TIME_613"
         },
         {
           "name": "Что стало с Зандаларом",
@@ -686,295 +874,382 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": null
         },
         {
           "name": "Разводчица дракончиков",
-          "cost": 0,
+          "cost": 2,
+          "attack": 2,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "WW_827"
         },
         {
           "name": "Иглоплюх",
-          "cost": 0,
+          "cost": 3,
+          "attack": 3,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TSC_002"
         },
         {
           "name": "Хроноаномальная глефа",
-          "cost": 0,
+          "cost": 1,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "weapon",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TIME_444"
         },
         {
           "name": "Стойкий таракан",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 4,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "END_008"
         },
         {
           "name": "Лесной властелин Кенарий",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 5,
+          "health": 8,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "EDR_209"
         },
         {
           "name": "Разборчивый заводчик",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 1,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "LEG_CS3_015"
         },
         {
           "name": "Раскаленная руна",
-          "cost": 0,
+          "cost": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TTN_477"
         },
         {
           "name": "Метеорит",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 6,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "UNG_955"
         },
         {
           "name": "Освящение",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 4,
+          "rarity": "free",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "VAN_CS2_093"
         },
         {
           "name": "Хранитель Ульдамана",
-          "cost": 0,
+          "cost": 3,
+          "attack": 3,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "WON_311"
         },
         {
           "name": "Божественный отвар",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 1,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "VAC_916"
         },
         {
           "name": "Книжка-раскладушка",
-          "cost": 0,
+          "cost": 1,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TOY_508"
         },
         {
           "name": "«Здоровый» напиток",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "VAC_951"
         },
         {
           "name": "Гейм-мастер Немси",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 3,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "TOY_524"
         },
         {
           "name": "Шведский стол",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 89
+          "score": 89,
+          "cardId": "VAC_528"
         },
         {
           "name": "Астробиолог",
-          "cost": 0,
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "GDB_874"
         },
         {
           "name": "Зазубренное лезвие времени",
-          "cost": 0,
+          "cost": 3,
+          "attack": 3,
+          "health": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "weapon",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "END_001"
         },
         {
           "name": "Пробудитель душ",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 8,
+          "health": 7,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "GDB_468"
         },
         {
           "name": "Повелитель кошмаров Ксавий",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "EDR_856"
         },
         {
           "name": "Гремучник Скверны",
-          "cost": 0,
+          "cost": 3,
+          "attack": 3,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "WC_701"
         },
         {
           "name": "Поджигательница",
-          "cost": 0,
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "FIR_952"
         },
         {
           "name": "Омен",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 6,
+          "health": 12,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "EDR_421"
         },
         {
           "name": "Почвозоль",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "YOG_403"
         },
         {
           "name": "Естественная причина",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "REV_307"
         },
         {
           "name": "Бешеные клыки",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "REV_350"
         },
         {
           "name": "Гаргон камнерожденных",
-          "cost": 0,
+          "cost": 4,
+          "attack": 3,
+          "health": 5,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "REV_352"
         },
         {
           "name": "Бронзовый дракорыцарь",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 3,
+          "health": 5,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "WON_052"
         },
         {
           "name": "Кольцо света",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 5,
+          "rarity": "free",
+          "type": "spell",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "VAN_CS1_112"
         },
         {
           "name": "Горячие угли",
-          "cost": 0,
+          "cost": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "VAC_414"
         },
         {
           "name": "Пожиратель разума",
-          "cost": 0,
+          "cost": 2,
+          "attack": 3,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "RLK_845"
         },
         {
           "name": "Полировщик мечей",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "VAC_701"
         },
         {
           "name": "Призыватель Бездны",
-          "cost": 0,
+          "cost": 4,
+          "attack": 3,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "FP1_022"
         },
         {
           "name": "Камнекожий бронник",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 88
+          "score": 88,
+          "cardId": "TTN_469"
         },
         {
           "name": "Гномоед",
-          "cost": 0,
+          "cost": 6,
+          "attack": 5,
+          "health": 6,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 87
+          "score": 87,
+          "cardId": "RLK_720"
         },
         {
           "name": "Изготовительница жезлов",
-          "cost": 0,
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 87
+          "score": 87,
+          "cardId": "SCH_160"
         },
         {
           "name": "Подарочный дракончик",
-          "cost": 0,
+          "cost": 1,
+          "attack": 2,
+          "health": 1,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 87
+          "score": 87,
+          "cardId": "TOY_386"
         }
       ]
     },
@@ -984,323 +1259,419 @@
       "cards": [
         {
           "name": "Асфиксия",
-          "cost": 0,
+          "cost": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "RLK_087"
         },
         {
           "name": "Темное превращение",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "RLK_057"
         },
         {
           "name": "Тень писателя",
-          "cost": 0,
+          "cost": 5,
+          "attack": 4,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "ETC_088"
         },
         {
           "name": "Ночь вурдалаков",
-          "cost": 0,
+          "cost": 4,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "VAC_445"
         },
         {
           "name": "Ужасный шеф-повар",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 1,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "VAC_946"
         },
         {
           "name": "Ржавоциклистка",
-          "cost": 0,
+          "cost": 5,
+          "attack": 1,
+          "health": 8,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "BT_720"
         },
         {
           "name": "Баба Нага",
-          "cost": 0,
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "TSC_017"
         },
         {
           "name": "Затерянный протодракон",
-          "cost": 0,
+          "cost": 4,
+          "attack": 4,
+          "health": 5,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "TTN_715"
         },
         {
           "name": "Пандарен-импортер",
-          "cost": 0,
+          "cost": 2,
+          "attack": 1,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "SW_065"
         },
         {
           "name": "Мурлокула",
-          "cost": 0,
+          "cost": 4,
+          "attack": 3,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "REV_957"
         },
         {
           "name": "Полый дикорог",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 5,
+          "health": 4,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "DINO_416"
         },
         {
           "name": "Вестница гибели Умбра",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "TLC_106"
         },
         {
           "name": "Пронзающий взгляд",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "CORE_BT_801"
         },
         {
           "name": "Окуривание",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "TLC_901"
         },
         {
           "name": "Мифический ужас",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 4,
+          "health": 10,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "TTN_866"
         },
         {
           "name": "Скальный скалолаз",
-          "cost": 0,
+          "cost": 7,
+          "attack": 6,
+          "health": 7,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "VAC_950"
         },
         {
           "name": "Подарок Малфуриона",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 1,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "GIFT_10"
         },
         {
           "name": "Дойная корова",
-          "cost": 0,
+          "cost": 5,
+          "attack": 3,
+          "health": 7,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "WORK_019"
         },
         {
           "name": "Темная гончая",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 6,
+          "health": 5,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "MAW_009"
         },
         {
           "name": "Дымящаяся роща",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "FIR_911"
         },
         {
           "name": "Мордреш Огненный Глаз",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 8,
+          "health": 8,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "BAR_547"
         },
         {
           "name": "Хитрый мошенник",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "VAC_333"
         },
         {
           "name": "Механический обзвонщик",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 2,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "WORK_006"
         },
         {
           "name": "Метеоритный шторм",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 6,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "GDB_445"
         },
         {
           "name": "Хаотичное поглощение",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 1,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "TTN_932"
         },
         {
           "name": "Угольки силы",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "RLK_960"
         },
         {
           "name": "Поддаться безумию",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 79
+          "score": 79,
+          "cardId": "EDR_455"
         },
         {
           "name": "Демонтаж-бот",
-          "cost": 0,
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "TTN_860"
         },
         {
           "name": "Норный скорпид",
-          "cost": 0,
+          "cost": 4,
+          "attack": 5,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "BT_717"
         },
         {
           "name": "Хипстер",
-          "cost": 0,
+          "cost": 2,
+          "attack": 1,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "ETC_103"
         },
         {
           "name": "Светский медведь",
-          "cost": 0,
+          "cost": 2,
+          "attack": 2,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "ETC_350"
         },
         {
           "name": "Агрессор Скользкого Копья",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 1,
+          "attack": 1,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "TSC_827"
         },
         {
           "name": "Дворфийка-археолог",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "ULD_309"
         },
         {
           "name": "Заводчик крылобегов",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 2,
+          "health": 5,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "RLK_970"
         },
         {
           "name": "Кил'джеден",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 7,
+          "health": 7,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "GDB_145"
         },
         {
           "name": "Дама с клинками",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 6,
+          "health": 6,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "DMF_226"
         },
         {
           "name": "Прыжок с парапланом",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "VAC_928"
         },
         {
           "name": "Нечистый сгусток",
-          "cost": 0,
+          "cost": 5,
+          "attack": 7,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "YOG_519"
         },
         {
           "name": "Торговец из трущоб",
-          "cost": 0,
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "CORE_CFM_753"
         },
         {
           "name": "Веселый Роджер",
-          "cost": 0,
+          "cost": 1,
+          "attack": 1,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 78
+          "score": 78,
+          "cardId": "NX2_006"
         }
       ]
     },
@@ -1310,99 +1681,127 @@
       "cards": [
         {
           "name": "Древний терродактиль",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 44
+          "score": 44,
+          "cardId": "TLC_246"
         },
         {
           "name": "Коридорный ужас",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 2,
+          "health": 5,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 44
+          "score": 44,
+          "cardId": "LOOT_149"
         },
         {
           "name": "Легенда о Карнассе",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 44
+          "score": 44,
+          "cardId": "TLC_826"
         },
         {
           "name": "Проверка качества",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 44
+          "score": 44,
+          "cardId": "TOY_605"
         },
         {
           "name": "Подпевала",
-          "cost": 0,
+          "cost": 3,
+          "attack": 2,
+          "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 43
+          "score": 43,
+          "cardId": "TOY_528"
         },
         {
           "name": "Растворяющий слизнюк",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 43
+          "score": 43,
+          "cardId": "TLC_252"
         },
         {
           "name": "Сильвана Ветрокрылая",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 5,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 43
+          "score": 43,
+          "cardId": "VAN_EX1_016"
         },
         {
           "name": "Вихлекирка",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 4,
+          "attack": 4,
+          "health": 2,
+          "rarity": "epic",
+          "type": "weapon",
           "class": "neutral",
-          "score": 43
+          "score": 43,
+          "cardId": "DAL_720"
         },
         {
           "name": "Зоркий искатель",
-          "cost": 0,
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 42
+          "score": 42,
+          "cardId": "TTN_712"
         },
         {
           "name": "Кошмарный конь",
-          "cost": 0,
+          "cost": 5,
+          "attack": 6,
+          "health": 5,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 42
+          "score": 42,
+          "cardId": "REV_251"
         },
         {
           "name": "Уничтожение улик",
           "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 40
+          "score": 40,
+          "cardId": "REV_507"
         },
         {
           "name": "История о Барнабусе",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 40
+          "score": 40,
+          "cardId": "TLC_231"
         }
       ]
     },
@@ -1412,67 +1811,85 @@
       "cards": [
         {
           "name": "Походный перекус",
-          "cost": 0,
+          "cost": 2,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 39
+          "score": 39,
+          "cardId": "VAC_508"
         },
         {
           "name": "Джейс Темный Ткач",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 7,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 38
+          "score": 38,
+          "cardId": "SW_044"
         },
         {
           "name": "Приморский гигант",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 8,
+          "health": 8,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 37
+          "score": 37,
+          "cardId": "VAC_439"
         },
         {
           "name": "Пылающее слияние",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 1,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 37
+          "score": 37,
+          "cardId": "GDB_302"
         },
         {
           "name": "Яйцо костяного паука",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 0,
+          "health": 2,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 37
+          "score": 37,
+          "cardId": "SCH_147"
         },
         {
           "name": "Зимний горн",
           "cost": 0,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 36
+          "score": 36,
+          "cardId": "RLK_042"
         },
         {
           "name": "Новые высоты",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 36
+          "score": 36,
+          "cardId": "VAC_949"
         },
         {
           "name": "Леди Азшара",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 5,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 35
+          "score": 35,
+          "cardId": "TIME_211"
         },
         {
           "name": "Кровавый боец Бролл",
@@ -1480,103 +1897,134 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 35
+          "score": 35,
+          "cardId": null
         },
         {
           "name": "Выброшенный кит",
-          "cost": 0,
+          "cost": 7,
+          "attack": 4,
+          "health": 20,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 34
+          "score": 34,
+          "cardId": "VAC_934"
         },
         {
           "name": "Сквернософия",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 1,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 33
+          "score": 33,
+          "cardId": "SCH_702"
         },
         {
           "name": "Зов сумерек",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 33
+          "score": 33,
+          "cardId": "LOOT_187"
         },
         {
           "name": "Чародейка-варвар",
-          "cost": 0,
+          "cost": 6,
+          "attack": 3,
+          "health": 7,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 32
+          "score": 32,
+          "cardId": "TSC_020"
         },
         {
           "name": "Попугай капитана",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 1,
+          "health": 1,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 32
+          "score": 32,
+          "cardId": "VAN_NEW1_016"
         },
         {
           "name": "Принц Малчезар",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 5,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 32
+          "score": 32,
+          "cardId": "KAR_096"
         },
         {
           "name": "Йогг-Сарон, Владыка Судьбы",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 10,
+          "attack": 7,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 31
+          "score": 31,
+          "cardId": "DMF_004"
         },
         {
           "name": "Катаклизм",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 5,
+          "rarity": "epic",
+          "type": "spell",
           "class": "neutral",
-          "score": 31
+          "score": 31,
+          "cardId": "LOOT_417"
         },
         {
           "name": "Лазурная королева Синдрагоса",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 5,
+          "attack": 2,
+          "health": 8,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 30
+          "score": 30,
+          "cardId": "TIME_852"
         },
         {
           "name": "Игла для тенеткани",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 1,
+          "attack": 0,
+          "health": 3,
+          "rarity": "rare",
+          "type": "weapon",
           "class": "neutral",
-          "score": 29
+          "score": 29,
+          "cardId": "SW_012"
         },
         {
           "name": "Пескозев",
-          "cost": 0,
+          "cost": 3,
+          "attack": 7,
+          "health": 2,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 28
+          "score": 28,
+          "cardId": "TIME_053"
         },
         {
           "name": "Дерзкий палеомурлок",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 3,
+          "health": 2,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 28
+          "score": 28,
+          "cardId": "TLC_251"
         },
         {
           "name": "Кровавый боец Валира",
@@ -1584,47 +2032,57 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 28
+          "score": 28,
+          "cardId": null
         },
         {
           "name": "Балинда Каменный Очаг",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 6,
+          "attack": 5,
+          "health": 5,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 26
+          "score": 26,
+          "cardId": "AV_284"
         },
         {
           "name": "Священный яйценос",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 2,
+          "attack": 1,
+          "health": 2,
+          "rarity": "rare",
           "type": "minion",
           "class": "neutral",
-          "score": 17
+          "score": 17,
+          "cardId": "DINO_411"
         },
         {
           "name": "Тайник с контрабандой",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 16
+          "score": 16,
+          "cardId": "AV_405"
         },
         {
           "name": "Завершение",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
           "class": "neutral",
-          "score": 15
+          "score": 15,
+          "cardId": "END_003"
         },
         {
           "name": "Призыв стихий",
           "cost": 0,
           "rarity": "common",
-          "type": "minion",
+          "type": "spell",
           "class": "neutral",
-          "score": 15
+          "score": 15,
+          "cardId": "TRL_310"
         },
         {
           "name": "Великий посох Атиеш",
@@ -1632,59 +2090,76 @@
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 8
+          "score": 8,
+          "cardId": null
         },
         {
           "name": "Яйцо кхелоса",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 3,
+          "attack": 0,
+          "health": 3,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 5
+          "score": 5,
+          "cardId": "DINO_410"
         },
         {
           "name": "Талант живописца",
-          "cost": 0,
+          "cost": 4,
+          "attack": 2,
+          "health": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "weapon",
           "class": "neutral",
-          "score": 0
+          "score": 0,
+          "cardId": "TOY_810"
         },
         {
           "name": "Молот ремесленника",
-          "cost": 0,
+          "cost": 4,
+          "attack": 3,
+          "health": 3,
           "rarity": "common",
-          "type": "minion",
+          "type": "weapon",
           "class": "neutral",
-          "score": 0
+          "score": 0,
+          "cardId": "TTN_467"
         },
         {
           "name": "Вечная любовь",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 3,
+          "rarity": "legendary",
+          "type": "spell",
           "class": "neutral",
-          "score": 0
+          "score": 0,
+          "cardId": "ETC_335"
         },
         {
           "name": "Душекрад",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 5,
+          "health": 5,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 0
+          "score": 0,
+          "cardId": "RLK_741"
         },
         {
           "name": "Леди Лиадрин",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 7,
+          "attack": 4,
+          "health": 6,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
-          "score": 0
+          "score": 0,
+          "cardId": "CORE_BT_334"
         }
       ]
     }
   ],
-  "updatedAt": "2026-03-19T20:06:57.315Z",
+  "updatedAt": "2026-03-19T20:33:44.239Z",
   "source": "heartharena.com"
 }

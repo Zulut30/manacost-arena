@@ -242,18 +242,32 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
     const deduped = Array.from(seen.values());
     console.log(`[Scraper] HearthArena: ${raw.length} raw → ${deduped.length} unique cards`);
 
+    // Enrich with HearthstoneJSON data (real cost, attack, health, cardId)
+    let hsMap: Map<string, any> | null = null;
+    try {
+      hsMap = await buildHearthstoneCardMap();
+    } catch (e) {
+      console.warn('[Scraper] HearthstoneJSON lookup failed, skipping enrichment:', (e as Error).message);
+    }
+
     // Group into tiers
     const grouped: Record<string, any[]> = {};
     for (const card of deduped) {
       const tier = scoreToTier(card.score, card.tierClass);
       if (!grouped[tier]) grouped[tier] = [];
+
+      const hsData = hsMap?.get(normalizeRu(card.name)) ?? null;
+
       grouped[tier].push({
         name: card.name,
-        cost: 0,             // HearthArena doesn't expose cost in the tier list
-        rarity: mapRarity(card.rarityKey),
-        type: 'minion',
+        cost: hsData?.cost ?? 0,
+        attack: hsData?.attack,
+        health: hsData?.health,
+        rarity: hsData?.rarity ?? mapRarity(card.rarityKey),
+        type: hsData?.type ?? 'minion',
         class: mapClass(card.classKey),
         score: card.score,
+        cardId: hsData?.id ?? null,   // HearthstoneJSON ID for card art
       });
     }
 
@@ -282,6 +296,45 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
   } finally {
     await browser.close();
   }
+}
+
+// ─── HearthstoneJSON card lookup ─────────────────────────────────────────────
+
+function normalizeRu(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/ё/g, 'е')           // ё → е (common mismatch in Russian)
+    .replace(/[^\wа-яa-z0-9]/gi, '') // strip punctuation
+    .trim();
+}
+
+export async function buildHearthstoneCardMap(): Promise<Map<string, { id: string; cost: number; attack?: number; health?: number; type: string; rarity: string; cardClass: string }>> {
+  console.log('[Scraper] HearthstoneJSON: fetching card database...');
+  const res = await fetch('https://api.hearthstonejson.com/v1/latest/ruRU/cards.json', {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ManacostArena/1.0)' },
+  });
+  if (!res.ok) throw new Error(`HearthstoneJSON HTTP ${res.status}`);
+  const cards: any[] = await res.json();
+
+  const map = new Map<string, { id: string; cost: number; attack?: number; health?: number; type: string; rarity: string; cardClass: string }>();
+  for (const card of cards) {
+    if (!card.name || !card.id || !card.collectible) continue;
+    const key = normalizeRu(card.name);
+    // Prefer non-hero cards if duplicate name
+    if (!map.has(key) || !['HERO', 'HERO_POWER'].includes(card.type)) {
+      map.set(key, {
+        id: card.id,
+        cost: card.cost ?? 0,
+        attack: card.attack,
+        health: card.health ?? card.durability,
+        type: (card.type || 'MINION').toLowerCase(),
+        rarity: (card.rarity || 'COMMON').toLowerCase(),
+        cardClass: (card.cardClass || 'NEUTRAL').toLowerCase(),
+      });
+    }
+  }
+  console.log(`[Scraper] HearthstoneJSON: indexed ${map.size} collectible cards`);
+  return map;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
