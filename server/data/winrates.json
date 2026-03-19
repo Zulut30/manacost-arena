@@ -1,0 +1,17 @@
+{
+  "classes": [
+    { "id": "dk", "name": "Рыцарь смерти", "winrate": 56.2, "color": "#1f252d", "games": 0 },
+    { "id": "paladin", "name": "Паладин", "winrate": 54.8, "color": "#a88a45", "games": 0 },
+    { "id": "shaman", "name": "Шаман", "winrate": 53.1, "color": "#2a2e6b", "games": 0 },
+    { "id": "hunter", "name": "Охотник", "winrate": 51.5, "color": "#1d5921", "games": 0 },
+    { "id": "mage", "name": "Маг", "winrate": 50.2, "color": "#2b5c85", "games": 0 },
+    { "id": "rogue", "name": "Разбойник", "winrate": 49.8, "color": "#333333", "games": 0 },
+    { "id": "warlock", "name": "Чернокнижник", "winrate": 48.5, "color": "#5c265c", "games": 0 },
+    { "id": "druid", "name": "Друид", "winrate": 47.2, "color": "#704a16", "games": 0 },
+    { "id": "warrior", "name": "Воин", "winrate": 46.1, "color": "#7a1e1e", "games": 0 },
+    { "id": "priest", "name": "Жрец", "winrate": 44.5, "color": "#d1d1d1", "textDark": true, "games": 0 },
+    { "id": "dh", "name": "Охотник на демонов", "winrate": 43.2, "color": "#224722", "games": 0 }
+  ],
+  "updatedAt": null,
+  "source": "initial"
+}

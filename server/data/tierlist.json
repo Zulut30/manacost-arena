@@ -1,0 +1,36 @@
+{
+  "tiers": [
+    {
+      "tier": "S",
+      "description": "Авто-пик. Невероятно сильные карты, меняющие ход игры.",
+      "cards": [
+        { "name": "Король-лич", "cost": 8, "attack": 8, "health": 8, "rarity": "legendary", "type": "minion", "class": "neutral" },
+        { "name": "Смертокрыл", "cost": 10, "attack": 12, "health": 12, "rarity": "legendary", "type": "minion", "class": "neutral" },
+        { "name": "Огненная глыба", "cost": 10, "rarity": "epic", "type": "spell", "class": "mage" },
+        { "name": "Тирион Фордринг", "cost": 8, "attack": 6, "health": 6, "rarity": "legendary", "type": "minion", "class": "paladin" }
+      ]
+    },
+    {
+      "tier": "A",
+      "description": "Отличные карты, всегда полезны и эффективны.",
+      "cards": [
+        { "name": "Снежная буря", "cost": 6, "rarity": "rare", "type": "spell", "class": "mage" },
+        { "name": "Защитник Аргуса", "cost": 4, "attack": 2, "health": 3, "rarity": "rare", "type": "minion", "class": "neutral" },
+        { "name": "Освящение", "cost": 4, "rarity": "common", "type": "spell", "class": "paladin" },
+        { "name": "Удар стихии", "cost": 3, "rarity": "epic", "type": "spell", "class": "shaman" },
+        { "name": "Лазурный дракон", "cost": 5, "attack": 4, "health": 4, "rarity": "rare", "type": "minion", "class": "neutral" }
+      ]
+    },
+    {
+      "tier": "B",
+      "description": "Хорошие карты для заполнения кривой маны.",
+      "cards": [
+        { "name": "Морозный йети", "cost": 4, "attack": 4, "health": 5, "rarity": "common", "type": "minion", "class": "neutral" },
+        { "name": "Уборочный голем", "cost": 3, "attack": 2, "health": 3, "rarity": "common", "type": "minion", "class": "neutral" },
+        { "name": "Смертельный выстрел", "cost": 3, "rarity": "common", "type": "spell", "class": "hunter" }
+      ]
+    }
+  ],
+  "updatedAt": null,
+  "source": "initial"
+}
