@@ -9,167 +9,113 @@ const DATA_DIR = join(__dirname, 'data');
 
 if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
 
-// English class name → display info
+// ─── Mappings ─────────────────────────────────────────────────────────────────
+
 const CLASS_INFO: Record<string, { id: string; name: string; color: string; textDark?: boolean }> = {
-  'death knight':  { id: 'dk',      name: 'Рыцарь смерти',     color: '#1f252d' },
-  'deathknight':   { id: 'dk',      name: 'Рыцарь смерти',     color: '#1f252d' },
-  'paladin':       { id: 'paladin', name: 'Паладин',            color: '#a88a45' },
-  'shaman':        { id: 'shaman',  name: 'Шаман',              color: '#2a2e6b' },
-  'hunter':        { id: 'hunter',  name: 'Охотник',            color: '#1d5921' },
-  'mage':          { id: 'mage',    name: 'Маг',                color: '#2b5c85' },
-  'rogue':         { id: 'rogue',   name: 'Разбойник',          color: '#333333' },
-  'warlock':       { id: 'warlock', name: 'Чернокнижник',       color: '#5c265c' },
-  'druid':         { id: 'druid',   name: 'Друид',              color: '#704a16' },
-  'warrior':       { id: 'warrior', name: 'Воин',               color: '#7a1e1e' },
-  'priest':        { id: 'priest',  name: 'Жрец',               color: '#d1d1d1', textDark: true },
-  'demon hunter':  { id: 'dh',     name: 'Охотник на демонов', color: '#224722' },
-  'demonhunter':   { id: 'dh',     name: 'Охотник на демонов', color: '#224722' },
+  deathknight:   { id: 'dk',      name: 'Рыцарь смерти',     color: '#1f252d' },
+  'death knight':{ id: 'dk',      name: 'Рыцарь смерти',     color: '#1f252d' },
+  'рыцарь смерти':{ id: 'dk',     name: 'Рыцарь смерти',     color: '#1f252d' },
+  paladin:       { id: 'paladin', name: 'Паладин',            color: '#a88a45' },
+  паладин:       { id: 'paladin', name: 'Паладин',            color: '#a88a45' },
+  shaman:        { id: 'shaman',  name: 'Шаман',              color: '#2a2e6b' },
+  шаман:         { id: 'shaman',  name: 'Шаман',              color: '#2a2e6b' },
+  hunter:        { id: 'hunter',  name: 'Охотник',            color: '#1d5921' },
+  охотник:       { id: 'hunter',  name: 'Охотник',            color: '#1d5921' },
+  mage:          { id: 'mage',    name: 'Маг',                color: '#2b5c85' },
+  маг:           { id: 'mage',    name: 'Маг',                color: '#2b5c85' },
+  rogue:         { id: 'rogue',   name: 'Разбойник',          color: '#333333' },
+  разбойник:     { id: 'rogue',   name: 'Разбойник',          color: '#333333' },
+  warlock:       { id: 'warlock', name: 'Чернокнижник',       color: '#5c265c' },
+  чернокнижник:  { id: 'warlock', name: 'Чернокнижник',       color: '#5c265c' },
+  druid:         { id: 'druid',   name: 'Друид',              color: '#704a16' },
+  друид:         { id: 'druid',   name: 'Друид',              color: '#704a16' },
+  warrior:       { id: 'warrior', name: 'Воин',               color: '#7a1e1e' },
+  воин:          { id: 'warrior', name: 'Воин',               color: '#7a1e1e' },
+  priest:        { id: 'priest',  name: 'Жрец',               color: '#d1d1d1', textDark: true },
+  жрец:          { id: 'priest',  name: 'Жрец',               color: '#d1d1d1', textDark: true },
+  demonhunter:   { id: 'dh',     name: 'Охотник на демонов', color: '#224722' },
+  'demon hunter':{ id: 'dh',     name: 'Охотник на демонов', color: '#224722' },
+  'охотник на демонов': { id: 'dh', name: 'Охотник на демонов', color: '#224722' },
+};
+
+// HearthArena CSS tier class → display tier
+const HA_TIER_MAP: Record<string, string> = {
+  great:         'S',
+  good:          'A',
+  'above-average': 'B',
+  aboveaverage:  'B',
+  average:       'C',
+  'below-average': 'D',
+  belowaverage:  'D',
+  terrible:      'F',
+  neverpick:     'F',
+  'never-pick':  'F',
 };
 
 const TIER_DESCRIPTIONS: Record<string, string> = {
-  S: 'Авто-пик. Невероятно сильные карты, меняющие ход игры.',
-  A: 'Отличные карты, всегда полезны и эффективны.',
-  B: 'Хорошие карты для заполнения кривой маны.',
-  C: 'Средние карты, берите при нехватке выбора.',
-  D: 'Слабые карты, избегайте при наличии альтернатив.',
-  F: 'Не берите эти карты.',
+  S: 'Авто-пик. Доминирующие карты текущего мета.',
+  A: 'Отличные карты, очень сильны в большинстве ситуаций.',
+  B: 'Выше среднего — хороший выбор для стабильной колоды.',
+  C: 'Средние карты, полезны при нехватке лучших вариантов.',
+  D: 'Слабые карты, берите только в крайнем случае.',
+  F: 'Не стоит брать — очень слабые карты.',
 };
 
-async function launchBrowser() {
-  return puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-    ],
-  });
-}
+// HearthArena Russian rarity names
+const RARITY_MAP: Record<string, string> = {
+  'обычные': 'common', 'обычная': 'common', 'common': 'common',
+  'редкие': 'rare', 'редкая': 'rare', 'rare': 'rare',
+  'эпические': 'epic', 'эпическая': 'epic', 'epic': 'epic',
+  'легендарные': 'legendary', 'легендарная': 'legendary', 'legendary': 'legendary',
+};
 
-// ─── Firestone scraper ────────────────────────────────────────────────────────
+// ─── Firestone Winrates (direct public API) ───────────────────────────────────
+
 export async function scrapeFirestoneWinrates(): Promise<boolean> {
-  console.log('[Scraper] Firestone: starting...');
-  const browser = await launchBrowser();
-
+  console.log('[Scraper] Firestone: fetching public API...');
   try {
-    const page = await browser.newPage();
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-    );
-
-    // Capture all JSON responses
-    const captured: Array<{ url: string; data: any }> = [];
-    page.on('response', async (res) => {
-      const ct = res.headers()['content-type'] || '';
-      if (!ct.includes('json')) return;
-      const url = res.url();
-      try {
-        const text = await res.text();
-        const data = JSON.parse(text);
-        captured.push({ url, data });
-      } catch { /* skip */ }
+    const url = 'https://static.zerotoheroes.com/api/arena/stats/classes/arena/last-patch/overview.gz.json';
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ManacostArena/1.0)' },
     });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    await page.goto(
-      'https://www.firestoneapp.com/arena/classes?arenaActiveMode=arena',
-      { waitUntil: 'networkidle2', timeout: 45000 }
-    );
-    await new Promise(r => setTimeout(r, 4000));
+    const data = await res.json() as any;
+    const stats: any[] = data.stats || [];
 
-    // Try to extract from captured API responses
-    let classes: any[] | null = null;
-    for (const { url, data } of captured) {
-      classes = tryExtractClassesFromFirestoneData(url, data);
-      if (classes) {
-        console.log(`[Scraper] Firestone: got ${classes.length} classes from API (${url})`);
-        break;
-      }
-    }
+    const classes = stats
+      .map(s => {
+        const key = (s.playerClass || '').toLowerCase().replace(/\s+/g, '');
+        const info = CLASS_INFO[key] || CLASS_INFO[s.playerClass?.toLowerCase() || ''];
+        if (!info || !s.totalGames) return null;
+        const winrate = Math.round((s.totalsWins / s.totalGames) * 1000) / 10;
+        return { ...info, winrate, games: s.totalGames };
+      })
+      .filter(Boolean) as any[];
 
-    // Fall back to DOM parsing
-    if (!classes) {
-      classes = await extractClassesFromDOM(page);
-    }
+    if (classes.length < 3) throw new Error('Too few classes: ' + classes.length);
 
-    if (classes && classes.length >= 3) {
-      saveData('winrates.json', {
-        classes: classes.sort((a, b) => b.winrate - a.winrate),
-        updatedAt: new Date().toISOString(),
-        source: 'firestoneapp.com',
-      });
-      console.log('[Scraper] Firestone: saved', classes.length, 'classes');
-      return true;
-    }
-
-    console.log('[Scraper] Firestone: could not extract data, keeping cache');
-    return false;
+    saveData('winrates.json', {
+      classes: classes.sort((a: any, b: any) => b.winrate - a.winrate),
+      updatedAt: data.lastUpdated || new Date().toISOString(),
+      source: 'firestoneapp.com',
+    });
+    console.log(`[Scraper] Firestone: saved ${classes.length} classes`);
+    return true;
   } catch (err) {
     console.error('[Scraper] Firestone error:', err instanceof Error ? err.message : err);
     return false;
-  } finally {
-    await browser.close();
   }
 }
 
-function tryExtractClassesFromFirestoneData(url: string, data: any): any[] | null {
-  const candidates: any[] = Array.isArray(data) ? data : [];
-  if (!Array.isArray(data) && data) {
-    const vals = Object.values(data);
-    for (const v of vals) {
-      if (Array.isArray(v)) candidates.push(...v);
-    }
-  }
+// ─── HearthArena Tier List (Puppeteer) ───────────────────────────────────────
 
-  // Look for objects that have a class name + winrate-like field
-  const result: any[] = [];
-  for (const item of candidates) {
-    if (typeof item !== 'object' || !item) continue;
-    const wr = item.winRate ?? item.winrate ?? item.winRatePercent ?? item.win_rate;
-    const cls = (item.playerClass ?? item.class ?? item.className ?? item.name ?? '').toString().toLowerCase().trim();
-    if (wr !== undefined && cls && CLASS_INFO[cls]) {
-      const info = CLASS_INFO[cls];
-      result.push({ ...info, winrate: parseFloat(wr.toString()), games: item.totalGames ?? item.games ?? 0 });
-    }
-  }
-  return result.length >= 3 ? result : null;
-}
-
-async function extractClassesFromDOM(page: any): Promise<any[] | null> {
-  try {
-    const rows = await page.evaluate(() => {
-      const result: Array<{ text: string }> = [];
-      // Collect all leaf text nodes alongside their parent chain text
-      document.querySelectorAll('*').forEach((el: Element) => {
-        if (el.children.length > 0) return;
-        const t = (el as HTMLElement).innerText?.trim();
-        if (t && t.length < 100) result.push({ text: t });
-      });
-      return result;
-    });
-
-    // Look for percentage values and try to match them to classes
-    const percentages: number[] = rows
-      .map((r: any) => {
-        const m = r.text.match(/^(\d{2,3}\.?\d*)%?$/);
-        return m ? parseFloat(m[1]) : null;
-      })
-      .filter((v: number | null): v is number => v !== null && v > 30 && v < 80);
-
-    if (percentages.length < 3) return null;
-
-    // We got some percentages but can't reliably map to classes
-    // Return null to keep the cache
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-// ─── HearthArena scraper ──────────────────────────────────────────────────────
 export async function scrapeHearthArenaTierlist(): Promise<boolean> {
-  console.log('[Scraper] HearthArena: starting...');
-  const browser = await launchBrowser();
+  console.log('[Scraper] HearthArena: launching browser...');
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+  });
 
   try {
     const page = await browser.newPage();
@@ -183,136 +129,153 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
     });
     await new Promise(r => setTimeout(r, 3000));
 
-    const rawTiers = await page.evaluate(() => {
-      const tiers: Record<string, { name: string; score: number; class: string; cost: number; rarity: string; type: string; attack?: number; health?: number }[]> = {};
+    // Extract all card data using the known DOM structure:
+    // h2 = class section, h3 = rarity section, .tier.{quality} = tier group, .card = card, .score = score
+    const raw = await page.evaluate(() => {
+      const result: Array<{
+        name: string;
+        score: number;
+        tierClass: string;
+        classKey: string;
+        rarityKey: string;
+      }> = [];
 
-      // Strategy 1: look for tier sections with letter labels (S/A/B/C/D/F)
-      const tierLabels = ['S', 'A', 'B', 'C', 'D', 'F'];
+      // Walk every .card element
+      document.querySelectorAll('.card').forEach(cardEl => {
+        // Card name = first text node inside the card (before the score)
+        const allText = Array.from(cardEl.childNodes)
+          .filter(n => n.nodeType === 3 || (n.nodeType === 1 && !(n as Element).classList.contains('score')))
+          .map(n => n.textContent?.trim())
+          .filter(Boolean)
+          .join(' ')
+          .trim();
+        const nameFromEl = cardEl.querySelector('a, span:first-child, .card-name');
+        const name = nameFromEl?.textContent?.trim() || allText.split('\n')[0]?.trim() || '';
 
-      // Try selector: .arena-tier or similar
-      const tierSections = document.querySelectorAll('[class*="tier"], [data-tier]');
-      tierSections.forEach(section => {
-        const labelEl = section.querySelector('h2, h3, [class*="label"], [class*="title"], [class*="name"]');
-        const label = labelEl?.textContent?.trim().toUpperCase();
-        if (!label || !tierLabels.includes(label)) return;
+        // Score
+        const scoreEl = cardEl.querySelector('.score');
+        const score = scoreEl ? parseInt(scoreEl.textContent?.trim() || '0', 10) : 0;
 
-        const cards: typeof tiers[string] = [];
-        section.querySelectorAll('[class*="card"]').forEach(cardEl => {
-          const name = cardEl.querySelector('[class*="name"], [class*="title"]')?.textContent?.trim();
-          const scoreEl = cardEl.querySelector('[class*="score"], [class*="value"], [class*="rating"]');
-          const score = scoreEl ? parseFloat(scoreEl.textContent?.replace(/[^0-9.]/g, '') || '0') : 0;
-          const costEl = cardEl.querySelector('[class*="cost"], [class*="mana"]');
-          const cost = costEl ? parseInt(costEl.textContent?.trim() || '0') : 0;
-          if (name) cards.push({ name, score, class: 'neutral', cost, rarity: 'common', type: 'minion' });
-        });
+        // Tier quality class from parent (.tier.great, .tier.good, etc.)
+        const tierContainer = cardEl.closest('[class*="tier "], [class^="tier"]') as HTMLElement | null;
+        const tierClass = tierContainer ? tierContainer.className.replace('tier', '').trim().split(' ')[0] : '';
 
-        if (cards.length > 0) tiers[label] = (tiers[label] || []).concat(cards);
+        // Class from ancestor h2
+        let classKey = 'neutral';
+        let node: Element | null = cardEl;
+        while (node && node.tagName !== 'BODY') {
+          if (node.tagName === 'H2') { classKey = node.textContent?.trim().toLowerCase() || 'neutral'; break; }
+          const prevH2 = node.previousElementSibling;
+          if (prevH2?.tagName === 'H2') { classKey = prevH2.textContent?.trim().toLowerCase() || 'neutral'; break; }
+          // Check if parent section has h2
+          const parentH2 = node.parentElement?.querySelector(':scope > h2');
+          if (parentH2) { classKey = parentH2.textContent?.trim().toLowerCase() || 'neutral'; break; }
+          node = node.parentElement;
+        }
+
+        // Rarity from ancestor h3
+        let rarityKey = 'common';
+        node = cardEl;
+        while (node && node.tagName !== 'BODY') {
+          const prevH3 = node.previousElementSibling;
+          if (prevH3?.tagName === 'H3') { rarityKey = prevH3.textContent?.toLowerCase() || 'common'; break; }
+          const parentH3 = node.parentElement?.querySelector(':scope > h3');
+          if (parentH3) { rarityKey = parentH3.textContent?.toLowerCase() || 'common'; break; }
+          node = node.parentElement;
+        }
+
+        if (name && name.length > 1 && name.length < 80) {
+          result.push({ name, score, tierClass, classKey, rarityKey });
+        }
       });
 
-      // Strategy 2: look for li/tr items near tier headers
-      if (Object.keys(tiers).length === 0) {
-        const headings = document.querySelectorAll('h1, h2, h3, h4, [class*="tier-header"], [class*="tierHeader"]');
-        headings.forEach(h => {
-          const label = h.textContent?.trim().toUpperCase();
-          if (!label || !tierLabels.includes(label)) return;
-          const container = h.closest('section, article, div') || h.parentElement;
-          if (!container) return;
-          const cards: typeof tiers[string] = [];
-          container.querySelectorAll('[class*="card"], li, tr').forEach(item => {
-            const name = (item as HTMLElement).innerText?.split('\n')[0]?.trim();
-            if (name && name.length > 1 && name.length < 80) {
-              cards.push({ name, score: 0, class: 'neutral', cost: 0, rarity: 'common', type: 'minion' });
-            }
-          });
-          if (cards.length > 0) tiers[label] = cards;
-        });
-      }
-
-      // Strategy 3: generic - find all text that looks like card names under tier labels
-      if (Object.keys(tiers).length === 0) {
-        const allText = Array.from(document.querySelectorAll('*')).map(el => ({
-          tag: el.tagName,
-          text: (el as HTMLElement).innerText?.trim() || '',
-          classes: el.className,
-        }));
-        return { tiers, debug: allText.slice(0, 50) };
-      }
-
-      return { tiers, debug: [] };
+      return result;
     });
 
-    const { tiers } = rawTiers as any;
-    const tierKeys = Object.keys(tiers || {});
+    console.log(`[Scraper] HearthArena: found ${raw.length} raw cards`);
 
-    if (tierKeys.length > 0) {
-      const result = tierKeys.map(t => ({
+    if (raw.length < 5) {
+      console.error('[Scraper] HearthArena: too few cards found, dumping page...');
+      return false;
+    }
+
+    // Map tier class → tier letter
+    const scoreToTier = (score: number, tierCls: string): string => {
+      // Use tierClass name first
+      for (const [key, tier] of Object.entries(HA_TIER_MAP)) {
+        if (tierCls === key || tierCls.includes(key)) return tier;
+      }
+      // Fall back to score ranges (HearthArena scores centered at ~50, high cards 80-100+)
+      if (score >= 90) return 'S';
+      if (score >= 75) return 'A';
+      if (score >= 60) return 'B';
+      if (score >= 45) return 'C';
+      if (score >= 30) return 'D';
+      return 'F';
+    };
+
+    // Map class name → class id
+    const mapClass = (key: string): string => {
+      const info = CLASS_INFO[key.toLowerCase().trim()] || CLASS_INFO[key.toLowerCase().replace(/\s+/g, '')];
+      return info?.id || 'neutral';
+    };
+
+    // Map rarity string → rarity id
+    const mapRarity = (key: string): string => {
+      for (const [k, v] of Object.entries(RARITY_MAP)) {
+        if (key.includes(k)) return v;
+      }
+      return 'common';
+    };
+
+    // Deduplicate: same card appears once per class section on HearthArena
+    // Keep the entry with highest score
+    const INVALID_NAMES = new Set(['новый', 'new', 'новая', 'новое', '']);
+    const seen = new Map<string, typeof raw[0]>();
+    for (const card of raw) {
+      const key = card.name.toLowerCase().trim();
+      if (INVALID_NAMES.has(key) || key.length < 2) continue;
+      if (!seen.has(key) || card.score > seen.get(key)!.score) {
+        seen.set(key, card);
+      }
+    }
+    const deduped = Array.from(seen.values());
+    console.log(`[Scraper] HearthArena: ${raw.length} raw → ${deduped.length} unique cards`);
+
+    // Group into tiers
+    const grouped: Record<string, any[]> = {};
+    for (const card of deduped) {
+      const tier = scoreToTier(card.score, card.tierClass);
+      if (!grouped[tier]) grouped[tier] = [];
+      grouped[tier].push({
+        name: card.name,
+        cost: 0,             // HearthArena doesn't expose cost in the tier list
+        rarity: mapRarity(card.rarityKey),
+        type: 'minion',
+        class: mapClass(card.classKey),
+        score: card.score,
+      });
+    }
+
+    // Sort each tier by score desc, limit to top 40 per tier
+    const tierOrder = ['S', 'A', 'B', 'C', 'D', 'F'];
+    const tiers = tierOrder
+      .filter(t => grouped[t]?.length > 0)
+      .map(t => ({
         tier: t,
         description: TIER_DESCRIPTIONS[t] || '',
-        cards: (tiers[t] as any[]).map(card => ({
-          name: card.name,
-          cost: card.cost || 0,
-          attack: card.attack,
-          health: card.health,
-          rarity: card.rarity || 'common',
-          type: card.type || 'minion',
-          class: card.class || 'neutral',
-          score: card.score,
-        })),
+        cards: grouped[t]
+          .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+          .slice(0, 40),
       }));
 
-      saveData('tierlist.json', {
-        tiers: result,
-        updatedAt: new Date().toISOString(),
-        source: 'heartharena.com',
-      });
-      console.log(`[Scraper] HearthArena: saved ${tierKeys.length} tiers`);
-      return true;
-    }
-
-    // Try alternate selectors - page structure may differ
-    const altResult = await page.evaluate(() => {
-      // Look for all anchor/div/span elements with card-related content
-      // HearthArena sometimes uses specific class patterns
-      const items: any[] = [];
-
-      // Try .card-list or .arena-card patterns
-      const cards = document.querySelectorAll('.arena-card, .card-item, [class*="arenaCard"], [class*="card-row"]');
-      cards.forEach(card => {
-        const name = card.querySelector('[class*="name"]')?.textContent?.trim()
-          || (card as HTMLElement).innerText?.split('\n')[0]?.trim();
-        const tier = card.closest('[data-tier]')?.getAttribute('data-tier')
-          || card.getAttribute('data-tier');
-        const score = card.querySelector('[class*="score"]')?.textContent?.trim();
-        if (name) items.push({ name, tier: tier || 'B', score: score ? parseFloat(score) : 0 });
-      });
-      return items;
+    saveData('tierlist.json', {
+      tiers,
+      updatedAt: new Date().toISOString(),
+      source: 'heartharena.com',
     });
-
-    if (altResult.length > 0) {
-      const grouped: Record<string, any[]> = {};
-      for (const item of altResult) {
-        const t = (item.tier || 'B').toUpperCase();
-        if (!grouped[t]) grouped[t] = [];
-        grouped[t].push({
-          name: item.name, cost: 0, rarity: 'common', type: 'minion', class: 'neutral', score: item.score,
-        });
-      }
-
-      const result = Object.entries(grouped).map(([tier, cards]) => ({
-        tier, description: TIER_DESCRIPTIONS[tier] || '', cards,
-      }));
-
-      saveData('tierlist.json', {
-        tiers: result,
-        updatedAt: new Date().toISOString(),
-        source: 'heartharena.com',
-      });
-      console.log(`[Scraper] HearthArena: saved ${result.length} tiers (alt method)`);
-      return true;
-    }
-
-    console.log('[Scraper] HearthArena: could not extract data, keeping cache');
-    return false;
+    console.log(`[Scraper] HearthArena: saved ${tiers.length} tiers, ${raw.length} cards`);
+    return true;
   } catch (err) {
     console.error('[Scraper] HearthArena error:', err instanceof Error ? err.message : err);
     return false;
@@ -322,6 +285,7 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
 function saveData(filename: string, data: object) {
   writeFileSync(join(DATA_DIR, filename), JSON.stringify(data, null, 2), 'utf-8');
 }
@@ -334,13 +298,13 @@ export function loadData(filename: string): any {
 
 export async function scrapeAll(): Promise<{ winrates: boolean; tierlist: boolean }> {
   console.log('[Scraper] Starting full scrape...');
-  const [winrates, tierlist] = await Promise.allSettled([
+  const [wr, tl] = await Promise.allSettled([
     scrapeFirestoneWinrates(),
     scrapeHearthArenaTierlist(),
   ]);
   return {
-    winrates: winrates.status === 'fulfilled' && winrates.value,
-    tierlist: tierlist.status === 'fulfilled' && tierlist.value,
+    winrates: wr.status === 'fulfilled' && wr.value,
+    tierlist: tl.status === 'fulfilled' && tl.value,
   };
 }
 

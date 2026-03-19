@@ -109,9 +109,21 @@ const HSCard: React.FC<{ card: CardData }> = ({ card }) => {
   const classColors: Record<string, string> = {
     neutral: '#5c5248', mage: '#2b5c85', shaman: '#2a2e6b', paladin: '#a88a45',
     hunter: '#1d5921', rogue: '#333333', warlock: '#5c265c', druid: '#704a16',
-    warrior: '#7a1e1e', priest: '#d1d1d1', dk: '#1f252d', dh: '#224722',
+    warrior: '#7a1e1e', priest: '#3a3a3a', dk: '#1f252d', dh: '#224722',
   };
   const bgColor = classColors[card.class] || '#5c5248';
+
+  // If card has a score but no cost info — show score badge style (heartharena mode)
+  const hasStats = card.attack !== undefined && card.health !== undefined;
+  const hasCost = card.cost !== undefined && card.cost > 0;
+  const hasScore = card.score !== undefined && card.score > 0;
+
+  // Score color: green for high, yellow for mid, red for low
+  const scoreColor = hasScore
+    ? card.score >= 100 ? '#22c55e'
+      : card.score >= 75 ? '#eab308'
+      : '#ef4444'
+    : '#2563eb';
 
   return (
     <div
@@ -131,18 +143,28 @@ const HSCard: React.FC<{ card: CardData }> = ({ card }) => {
         }}
       ></div>
 
-      {/* Mana */}
-      <div className="absolute -top-2 -left-2 w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-[#60a5fa] via-[#2563eb] to-[#1e3a8a] rounded-full border-[2px] sm:border-[3px] border-[#1e3a8a] flex items-center justify-center text-white font-hs text-lg sm:text-2xl shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.6)] z-20">
-        <span className="drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">{card.cost}</span>
+      {/* Top-left gem: mana cost OR heartharena score */}
+      <div
+        className="absolute -top-2 -left-2 w-9 h-9 sm:w-11 sm:h-11 rounded-full border-[2px] sm:border-[3px] flex items-center justify-center text-white font-hs text-lg sm:text-2xl shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.6)] z-20"
+        style={{
+          background: hasCost
+            ? 'linear-gradient(135deg, #60a5fa, #2563eb, #1e3a8a)'
+            : `linear-gradient(135deg, ${scoreColor}cc, ${scoreColor}, ${scoreColor}88)`,
+          borderColor: hasCost ? '#1e3a8a' : scoreColor,
+        }}
+      >
+        <span className="drop-shadow-[0_2px_3px_rgba(0,0,0,1)] text-[10px] sm:text-sm leading-none">
+          {hasCost ? card.cost : hasScore ? card.score : '?'}
+        </span>
       </div>
 
       {/* Card Name Ribbon */}
       <div className="z-10 mt-auto mb-3 sm:mb-5 w-[112%] -ml-[6%] bg-gradient-to-b from-[#4a3018] to-[#2c1e16] border-y-2 border-[#a88a45] py-1 px-1 sm:py-1.5 sm:px-2 shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)] relative">
-        <span className="font-hs text-[#fcd34d] text-[10px] sm:text-xs leading-tight drop-shadow-[0_2px_2px_rgba(0,0,0,1)] block text-center truncate relative z-10">{card.name}</span>
+        <span className="font-hs text-[#fcd34d] text-[9px] sm:text-[11px] leading-tight drop-shadow-[0_2px_2px_rgba(0,0,0,1)] block text-center truncate relative z-10">{card.name}</span>
       </div>
 
-      {/* Stats */}
-      {card.type === 'minion' && card.attack !== undefined && (
+      {/* Stats (only if available) */}
+      {hasStats && (
         <>
           <div className="absolute -bottom-2 -left-2 w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-[#fde047] via-[#eab308] to-[#a16207] rounded-full border-[2px] sm:border-[3px] border-[#422006] flex items-center justify-center text-black font-hs text-lg sm:text-2xl shadow-[0_4px_8px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.6)] z-20">
             <span className="drop-shadow-[0_1px_1px_rgba(255,255,255,0.5)]">{card.attack}</span>
@@ -214,9 +236,9 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 bg-[#7a1e1e]/20 border-2 border-[#7a1e1e] rounded-xl p-4 mb-6 text-[#7a1e1e]">
-          <AlertTriangle size={20} />
-          <span className="font-body text-sm">Не удалось загрузить данные с сервера. Показаны последние известные данные.</span>
+        <div className="flex items-center gap-2 text-[#8b6c42] text-xs mb-4 opacity-70">
+          <AlertTriangle size={13} />
+          <span>Сервер недоступен — показаны кэшированные данные</span>
         </div>
       )}
 

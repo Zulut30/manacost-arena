@@ -2,35 +2,1689 @@
   "tiers": [
     {
       "tier": "S",
-      "description": "Авто-пик. Невероятно сильные карты, меняющие ход игры.",
+      "description": "Авто-пик. Доминирующие карты текущего мета.",
       "cards": [
-        { "name": "Король-лич", "cost": 8, "attack": 8, "health": 8, "rarity": "legendary", "type": "minion", "class": "neutral" },
-        { "name": "Смертокрыл", "cost": 10, "attack": 12, "health": 12, "rarity": "legendary", "type": "minion", "class": "neutral" },
-        { "name": "Огненная глыба", "cost": 10, "rarity": "epic", "type": "spell", "class": "mage" },
-        { "name": "Тирион Фордринг", "cost": 8, "attack": 6, "health": 6, "rarity": "legendary", "type": "minion", "class": "paladin" }
+        {
+          "name": "Туманность",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 150
+        },
+        {
+          "name": "Упырь-куклокрад",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 145
+        },
+        {
+          "name": "Агграмар Мститель",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 137
+        },
+        {
+          "name": "Святыня Каражан",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 135
+        },
+        {
+          "name": "Йогг-Сарон Освобожденный",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 130
+        },
+        {
+          "name": "Аргус Изумрудная Звезда",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 130
+        },
+        {
+          "name": "Великий дракорекс",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 130
+        },
+        {
+          "name": "Игнис Вечное Пламя",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 129
+        },
+        {
+          "name": "Лоскутные спутники",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 127
+        },
+        {
+          "name": "Медив Освященный",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 127
+        },
+        {
+          "name": "Шоумен",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 126
+        },
+        {
+          "name": "Темница Йогг-Сарона",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 125
+        },
+        {
+          "name": "Хранительница жизни Эонар",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 122
+        },
+        {
+          "name": "Силаг из Бездны",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 121
+        },
+        {
+          "name": "Гелбин из будущего",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 119
+        },
+        {
+          "name": "Темный наездник",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 118
+        },
+        {
+          "name": "Амитус Миротворица",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 117
+        },
+        {
+          "name": "Тени вчерашнего дня",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 116
+        },
+        {
+          "name": "Живой таран",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 116
+        },
+        {
+          "name": "Анкилодон",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 115
+        },
+        {
+          "name": "Разъяренные птахи",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 115
+        },
+        {
+          "name": "Тиранда",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 115
+        },
+        {
+          "name": "Флибустьер-утопленник",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 115
+        },
+        {
+          "name": "Испытание огнем",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 115
+        },
+        {
+          "name": "Ярость ледяного змея",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 114
+        },
+        {
+          "name": "Топиор Огнекуст",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 114
+        },
+        {
+          "name": "Цунами",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 114
+        },
+        {
+          "name": "Глиняный матриарх",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 114
+        },
+        {
+          "name": "Ритуал новолуния",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 114
+        },
+        {
+          "name": "Насыщение пламенем Тьмы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 114
+        },
+        {
+          "name": "Зеленая исследовательница",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 113
+        },
+        {
+          "name": "Древняя исследовательница",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 113
+        },
+        {
+          "name": "Верховный магистр Роммат",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 113
+        },
+        {
+          "name": "Потомок Смертокрыла",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 113
+        },
+        {
+          "name": "Ловчий пламени Тьмы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 112
+        },
+        {
+          "name": "Демоническая динамика",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 112
+        },
+        {
+          "name": "Здоровяк-официант",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 111
+        },
+        {
+          "name": "Анахронос",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 111
+        },
+        {
+          "name": "Зеркало души",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 111
+        },
+        {
+          "name": "Тесс Седогрив",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 111
+        }
       ]
     },
     {
       "tier": "A",
-      "description": "Отличные карты, всегда полезны и эффективны.",
+      "description": "Отличные карты, очень сильны в большинстве ситуаций.",
       "cards": [
-        { "name": "Снежная буря", "cost": 6, "rarity": "rare", "type": "spell", "class": "mage" },
-        { "name": "Защитник Аргуса", "cost": 4, "attack": 2, "health": 3, "rarity": "rare", "type": "minion", "class": "neutral" },
-        { "name": "Освящение", "cost": 4, "rarity": "common", "type": "spell", "class": "paladin" },
-        { "name": "Удар стихии", "cost": 3, "rarity": "epic", "type": "spell", "class": "shaman" },
-        { "name": "Лазурный дракон", "cost": 5, "attack": 4, "health": 4, "rarity": "rare", "type": "minion", "class": "neutral" }
+        {
+          "name": "Поглощающая гниль",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Ночная эльфийка-охотница",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Порождение безумия",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Вероломный мучитель",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Командный дух",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Кактусовый голем",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Наблюдатель мифов",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Укротитель Плети",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Реликвия королей",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Капитан-храмовник",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Слово Тьмы: Кража",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Сомнительная покупка",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Тихоступ Черного Железа",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Ультрафиолетовый крушитель",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Катар из болотных шипов",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 99
+        },
+        {
+          "name": "Сектант-металлист",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Заразное дыхание",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Менеджер Марин",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Лесные саженцы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Связка бананов",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Манускрипт справедливости",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Хранитель снов",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Незримый Опу",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Жидкая магма",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Разбиватель наледи",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Экстрактор анимы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Спортоведение",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 98
+        },
+        {
+          "name": "Временной великан",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Гематург",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Дорнозму",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Наблюдатель в бочке",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Командир Змеиных Колец",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Сигнал бедствия",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Дистанционное управление",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Нераскрытое дело",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Великая мудрость",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Аура Меггакрута",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Тиранножабр",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Меднокрыл",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        },
+        {
+          "name": "Дух-наставник",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97
+        }
       ]
     },
     {
       "tier": "B",
-      "description": "Хорошие карты для заполнения кривой маны.",
+      "description": "Выше среднего — хороший выбор для стабильной колоды.",
       "cards": [
-        { "name": "Морозный йети", "cost": 4, "attack": 4, "health": 5, "rarity": "common", "type": "minion", "class": "neutral" },
-        { "name": "Уборочный голем", "cost": 3, "attack": 2, "health": 3, "rarity": "common", "type": "minion", "class": "neutral" },
-        { "name": "Смертельный выстрел", "cost": 3, "rarity": "common", "type": "spell", "class": "hunter" }
+        {
+          "name": "Сгусток смолы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Замерзший барон",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Герой в криостазисе",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Что стало с Зандаларом",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Разводчица дракончиков",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Иглоплюх",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Хроноаномальная глефа",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Стойкий таракан",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Лесной властелин Кенарий",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Разборчивый заводчик",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Раскаленная руна",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Метеорит",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Освящение",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Хранитель Ульдамана",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Божественный отвар",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Книжка-раскладушка",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "«Здоровый» напиток",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Гейм-мастер Немси",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Шведский стол",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 89
+        },
+        {
+          "name": "Астробиолог",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Зазубренное лезвие времени",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Пробудитель душ",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Повелитель кошмаров Ксавий",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Гремучник Скверны",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Поджигательница",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Омен",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Почвозоль",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Естественная причина",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Бешеные клыки",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Гаргон камнерожденных",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Бронзовый дракорыцарь",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Кольцо света",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Горячие угли",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Пожиратель разума",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Полировщик мечей",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Призыватель Бездны",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Камнекожий бронник",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88
+        },
+        {
+          "name": "Гномоед",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 87
+        },
+        {
+          "name": "Изготовительница жезлов",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 87
+        },
+        {
+          "name": "Подарочный дракончик",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 87
+        }
+      ]
+    },
+    {
+      "tier": "C",
+      "description": "Средние карты, полезны при нехватке лучших вариантов.",
+      "cards": [
+        {
+          "name": "Асфиксия",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Темное превращение",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Тень писателя",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Ночь вурдалаков",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Ужасный шеф-повар",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Ржавоциклистка",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Баба Нага",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Затерянный протодракон",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Пандарен-импортер",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Мурлокула",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Полый дикорог",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Вестница гибели Умбра",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Пронзающий взгляд",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Окуривание",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Мифический ужас",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Скальный скалолаз",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Подарок Малфуриона",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Дойная корова",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Темная гончая",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Дымящаяся роща",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Мордреш Огненный Глаз",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Хитрый мошенник",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Механический обзвонщик",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Метеоритный шторм",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Хаотичное поглощение",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Угольки силы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Поддаться безумию",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79
+        },
+        {
+          "name": "Демонтаж-бот",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Норный скорпид",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Хипстер",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Светский медведь",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Агрессор Скользкого Копья",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Дворфийка-археолог",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Заводчик крылобегов",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Кил'джеден",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Дама с клинками",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Прыжок с парапланом",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Нечистый сгусток",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Торговец из трущоб",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        },
+        {
+          "name": "Веселый Роджер",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78
+        }
+      ]
+    },
+    {
+      "tier": "D",
+      "description": "Слабые карты, берите только в крайнем случае.",
+      "cards": [
+        {
+          "name": "Древний терродактиль",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 44
+        },
+        {
+          "name": "Коридорный ужас",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 44
+        },
+        {
+          "name": "Легенда о Карнассе",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 44
+        },
+        {
+          "name": "Проверка качества",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 44
+        },
+        {
+          "name": "Подпевала",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 43
+        },
+        {
+          "name": "Растворяющий слизнюк",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 43
+        },
+        {
+          "name": "Сильвана Ветрокрылая",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 43
+        },
+        {
+          "name": "Вихлекирка",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 43
+        },
+        {
+          "name": "Зоркий искатель",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 42
+        },
+        {
+          "name": "Кошмарный конь",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 42
+        },
+        {
+          "name": "Уничтожение улик",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 40
+        },
+        {
+          "name": "История о Барнабусе",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 40
+        }
+      ]
+    },
+    {
+      "tier": "F",
+      "description": "Не стоит брать — очень слабые карты.",
+      "cards": [
+        {
+          "name": "Походный перекус",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 39
+        },
+        {
+          "name": "Джейс Темный Ткач",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 38
+        },
+        {
+          "name": "Приморский гигант",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 37
+        },
+        {
+          "name": "Пылающее слияние",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 37
+        },
+        {
+          "name": "Яйцо костяного паука",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 37
+        },
+        {
+          "name": "Зимний горн",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 36
+        },
+        {
+          "name": "Новые высоты",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 36
+        },
+        {
+          "name": "Леди Азшара",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 35
+        },
+        {
+          "name": "Кровавый боец Бролл",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 35
+        },
+        {
+          "name": "Выброшенный кит",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 34
+        },
+        {
+          "name": "Сквернософия",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 33
+        },
+        {
+          "name": "Зов сумерек",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 33
+        },
+        {
+          "name": "Чародейка-варвар",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 32
+        },
+        {
+          "name": "Попугай капитана",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 32
+        },
+        {
+          "name": "Принц Малчезар",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 32
+        },
+        {
+          "name": "Йогг-Сарон, Владыка Судьбы",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 31
+        },
+        {
+          "name": "Катаклизм",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 31
+        },
+        {
+          "name": "Лазурная королева Синдрагоса",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 30
+        },
+        {
+          "name": "Игла для тенеткани",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 29
+        },
+        {
+          "name": "Пескозев",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 28
+        },
+        {
+          "name": "Дерзкий палеомурлок",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 28
+        },
+        {
+          "name": "Кровавый боец Валира",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 28
+        },
+        {
+          "name": "Балинда Каменный Очаг",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 26
+        },
+        {
+          "name": "Священный яйценос",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 17
+        },
+        {
+          "name": "Тайник с контрабандой",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 16
+        },
+        {
+          "name": "Завершение",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 15
+        },
+        {
+          "name": "Призыв стихий",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 15
+        },
+        {
+          "name": "Великий посох Атиеш",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 8
+        },
+        {
+          "name": "Яйцо кхелоса",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 5
+        },
+        {
+          "name": "Талант живописца",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 0
+        },
+        {
+          "name": "Молот ремесленника",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 0
+        },
+        {
+          "name": "Вечная любовь",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 0
+        },
+        {
+          "name": "Душекрад",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 0
+        },
+        {
+          "name": "Леди Лиадрин",
+          "cost": 0,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 0
+        }
       ]
     }
   ],
-  "updatedAt": null,
-  "source": "initial"
+  "updatedAt": "2026-03-19T20:06:57.315Z",
+  "source": "heartharena.com"
 }
