@@ -99,7 +99,7 @@ interface LegendaryCard {
 interface LegendaryGroup {
   keyCard: LegendaryCard;
   cards: LegendaryCard[];
-  winRate: number;
+  winRate: number | null;
 }
 interface LegendariesData {
   groups: LegendaryGroup[];
@@ -746,7 +746,8 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
 
 // ─── Legendaries tab ──────────────────────────────────────────────────────────
 
-function winRateBadgeColor(wr: number): string {
+function winRateBadgeColor(wr: number | null | undefined): string {
+  if (!wr) return '#6b7280';
   if (wr >= 60) return '#16a34a';
   if (wr >= 50) return '#ca8a04';
   return '#dc2626';
@@ -800,9 +801,12 @@ function Legendaries({ data, loading, error }: {
   const [sortBy, setSortBy] = useState<'winrate' | 'date'>('winrate');
   const [modalCard, setModalCard] = useState<{ card: CardData; tier: string } | null>(null);
 
-  const sorted = [...(data.groups ?? [])].sort((a, b) =>
-    sortBy === 'winrate' ? b.winRate - a.winRate : 0,
-  );
+  const sorted = [...(data.groups ?? [])].sort((a, b) => {
+    if (sortBy !== 'winrate') return 0;
+    const wa = a.winRate ?? 0;
+    const wb = b.winRate ?? 0;
+    return wb - wa;
+  });
 
   const toLegendaryCardData = (lc: LegendaryCard): CardData => ({
     name:     lc.name,
@@ -902,7 +906,7 @@ function Legendaries({ data, loading, error }: {
                   className="px-3 py-1 rounded-full text-white text-xs font-bold shadow-md"
                   style={{ background: winRateBadgeColor(group.winRate) }}
                 >
-                  {group.winRate.toFixed(1)}% винрейт
+                  {group.winRate != null ? `${group.winRate.toFixed(1)}%` : '—'} винрейт
                 </span>
               </div>
 
