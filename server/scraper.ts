@@ -2,6 +2,12 @@ import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig({ path: join(dirname(fileURLToPath(import.meta.url)), '../.env') });
+
+const BLIZZARD_CLIENT_ID     = process.env.BLIZZARD_CLIENT_ID     ?? '';
+const BLIZZARD_CLIENT_SECRET = process.env.BLIZZARD_CLIENT_SECRET ?? '';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -250,6 +256,15 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
       console.warn('[Scraper] HearthstoneJSON lookup failed, skipping enrichment:', (e as Error).message);
     }
 
+    // Enrich with Blizzard API Russian card images
+    let blizzardMap: Map<number, string> | null = null;
+    try {
+      const token = await getBlizzardToken();
+      blizzardMap = await buildBlizzardImageMap(token);
+    } catch (e) {
+      console.warn('[Scraper] Blizzard API failed, skipping Russian images:', (e as Error).message);
+    }
+
     // Group into tiers
     const grouped: Record<string, any[]> = {};
     for (const card of deduped) {
@@ -257,6 +272,9 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
       if (!grouped[tier]) grouped[tier] = [];
 
       const hsData = hsMap?.get(normalizeRu(card.name)) ?? null;
+
+      // Match by Blizzard dbfId (Blizzard slugs are "{dbfId}-{en-name}")
+      const imageRu = (hsData?.dbfId && blizzardMap?.get(hsData.dbfId)) || null;
 
       grouped[tier].push({
         name: card.name,
@@ -267,7 +285,8 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
         type: hsData?.type ?? 'minion',
         class: mapClass(card.classKey),
         score: card.score,
-        cardId: hsData?.id ?? null,   // HearthstoneJSON ID for card art
+        cardId: hsData?.id ?? null,   // HearthstoneJSON ID for card art fallback
+        imageRu,                       // Blizzard API — Russian card image
       });
     }
 
@@ -298,6 +317,49 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
   }
 }
 
+// ─── Blizzard API — Russian card images ──────────────────────────────────────
+
+async function getBlizzardToken(): Promise<string> {
+  if (!BLIZZARD_CLIENT_ID || !BLIZZARD_CLIENT_SECRET) throw new Error('Blizzard credentials not set');
+  const creds = Buffer.from(`${BLIZZARD_CLIENT_ID}:${BLIZZARD_CLIENT_SECRET}`).toString('base64');
+  const res = await fetch('https://oauth.battle.net/token', {
+    method: 'POST',
+    headers: { 'Authorization': `Basic ${creds}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'grant_type=client_credentials',
+  });
+  if (!res.ok) throw new Error(`Blizzard OAuth ${res.status}`);
+  const data = await res.json() as any;
+  return data.access_token;
+}
+
+/** Fetch all Hearthstone cards from Blizzard API with ru_RU locale.
+ *  Returns Map<dbfId, imageUrl> — Blizzard slug format is "{dbfId}-{name-slug}",
+ *  so we key by the leading numeric dbfId for easy lookup from HearthstoneJSON data. */
+async function buildBlizzardImageMap(token: string): Promise<Map<number, string>> {
+  console.log('[Scraper] Blizzard: fetching Russian card images...');
+  const map = new Map<number, string>();
+  let page = 1, pageCount = 1;
+  while (page <= pageCount) {
+    const res = await fetch(
+      `https://us.api.blizzard.com/hearthstone/cards?locale=ru_RU&pageSize=500&page=${page}`,
+      { headers: { 'Authorization': `Bearer ${token}` } },
+    );
+    if (!res.ok) throw new Error(`Blizzard cards HTTP ${res.status}`);
+    const data = await res.json() as any;
+    pageCount = data.pageCount ?? 1;
+    for (const card of data.cards ?? []) {
+      // slug = "{dbfId}-{en-name-slug}", extract the numeric dbfId prefix
+      if (card.image && card.slug) {
+        const dbfId = parseInt((card.slug as string).split('-')[0], 10);
+        if (!isNaN(dbfId)) map.set(dbfId, card.image as string);
+      }
+    }
+    page++;
+  }
+  console.log(`[Scraper] Blizzard: indexed ${map.size} Russian card images`);
+  return map;
+}
+
 // ─── HearthstoneJSON card lookup ─────────────────────────────────────────────
 
 function normalizeRu(name: string): string {
@@ -308,7 +370,7 @@ function normalizeRu(name: string): string {
     .trim();
 }
 
-export async function buildHearthstoneCardMap(): Promise<Map<string, { id: string; cost: number; attack?: number; health?: number; type: string; rarity: string; cardClass: string }>> {
+export async function buildHearthstoneCardMap(): Promise<Map<string, { id: string; dbfId: number; cost: number; attack?: number; health?: number; type: string; rarity: string; cardClass: string }>> {
   console.log('[Scraper] HearthstoneJSON: fetching card database...');
   const res = await fetch('https://api.hearthstonejson.com/v1/latest/ruRU/cards.json', {
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ManacostArena/1.0)' },
@@ -316,7 +378,7 @@ export async function buildHearthstoneCardMap(): Promise<Map<string, { id: strin
   if (!res.ok) throw new Error(`HearthstoneJSON HTTP ${res.status}`);
   const cards: any[] = await res.json();
 
-  const map = new Map<string, { id: string; cost: number; attack?: number; health?: number; type: string; rarity: string; cardClass: string }>();
+  const map = new Map<string, { id: string; dbfId: number; cost: number; attack?: number; health?: number; type: string; rarity: string; cardClass: string }>();
   for (const card of cards) {
     if (!card.name || !card.id || !card.collectible) continue;
     const key = normalizeRu(card.name);
@@ -324,6 +386,7 @@ export async function buildHearthstoneCardMap(): Promise<Map<string, { id: strin
     if (!map.has(key) || !['HERO', 'HERO_POWER'].includes(card.type)) {
       map.set(key, {
         id: card.id,
+        dbfId: card.dbfId ?? 0,
         cost: card.cost ?? 0,
         attack: card.attack,
         health: card.health ?? card.durability,

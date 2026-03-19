@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Trophy, Scroll, Info, Swords, RefreshCw, Loader2, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Trophy, Scroll, Info, Swords, RefreshCw, Loader2, AlertTriangle, X } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,7 +26,8 @@ interface CardData {
   type: string;
   class: string;
   score?: number;
-  cardId?: string | null;  // HearthstoneJSON card ID for art rendering
+  cardId?: string | null;    // HearthstoneJSON ID (fallback art)
+  imageRu?: string | null;   // Blizzard API — Russian rendered card image
 }
 
 interface TierGroup {
@@ -101,46 +102,201 @@ function formatDate(iso: string | null): string {
   return d.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-// ─── Components ───────────────────────────────────────────────────────────────
+// ─── Card image helpers ───────────────────────────────────────────────────────
 
-// HearthstoneJSON render URL
-const hsImgUrl = (cardId: string) =>
-  `https://art.hearthstonejson.com/v1/render/latest/enUS/256x/${cardId}.png`;
+/** HearthstoneJSON fallback art (English, no text overlay) */
+const hsImgUrl = (cardId: string, size: '256x' | '512x' = '256x') =>
+  `https://art.hearthstonejson.com/v1/render/latest/enUS/${size}/${cardId}.png`;
 
-// Score pill colour
+/** Score pill color */
 const scoreBg = (score: number) =>
   score >= 100 ? '#16a34a' : score >= 75 ? '#ca8a04' : '#dc2626';
 
-const HSCard: React.FC<{ card: CardData }> = ({ card }) => {
+const TIER_COLORS: Record<string, string> = {
+  S: 'bg-gradient-to-br from-[#e63946] to-[#780000] text-[#fff0f0] border-[#ff9999]',
+  A: 'bg-gradient-to-br from-[#f4a261] to-[#b34700] text-[#fff9f0] border-[#ffd699]',
+  B: 'bg-gradient-to-br from-[#9b5de5] to-[#4a0080] text-[#f4f0ff] border-[#d9b3ff]',
+  C: 'bg-gradient-to-br from-[#2a9d8f] to-[#004d40] text-[#e0f2f1] border-[#80cbc4]',
+  D: 'bg-gradient-to-br from-[#457b9d] to-[#1d3557] text-[#e0f0ff] border-[#90c0e0]',
+  F: 'bg-gradient-to-br from-[#6b6b6b] to-[#2c2c2c] text-[#e0e0e0] border-[#aaaaaa]',
+};
+
+// ─── Fullscreen card modal ────────────────────────────────────────────────────
+
+interface CardModalProps {
+  card: CardData;
+  tier: string;
+  onClose: () => void;
+}
+
+const CardModal: React.FC<CardModalProps> = ({ card, tier, onClose }) => {
+  const [visible, setVisible] = useState(false);
   const [imgErr, setImgErr] = useState(false);
 
-  // ── Real Hearthstone card render ──────────────────────────────────────────
-  if (card.cardId && !imgErr) {
-    return (
-      <div className="relative flex-shrink-0 group cursor-pointer">
-        <div className="transform transition-all duration-200 group-hover:scale-110 group-hover:z-10">
+  // Best available image: Russian Blizzard render > HearthstoneJSON 512x
+  const bigSrc = (!imgErr && card.imageRu)
+    ? card.imageRu
+    : card.cardId ? hsImgUrl(card.cardId, '512x') : null;
+
+  useEffect(() => {
+    // Spring-in on next frame
+    const raf = requestAnimationFrame(() => setVisible(true));
+    // Lock scroll
+    document.body.style.overflow = 'hidden';
+    // ESC to close
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  const rarityLabel: Record<string, string> = {
+    common: 'Обычная', rare: 'Редкая', epic: 'Эпическая', legendary: 'Легендарная', free: 'Базовая',
+  };
+  const typeLabel: Record<string, string> = {
+    minion: 'Существо', spell: 'Заклинание', weapon: 'Оружие', hero: 'Герой', location: 'Локация',
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none"
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.2s ease',
+      }}
+      onClick={onClose}
+    >
+      {/* Blurred dark backdrop */}
+      <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
+
+      {/* Modal content */}
+      <div
+        className="relative z-10 flex flex-col items-center gap-5 max-w-sm w-full"
+        style={{
+          transform: visible ? 'scale(1) translateY(0)' : 'scale(0.72) translateY(40px)',
+          transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Card image */}
+        {bigSrc ? (
           <img
-            src={hsImgUrl(card.cardId)}
+            src={bigSrc}
+            alt={card.name}
+            onError={() => setImgErr(true)}
+            className="w-64 sm:w-72 md:w-80 h-auto drop-shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
+            draggable={false}
+          />
+        ) : (
+          <div className="w-64 h-96 bg-[#2c1e16] rounded-2xl border-2 border-[#a88a45] flex items-center justify-center">
+            <span className="text-[#fcd34d] font-hs text-xl text-center px-4">{card.name}</span>
+          </div>
+        )}
+
+        {/* Info strip */}
+        <div className="flex flex-wrap items-center justify-center gap-2 w-full">
+          {/* Score */}
+          {card.score !== undefined && card.score > 0 && (
+            <div
+              className="px-4 py-1.5 rounded-full text-white font-bold text-sm shadow-lg border border-white/20"
+              style={{ background: scoreBg(card.score) }}
+            >
+              Оценка HearthArena: {card.score}
+            </div>
+          )}
+
+          {/* Tier badge */}
+          <div className={`w-9 h-9 flex items-center justify-center rounded-full border-2 font-hs text-lg shadow-lg ${TIER_COLORS[tier] || TIER_COLORS['C']}`}>
+            {tier}
+          </div>
+
+          {/* Rarity */}
+          {card.rarity && (
+            <div className="px-3 py-1.5 rounded-full bg-[#1a110a]/80 border border-[#a88a45]/60 text-[#fcd34d] text-xs font-bold">
+              {rarityLabel[card.rarity] || card.rarity}
+            </div>
+          )}
+
+          {/* Type */}
+          {card.type && (
+            <div className="px-3 py-1.5 rounded-full bg-[#1a110a]/80 border border-[#6b4c2a]/60 text-[#e8d5a5] text-xs">
+              {typeLabel[card.type] || card.type}
+            </div>
+          )}
+        </div>
+
+        {/* Close hint */}
+        <p className="text-white/40 text-xs mt-1">
+          Нажмите вне карточки или <kbd className="bg-white/10 px-1.5 py-0.5 rounded text-white/60">ESC</kbd> для закрытия
+        </p>
+      </div>
+
+      {/* Close button in corner */}
+      <button
+        className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/30"
+        onClick={onClose}
+        aria-label="Закрыть"
+      >
+        <X size={18} />
+      </button>
+    </div>
+  );
+};
+
+// ─── HSCard ───────────────────────────────────────────────────────────────────
+
+interface HSCardProps {
+  card: CardData;
+  onClick: () => void;
+}
+
+const HSCard: React.FC<HSCardProps> = ({ card, onClick }) => {
+  const [imgErr, setImgErr] = useState(false);
+
+  // Best available thumbnail: Russian Blizzard render > HearthstoneJSON 256x
+  const thumbSrc = (!imgErr && card.imageRu)
+    ? card.imageRu
+    : card.cardId ? hsImgUrl(card.cardId) : null;
+
+  // ── Real card render (Blizzard Russian or HearthstoneJSON fallback) ────────
+  if (thumbSrc) {
+    return (
+      <div
+        className="relative flex-shrink-0 group cursor-pointer"
+        onClick={onClick}
+        title={card.name}
+      >
+        <div
+          className="transform transition-all duration-200 group-hover:scale-110 group-hover:z-10"
+          style={{ filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.85))' }}
+        >
+          <img
+            src={thumbSrc}
             alt={card.name}
             loading="lazy"
             onError={() => setImgErr(true)}
-            className="w-28 sm:w-32 md:w-36 h-auto drop-shadow-[0_6px_16px_rgba(0,0,0,0.85)]"
+            className="w-28 sm:w-32 md:w-36 h-auto"
           />
         </div>
         {/* Score badge */}
         {card.score !== undefined && card.score > 0 && (
           <div
-            className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-white text-[10px] font-bold border border-white/80 shadow-md z-20"
+            className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-white text-[10px] font-bold border border-white/80 shadow-md z-20 pointer-events-none"
             style={{ background: scoreBg(card.score) }}
           >
             {card.score}
           </div>
         )}
+        {/* Hover "expand" hint */}
+        <div className="absolute inset-0 rounded-lg ring-2 ring-white/0 group-hover:ring-white/40 transition-all duration-200 pointer-events-none" />
       </div>
     );
   }
 
-  // ── Fallback card (no cardId or broken image) ─────────────────────────────
+  // ── Fallback styled card (no image available) ─────────────────────────────
   const rarityColors: Record<string, string> = {
     free: '#d1d1d1', common: '#ffffff', rare: '#0070dd', epic: '#a335ee', legendary: '#ff8000',
   };
@@ -161,6 +317,8 @@ const HSCard: React.FC<{ card: CardData }> = ({ card }) => {
     <div
       className="relative w-28 h-40 sm:w-32 sm:h-48 md:w-36 md:h-52 rounded-xl flex flex-col items-center justify-center text-center transform transition-transform hover:scale-105 hover:z-10 cursor-pointer overflow-hidden border-2 border-[#1a110a]"
       style={{ backgroundColor: bgColor }}
+      onClick={onClick}
+      title={card.name}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/90" />
       <div className="absolute inset-1 border-2 border-white/10 rounded-lg pointer-events-none" />
@@ -318,15 +476,7 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedClass, setSelectedClass] = useState<string>('all');
   const [selectedRarity, setSelectedRarity] = useState<string>('all');
-
-  const tierColors: Record<string, string> = {
-    S: 'bg-gradient-to-br from-[#e63946] to-[#780000] text-[#fff0f0] border-[#ff9999]',
-    A: 'bg-gradient-to-br from-[#f4a261] to-[#b34700] text-[#fff9f0] border-[#ffd699]',
-    B: 'bg-gradient-to-br from-[#9b5de5] to-[#4a0080] text-[#f4f0ff] border-[#d9b3ff]',
-    C: 'bg-gradient-to-br from-[#2a9d8f] to-[#004d40] text-[#e0f2f1] border-[#80cbc4]',
-    D: 'bg-gradient-to-br from-[#457b9d] to-[#1d3557] text-[#e0f0ff] border-[#90c0e0]',
-    F: 'bg-gradient-to-br from-[#6b6b6b] to-[#2c2c2c] text-[#e0e0e0] border-[#aaaaaa]',
-  };
+  const [modalCard, setModalCard] = useState<{ card: CardData; tier: string } | null>(null);
 
   const allClasses = Array.from(new Set(tiers.flatMap(t => t.cards.map(c => c.class)))).filter(Boolean);
   const classes = [
@@ -424,7 +574,7 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
           filteredTiers.map((tierGroup) => (
             <div key={tierGroup.tier}>
               <div className="flex items-center gap-4 md:gap-6 mb-6 ml-0 md:ml-2">
-                <div className={`w-12 h-12 md:w-16 md:h-16 flex-shrink-0 flex items-center justify-center text-2xl md:text-3xl font-hs rounded-full border-[3px] shadow-[0_4px_10px_rgba(0,0,0,0.6),inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-4px_6px_rgba(0,0,0,0.4)] ${tierColors[tierGroup.tier] || tierColors['C']}`}>
+                <div className={`w-12 h-12 md:w-16 md:h-16 flex-shrink-0 flex items-center justify-center text-2xl md:text-3xl font-hs rounded-full border-[3px] shadow-[0_4px_10px_rgba(0,0,0,0.6),inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-4px_6px_rgba(0,0,0,0.4)] ${TIER_COLORS[tierGroup.tier] || TIER_COLORS['C']}`}>
                   <span className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{tierGroup.tier}</span>
                 </div>
                 <div>
@@ -435,7 +585,11 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
               </div>
               <div className="flex flex-wrap gap-4 md:gap-6 justify-center md:justify-start">
                 {tierGroup.cards.map((card, idx) => (
-                  <HSCard key={`${card.name}-${idx}`} card={card} />
+                  <HSCard
+                    key={`${card.name}-${idx}`}
+                    card={card}
+                    onClick={() => setModalCard({ card, tier: tierGroup.tier })}
+                  />
                 ))}
               </div>
             </div>
@@ -447,6 +601,15 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
           </div>
         )}
       </div>
+
+      {/* Fullscreen card modal */}
+      {modalCard && (
+        <CardModal
+          card={modalCard.card}
+          tier={modalCard.tier}
+          onClose={() => setModalCard(null)}
+        />
+      )}
     </div>
   );
 }
