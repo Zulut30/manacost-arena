@@ -789,13 +789,15 @@
         },
         {
           "name": "Дорнозму",
-          "cost": 0,
-          "rarity": "common",
+          "cost": 8,
+          "attack": 8,
+          "health": 8,
+          "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
           "score": 97,
-          "cardId": null,
-          "imageRu": null
+          "cardId": "DRG_090",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/63a2767a8ee7eb96de398620cda8c587b9c380d1d845dff57a00ecba62a96169.png"
         },
         {
           "name": "Наблюдатель в бочке",
@@ -907,7 +909,7 @@
           "class": "neutral",
           "score": 97,
           "cardId": "CORE_AV_328",
-          "imageRu": null
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/67865ec06a68cb008954dc071c6d0261b523b3d0a561413dcc6368d283e803a9.png"
         }
       ]
     },
@@ -1061,7 +1063,7 @@
           "class": "neutral",
           "score": 89,
           "cardId": "VAN_CS2_093",
-          "imageRu": null
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8bf84b65fd362f10c198f492f6b8c7eaa4b0912ef9afc7ec62c133bbf5720d89.png"
         },
         {
           "name": "Хранитель Ульдамана",
@@ -1275,7 +1277,7 @@
           "class": "neutral",
           "score": 88,
           "cardId": "VAN_CS1_112",
-          "imageRu": null
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4b3813f8d440e9e75d49a3369b8f86c1683c9f2b3f1c410af8620b6713d4d6cf.png"
         },
         {
           "name": "Горячие угли",
@@ -1917,7 +1919,7 @@
           "class": "neutral",
           "score": 43,
           "cardId": "VAN_EX1_016",
-          "imageRu": null
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0c24bd9148d4f56bde6d7d6fd7c70b79e5bff99038c0e3c3c0b8af5fea0724b7.png"
         },
         {
           "name": "Вихлекирка",
@@ -2073,13 +2075,15 @@
         },
         {
           "name": "Кровавый боец Бролл",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "attack": 7,
+          "health": 1,
+          "rarity": "epic",
+          "type": "weapon",
           "class": "neutral",
           "score": 35,
-          "cardId": null,
-          "imageRu": null
+          "cardId": "VAN_EX1_411",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2dca34be34ead8462e5d4c94d90f9be4d445e56591d98ab16aae3b0059ca36d1.png"
         },
         {
           "name": "Выброшенный кит",
@@ -2135,7 +2139,7 @@
           "class": "neutral",
           "score": 32,
           "cardId": "VAN_NEW1_016",
-          "imageRu": null
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2c87bc523dea581ef5ff929536571b199f5c8609f0ca94d231beedd7ccd89d68.png"
         },
         {
           "name": "Принц Малчезар",
@@ -2221,13 +2225,15 @@
         },
         {
           "name": "Кровавый боец Валира",
-          "cost": 0,
-          "rarity": "common",
-          "type": "minion",
+          "cost": 7,
+          "attack": 7,
+          "health": 1,
+          "rarity": "epic",
+          "type": "weapon",
           "class": "neutral",
           "score": 28,
-          "cardId": null,
-          "imageRu": null
+          "cardId": "VAN_EX1_411",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2dca34be34ead8462e5d4c94d90f9be4d445e56591d98ab16aae3b0059ca36d1.png"
         },
         {
           "name": "Балинда Каменный Очаг",
@@ -2361,11 +2367,11 @@
           "class": "neutral",
           "score": 0,
           "cardId": "CORE_BT_334",
-          "imageRu": null
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/50176324b48c2a3ce8d05b951dd3acbaf966abc424ae81f2f7ccd5d2285506b0.png"
         }
       ]
     }
   ],
-  "updatedAt": "2026-03-19T20:55:18.406Z",
+  "updatedAt": "2026-03-19T21:12:46.505Z",
   "source": "heartharena.com"
 }

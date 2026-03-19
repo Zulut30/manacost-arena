@@ -257,10 +257,10 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
     }
 
     // Enrich with Blizzard API Russian card images
-    let blizzardMap: Map<number, string> | null = null;
+    let blizzardMaps: BlizzardMaps | null = null;
     try {
       const token = await getBlizzardToken();
-      blizzardMap = await buildBlizzardImageMap(token);
+      blizzardMaps = await buildBlizzardImageMap(token);
     } catch (e) {
       console.warn('[Scraper] Blizzard API failed, skipping Russian images:', (e as Error).message);
     }
@@ -271,10 +271,36 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
       const tier = scoreToTier(card.score, card.tierClass);
       if (!grouped[tier]) grouped[tier] = [];
 
-      const hsData = hsMap?.get(normalizeRu(card.name)) ?? null;
+      // ── HearthstoneJSON lookup: exact → prefix fallback ───────────────────
+      const normName = normalizeRu(card.name);
+      let hsData = hsMap?.get(normName) ?? null;
+      // If no exact match, try prefix: HA name may be an abbreviation of full card name
+      if (!hsData && hsMap) {
+        for (const [key, val] of hsMap) {
+          if (key.startsWith(normName) || normName.startsWith(key.slice(0, Math.max(6, key.length - 4)))) {
+            hsData = val;
+            break;
+          }
+        }
+      }
 
-      // Match by Blizzard dbfId (Blizzard slugs are "{dbfId}-{en-name}")
-      const imageRu = (hsData?.dbfId && blizzardMap?.get(hsData.dbfId)) || null;
+      // ── Blizzard image lookup: dbfId (exact) → Russian name (fuzzy) ───────
+      let imageRu: string | null = null;
+      if (blizzardMaps) {
+        // 1. Exact match by dbfId
+        if (hsData?.dbfId) imageRu = blizzardMaps.byDbfId.get(hsData.dbfId) ?? null;
+        // 2. Fallback: match by normalized Russian name from HearthArena
+        if (!imageRu) imageRu = blizzardMaps.byName.get(normName) ?? null;
+        // 3. Fallback: prefix match against Blizzard names
+        if (!imageRu) {
+          for (const [key, url] of blizzardMaps.byName) {
+            if (key.startsWith(normName) || normName.startsWith(key.slice(0, Math.max(6, key.length - 4)))) {
+              imageRu = url;
+              break;
+            }
+          }
+        }
+      }
 
       grouped[tier].push({
         name: card.name,
@@ -332,12 +358,19 @@ async function getBlizzardToken(): Promise<string> {
   return data.access_token;
 }
 
+interface BlizzardMaps {
+  byDbfId: Map<number, string>;    // dbfId  → imageUrl
+  byName:  Map<string, string>;    // normalizedRuName → imageUrl
+}
+
 /** Fetch all Hearthstone cards from Blizzard API with ru_RU locale.
- *  Returns Map<dbfId, imageUrl> — Blizzard slug format is "{dbfId}-{name-slug}",
- *  so we key by the leading numeric dbfId for easy lookup from HearthstoneJSON data. */
-async function buildBlizzardImageMap(token: string): Promise<Map<number, string>> {
+ *  Builds two lookup maps for maximum match coverage:
+ *  - byDbfId: slug prefix (exact)
+ *  - byName:  normalized Russian card name (fuzzy fallback) */
+async function buildBlizzardImageMap(token: string): Promise<BlizzardMaps> {
   console.log('[Scraper] Blizzard: fetching Russian card images...');
-  const map = new Map<number, string>();
+  const byDbfId = new Map<number, string>();
+  const byName  = new Map<string, string>();
   let page = 1, pageCount = 1;
   while (page <= pageCount) {
     const res = await fetch(
@@ -348,16 +381,19 @@ async function buildBlizzardImageMap(token: string): Promise<Map<number, string>
     const data = await res.json() as any;
     pageCount = data.pageCount ?? 1;
     for (const card of data.cards ?? []) {
-      // slug = "{dbfId}-{en-name-slug}", extract the numeric dbfId prefix
-      if (card.image && card.slug) {
+      if (!card.image) continue;
+      // Index by dbfId (slug prefix)
+      if (card.slug) {
         const dbfId = parseInt((card.slug as string).split('-')[0], 10);
-        if (!isNaN(dbfId)) map.set(dbfId, card.image as string);
+        if (!isNaN(dbfId)) byDbfId.set(dbfId, card.image as string);
       }
+      // Index by normalized Russian name
+      if (card.name) byName.set(normalizeRu(card.name as string), card.image as string);
     }
     page++;
   }
-  console.log(`[Scraper] Blizzard: indexed ${map.size} Russian card images`);
-  return map;
+  console.log(`[Scraper] Blizzard: indexed ${byDbfId.size} by dbfId, ${byName.size} by name`);
+  return { byDbfId, byName };
 }
 
 // ─── HearthstoneJSON card lookup ─────────────────────────────────────────────

@@ -281,15 +281,6 @@ const HSCard: React.FC<HSCardProps> = ({ card, onClick }) => {
             className="w-28 sm:w-32 md:w-36 h-auto"
           />
         </div>
-        {/* Score badge */}
-        {card.score !== undefined && card.score > 0 && (
-          <div
-            className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-white text-[10px] font-bold border border-white/80 shadow-md z-20 pointer-events-none"
-            style={{ background: scoreBg(card.score) }}
-          >
-            {card.score}
-          </div>
-        )}
         {/* Hover "expand" hint */}
         <div className="absolute inset-0 rounded-lg ring-2 ring-white/0 group-hover:ring-white/40 transition-all duration-200 pointer-events-none" />
       </div>
