@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Trophy, Scroll, Info, Swords, RefreshCw, Loader2, AlertTriangle, X, Search, Star } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
+import { Trophy, Scroll, Swords, RefreshCw, AlertTriangle, X, Search, Star } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -100,6 +100,7 @@ interface LegendaryGroup {
   keyCard: LegendaryCard;
   cards: LegendaryCard[];
   winRate: number | null;
+  classKey: string;
 }
 interface LegendariesData {
   groups: LegendaryGroup[];
@@ -198,18 +199,23 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none"
-      style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.2s ease' }}
-      onClick={onClose}
+      className="fixed inset-0 flex items-center justify-center p-4 select-none"
+      style={{
+        zIndex: 9999,
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.2s ease',
+      }}
+      onPointerDown={onClose}
     >
       <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
       <div
-        className="relative z-10 flex flex-col items-center gap-5 max-w-sm w-full"
+        className="relative flex flex-col items-center gap-5 max-w-sm w-full"
         style={{
+          zIndex: 10000,
           transform: visible ? 'scale(1) translateY(0)' : 'scale(0.72) translateY(40px)',
           transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
         }}
-        onClick={e => e.stopPropagation()}
+        onPointerDown={e => e.stopPropagation()}
       >
         {bigSrc ? (
           <img src={bigSrc} alt={card.name} onError={() => setImgErr(true)}
@@ -262,7 +268,7 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
 
 // ─── HSCard ───────────────────────────────────────────────────────────────────
 
-const HSCard: React.FC<{ card: CardData; onClick: () => void }> = ({ card, onClick }) => {
+const HSCard: React.FC<{ card: CardData; onClick: () => void }> = memo(({ card, onClick }) => {
   const [imgErr, setImgErr] = useState(false);
 
   const thumbSrc = imgErr ? null
@@ -301,7 +307,7 @@ const HSCard: React.FC<{ card: CardData; onClick: () => void }> = ({ card, onCli
       </div>
     </div>
   );
-};
+}) as React.FC<{ card: CardData; onClick: () => void }>;
 
 // ─── Skeleton / misc ──────────────────────────────────────────────────────────
 
@@ -320,7 +326,7 @@ const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefres
           color: '#e8d5a5',
           boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
         }}>
-        <Info size={12} className="text-[#a88a45]" />
+        <RefreshCw size={11} className="text-[#a88a45]" />
         <span className="font-medium">
           {updatedAt ? formatDate(updatedAt) : 'Загружается…'}
         </span>
@@ -341,7 +347,7 @@ const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefres
         }}
       >
         {refreshing
-          ? <Loader2 size={12} style={{ animation: 'spin 1s linear infinite' }} />
+          ? <RefreshCw size={12} style={{ animation: 'spin 1s linear infinite' }} />
           : <RefreshCw size={12} />}
         <span>{refreshing ? 'Парсинг…' : 'Обновить'}</span>
       </button>
@@ -814,20 +820,37 @@ const LegendaryCardThumb: React.FC<{
   );
 };
 
+// CLASS_SECTIONS_LEGEND: sections for legend tab (no neutral)
+const LEGEND_CLASSES: Array<{ id: string; name: string; color: string }> = [
+  { id: 'all',           name: 'Все',               color: '#4a4a4a' },
+  { id: 'death-knight',  name: 'Рыцарь смерти',     color: '#1f252d' },
+  { id: 'demon-hunter',  name: 'Охотник на демонов', color: '#224722' },
+  { id: 'druid',         name: 'Друид',              color: '#704a16' },
+  { id: 'hunter',        name: 'Охотник',            color: '#1d5921' },
+  { id: 'mage',          name: 'Маг',                color: '#2b5c85' },
+  { id: 'paladin',       name: 'Паладин',            color: '#a88a45' },
+  { id: 'priest',        name: 'Жрец',               color: '#888888' },
+  { id: 'rogue',         name: 'Разбойник',          color: '#333333' },
+  { id: 'shaman',        name: 'Шаман',              color: '#2a2e6b' },
+  { id: 'warlock',       name: 'Чернокнижник',       color: '#5c265c' },
+  { id: 'warrior',       name: 'Воин',               color: '#7a1e1e' },
+  { id: 'any',           name: 'Нейтральные',        color: '#6b6b6b' },
+];
+
 function Legendaries({ data, loading, error }: {
   data: LegendariesData; loading: boolean; error: boolean;
 }) {
-  const [sortBy, setSortBy] = useState<'winrate' | 'date'>('winrate');
+  const [activeClass, setActiveClass] = useState<string>('all');
   const [modalCard, setModalCard] = useState<{ card: CardData; tier: string } | null>(null);
+  const classScrollRef = useRef<HTMLDivElement>(null);
 
-  const sorted = [...(data.groups ?? [])].sort((a, b) => {
-    if (sortBy !== 'winrate') return 0;
-    const wa = a.winRate ?? 0;
-    const wb = b.winRate ?? 0;
-    return wb - wa;
-  });
+  const filtered = useMemo(() => {
+    const groups = data.groups ?? [];
+    const base = activeClass === 'all' ? groups : groups.filter(g => g.classKey === activeClass);
+    return [...base].sort((a, b) => (b.winRate ?? 0) - (a.winRate ?? 0));
+  }, [data.groups, activeClass]);
 
-  const toLegendaryCardData = (lc: LegendaryCard): CardData => ({
+  const toLegendaryCardData = useCallback((lc: LegendaryCard): CardData => ({
     name:     lc.name,
     score:    0,
     rarity:   'legendary',
@@ -836,12 +859,12 @@ function Legendaries({ data, loading, error }: {
     cost:     lc.cost,
     imageHa:  lc.imageHa,
     imageRu:  lc.imageRu ?? null,
-  });
+  }), []);
 
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 pb-5 gap-4"
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-5 pb-5 gap-4"
         style={{ borderBottom: '2px solid #c4a46a' }}>
         <div>
           <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Легендарные группы</h2>
@@ -850,24 +873,59 @@ function Legendaries({ data, loading, error }: {
             {data.updatedAt && <> — обновлено {formatDate(data.updatedAt)}</>}
           </p>
         </div>
-        {/* Sort buttons */}
-        <div className="flex gap-2 flex-shrink-0">
-          {(['winrate', 'date'] as const).map(s => (
-            <button
-              key={s}
-              onClick={() => setSortBy(s)}
-              className="px-4 py-2 rounded-full text-xs font-bold transition-all border"
-              style={{
-                background: sortBy === s
-                  ? 'linear-gradient(135deg,#6b4c2a,#3a2210)'
-                  : 'linear-gradient(135deg,#ede0c0,#e0cc9e)',
-                border: `1.5px solid ${sortBy === s ? '#a88a45' : '#c4a46a'}`,
-                color: sortBy === s ? '#fcd34d' : '#6b4c2a',
-              }}
-            >
-              {s === 'winrate' ? 'По винрейту' : 'По дате'}
-            </button>
-          ))}
+        {/* Count badge */}
+        <div className="text-[#8b6c42] text-sm font-bold px-3 py-1.5 rounded-full flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }}>
+          {filtered.length} групп
+        </div>
+      </div>
+
+      {/* Class filter nav */}
+      <div className="mb-5">
+        <div
+          ref={classScrollRef}
+          className="flex items-center gap-1.5 sm:gap-2 px-3 py-2.5 rounded-2xl overflow-x-auto scrollbar-hs"
+          style={{
+            background: 'linear-gradient(135deg,#f4e8cc,#ede0c0)',
+            border: '1.5px solid #c4a46a',
+            boxShadow: 'inset 0 1px 3px rgba(139,69,19,0.15), 0 2px 6px rgba(0,0,0,0.12)',
+          }}
+        >
+          {LEGEND_CLASSES.map(cls => {
+            const isActive = cls.id === activeClass;
+            const iconSrc = cls.id !== 'all' && cls.id !== 'any' ? CLASS_ICON[cls.id] : null;
+            return (
+              <button
+                key={cls.id}
+                onClick={() => setActiveClass(cls.id)}
+                title={cls.name}
+                className="flex-shrink-0 relative transition-all duration-200"
+                style={{ transform: isActive ? 'scale(1.15)' : 'scale(1)', filter: isActive ? 'none' : 'grayscale(0.2) brightness(0.85)' }}
+              >
+                <div
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
+                  style={{
+                    background: `radial-gradient(circle at 35% 35%, ${cls.color}ff, ${cls.color}aa)`,
+                    boxShadow: isActive
+                      ? `0 0 0 2.5px #fcd34d, 0 0 10px rgba(252,211,77,0.55), 0 3px 8px rgba(0,0,0,0.45)`
+                      : `0 0 0 1.5px rgba(0,0,0,0.35), 0 2px 5px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.2)`,
+                  }}
+                >
+                  {cls.id === 'all' ? (
+                    <Star size={16} className="text-[#fcd34d]" />
+                  ) : iconSrc ? (
+                    <img src={iconSrc} alt={cls.name} className="w-6 h-6 sm:w-7 sm:h-7 object-contain" draggable={false} />
+                  ) : (
+                    <span className="text-white/80 text-sm font-hs">⚔</span>
+                  )}
+                </div>
+                {isActive && (
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#fcd34d]"
+                    style={{ boxShadow: '0 0 4px rgba(252,211,77,0.8)' }} />
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -883,7 +941,7 @@ function Legendaries({ data, loading, error }: {
             <div key={i} className="skeleton h-64 w-full rounded-2xl" style={{ animationDelay: `${i * 0.05}s` }} />
           ))}
         </div>
-      ) : sorted.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <div className="text-center py-14 rounded-2xl"
           style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '2px dashed #c4a46a' }}>
           <div className="text-4xl mb-3">⭐</div>
@@ -892,12 +950,12 @@ function Legendaries({ data, loading, error }: {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sorted.map((group, idx) => (
+          {filtered.map((group, idx) => (
             <div
               key={`${group.keyCard.cardId}-${idx}`}
               className="anim-scale-in rounded-2xl flex flex-col items-center p-4 gap-3 transition-all duration-200 cursor-default"
               style={{
-                animationDelay: `${idx * 0.04}s`,
+                animationDelay: `${Math.min(idx, 20) * 0.04}s`,
                 background: 'linear-gradient(145deg,#ede0c0,#e0cc9e)',
                 border: '1.5px solid #c4a46a',
                 boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6), 0 3px 10px rgba(0,0,0,0.18)',
@@ -1034,18 +1092,55 @@ export default function App() {
   return (
     <div className="min-h-screen bg-wood text-[#3d2a1e] font-body flex flex-col">
       {/* Header */}
-      <header className="bg-[#1a110a] border-b-4 border-gold shadow-2xl relative z-20 bg-[url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h20v20H0V0zm10 10l10 10H0L10 10z\' fill=\'%232a1b12\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E')]">
-        <div className="max-w-6xl mx-auto px-2 sm:px-4 py-3 sm:py-5 flex flex-col items-center justify-center">
-          <div className="flex items-center gap-3 sm:gap-5">
-            <div className="relative flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#2b5c85] to-[#1a3a5f] rounded-full border-[2px] sm:border-[3px] border-[#fcd34d] shadow-[0_0_15px_rgba(43,92,133,0.8),inset_0_0_10px_rgba(0,0,0,0.8)]" />
-              <div className="absolute inset-1 border border-[#fff] opacity-20 rounded-full" />
-              <div className="absolute inset-2 border border-[#fcd34d] opacity-40 rounded-full border-dashed" />
-              <Swords size={20} className="w-6 h-6 sm:w-7 sm:h-7 text-[#fff] relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+      <header className="relative z-20 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #0d0702 0%, #1a0e04 40%, #241408 100%)',
+          borderBottom: '3px solid #8b5a1a',
+          boxShadow: '0 4px 32px rgba(0,0,0,0.8), 0 1px 0 rgba(212,175,55,0.3)',
+        }}>
+        {/* Decorative top line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: 'linear-gradient(90deg, transparent, #fcd34d 20%, #fcd34d 80%, transparent)' }} />
+        {/* Background texture */}
+        <div className="absolute inset-0 opacity-[0.06]"
+          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col items-center justify-center relative">
+          <div className="flex items-center gap-4 sm:gap-6">
+            {/* Emblem */}
+            <div className="relative flex items-center justify-center w-14 h-14 sm:w-18 sm:h-18 flex-shrink-0">
+              <div className="absolute inset-0 rounded-full"
+                style={{ background: 'radial-gradient(circle at 40% 35%, #3a6fa8, #0d2a4a)', boxShadow: '0 0 0 2px #fcd34d, 0 0 20px rgba(252,211,77,0.35), 0 0 0 4px rgba(212,175,55,0.15), inset 0 0 15px rgba(0,0,0,0.6)' }} />
+              <div className="absolute inset-[3px] rounded-full border border-[#fcd34d]/25" />
+              <div className="absolute inset-[6px] rounded-full border border-dashed border-[#fcd34d]/20" />
+              <Swords size={22} className="relative z-10 text-white drop-shadow-[0_0_10px_rgba(252,211,77,0.9)]" />
             </div>
-            <div className="flex flex-col justify-center">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-hs text-transparent bg-clip-text bg-gradient-to-b from-[#fffde7] via-[#fcd34d] to-[#f57f17] tracking-wider uppercase leading-none">Manacost</h1>
-              <span className="text-[10px] sm:text-sm md:text-base font-body font-bold text-[#e8d5a5] tracking-[0.3em] sm:tracking-[0.4em] uppercase mt-0.5 sm:mt-1 pl-1">Arena</span>
+            {/* Title */}
+            <div className="flex flex-col items-start">
+              <h1
+                className="leading-none tracking-wider uppercase select-none"
+                style={{
+                  fontFamily: 'var(--font-display, "Cinzel", serif)',
+                  fontSize: 'clamp(1.8rem, 5vw, 3.5rem)',
+                  background: 'linear-gradient(180deg, #fffde7 0%, #fcd34d 35%, #e8a000 70%, #b35c00 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 2px 8px rgba(212,175,55,0.5))',
+                  textShadow: 'none',
+                }}
+              >
+                Manacost
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
+                <span
+                  className="uppercase tracking-[0.45em] text-[#c4a46a] font-bold"
+                  style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(0.6rem, 1.8vw, 0.85rem)', letterSpacing: '0.5em' }}
+                >
+                  Arena
+                </span>
+                <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
+              </div>
             </div>
           </div>
         </div>

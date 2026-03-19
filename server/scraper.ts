@@ -470,15 +470,26 @@ export async function scrapeLegendaries(): Promise<boolean> {
     if (!hsRes.ok) throw new Error(`HearthstoneJSON HTTP ${hsRes.status}`);
     const hsCards: any[] = await hsRes.json();
 
-    // Build maps: cardId → { name, cost, dbfId }
-    const hsNameMap = new Map<string, string>();
-    const hsCostMap = new Map<string, number>();
-    const hsDbfMap  = new Map<string, number>();
+    // Build maps: cardId → { name, cost, dbfId, classKey }
+    const hsNameMap  = new Map<string, string>();
+    const hsCostMap  = new Map<string, number>();
+    const hsDbfMap   = new Map<string, number>();
+    const hsClassMap = new Map<string, string>();
+
+    const HSCLASS_MAP: Record<string, string> = {
+      DEATHKNIGHT: 'death-knight', DEMONHUNTER: 'demon-hunter',
+      DRUID: 'druid', HUNTER: 'hunter', MAGE: 'mage', PALADIN: 'paladin',
+      PRIEST: 'priest', ROGUE: 'rogue', SHAMAN: 'shaman',
+      WARLOCK: 'warlock', WARRIOR: 'warrior', NEUTRAL: 'any',
+    };
+
     for (const c of hsCards) {
       if (!c.id) continue;
       if (c.name)  hsNameMap.set(c.id, c.name);
       if (c.cost !== undefined) hsCostMap.set(c.id, c.cost);
       if (c.dbfId) hsDbfMap.set(c.id, c.dbfId);
+      const cls = c.cardClass ?? c.multiClassGroup ?? 'NEUTRAL';
+      hsClassMap.set(c.id, HSCLASS_MAP[cls] ?? 'any');
     }
     console.log(`[Scraper] HearthstoneJSON: ${hsNameMap.size} ruRU card names indexed`);
 
@@ -515,7 +526,8 @@ export async function scrapeLegendaries(): Promise<boolean> {
         imageHa: haImgUrl(cid),
       }));
 
-      return { keyCard, cards, winRate: pkg.win_rate };
+      const classKey = hsClassMap.get(keyId) ?? 'any';
+      return { keyCard, cards, winRate: pkg.win_rate, classKey };
     });
 
     saveData('legendaries.json', {
