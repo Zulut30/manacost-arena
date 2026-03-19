@@ -9,9 +9,10 @@
           "cost": 9,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "shaman",
           "score": 150,
           "cardId": "GDB_479",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_479.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d3d0968d25f9679c75695d95dc0af9096f8a4dcf157b240037e9def861baf128.png"
         },
         {
@@ -21,9 +22,10 @@
           "health": 1,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 145,
           "cardId": "MIS_006",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_006.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b755d3b84a0926d0e3e0865c65dd4f35f2766b055e4f023ab0499bf8ec73568e.png"
         },
         {
@@ -33,19 +35,22 @@
           "health": 7,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 137,
           "cardId": "TTN_092",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_092.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d28513094f90048f51e5b0b649e70d12a07d86121fb2ac12aab60e547d82471b.png"
         },
         {
           "name": "Святыня Каражан",
-          "cost": 0,
+          "cost": 10,
+          "health": 2,
           "rarity": "common",
-          "type": "minion",
-          "class": "neutral",
+          "type": "location",
+          "class": "priest",
           "score": 135,
-          "cardId": null,
+          "cardId": "TIME_890t2",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_890t2.webp",
           "imageRu": null
         },
         {
@@ -58,6 +63,7 @@
           "class": "neutral",
           "score": 130,
           "cardId": "YOG_516",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_516.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2e119d27b38d93af72cb796d2d96fcc4c50b75083563c16b68b4c41a0b9d3508.png"
         },
         {
@@ -67,10 +73,22 @@
           "health": 9,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 130,
           "cardId": "TTN_862",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_862.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6b90498c2de061ad95caf4e1b4ff91e335fb5d85bfba4b07b68b52e083bb746b.png"
+        },
+        {
+          "name": "Руна верховного мага",
+          "cost": 9,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "mage",
+          "score": 130,
+          "cardId": "AV_283",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_283.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ec008da1e66cccbaf16642eb2cff77f5889d82829675120f8717291c13228741.png"
         },
         {
           "name": "Великий дракорекс",
@@ -79,9 +97,10 @@
           "health": 12,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "warrior",
           "score": 130,
           "cardId": "DINO_401",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_401.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d6ee8c5421a30d406dd6e83d66b5b3f2deb7863efb23c43869380cf57a47634b.png"
         },
         {
@@ -94,6 +113,7 @@
           "class": "neutral",
           "score": 129,
           "cardId": "TTN_751",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_751.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/de5c100693c096a0b6814d7c3fc20a60309bc8dfc2a2af912b2287d797841c29.png"
         },
         {
@@ -101,9 +121,10 @@
           "cost": 2,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "hunter",
           "score": 127,
           "cardId": "TOY_353",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_353.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9f925bbb7d9d2cb09c36be24eaa8a636de430467743c9a2c34ef16ef6d8271bf.png"
         },
         {
@@ -113,9 +134,10 @@
           "health": 7,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "priest",
           "score": 127,
           "cardId": "TIME_890",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_890.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5b1c3236a936971ce184478955f9f6802837a938fba48281b953dc37cc6998ad.png"
         },
         {
@@ -125,9 +147,10 @@
           "health": 4,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "shaman",
           "score": 126,
           "cardId": "VAC_301",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_301.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/71e9ffafc665f58c53950cd351450c2154f255e80f3bdcdfa9010521ca30d23f.png"
         },
         {
@@ -139,7 +162,21 @@
           "class": "neutral",
           "score": 125,
           "cardId": "TTN_090",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_090.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/52aea9000b8d3203a770f51bdfaf7f6c0e824b82ce6c5f4b2908030d0ea0087c.png"
+        },
+        {
+          "name": "Душекрад",
+          "cost": 8,
+          "attack": 5,
+          "health": 5,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "dk",
+          "score": 122,
+          "cardId": "RLK_741",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_741.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/14f6fc9616f264325a072cc324f54de90999c600356dee7572f66c182ddbd8af.png"
         },
         {
           "name": "Хранительница жизни Эонар",
@@ -148,9 +185,10 @@
           "health": 7,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 122,
           "cardId": "TTN_903",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_903.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e0aec61f6a27e026375caa6309599113c8923fc0d7fcbac8f57297373c865203.png"
         },
         {
@@ -160,10 +198,34 @@
           "health": 6,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 121,
           "cardId": "TSC_219",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_219.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f5ccaa57352ba0bf176c859f3fbbde9d34ed5f4d626e02d185a1fa0f6af5dfcb.png"
+        },
+        {
+          "name": "Кушать подано",
+          "cost": 8,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "dk",
+          "score": 120,
+          "cardId": "CATA_465",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_465.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ae4827f7fd4f7380bd0a02d3971e0c0258a793b6c40c0b154775b952d5240d90.png"
+        },
+        {
+          "name": "Смертокрыл Разрушитель миров",
+          "cost": 10,
+          "health": 30,
+          "rarity": "legendary",
+          "type": "hero",
+          "class": "neutral",
+          "score": 120,
+          "cardId": "CATA_190h",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_190h.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a5482d917554df16912bbb56e127d9fb44d9ba2dd0f2bb8a56276cfd21810d36.png"
         },
         {
           "name": "Гелбин из будущего",
@@ -172,9 +234,10 @@
           "health": 6,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 119,
           "cardId": "TIME_009",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_009.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/abe46c26690bea63eba1454b602f620e18cc3d02508114db20712bcec37289f7.png"
         },
         {
@@ -184,9 +247,10 @@
           "health": 1,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "warrior",
           "score": 118,
           "cardId": "EDR_456",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_456.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d52326a12160df2437be2dd186cc9bb6f2fa7e9c7efa1f29234a2e2f58672718.png"
         },
         {
@@ -196,9 +260,10 @@
           "health": 8,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 117,
           "cardId": "TTN_858",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_858.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/7a20ec03b1546b5c7c2e7f4948b7bfbc6b089e830ec7e8dc3cfcaa3257d47157.png"
         },
         {
@@ -206,9 +271,10 @@
           "cost": 6,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 116,
           "cardId": "TIME_610",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_610.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3a0d2c567c8dba08af17f1dfb8b4dc72138db7396e1bf0b090739c3c899a12d0.png"
         },
         {
@@ -216,10 +282,35 @@
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "hunter",
           "score": 116,
           "cardId": "SW_458",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_458.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8741549daa2eadd04a04f22e60f9c68b23256d62c370e341f8ecdec082f0c1d6.png"
+        },
+        {
+          "name": "Ал'акир, повелитель бурь",
+          "cost": 8,
+          "attack": 2,
+          "health": 8,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "shaman",
+          "score": 116,
+          "cardId": "CATA_153",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_153.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d3ce162c5a84b70e10ac2101e4b2f17b85240651c50e7087e72ee5cd57a4dbd7.png"
+        },
+        {
+          "name": "Экспериментальное оживление",
+          "cost": 6,
+          "rarity": "common",
+          "type": "spell",
+          "class": "dk",
+          "score": 115,
+          "cardId": "CATA_156",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_156.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/95f947861d7c4981522419552c9fd7a3c208043e2890bf5ea41613e6b1701734.png"
         },
         {
           "name": "Анкилодон",
@@ -228,9 +319,10 @@
           "health": 5,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 115,
           "cardId": "DINO_422",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_422.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b48586f5d1ccd91b0b7430ebf769cabc6ca6055999ab7ae5a269c1f13323f020.png"
         },
         {
@@ -238,9 +330,10 @@
           "cost": 6,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "hunter",
           "score": 115,
           "cardId": "VAC_410",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_410.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bf5491f864c8d7edc822a79e2d662bc8782aa8f09975cef60bebc7514359dd1a.png"
         },
         {
@@ -250,9 +343,10 @@
           "health": 7,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "priest",
           "score": 115,
           "cardId": "EDR_464",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_464.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4ce096a63930b2626a0d9c20318b29187f1cc3fe8932dc4908fe1734f1ecbd85.png"
         },
         {
@@ -262,9 +356,10 @@
           "health": 4,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 115,
           "cardId": "TSC_933",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_933.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ef7d6f6b43dc2f1c4e003d171dbf7570b7b937609829ae95ec1b4e7e009105da.png"
         },
         {
@@ -272,9 +367,10 @@
           "cost": 7,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "warrior",
           "score": 115,
           "cardId": "TTN_470",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_470.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d4ae8311cc5c568f1b00323fd147ce8f64e1500bc640c0d4dbe0d1c082836629.png"
         },
         {
@@ -282,9 +378,10 @@
           "cost": 7,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 114,
           "cardId": "RLK_063",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_063.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fff2e75d9d27282d5da3d3a42376748468b286145e8e8c8780df2cf48b49851a.png"
         },
         {
@@ -294,9 +391,10 @@
           "health": 5,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 114,
           "cardId": "REV_314",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_314.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/63decbd5c2647c19b83f478d136fb0e96aeb58212110590ccd9aa7d2d0199428.png"
         },
         {
@@ -304,9 +402,10 @@
           "cost": 8,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 114,
           "cardId": "VAC_509",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_509.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3ac3ef7a37d5b6d3ed04582dd5c2731ca6f2063b664836267f98753edfc3f30c.png"
         },
         {
@@ -316,9 +415,10 @@
           "health": 7,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "priest",
           "score": 114,
           "cardId": "TOY_380",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_380.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b242f7305f53d6f40c6200c6e5b1834bae3a32559f1da4d2a25db881e372119c.png"
         },
         {
@@ -326,9 +426,10 @@
           "cost": 5,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "priest",
           "score": 114,
           "cardId": "EDR_461",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_461.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3d6c1fa8704f5ca7c8b4bceba3fd2a0aaf7b52bdfb5441a9120b4ac20d25fa5d.png"
         },
         {
@@ -336,9 +437,10 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "warrior",
           "score": 114,
           "cardId": "FIR_939",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_939.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8ae3f34e85f202a69daf51a324d4bde6953e31e4e429a8b3b0c3673c353bd3fd.png"
         },
         {
@@ -348,9 +450,10 @@
           "health": 8,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 113,
           "cardId": "DRG_313",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DRG_313.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/68b32b64dfb4a03c5871f91f5d5f93fec1774132189000baa8aeef788a7eef94.png"
         },
         {
@@ -360,9 +463,10 @@
           "health": 3,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 113,
           "cardId": "DRG_254",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DRG_254.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e3b83d91f15d3726e4c7eb9b7c82d404e3ded8737e4c8c83d9f45d97bf433224.png"
         },
         {
@@ -372,9 +476,10 @@
           "health": 7,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "mage",
           "score": 113,
           "cardId": "RLK_803",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_803.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f7487e499751c287a7e91663f213721e79a1a30b7128b9547de1c52997bef12e.png"
         },
         {
@@ -384,10 +489,24 @@
           "health": 6,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "warlock",
           "score": 113,
           "cardId": "ONY_035",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_035.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/25b29044567f9bd566356110fe606161c29171d080323b133559bf3345079d33.png"
+        },
+        {
+          "name": "Магмарь",
+          "cost": 7,
+          "attack": 2,
+          "health": 12,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "hunter",
+          "score": 112,
+          "cardId": "CATA_550",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_550.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/67dc9a2db857cf75af4350ee287997d5e5e6ec15fa23a9b9cd8e8e290e3dde41.png"
         },
         {
           "name": "Ловчий пламени Тьмы",
@@ -396,9 +515,10 @@
           "health": 3,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "warlock",
           "score": 112,
           "cardId": "FIR_924",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_924.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c738977067efc80756528de7c3e003c9575e7135a9c8479283601c15788fa543.png"
         },
         {
@@ -406,10 +526,24 @@
           "cost": 2,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "warlock",
           "score": 112,
           "cardId": "ETC_083",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_083.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0b62a06668a1de55b960c08735dc6da6ca282c970d775b5f447fa61516ae5adf.png"
+        },
+        {
+          "name": "Вулканос",
+          "cost": 7,
+          "attack": 4,
+          "health": 8,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "mage",
+          "score": 111,
+          "cardId": "CATA_488",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_488.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0979d9a53f38428151e3fd8492debcc85b5c2575783b86bf7914ea5668600886.png"
         },
         {
           "name": "Здоровяк-официант",
@@ -418,9 +552,10 @@
           "health": 4,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 111,
           "cardId": "REV_958",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_958.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ffaa388bf8373de8106ba888c2d7919def93ea2f08f39fc8b0549342aae3235b.png"
         },
         {
@@ -430,9 +565,10 @@
           "health": 8,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 111,
           "cardId": "RLK_919",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_919.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b6dfd3aca0ed55196b6475b49451555ac178b1a7f4e5df00a41eb22f3b25eb4b.png"
         },
         {
@@ -440,9 +576,10 @@
           "cost": 7,
           "rarity": "legendary",
           "type": "spell",
-          "class": "neutral",
+          "class": "priest",
           "score": 111,
           "cardId": "BT_198",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_198.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b5adccb90fbdc41cc70ae427ecd8da552c1b51002c4a94b6c4b1eb1ead107bac.png"
         },
         {
@@ -452,10 +589,153 @@
           "health": 6,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 111,
           "cardId": "GIL_598",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GIL_598.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fa8160cd7da061d58090485abec7a19ad3161d78ed94b3f6033180a4bae93296.png"
+        },
+        {
+          "name": "Инструктор Огненное Сердце",
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "shaman",
+          "score": 111,
+          "cardId": "SCH_507",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_507.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8e8637631aeea45c04fae954f4b33107ef5e64bef338953358c995f82d8b38d3.png"
+        },
+        {
+          "name": "Они повсюду",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "dh",
+          "score": 110,
+          "cardId": "TLC_902",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_902.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8c9e47fe6a8c8ac747933f22b7d2f197f5c295efa8c3a210f506b34c063bec0a.png"
+        },
+        {
+          "name": "Круг барабанов",
+          "cost": 7,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "druid",
+          "score": 110,
+          "cardId": "ETC_373",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_373.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/41071333c31342f6db41435ae245bd042ecf59840b8acaa0f8646dbd7c0d688c.png"
+        },
+        {
+          "name": "Головоломщик Кадгар",
+          "cost": 6,
+          "attack": 5,
+          "health": 5,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "mage",
+          "score": 110,
+          "cardId": "TOY_373",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_373.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/10da9b7364e473e079a0149d8581f6d7b9882a9149b96045495c55d4e996e490.png"
+        },
+        {
+          "name": "Плюшевая тигрица",
+          "cost": 3,
+          "attack": 3,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "paladin",
+          "score": 110,
+          "cardId": "TOY_811",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_811.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1ce05a4e9bab31ee389f706e6081860032c8845a9bc569517ddff87a4890afb6.png"
+        },
+        {
+          "name": "Бронзовая стая",
+          "cost": 1,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "paladin",
+          "score": 110,
+          "cardId": "RLK_917",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_917.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ec2c2ac996b7631f0a1d2bc78bbef01165a5ca54b6d9932e626dea9cfefdf75d.png"
+        },
+        {
+          "name": "Игрушечный капитан Тарим",
+          "cost": 5,
+          "attack": 3,
+          "health": 7,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "paladin",
+          "score": 110,
+          "cardId": "TOY_813",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_813.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/607bd4eefbc59a3dd005eaf9e75d799deb4421f6bd34b19efb046d97c3dca6b8.png"
+        },
+        {
+          "name": "Веление Нептулона",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "shaman",
+          "score": 110,
+          "cardId": "TID_005",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TID_005.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3251223830549c0790075a8a03beb8ebaddd17f25bb2947895fca1f4b7ab06a3.png"
+        },
+        {
+          "name": "Предсказатель Нобундо",
+          "cost": 5,
+          "attack": 6,
+          "health": 4,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "shaman",
+          "score": 110,
+          "cardId": "GDB_447",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_447.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fa1557178387ee6c84fbc52e93bd65efa22e9a1e5ae1c6b0b8e0afe550edd61c.png"
+        },
+        {
+          "name": "Одеревенение",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "druid",
+          "score": 109,
+          "cardId": "YOP_026",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOP_026.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8b4dcd8a6fd889369084c0f917e47690e8b67ff2ea802771632e55799acba0d6.png"
+        },
+        {
+          "name": "Ритм и корни",
+          "cost": 4,
+          "rarity": "legendary",
+          "type": "spell",
+          "class": "druid",
+          "score": 109,
+          "cardId": "ETC_387",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_387.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e2b83ff6c55d0e4daf6ff19db3fa5c76a1c13d55463ff37bfbcc3a5b8c6e07d8.png"
+        },
+        {
+          "name": "Паучий клубок",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "hunter",
+          "score": 109,
+          "cardId": "WON_021",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_021.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/df736e576137bc7ab1358de823b00c1778bdcd2bd57fea89b09a350a18829d35.png"
         }
       ]
     },
@@ -468,9 +748,10 @@
           "cost": 3,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 99,
           "cardId": "GDB_478",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_478.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/75afc4059c7784ed8c53241dad120d15933bdc08b3e4479299bf1b7758ff0295.png"
         },
         {
@@ -483,6 +764,7 @@
           "class": "neutral",
           "score": 99,
           "cardId": "TOY_101",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_101.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a679c45259815ab3483a8dba22db0b2cd102046440178ce3405f7873060e405c.png"
         },
         {
@@ -495,6 +777,7 @@
           "class": "neutral",
           "score": 99,
           "cardId": "EDR_105",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_105.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e0c89daecdb6d0bbf6d497881cd0a5fd8cbd27d7b37a9264c5751eeae9eac8d5.png"
         },
         {
@@ -507,6 +790,7 @@
           "class": "neutral",
           "score": 99,
           "cardId": "EDR_102",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_102.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e4b97d0ccbe95074464dfe3d81c2f2d6776f8d18968f49dd7450db9ff93fb1b6.png"
         },
         {
@@ -516,9 +800,10 @@
           "health": 3,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 99,
           "cardId": "TOY_028",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_028.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/11407f89e939d8a304101c504b6155e6f0fc433270fbb2cda06cb4e1a44efe6d.png"
         },
         {
@@ -526,9 +811,10 @@
           "cost": 1,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 99,
           "cardId": "WW_818",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_818.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e2f66650cfa06f3736fac2e4dbf8eb13b9350b42435152f7c05ccf4c58aa3a6d.png"
         },
         {
@@ -538,9 +824,10 @@
           "health": 4,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 99,
           "cardId": "TTN_078",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_078.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/dfac91255f243fc37e8f6cb83e9229ac041d12576e9c3cde5c1e79e25900317b.png"
         },
         {
@@ -550,9 +837,10 @@
           "health": 2,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 99,
           "cardId": "RLK_821",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_821.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0ed5ee80d528e476edb63bc1caba8a1c1a1ea31881911a30a6e43a01ffd98385.png"
         },
         {
@@ -560,10 +848,24 @@
           "cost": 7,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 99,
           "cardId": "TLC_334",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_334.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c9242dbde7d720c991bc4ceb4040f657e76ae203fe290adb9b0a5e7f408e4cf8.png"
+        },
+        {
+          "name": "Заступник-чешуелом",
+          "cost": 6,
+          "attack": 3,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "paladin",
+          "score": 99,
+          "cardId": "CATA_475",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_475.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/70ecdb785b9bc1295238d68fe1ff8aafd2fe2c5a0112b8d33c4bd498f4d43866.png"
         },
         {
           "name": "Капитан-храмовник",
@@ -572,9 +874,10 @@
           "health": 8,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 99,
           "cardId": "AV_339",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_339.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/012761c5c124d8cbd9752957c11c6a55a6517fd42d9f5b7f73e97df4a013dfb9.png"
         },
         {
@@ -585,6 +888,7 @@
           "class": "neutral",
           "score": 99,
           "cardId": "DEEP_021",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_021.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/eb1b9d6d556323fb1194aef7e58873c683354f2ff55c38bbf0609487f8cc66c3.png"
         },
         {
@@ -592,9 +896,10 @@
           "cost": 4,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "rogue",
           "score": 99,
           "cardId": "MIS_903",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_903.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/03301cedcdd5b56a9b8b7599fcb836b6cc22f29e52f7272d321f83757c02648a.png"
         },
         {
@@ -604,9 +909,10 @@
           "health": 3,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 99,
           "cardId": "WON_073",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_073.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/975bba54013516259f71909a5b7c56e1e4255f7217c277db954c1651e430a7cc.png"
         },
         {
@@ -616,9 +922,10 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "shaman",
           "score": 99,
           "cardId": "GDB_901",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_901.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b8abaaf9f01545fa407862d1e30bb6d999c0e7ed928d2cd2c6f0d7fd9e04da50.png"
         },
         {
@@ -628,9 +935,10 @@
           "health": 2,
           "rarity": "epic",
           "type": "weapon",
-          "class": "neutral",
+          "class": "shaman",
           "score": 99,
           "cardId": "BT_102",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_102.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/92547af4a398d571283af3b5b346dff0c2345767a33d3a18079469e01a80bb52.png"
         },
         {
@@ -640,9 +948,10 @@
           "health": 1,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 98,
           "cardId": "ETC_209",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_209.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a8d77271691df7eafeded1a7e331d7f03f29882a735f34f9cc18d2e84d7edc18.png"
         },
         {
@@ -650,9 +959,10 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 98,
           "cardId": "EDR_814",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_814.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b1a6fbb439a804aebd0a88636ea321fa7753b1bc42510e4a566cc29d5f1ed301.png"
         },
         {
@@ -665,16 +975,44 @@
           "class": "neutral",
           "score": 98,
           "cardId": "VAC_702",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_702.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a6f5bb3284f29763609ce0089444725c639f4a47778ad97828f2a0b7f606409d.png"
+        },
+        {
+          "name": "Виктор Нефарий",
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "dk",
+          "score": 98,
+          "cardId": "CATA_470",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_470.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2db028614f227f98ff1822b1f5e936b8b2616227679efc9ff8802ab32b3d253a.png"
+        },
+        {
+          "name": "Бронированный кровопускатель",
+          "cost": 3,
+          "attack": 3,
+          "health": 1,
+          "rarity": "common",
+          "type": "minion",
+          "class": "dh",
+          "score": 98,
+          "cardId": "CATA_525",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_525.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/632bd3e68b6b2a4a5ac18471b47f8a2f68387f7b35e598c2b89592d282cf48c7.png"
         },
         {
           "name": "Лесные саженцы",
           "cost": 1,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 98,
           "cardId": "TTN_950",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_950.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1618be49159ee73d570ab58b4ec39576764445d7b84935d9f9e075a0c7e0559a.png"
         },
         {
@@ -682,9 +1020,10 @@
           "cost": 1,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "hunter",
           "score": 98,
           "cardId": "ETC_201",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_201.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6f72c55024627964ab18f24b75266bc3e34bf7e6f4dae37ab77b3771152413bf.png"
         },
         {
@@ -692,9 +1031,10 @@
           "cost": 5,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "paladin",
           "score": 98,
           "cardId": "BT_011",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_011.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4ab917917198fd0b602486dab6077fd2cc1b8ab1d6eeb219879c553b0c303da9.png"
         },
         {
@@ -704,9 +1044,10 @@
           "health": 4,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 98,
           "cardId": "EDR_256",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_256.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d48b46c69dd90aa96ea97caf32a29317b3f1191ac0200585697a9f269a307434.png"
         },
         {
@@ -716,9 +1057,10 @@
           "health": 4,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 98,
           "cardId": "TLC_522",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_522.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3820b43ebaac66bedc13ab395b939d44223551611e6a16cff421bd9cd7ae6ae0.png"
         },
         {
@@ -726,9 +1068,10 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "shaman",
           "score": 98,
           "cardId": "VAC_323",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_323.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a2c24969ad1ddc941e71bec6e53a81baf4ff500c255782e6a849c6191876c0d4.png"
         },
         {
@@ -738,9 +1081,10 @@
           "health": 2,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "shaman",
           "score": 98,
           "cardId": "AV_260",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_260.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1cad9cc787ed241cd958b095ad8f46ede2abe0225594493fa70d1f841dcd2df5.png"
         },
         {
@@ -750,9 +1094,10 @@
           "health": 4,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "warrior",
           "score": 98,
           "cardId": "REV_332",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_332.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/71b89d2638e179b5742ca9553fdce1be8f7a67d688e788ab53b41a27c8c3ddbb.png"
         },
         {
@@ -760,20 +1105,37 @@
           "cost": 1,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "warrior",
           "score": 98,
           "cardId": "SCH_237",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_237.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c857c889a64102f47d75cfe9cbf121186ac35f994cf52dfe4ac0d1cff67a298f.png"
         },
         {
           "name": "Временной великан",
-          "cost": 0,
+          "cost": 10,
+          "attack": 8,
+          "health": 8,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
           "score": 97,
-          "cardId": null,
+          "cardId": "TOT_110",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOT_110.webp",
           "imageRu": null
+        },
+        {
+          "name": "Дракончик-носильщик",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 97,
+          "cardId": "CATA_556",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1c84af4fa4cf378e85d193cf551a1133e0efc9e75cd12ff55b470033ea17ef9d.png"
         },
         {
           "name": "Гематург",
@@ -782,22 +1144,24 @@
           "health": 3,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 97,
           "cardId": "RLK_066",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_066.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9da1c7202456694a80f1208527ca12cc3f50144bb399632e5484df402f7281d0.png"
         },
         {
           "name": "Дорнозму",
-          "cost": 8,
-          "attack": 8,
-          "health": 8,
+          "cost": 7,
+          "attack": 6,
+          "health": 6,
           "rarity": "legendary",
           "type": "minion",
           "class": "neutral",
           "score": 97,
-          "cardId": "DRG_090",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/63a2767a8ee7eb96de398620cda8c587b9c380d1d845dff57a00ecba62a96169.png"
+          "cardId": "TOT_332",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOT_332.webp",
+          "imageRu": null
         },
         {
           "name": "Наблюдатель в бочке",
@@ -806,9 +1170,10 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 97,
           "cardId": "DED_507",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_507.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b276e0b2a09a6c42cd29ef27297099e769b41076c4b7124bed50c2f00121f137.png"
         },
         {
@@ -818,9 +1183,10 @@
           "health": 7,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 97,
           "cardId": "TSC_609",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_609.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0b323e3f9e2bd0c2f666185a19887b73494b3e49270e61b2673c978ef8fb0ddd.png"
         },
         {
@@ -828,9 +1194,10 @@
           "cost": 4,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 97,
           "cardId": "GDB_883",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_883.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1ebde88ac891b868128e287a89e93505eb3524300349389ecae70c8a99134170.png"
         },
         {
@@ -840,9 +1207,10 @@
           "health": 3,
           "rarity": "common",
           "type": "weapon",
-          "class": "neutral",
+          "class": "hunter",
           "score": 97,
           "cardId": "TOY_358",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_358.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c1dd23ed01afc0da6fc6c7260ea3d9c3840f5bdfa32b506ea068aed582053246.png"
         },
         {
@@ -850,9 +1218,10 @@
           "cost": 4,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 97,
           "cardId": "REV_505",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_505.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c7f49d83a1b3516cba4316abd475fd494f1e356c29e972e07a31ede35a0231ca.png"
         },
         {
@@ -860,19 +1229,21 @@
           "cost": 2,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 97,
           "cardId": "RLK_546",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_546.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d115cf1a2ab545cc43eb53effd7455256d140d031427f533b31856e8f78203a2.png"
         },
         {
           "name": "Аура Меггакрута",
-          "cost": 0,
+          "cost": 5,
           "rarity": "common",
-          "type": "minion",
-          "class": "neutral",
+          "type": "spell",
+          "class": "paladin",
           "score": 97,
-          "cardId": null,
+          "cardId": "TIME_009t2",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_009t2.webp",
           "imageRu": null
         },
         {
@@ -882,9 +1253,10 @@
           "health": 3,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 97,
           "cardId": "TLC_240",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_240.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f1147472d6eba420dd90754f4db00f4016129e615c0e452b175c0e4c92db5c0f.png"
         },
         {
@@ -894,9 +1266,10 @@
           "health": 7,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 97,
           "cardId": "AV_340",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_340.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/51c4edfb7508330af97c1a8a229f7dcdfafd15ce0305fabd19b4f77899b0035f.png"
         },
         {
@@ -906,10 +1279,205 @@
           "health": 5,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "priest",
           "score": 97,
-          "cardId": "CORE_AV_328",
+          "cardId": "AV_328",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_328.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/67865ec06a68cb008954dc071c6d0261b523b3d0a561413dcc6368d283e803a9.png"
+        },
+        {
+          "name": "Тенелист-колонист",
+          "cost": 4,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "priest",
+          "score": 97,
+          "cardId": "WW_393",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_393.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5ae0141dc728384d3a770e365fe0fff58e6b4415145248d98eedf36c1018bbc5.png"
+        },
+        {
+          "name": "Негодяй ЗЛА",
+          "cost": 3,
+          "attack": 1,
+          "health": 5,
+          "rarity": "common",
+          "type": "minion",
+          "class": "rogue",
+          "score": 97,
+          "cardId": "DAL_415",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DAL_415.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/20fd3472f5e9a51d423cc8e03e86e70d1784417f67cfe95fadf0bf4fec0d0752.png"
+        },
+        {
+          "name": "Кошмарное топливо",
+          "cost": 1,
+          "rarity": "common",
+          "type": "spell",
+          "class": "rogue",
+          "score": 97,
+          "cardId": "EDR_528",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_528.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2d14833970040351d185f0517f76a0bb5164a56050b0ead4ccd628711be63251.png"
+        },
+        {
+          "name": "Зуб Нефариана",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "rogue",
+          "score": 97,
+          "cardId": "ONY_032",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_032.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6bfffc8700a8927619998f0df86f84cfeb2fa8ff023f1fdd16559bd0804cc71a.png"
+        },
+        {
+          "name": "Королевский молот",
+          "cost": 6,
+          "attack": 3,
+          "health": 4,
+          "rarity": "common",
+          "type": "weapon",
+          "class": "shaman",
+          "score": 97,
+          "cardId": "TIME_209t",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_209t.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Молот ремесленника",
+          "cost": 4,
+          "attack": 3,
+          "health": 3,
+          "rarity": "common",
+          "type": "weapon",
+          "class": "warrior",
+          "score": 97,
+          "cardId": "TTN_467",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_467.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/49e14916119d523e6952ff4a4c1998833f765e0292362b739fd175f3715b59b8.png"
+        },
+        {
+          "name": "Судьбокол",
+          "cost": 4,
+          "attack": 3,
+          "health": 2,
+          "rarity": "common",
+          "type": "weapon",
+          "class": "warrior",
+          "score": 97,
+          "cardId": "TOT_342",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOT_342.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Обсидиановый загробник",
+          "cost": 6,
+          "attack": 4,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 96,
+          "cardId": "DEEP_005",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_005.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d85f4d286cdae445a1572a05a0e0f167f4a2afd01cabaad57f75c5dfa6b645c0.png"
+        },
+        {
+          "name": "Составной голем",
+          "cost": 5,
+          "attack": 6,
+          "health": 3,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 96,
+          "cardId": "MIS_314",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_314.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c7d05a32a446370f7da35ec0c5adf9eb797627578a55d977e8e59f46ad1a12b5.png"
+        },
+        {
+          "name": "Безликая осквернительница",
+          "cost": 5,
+          "attack": 5,
+          "health": 4,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 96,
+          "cardId": "DRG_076",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DRG_076.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a5f5016fa2293a12296b086ed5124ef8437e619e44163f37e2459219a4319fb0.png"
+        },
+        {
+          "name": "Стражи гробницы",
+          "cost": 4,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "dk",
+          "score": 96,
+          "cardId": "RLK_118",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_118.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a841d87459a45bc81e74e1faa5773c68ec7f0b8e33fa65e026c3c38eb9d1305f.png"
+        },
+        {
+          "name": "Эхо прошлого",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "neutral",
+          "score": 96,
+          "cardId": "END_005",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_005.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3465dafc7361ebc11226931137a8a8672f427b2daffb71855f4a96997279d518.png"
+        },
+        {
+          "name": "Неутомимый страж гнева",
+          "cost": 3,
+          "attack": 4,
+          "health": 2,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 96,
+          "cardId": "GDB_132",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_132.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ef76c26a34409b227238cc2b79947351e853f62a94cd188d9f1df37963ec712c.png"
+        },
+        {
+          "name": "Лоскутик",
+          "cost": 7,
+          "attack": 4,
+          "health": 6,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "dk",
+          "score": 96,
+          "cardId": "RLK_071",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_071.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/73de9d91702bf30fb744df6fdde06e7f3a1d630103e8be702671ec780829fedd.png"
+        },
+        {
+          "name": "Солнечный Колодец",
+          "cost": 9,
+          "rarity": "legendary",
+          "type": "spell",
+          "class": "neutral",
+          "score": 96,
+          "cardId": "RLK_590",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_590.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/7cdc0ce77d42cca5bed8c222cf3f2feb141fe5c76d668dfe3f1ecf2eb9023e76.png"
+        },
+        {
+          "name": "Дыхание снов",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "druid",
+          "score": 96,
+          "cardId": "DRG_318",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DRG_318.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d11b0d73350d2277badc3d89beb7ec63043cd42d59f1012f435b8e5cfadcaad5.png"
         }
       ]
     },
@@ -927,6 +1495,7 @@
           "class": "neutral",
           "score": 89,
           "cardId": "TLC_468",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_468.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4f952db0fdd3d58b4f7425b9f0616be7ead1d4c6de43dcd62247926814a2fdbf.png"
         },
         {
@@ -936,9 +1505,10 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 89,
           "cardId": "RLK_708",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_708.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a9892bb5cfdd2d91a726d617cd119a8e493257a6c39ae6d576e51d8be4566419.png"
         },
         {
@@ -948,19 +1518,21 @@
           "health": 1,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 89,
           "cardId": "TIME_613",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_613.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8d2cb35e3092088438b7d79b3c6f0ca92c3279fbfeab8a124a699f8beae8b44d.png"
         },
         {
           "name": "Что стало с Зандаларом",
-          "cost": 0,
+          "cost": 3,
           "rarity": "common",
-          "type": "minion",
-          "class": "neutral",
+          "type": "spell",
+          "class": "dk",
           "score": 89,
-          "cardId": null,
+          "cardId": "TIME_619t2",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619t2.webp",
           "imageRu": null
         },
         {
@@ -973,6 +1545,7 @@
           "class": "neutral",
           "score": 89,
           "cardId": "WW_827",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_827.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9e4afda3b5763790f4fdeea3ff059601449c7d383319a6a2541d55b06b2f4965.png"
         },
         {
@@ -985,6 +1558,7 @@
           "class": "neutral",
           "score": 89,
           "cardId": "TSC_002",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_002.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/281e0fb3f8af68d9c8ef672916f1203f55d89a32dcc5b4e899acc10c357ec56c.png"
         },
         {
@@ -994,9 +1568,10 @@
           "health": 2,
           "rarity": "common",
           "type": "weapon",
-          "class": "neutral",
+          "class": "dh",
           "score": 89,
           "cardId": "TIME_444",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_444.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ff8cc083d631d4b5f6e6c1a22e81a4d5c3f0ff0d75ca9ed39c95953e6db0005c.png"
         },
         {
@@ -1009,6 +1584,7 @@
           "class": "neutral",
           "score": 89,
           "cardId": "END_008",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_008.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5808fd568ab7c9f1f2edf98464477d9f08e09bfc265a3358560b57657115712e.png"
         },
         {
@@ -1018,9 +1594,10 @@
           "health": 8,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 89,
           "cardId": "EDR_209",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_209.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9504cbb100c284f84cbed9be206e7f011dd003ce712f17724866cfd647ac85a4.png"
         },
         {
@@ -1030,9 +1607,10 @@
           "health": 3,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 89,
-          "cardId": "LEG_CS3_015",
+          "cardId": "CS3_015",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS3_015.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a0ece292820e18476628ae35c1003802df5603cf92591a402f7191972c501c32.png"
         },
         {
@@ -1040,9 +1618,10 @@
           "cost": 3,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 89,
           "cardId": "TTN_477",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_477.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/50125918103000fee72034d2f5afe377a52ccd2493f03208e13e88755adcc69f.png"
         },
         {
@@ -1050,20 +1629,22 @@
           "cost": 6,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 89,
           "cardId": "UNG_955",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_955.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/95092c239e324130a2dee626848dddbaa948b49b9c34fdebbe476009578e8e55.png"
         },
         {
           "name": "Освящение",
-          "cost": 4,
-          "rarity": "free",
+          "cost": 3,
+          "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "paladin",
           "score": 89,
-          "cardId": "VAN_CS2_093",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8bf84b65fd362f10c198f492f6b8c7eaa4b0912ef9afc7ec62c133bbf5720d89.png"
+          "cardId": "CS2_093",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS2_093.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/578670b1aef9013af423b0e3b0990d47994480a8e54bfe9dff0fab8e75739223.png"
         },
         {
           "name": "Хранитель Ульдамана",
@@ -1072,9 +1653,10 @@
           "health": 4,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 89,
           "cardId": "WON_311",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_311.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/82eaff5f21a3c23e4b7935ec2a68ec721dee594965e2077e2309deea0be8f653.png"
         },
         {
@@ -1082,9 +1664,10 @@
           "cost": 1,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "paladin",
           "score": 89,
           "cardId": "VAC_916",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_916.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a714e4194ca913c10e8be878005885dee7446140302ddd9057eaa85cf2582422.png"
         },
         {
@@ -1092,19 +1675,34 @@
           "cost": 1,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "shaman",
           "score": 89,
           "cardId": "TOY_508",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_508.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e2ae3cb4bcd39e3de0a28122a333d11ff7892659df3dd955ba420cea7fb6fb84.png"
+        },
+        {
+          "name": "Страж Небесной выси",
+          "cost": 2,
+          "attack": 0,
+          "health": 3,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "shaman",
+          "score": 89,
+          "cardId": "CATA_565",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_565.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/51e3e43f9463c30c28ff815e4e7a27c7c170e7032dc24612cb11ffaec8c78841.png"
         },
         {
           "name": "«Здоровый» напиток",
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "warlock",
           "score": 89,
           "cardId": "VAC_951",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_951.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/aeacd6461f4e659dd2b4d09d4f8f83d0995f2856d26a8bf15fed0d0fe87d9e93.png"
         },
         {
@@ -1114,9 +1712,10 @@
           "health": 6,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "warlock",
           "score": 89,
           "cardId": "TOY_524",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_524.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ab58d9453c6dad22c1c4997dc1821564ff09b73459f4b06156df57c67ae73477.png"
         },
         {
@@ -1124,9 +1723,10 @@
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "warrior",
           "score": 89,
           "cardId": "VAC_528",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_528.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a6837bbe978869f89d1c492cd6be949d8baebba5a4bf7c645e413e1828adb688.png"
         },
         {
@@ -1139,7 +1739,21 @@
           "class": "neutral",
           "score": 88,
           "cardId": "GDB_874",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_874.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/811e126a75cc0aee6ef0950da2cc48b4e49834c36714a195dd98ed1ec49630fa.png"
+        },
+        {
+          "name": "Глашатай конца времен",
+          "cost": 5,
+          "attack": 5,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 88,
+          "cardId": "CATA_722",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3d77d3097ae97241de654de409573b5a242deb9f0dcfd1b9391c86aa662b1173.png"
         },
         {
           "name": "Зазубренное лезвие времени",
@@ -1151,6 +1765,7 @@
           "class": "neutral",
           "score": 88,
           "cardId": "END_001",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_001.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2102ad1872c99fb6de5a2b0e60f151e2ccebd4b8f2ada73cb768f7ed49363aff.png"
         },
         {
@@ -1160,9 +1775,10 @@
           "health": 7,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 88,
           "cardId": "GDB_468",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_468.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fd235651b4ae36fe44301cf7b8d3c1c0eea58495dc1ca76e7221ac095ab1902b.png"
         },
         {
@@ -1175,6 +1791,7 @@
           "class": "neutral",
           "score": 88,
           "cardId": "EDR_856",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_856.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6aaec1e1d1d28d011b70af2aef10fc69160567e20d90bf53bff562fda5153449.png"
         },
         {
@@ -1184,9 +1801,10 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 88,
           "cardId": "WC_701",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WC_701.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bd56c6aa1c532afbf3dd9d9c5a6b013c7361f812ef0af52daef8f6eda9d2b921.png"
         },
         {
@@ -1196,10 +1814,22 @@
           "health": 4,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 88,
           "cardId": "FIR_952",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_952.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/687c485dd20e00f98af920939f24841434f03776b90658174ec0d7476f569b11.png"
+        },
+        {
+          "name": "Череп Гул'дана",
+          "cost": 6,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "dh",
+          "score": 88,
+          "cardId": "BT_601",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_601.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/adca9d91c1fafdb81dc17bea971ed232c7f3bf31095e1f283fcc0c108e6b54b8.png"
         },
         {
           "name": "Омен",
@@ -1208,9 +1838,10 @@
           "health": 12,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 88,
           "cardId": "EDR_421",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_421.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9e6f56c5482efbe7b04d79715a2b56d392307a25b25dcfc7dd94d39f5f49e17d.png"
         },
         {
@@ -1220,9 +1851,10 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 88,
           "cardId": "YOG_403",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_403.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e83bff3b68fb922c2b883f5ffe36cf7e193d0f1cc36c2073789a5b9b23e35c0c.png"
         },
         {
@@ -1230,9 +1862,10 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 88,
           "cardId": "REV_307",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_307.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/258f1d2ef9ba66f05cbe01ab12b8b47915693b19e1460ef1967ee58e64a461b9.png"
         },
         {
@@ -1240,9 +1873,10 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "hunter",
           "score": 88,
           "cardId": "REV_350",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_350.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/eed6acae7f536a5ae0325f18bf0fa1294122df41c5b235d43ffd9eb6ecca4857.png"
         },
         {
@@ -1252,9 +1886,10 @@
           "health": 5,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 88,
           "cardId": "REV_352",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_352.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/91706ffb4a7d1f5174dbffae0633f20c6b058fa166747cdbf31c1d7d7bef46db.png"
         },
         {
@@ -1264,29 +1899,32 @@
           "health": 5,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 88,
           "cardId": "WON_052",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_052.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bc0872549f1bd84674610b342c0573d2f7e99376f1614a79830b494b2132bf53.png"
         },
         {
           "name": "Кольцо света",
-          "cost": 5,
-          "rarity": "free",
+          "cost": 3,
+          "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "priest",
           "score": 88,
-          "cardId": "VAN_CS1_112",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4b3813f8d440e9e75d49a3369b8f86c1683c9f2b3f1c410af8620b6713d4d6cf.png"
+          "cardId": "CS1_112",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS1_112.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5c7650c5069352dfac4e010f6699badba5e3fedb8f574223b8889f699e596d35.png"
         },
         {
           "name": "Горячие угли",
           "cost": 3,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "priest",
           "score": 88,
           "cardId": "VAC_414",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_414.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0bb6bb95a48259596b9295e8dbe8873fb418acfb6d6b6cd29865ec634ccec30f.png"
         },
         {
@@ -1296,9 +1934,10 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "priest",
           "score": 88,
           "cardId": "RLK_845",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_845.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/45702460b72eaafef7acf85f4bb60ec41586ececde433c8ea063e5ead21f00cf.png"
         },
         {
@@ -1308,9 +1947,10 @@
           "health": 3,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 88,
           "cardId": "VAC_701",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_701.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3de61d5f765ac5d0dc69abc66d68b045bf807b5212ca135378e037f78a4d1074.png"
         },
         {
@@ -1320,9 +1960,10 @@
           "health": 4,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "warlock",
           "score": 88,
           "cardId": "FP1_022",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FP1_022.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/49360afad3506a06eb9e755392d83d256cee3df5b8cd0e0ed3ef8fd83e71a691.png"
         },
         {
@@ -1332,9 +1973,10 @@
           "health": 2,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "warrior",
           "score": 88,
           "cardId": "TTN_469",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_469.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5e7639da0d17deaa85ce1440a9e86a64e04a38cbbbe9676a1794f6b490535c22.png"
         },
         {
@@ -1344,9 +1986,10 @@
           "health": 6,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 87,
           "cardId": "RLK_720",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_720.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/09435f96f39680156ae6e121d418e590299263742520fa6f8ceefc140d762e5f.png"
         },
         {
@@ -1359,6 +2002,7 @@
           "class": "neutral",
           "score": 87,
           "cardId": "SCH_160",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_160.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a4629661094a8f37abe724b59a5b9aee603d6673579c1e9961a74a7f7ef02d6b.png"
         },
         {
@@ -1371,7 +2015,209 @@
           "class": "neutral",
           "score": 87,
           "cardId": "TOY_386",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_386.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/85899d55beefd4981987d57097054a302c2a124fd5425e49af8eeb90e9e1f94d.png"
+        },
+        {
+          "name": "Истерзанный грознокрыл",
+          "cost": 5,
+          "attack": 5,
+          "health": 5,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 87,
+          "cardId": "EDR_572",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_572.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8ea8490f913c9f5f2b0cac181e8a6569b09ca86bc8b615a6021b8e863f72e98e.png"
+        },
+        {
+          "name": "Иллюзорный зеленокрыл",
+          "cost": 4,
+          "attack": 4,
+          "health": 5,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 87,
+          "cardId": "EDR_260",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_260.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d04edb4cfd1156955883699555af5e9ec05531a38f5b8e244f2d7145f63a0652.png"
+        },
+        {
+          "name": "Закрепление успеха",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "neutral",
+          "score": 87,
+          "cardId": "END_007",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_007.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bce6ee56cf9bf3dbf1ceb589fc0e18a75325c734435ede65fa1a738432157ea4.png"
+        },
+        {
+          "name": "Продавец духов",
+          "cost": 6,
+          "attack": 6,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "dh",
+          "score": 87,
+          "cardId": "WORK_015",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WORK_015.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/93c9690abf8e58103fabc741c99180aee4aa632adefd1633401abe34b3f0932a.png"
+        },
+        {
+          "name": "Крылья мрака",
+          "cost": 2,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "weapon",
+          "class": "dh",
+          "score": 87,
+          "cardId": "BT_922",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_922.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ba3c364eb264ca4ac887c6280554f4fcaeef3b64cce35b0751a42964508bb9c6.png"
+        },
+        {
+          "name": "Кавер на рапсодию",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "dh",
+          "score": 87,
+          "cardId": "JAM_018",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_018.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2a78e0909f60678663b8c8109546c8b214ccdc48fd3de983c0aa44f41e2ba5f3.png"
+        },
+        {
+          "name": "Дремлющий дракон",
+          "cost": 3,
+          "attack": 3,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "druid",
+          "score": 87,
+          "cardId": "YOP_025",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOP_025.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/19bc7d57d7d2c3e08947c19666b859a78b8e32b05b54c3e03ab5af4d25f301b5.png"
+        },
+        {
+          "name": "Природоведение",
+          "cost": 1,
+          "rarity": "common",
+          "type": "spell",
+          "class": "druid",
+          "score": 87,
+          "cardId": "SCH_333",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_333.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/57d7e8c5ae72f55708e346b69041450f90ba3861ef49e7dba7cba76571845de1.png"
+        },
+        {
+          "name": "Мшистые узы",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "druid",
+          "score": 87,
+          "cardId": "CATA_135",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_135.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/036bdefe2b7f1771a5070b8d9ed0af369e88449275213b995805046736731c15.png"
+        },
+        {
+          "name": "Встречи с пришельцами",
+          "cost": 5,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "hunter",
+          "score": 87,
+          "cardId": "GDB_237",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_237.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/aeb9de2205fc4d39f85357d60677a6e0073bc862d07ea92fa92d274754f567b2.png"
+        },
+        {
+          "name": "Верховный маг в беде",
+          "cost": 3,
+          "attack": 3,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "mage",
+          "score": 87,
+          "cardId": "VAC_435",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_435.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/62bc0c0b07bbce4087d5cca05213e75a7d61544f69926db06ab01ecdfff279b2.png"
+        },
+        {
+          "name": "Зелье драконьего огня",
+          "cost": 5,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "priest",
+          "score": 87,
+          "cardId": "CFM_662",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CFM_662.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/01362441b415b9a9e3dd57073331a757e8efcfc5cc27033d111fb6e937aca515.png"
+        },
+        {
+          "name": "Золото дураков",
+          "cost": 1,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "rogue",
+          "score": 87,
+          "cardId": "DEEP_022",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_022.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/34e35759e68e592457640c19dd81b84c62fe0e87b9d91aac86df22f548ce9ce5.png"
+        },
+        {
+          "name": "Игра в наперстки",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "rogue",
+          "score": 87,
+          "cardId": "WW_416",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_416.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d362b83484737be29001e5b683bf3176478cca93f1045b693985dc2369dfa1b6.png"
+        },
+        {
+          "name": "Шоковый прыгун",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "shaman",
+          "score": 87,
+          "cardId": "YOG_524",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_524.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/71e4a2688c6d970ea4495063c61ce2c83fdc65ecb9c6c981f2bc36922f9de678.png"
+        },
+        {
+          "name": "Морозный ветер",
+          "cost": 1,
+          "rarity": "common",
+          "type": "spell",
+          "class": "shaman",
+          "score": 87,
+          "cardId": "AV_266",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_266.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4a7f0e628ef45d0a45544d5c9578c8246d75fb333129f00db874460e5a3e1027.png"
+        },
+        {
+          "name": "Темная бомба",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "warlock",
+          "score": 87,
+          "cardId": "WON_095",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_095.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1a9c19c4886227ef7d01ae3c4047cddf30b114cff714c6934b05294e1d567140.png"
         }
       ]
     },
@@ -1384,9 +2230,10 @@
           "cost": 3,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 79,
           "cardId": "RLK_087",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_087.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9656960384fcec28a3464100e48cd306a76a0f27bfbd20c0fc6b80e4166f6cd6.png"
         },
         {
@@ -1394,9 +2241,10 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 79,
           "cardId": "RLK_057",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_057.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a3ca118bd57fd7a6206e5ddfb931807b064bd29d2e3036f6e68c16346f1ab06b.png"
         },
         {
@@ -1409,6 +2257,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "ETC_088",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_088.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ce0d22e4fd7b7b417da9684fa4129e861b5dc7579d9a625b415a8a49744ef006.png"
         },
         {
@@ -1416,9 +2265,10 @@
           "cost": 4,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 79,
           "cardId": "VAC_445",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_445.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f2ce908e66e1114b6a2e2f5e24a79ddbc4671a2371d57e562972694156dda6d0.png"
         },
         {
@@ -1431,6 +2281,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "VAC_946",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_946.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0d5eef8e21d8bfddcbe01195efdfd2819b9efbd79e8150235b92848fd659de6b.png"
         },
         {
@@ -1443,6 +2294,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "BT_720",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_720.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/47b449fa0647f992b58c4aae0a245d2eb537eedb80f163bc03754f8ee9c28e40.png"
         },
         {
@@ -1455,6 +2307,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "TSC_017",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_017.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/de3417202e603a0d018db6d53201ada1dfeda9ceaede6816bcc25b8ecba3b77e.png"
         },
         {
@@ -1467,6 +2320,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "TTN_715",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_715.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/28f28e78249f6bb66086e6d4bc93340cc19093f0c95cc57f2e77ad7bf599ebe9.png"
         },
         {
@@ -1479,6 +2333,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "SW_065",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_065.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0eb8991f3845111dbe72279815c37f743b4ee3574810946ba85557af9650fb4a.png"
         },
         {
@@ -1491,6 +2346,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "REV_957",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_957.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5f35dee06c1d65956c4ff5bd6a142d85adc41497e916a6ed8eebe038603dc22a.png"
         },
         {
@@ -1500,10 +2356,24 @@
           "health": 4,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "dk",
           "score": 79,
           "cardId": "DINO_416",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_416.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fbd3a192c27afecc20bcd721297e09d88bf6eae87d49702b1f1e82315cbc571f.png"
+        },
+        {
+          "name": "Гронн-великан",
+          "cost": 9,
+          "attack": 8,
+          "health": 8,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "neutral",
+          "score": 79,
+          "cardId": "CATA_616",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_616.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1dfd2be791b93b5fa85b333580119e2a78de5cf16b207bd3444136deb86fefc2.png"
         },
         {
           "name": "Вестница гибели Умбра",
@@ -1515,6 +2385,7 @@
           "class": "neutral",
           "score": 79,
           "cardId": "TLC_106",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_106.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bac9c9cf8a950fa46389e2aae1c3984273dba2be6b31dd2d8e2741aaad30b2a5.png"
         },
         {
@@ -1522,19 +2393,21 @@
           "cost": 3,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "dh",
           "score": 79,
-          "cardId": "CORE_BT_801",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fab8bafb64d97e400508019fec30af848d7dd8a20a49308e4d2cd0b12866f9d7.png"
+          "cardId": "BT_801",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_801.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2b987d5795bc7fe47b4afb4a829815a8e4f6a8348204256686e050611117c7cc.png"
         },
         {
           "name": "Окуривание",
           "cost": 2,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "dh",
           "score": 79,
           "cardId": "TLC_901",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_901.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9003e519149b88c40134fb77aeb113f32ffa892fe8283129d6de51edb66ac52a.png"
         },
         {
@@ -1544,9 +2417,10 @@
           "health": 10,
           "rarity": "epic",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 79,
           "cardId": "TTN_866",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_866.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/105309dc45fc38bacdaa2aa4710dbad2963dec2eb9c6e4da805d2e2b592a387f.png"
         },
         {
@@ -1556,9 +2430,10 @@
           "health": 7,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 79,
           "cardId": "VAC_950",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_950.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/30582d011e0fc25a9bf74c3a43253f4a12b8862315a72a1b5c2020a9a537acec.png"
         },
         {
@@ -1566,9 +2441,10 @@
           "cost": 1,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 79,
           "cardId": "GIFT_10",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GIFT_10.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2e807d96c10d81e8cc7b3f0f131d05563f85439cfcb47ac14572b5895ed260b2.png"
         },
         {
@@ -1578,10 +2454,24 @@
           "health": 7,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 79,
           "cardId": "WORK_019",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WORK_019.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/647011eec6c7ee13cd173cebd20ff38f7d7a0f9b46aa538208d528d3c5c31908.png"
+        },
+        {
+          "name": "Командир подкрепления",
+          "cost": 1,
+          "attack": 2,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "hunter",
+          "score": 79,
+          "cardId": "CATA_558",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_558.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/100764c06b4f77cf5ccc3d836674506fd1a270c766234f89e2bd788565cee589.png"
         },
         {
           "name": "Темная гончая",
@@ -1590,9 +2480,10 @@
           "health": 5,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "hunter",
           "score": 79,
           "cardId": "MAW_009",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MAW_009.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5ce3e106bf678e21dd6e6b2f77d5b5842060e1ff9db2eac44d7ddf6997ce54d8.png"
         },
         {
@@ -1600,9 +2491,10 @@
           "cost": 2,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 79,
           "cardId": "FIR_911",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_911.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3e65c02f431414b6b426908dbba939335f12803b41c012eb68fa663347034e16.png"
         },
         {
@@ -1612,9 +2504,10 @@
           "health": 8,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "mage",
           "score": 79,
           "cardId": "BAR_547",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_547.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ff8193a60c6f52a69c0c08e6d6d3a3752cc7b51f4460e7104c7c42f377bc854b.png"
         },
         {
@@ -1624,9 +2517,10 @@
           "health": 4,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 79,
           "cardId": "VAC_333",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_333.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/56fdf4d210fc64718c360fdf3eb47bebd305979c2c51324aab5e0e41c642c7a8.png"
         },
         {
@@ -1636,9 +2530,10 @@
           "health": 2,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 79,
           "cardId": "WORK_006",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WORK_006.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1857c1f1dbb58e9d07be7f775a450dfc2f441d8694f53f8766eb5aeb55a7101d.png"
         },
         {
@@ -1646,9 +2541,10 @@
           "cost": 6,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "shaman",
           "score": 79,
           "cardId": "GDB_445",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_445.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3d86b949bfc86057be9a22fa0931d4b31eb95120bb4fbf5b10f73b5b78802a55.png"
         },
         {
@@ -1656,9 +2552,10 @@
           "cost": 1,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "warlock",
           "score": 79,
           "cardId": "TTN_932",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_932.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f4649768679a9654672a83de97dbd03e9a912266de09f2f29de6fa64089c5a7f.png"
         },
         {
@@ -1666,9 +2563,10 @@
           "cost": 2,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "warrior",
           "score": 79,
           "cardId": "RLK_960",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_960.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/70e757b217f94a8dfc3b6034aa64506f0bcc0ce713eb1740d7f46393aa331990.png"
         },
         {
@@ -1676,10 +2574,24 @@
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "warrior",
           "score": 79,
           "cardId": "EDR_455",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_455.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9781cfe32a3cc06424ffaf81fdd2920fb5f1b0e611e8a7908aee9f2c5d5e9895.png"
+        },
+        {
+          "name": "Бронзовый хранитель",
+          "cost": 8,
+          "attack": 3,
+          "health": 7,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 78,
+          "cardId": "CATA_476",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_476.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e5eacda8ca015f413c42f5b3db622cd4c6076fd2f06efc7f80f9f50da786fa5f.png"
         },
         {
           "name": "Демонтаж-бот",
@@ -1691,6 +2603,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "TTN_860",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_860.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6ef4f6de33fb08206f1cadf111d6419787f01b79abe15c01827243d0ad4cc4e9.png"
         },
         {
@@ -1703,6 +2616,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "BT_717",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_717.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8fc105c8f1a450bf56417ff68402bb63b2b8b4d68231ea1c155b8de8d4247199.png"
         },
         {
@@ -1715,6 +2629,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "ETC_103",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_103.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c75ffe36a1364fd72fd9cddc7b2ddca456d93cbbb56097eae3d8ff945fcb54c1.png"
         },
         {
@@ -1727,6 +2642,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "ETC_350",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_350.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/89c5c6b1a576e9cd240dad0d16147b803cc3a7bf19ec278abb3876249e5596c7.png"
         },
         {
@@ -1739,6 +2655,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "TSC_827",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_827.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/742790cab031965740c6680734526d8110a4978529797f6deba49c22309a1c43.png"
         },
         {
@@ -1751,6 +2668,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "ULD_309",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ULD_309.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3158a0e2db135b605b6b9e8536c2340f60c2fc6742df41e2a66cabbf8cbee3d2.png"
         },
         {
@@ -1763,6 +2681,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "RLK_970",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_970.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/49f8e05a7309b5df6ca9bff1af1f4f5206a411003415fa82b5a9e753f1702726.png"
         },
         {
@@ -1775,6 +2694,7 @@
           "class": "neutral",
           "score": 78,
           "cardId": "GDB_145",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_145.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b690be2154c813ea5f0f1910e343712cc915c0f9c7f720c9656fd7c55b5a8b88.png"
         },
         {
@@ -1784,9 +2704,10 @@
           "health": 6,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 78,
           "cardId": "DMF_226",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_226.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4cce30099e969c7ab2e6e937e2ff3c50b811509d5499607bdfb7885a9cb50ed0.png"
         },
         {
@@ -1794,9 +2715,10 @@
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "dh",
           "score": 78,
           "cardId": "VAC_928",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_928.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f9de5a441c3938516ba3a8f33d8c69c575e7f71b36c4ee8f607d86392bab361f.png"
         },
         {
@@ -1806,9 +2728,10 @@
           "health": 4,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "mage",
           "score": 78,
           "cardId": "YOG_519",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_519.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cb070dd3d9b20b9a72992cb097e2db17d233209e76c12f6f36baa4eefc467e7f.png"
         },
         {
@@ -1818,10 +2741,11 @@
           "health": 2,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "paladin",
           "score": 78,
-          "cardId": "CORE_CFM_753",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/822304b4a124d675e560fca17f168745f0b8bfcb0ba7183be5dd0a1aa5bcfd7c.png"
+          "cardId": "CFM_753",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CFM_753.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8cc437107cd09aa4371f5f58923b74bf6f542b6d1d5f5f6b68930cd8acef535e.png"
         },
         {
           "name": "Веселый Роджер",
@@ -1830,10 +2754,218 @@
           "health": 3,
           "rarity": "common",
           "type": "minion",
-          "class": "neutral",
+          "class": "rogue",
           "score": 78,
           "cardId": "NX2_006",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/NX2_006.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2f522e268e203620fa8d5552e88f79c1cc2a8b3407f1fbcffc382d79271b17f6.png"
+        },
+        {
+          "name": "Пират-пройдоха",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "rogue",
+          "score": 78,
+          "cardId": "KAR_069",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/KAR_069.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2289558dee4e2cf0450700a53fb137bb99f308f99aa08a3381ced7eee744ba53.png"
+        },
+        {
+          "name": "Вульпера-токсиколог",
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
+          "rarity": "common",
+          "type": "minion",
+          "class": "rogue",
+          "score": 78,
+          "cardId": "SCH_519",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_519.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/126585e7e1f1bcf5fbe45b68e051c70b1c699b02bba731dfb1f97cb324a41c23.png"
+        },
+        {
+          "name": "Головокружение",
+          "cost": 3,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "rogue",
+          "score": 78,
+          "cardId": "CATA_215",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_215.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/dec37e354b8ccb7af9248341b054e7cee4c447fbf8ead3bc5ca874cf1310c71e.png"
+        },
+        {
+          "name": "Паутина обмана",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "rogue",
+          "score": 78,
+          "cardId": "EDR_523",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_523.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/32a53080aa2cd43c1bc600626aaec826d1a88dcc8f2bbcaa8270e4f7b0e04d21.png"
+        },
+        {
+          "name": "Сверкающий ара",
+          "cost": 3,
+          "attack": 3,
+          "health": 3,
+          "rarity": "common",
+          "type": "minion",
+          "class": "shaman",
+          "score": 78,
+          "cardId": "DED_509",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_509.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c513227459bf6144696636e0adc7101468402892ccb2071808f6fab38be8de15.png"
+        },
+        {
+          "name": "Обморожение",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "shaman",
+          "score": 78,
+          "cardId": "AV_259",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_259.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/265486a22ce77185e80f9aa9b8bac95ac6b9ebfed3654e421b595b05c7f1edb5.png"
+        },
+        {
+          "name": "Поток лавы",
+          "cost": 3,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "shaman",
+          "score": 78,
+          "cardId": "TLC_227",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_227.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ea75520016b58a5061134cdf9e8d3290124233dd07d2b2bf02c2d0040835a62b.png"
+        },
+        {
+          "name": "Демоноведение",
+          "cost": 1,
+          "rarity": "common",
+          "type": "spell",
+          "class": "warlock",
+          "score": 78,
+          "cardId": "SCH_158",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_158.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8175a4b4bc1db04693669b0d6821c7b2c8fffddc2cb0ba2c6245d2f4177d43c8.png"
+        },
+        {
+          "name": "Мощный удар",
+          "cost": 1,
+          "rarity": "common",
+          "type": "spell",
+          "class": "warrior",
+          "score": 78,
+          "cardId": "EX1_391",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_391.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d94ee5370d95b9a64a4dc00fb60ae7d378ec575750941540be0610b705031263.png"
+        },
+        {
+          "name": "Кошмар",
+          "cost": 0,
+          "rarity": "common",
+          "type": "spell",
+          "class": "neutral",
+          "score": 77,
+          "cardId": "DREAM_05",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DREAM_05.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Квантовый дестабилизатор",
+          "cost": 3,
+          "attack": 4,
+          "health": 9,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 77,
+          "cardId": "TIME_060",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_060.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/326e60521a3365a63400715090f3f035b8bb6668f808ca8f8ef5cc588a2576d8.png"
+        },
+        {
+          "name": "Огневичок",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 77,
+          "cardId": "UNG_809",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_809.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b6fa5f8fa50a40329523aa6c9b4775051665d4c7b39c9319e342ac6be5622d2f.png"
+        },
+        {
+          "name": "Матриарх жгучего холода",
+          "cost": 5,
+          "attack": 4,
+          "health": 4,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "dk",
+          "score": 77,
+          "cardId": "FIR_901",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_901.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/47b7ee305e2a386bae6de958f845c2bdfe29d5bca9e6e5ed06a5bd57a046af1e.png"
+        },
+        {
+          "name": "Вопли йодля",
+          "cost": 4,
+          "attack": 3,
+          "health": 4,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 77,
+          "cardId": "JAM_005",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_005.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/07814542206fc645f71404f1cc913025db5de2b7188d3a5c361eef84b393c9e6.png"
+        },
+        {
+          "name": "Мелкий буканьер",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 77,
+          "cardId": "WON_351",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_351.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/60c8a54aa979cebf12afdb8905bdd109446ffa3dc51f67a2df6e074e41d03345.png"
+        },
+        {
+          "name": "Фалрик",
+          "cost": 3,
+          "attack": 2,
+          "health": 4,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "dk",
+          "score": 77,
+          "cardId": "CORE_EDR_003",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_EDR_003.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/035fe7eca8e231b372b75fe4b4bae2d3b8d3be9952785aff8645201b43b2a074.png"
+        },
+        {
+          "name": "К'Тун Расколотый",
+          "cost": 10,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "neutral",
+          "score": 77,
+          "cardId": "DMF_254",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_254.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f0ef2824375f722d7d24516dc2d4ea73e1d72a478daee033a8fdeb35ff1bdc92.png"
         }
       ]
     },
@@ -1842,140 +2974,760 @@
       "description": "Слабые карты, берите только в крайнем случае.",
       "cards": [
         {
-          "name": "Древний терродактиль",
+          "name": "Корабельный парковщик",
           "cost": 4,
-          "attack": 4,
-          "health": 4,
-          "rarity": "rare",
+          "attack": 3,
+          "health": 5,
+          "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 44,
-          "cardId": "TLC_246",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c7d66b0804cbb148ace5cdb0816ed355ae94235e5654002c2c49244041570c35.png"
+          "score": 69,
+          "cardId": "VAC_432",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_432.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/65712845d01816bef82a8864d6e75c0fffc5ec7275ca86a79c0568ce665e2943.png"
         },
         {
-          "name": "Коридорный ужас",
-          "cost": 7,
+          "name": "Смотрительница зверьков",
+          "cost": 1,
           "attack": 2,
-          "health": 5,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 69,
+          "cardId": "EDR_971",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_971.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0a1f18bf0bebedf37b3f024aa71c1b74c843456f5219822e2284248bb8bfc4cb.png"
+        },
+        {
+          "name": "Живой жар",
+          "cost": 2,
+          "attack": 3,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 69,
+          "cardId": "FIR_929",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_929.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/86235986d727deeaed8729116574d305cab5c53a68b91a8cd33aad05a2f56695.png"
+        },
+        {
+          "name": "Дремлющий дух",
+          "cost": 1,
+          "attack": 3,
+          "health": 3,
           "rarity": "epic",
           "type": "minion",
           "class": "neutral",
-          "score": 44,
-          "cardId": "LOOT_149",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a898a7cbba1e8fce12764220c8505b9f056847704b20a4925aedb30e6377656f.png"
+          "score": 69,
+          "cardId": "EDR_469",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_469.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/302bd9977c9c63a1908eac6f9b43d49c3554454f3db8698386713b01494b8216.png"
         },
         {
-          "name": "Легенда о Карнассе",
-          "cost": 2,
+          "name": "Хронолорд Дейос",
+          "cost": 7,
+          "attack": 4,
+          "health": 8,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "neutral",
+          "score": 69,
+          "cardId": "TIME_064",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_064.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ad82ebb68db8fe4c6388b3c62cb980600d25aae0e4d521ca981868f4d971ea05.png"
+        },
+        {
+          "name": "Изера",
+          "cost": 9,
+          "attack": 4,
+          "health": 12,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "neutral",
+          "score": 69,
+          "cardId": "EX1_572",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_572.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1a042d74a113607d1fe2d26eae65ad3b6ab9e3479e58ed370c5a86948cd78fb8.png"
+        },
+        {
+          "name": "Червоточина",
+          "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
-          "score": 44,
-          "cardId": "TLC_826",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/725b007452190d8a2250e608dd32c1074fe17ccdff3e0009267c0a4df4eff3b6.png"
+          "class": "hunter",
+          "score": 69,
+          "cardId": "TIME_602",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_602.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/377e17d8f969257fe8a1d0c1f8ddf44654e96168fa76860c5829c91285a307c5.png"
         },
         {
-          "name": "Проверка качества",
+          "name": "Межзвездный странник",
+          "cost": 4,
+          "attack": 4,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "paladin",
+          "score": 69,
+          "cardId": "GDB_721",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_721.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/34458e8c7d0f97862123c3c2878ebc6c330ea637e33cab7d185309c8e5e8b042.png"
+        },
+        {
+          "name": "Триумф Гелбина",
+          "cost": 1,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "paladin",
+          "score": 69,
+          "cardId": "CATA_621",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_621.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/87d27f919d6fe4870ffc4873fe27a9b41c8a464ad28db95424990b4fa26755ab.png"
+        },
+        {
+          "name": "Очищающее дыхание",
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
-          "score": 44,
-          "cardId": "TOY_605",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9b9fe03dc7b479b7df94f4a50a6e9cbf6bd1df7a360c31a095188524ae6abc22.png"
+          "class": "priest",
+          "score": 69,
+          "cardId": "CATA_303",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_303.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bcb1a1189df5543f328bf3bba040812a4dc205aef1457d48d046b37967369aa6.png"
         },
         {
-          "name": "Подпевала",
+          "name": "Сумеречный медиум",
+          "cost": 5,
+          "attack": 4,
+          "health": 5,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "priest",
+          "score": 69,
+          "cardId": "VAC_423",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_423.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9053fa663caa20dd044af2d7a8acc89d368c65aa84fd0569fc56751961617944.png"
+        },
+        {
+          "name": "Регар Ярость Земли",
+          "cost": 5,
+          "attack": 3,
+          "health": 5,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "shaman",
+          "score": 69,
+          "cardId": "CORE_CATA_004",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_004.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Бес-баритон",
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "warlock",
+          "score": 69,
+          "cardId": "ETC_068",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_068.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/37713e883dbdaa16d4005dcf1fbc895ec3c238405e798ce96404db0fdd915f19.png"
+        },
+        {
+          "name": "Оценщица карт",
           "cost": 3,
           "attack": 2,
           "health": 4,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 43,
-          "cardId": "TOY_528",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0641b949a5b8e74184a03f30a66d32d5623e12f4c0ac217ef8b35d0f2c086a89.png"
+          "score": 68,
+          "cardId": "TOY_054",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_054.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3c832d18f952ae39585071c0ac0b41cbf5ace1174282a62d2bc49a4253cf9596.png"
         },
         {
-          "name": "Растворяющий слизнюк",
+          "name": "Эредар-громила",
+          "cost": 7,
+          "attack": 5,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "GDB_320",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_320.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2a272f8b99845434306d19f30f318d58500c2386e4182ccc5ff48752427ae9a4.png"
+        },
+        {
+          "name": "Неутомимый ворг",
+          "cost": 3,
+          "attack": 2,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "TTN_733",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_733.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cac8a6e478ffdba525e49c4ac69b68c88b3f98594acfb23483d4ba25b08a5acd.png"
+        },
+        {
+          "name": "Ученик из лужи",
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "VAC_304",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_304.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/60ebbd88c1f3f4c151c084977cf41384a611044f530045b49c7ec4e257e8c7e6.png"
+        },
+        {
+          "name": "Одержимый ползун",
+          "cost": 2,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "FP1_002",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FP1_002.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cdeada4325b3d9f479f2a8e5758b8c6833fd18c872c9d23850f077eca380c83a.png"
+        },
+        {
+          "name": "Жрица Ярости Солнца",
+          "cost": 3,
+          "attack": 2,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "RLK_219",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_219.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fe2a8ac9e7bf469f6ea9716bd3ae47da64c561acf39c4ff2c80dce62a1294728.png"
+        },
+        {
+          "name": "Оппортунист",
+          "cost": 4,
+          "attack": 4,
+          "health": 5,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "TOT_112",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOT_112.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Командир гарнизона",
+          "cost": 2,
+          "attack": 2,
+          "health": 3,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "neutral",
+          "score": 68,
+          "cardId": "AT_080",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AT_080.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a16277340c9dd214de97f264ad211ea22104d3b10e6a9980b652572f2c901810.png"
+        },
+        {
+          "name": "Животновод",
+          "cost": 5,
+          "attack": 4,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "hunter",
+          "score": 68,
+          "cardId": "ONY_009",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_009.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ba63445b51fcb8645aa27479577ff847b29b1c26fa650307cd94e10fc108655f.png"
+        },
+        {
+          "name": "Выстрел драконобоя",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "hunter",
+          "score": 68,
+          "cardId": "ONY_010",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_010.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6aeaaf7219a277bb4d0945f031669c817ad41596c5d82366fd47ad3a3d2d445f.png"
+        },
+        {
+          "name": "Ветреный библиотекарь",
+          "cost": 4,
+          "attack": 4,
+          "health": 5,
+          "rarity": "common",
+          "type": "minion",
+          "class": "mage",
+          "score": 68,
+          "cardId": "TLC_220",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_220.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c772cf18a7d71498a6e89da49a032edc1ecd04e282a018ec0c24eef01c9fcaeb.png"
+        },
+        {
+          "name": "Укротитель драконов",
+          "cost": 2,
+          "attack": 2,
+          "health": 3,
+          "rarity": "common",
+          "type": "minion",
+          "class": "paladin",
+          "score": 68,
+          "cardId": "DMF_194",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_194.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8f318cbb51cafa7b4813ad294f9101a5d4e9465d3e04cd1609b6b9bb14f9a372.png"
+        },
+        {
+          "name": "Пипси Пестрое Копыто",
+          "cost": 7,
+          "attack": 4,
+          "health": 4,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "paladin",
+          "score": 68,
+          "cardId": "TOY_812",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_812.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/39f8b663c8fef317b6de96431cd5ebb4b1219c6e2725f6a7d90bce3c7c83dcf3.png"
+        },
+        {
+          "name": "Крабстер-трещот",
           "cost": 3,
           "attack": 3,
           "health": 3,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
-          "score": 43,
-          "cardId": "TLC_252",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/415120c83d7be8b8d22f83ed8de818bc8553b36695176fd50daac35fd8a99a57.png"
+          "class": "shaman",
+          "score": 68,
+          "cardId": "BT_106",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_106.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6ca36c5e94320297ada67265da961ea7b9e703e115f7eb928bba4d9925552658.png"
         },
         {
-          "name": "Сильвана Ветрокрылая",
+          "name": "Перерождение",
+          "cost": 4,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "shaman",
+          "score": 68,
+          "cardId": "CATA_567",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_567.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cffcdf92865cb0e32e3d1b6fd2d303fc36f4569517f5782e9e7e67f98e2b65e3.png"
+        },
+        {
+          "name": "Дрыжеблок",
           "cost": 6,
           "attack": 5,
           "health": 5,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
-          "score": 43,
-          "cardId": "VAN_EX1_016",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0c24bd9148d4f56bde6d7d6fd7c70b79e5bff99038c0e3c3c0b8af5fea0724b7.png"
+          "class": "shaman",
+          "score": 68,
+          "cardId": "TOY_501",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_501.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2c5fda8436aaa79a076f9d2ceb661bbe44b0aaf859d444daaee7d21b667a408b.png"
         },
         {
-          "name": "Вихлекирка",
-          "cost": 4,
-          "attack": 4,
+          "name": "Негодные послушники",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "warlock",
+          "score": 68,
+          "cardId": "CATA_499",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_499.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1087f16df8ea943eff8f422f98a4f2ea50daccc4b7cf8d4a63fd0feaf16090ba.png"
+        },
+        {
+          "name": "Помощница по утилизации",
+          "cost": 2,
+          "attack": 3,
           "health": 2,
-          "rarity": "epic",
-          "type": "weapon",
-          "class": "neutral",
-          "score": 43,
-          "cardId": "DAL_720",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/883cbf3d3b08531064c0f2970e10aefff7938f040c864d675d046988cf1671d6.png"
+          "rarity": "common",
+          "type": "minion",
+          "class": "warlock",
+          "score": 68,
+          "cardId": "WW_041",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_041.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f7bed4217969b6f5abf1def2ff1fa228d366cb9375bec9f8306ac5297051810c.png"
         },
         {
-          "name": "Зоркий искатель",
+          "name": "Окулярный оккультист",
           "cost": 3,
+          "attack": 3,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "warlock",
+          "score": 68,
+          "cardId": "CATA_490",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_490.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5a35943f4c669a4b87538504b9c1b14588bc69a4415ca4c9e8b52e33f2cbd4d8.png"
+        },
+        {
+          "name": "Проклятые катакомбы",
+          "cost": 0,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "warlock",
+          "score": 68,
+          "cardId": "TLC_451",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_451.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3b0385629c0df8261402858e76ba1d35ca6ec56f33cb90d01d74e381e3895e74.png"
+        },
+        {
+          "name": "Фанатка со свечой",
+          "cost": 4,
           "attack": 3,
           "health": 3,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 42,
-          "cardId": "TTN_712",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e0837c08a982c2ab810710454dfb950508d656e7bdb16b3b39cfa789c539bb33.png"
+          "score": 67,
+          "cardId": "ETC_543",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_543.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1d89759320634722566e29862063ec46e81eb5a3314cb2a19b0d1a78db9ad1d4.png"
         },
         {
-          "name": "Кошмарный конь",
+          "name": "Золотоискатель",
+          "cost": 2,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "WW_391",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_391.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/719fd91e6b9587cbce24af1715cb3d7d009247abe346034ede8daa29c974097a.png"
+        },
+        {
+          "name": "Клювозавр",
+          "cost": 1,
+          "attack": 1,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "TLC_603",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_603.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d65d8f3c6f20a42c37206e772f6ed938f68df2952755d1fd1eba6fcbebb0ea49.png"
+        },
+        {
+          "name": "Оружейник Луносвета",
+          "cost": 4,
+          "attack": 4,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "RLK_955",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_955.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/baf91c68441fc96ae4d5c9e30a79d0d98a2eab2cb6ab0bb3c8ab34e41224d635.png"
+        },
+        {
+          "name": "Механик поезда",
+          "cost": 1,
+          "attack": 2,
+          "health": 1,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "WW_044",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_044.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/09a8792588f90b5565e88f6250e44937fddb86b09a061dee8f0e6c4fb91c4b39.png"
+        },
+        {
+          "name": "Чешуешкурый кодо",
+          "cost": 6,
+          "attack": 3,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "TLC_454",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_454.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cd1cd197899105317e4cbf3c2c8896ffee7d2fdf20e2b340e6b6f499f96ae1b4.png"
+        },
+        {
+          "name": "Хрономант-наблюдатель",
+          "cost": 3,
+          "attack": 3,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "TOT_111",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOT_111.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Самоотверженный защитник",
+          "cost": 2,
+          "attack": 2,
+          "health": 6,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "CATA_208",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_208.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9f559815a775e9a96ea7ccec62b3111413dd639fbd63eabf5c629b75e95b0178.png"
+        },
+        {
+          "name": "Неприметная пухокрылка",
+          "cost": 1,
+          "attack": 1,
+          "health": 1,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "TIME_058",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_058.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0755f90538688160edb7633519cb7796466c9f7f46116914303e3668c090e2ab.png"
+        },
+        {
+          "name": "Сатир-иллюзионист",
+          "cost": 3,
+          "attack": 2,
+          "health": 4,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "EDR_780",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_780.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/76b454b15f4900cb817ee53995f457df837a119330f9478b080c6a9530891642.png"
+        },
+        {
+          "name": "Защитники Азерота",
+          "cost": 4,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "neutral",
+          "score": 67,
+          "cardId": "WON_113",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_113.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0a26588fb18b509749e012e30804846fdfb13a0062884dcf7ef9a9b7e28f3ac2.png"
+        },
+        {
+          "name": "Поставка припасов",
+          "cost": 4,
+          "rarity": "common",
+          "type": "spell",
+          "class": "hunter",
+          "score": 67,
+          "cardId": "CATA_820",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_820.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/00d675759a769bd134535c9ae9d7cd58810583bee1d9a9f9930f185cdd55ce78.png"
+        },
+        {
+          "name": "Ловчий злобноплав",
+          "cost": 2,
+          "attack": 2,
+          "health": 3,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "hunter",
+          "score": 67,
+          "cardId": "UNG_800",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_800.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f6f5e1fcc23df2214fb73b3182c60b9f6c37b7d45f68b9028151fb094f89c8ef.png"
+        },
+        {
+          "name": "Снежная буря",
+          "cost": 6,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "mage",
+          "score": 67,
+          "cardId": "CS2_028",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS2_028.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/df8e8dc05bb8c981d71d98246e579622922a0ac9c4d3204dd7cfc25d7109e509.png"
+        },
+        {
+          "name": "Воодушевляющий молот",
+          "cost": 2,
+          "attack": 2,
+          "health": 2,
+          "rarity": "common",
+          "type": "weapon",
+          "class": "paladin",
+          "score": 67,
+          "cardId": "CATA_472",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_472.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4ded4a5a5ed4089d7f0f031f6553844abef3ad62af1163e100147334d53f4a93.png"
+        },
+        {
+          "name": "Яснокрылый визгун",
+          "cost": 4,
+          "attack": 3,
+          "health": 4,
+          "rarity": "common",
+          "type": "minion",
+          "class": "paladin",
+          "score": 67,
+          "cardId": "DED_501",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_501.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ba72f73dc04d8b0a65c918da9d5bfd76027827d3fdf03d2ce03d3adc64b5d2c7.png"
+        },
+        {
+          "name": "Алдор – искатель истины",
           "cost": 5,
+          "attack": 4,
+          "health": 6,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "paladin",
+          "score": 67,
+          "cardId": "BT_026",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_026.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ae4576842e2a409d67332dca5286a5f2dbdb2318da7d897fa78a3973d77abd84.png"
+        },
+        {
+          "name": "Заводной каратель",
+          "cost": 6,
+          "attack": 3,
+          "health": 5,
+          "rarity": "rare",
+          "type": "minion",
+          "class": "paladin",
+          "score": 67,
+          "cardId": "TOY_880",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_880.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/72b35b4e2d85527642080b25ce1af4075b18c6d76efe467ca6f788adc88e90e0.png"
+        },
+        {
+          "name": "Прокаженный из Братства",
+          "cost": 2,
+          "attack": 3,
+          "health": 2,
+          "rarity": "common",
+          "type": "minion",
+          "class": "priest",
+          "score": 67,
+          "cardId": "DED_513",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_513.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/7a413c29475dd2b633412b2519ce93754eec6c10c97e8afe055a042152b928d3.png"
+        },
+        {
+          "name": "Очищающая священница",
+          "cost": 4,
+          "attack": 4,
+          "health": 5,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "priest",
+          "score": 67,
+          "cardId": "CATA_216",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_216.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e46d991eddeb99293a71a85e62e7142b41a50306eef86b19849426cecf6ed967.png"
+        },
+        {
+          "name": "Древнее знание",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "shaman",
+          "score": 67,
+          "cardId": "AT_053",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AT_053.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bc9d1ed6cec1c639421c49f6fb92b0a002195ee50d19a511974a696544d01989.png"
+        },
+        {
+          "name": "Инволюция",
+          "cost": 2,
+          "rarity": "rare",
+          "type": "spell",
+          "class": "shaman",
+          "score": 67,
+          "cardId": "CFM_696",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CFM_696.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ba2421a61539e5d78c9a2ba16e35aee17c7c900bcf00aed985a68703bc760e1d.png"
+        },
+        {
+          "name": "Баронесса Вайш",
+          "cost": 4,
+          "attack": 3,
+          "health": 6,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "shaman",
+          "score": 67,
+          "cardId": "REV_925",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_925.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2e388984ec3605488aceb427ccb34c4f600815f6c3b38b0bace8cc332c8e69ea.png"
+        },
+        {
+          "name": "Устройство сдерживания",
+          "cost": 7,
           "attack": 6,
+          "health": 6,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 66,
+          "cardId": "TTN_700",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_700.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ec796c71a8380f2fe83777fba2daeb848f433e72ec58bb04e954034a415ac859.png"
+        },
+        {
+          "name": "Темпоральный путешественник",
+          "cost": 3,
+          "attack": 4,
+          "health": 1,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 66,
+          "cardId": "TIME_434",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_434.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e4c593b40d7786cc403bb427e3d350b8e379fe4b0755f57924eea9a1329eece8.png"
+        },
+        {
+          "name": "Искательница приключений",
+          "cost": 3,
+          "attack": 2,
+          "health": 3,
+          "rarity": "common",
+          "type": "minion",
+          "class": "neutral",
+          "score": 66,
+          "cardId": "TOT_056",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOT_056.webp",
+          "imageRu": null
+        },
+        {
+          "name": "Костяная кобыла",
+          "cost": 7,
+          "attack": 5,
           "health": 5,
           "rarity": "common",
           "type": "minion",
           "class": "neutral",
-          "score": 42,
-          "cardId": "REV_251",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/74e5ad6e8ab2e7c2c75d513d4d5fdab077be14dd51c7b0751926dfbc2f9d6bbd.png"
-        },
-        {
-          "name": "Уничтожение улик",
-          "cost": 0,
-          "rarity": "rare",
-          "type": "spell",
-          "class": "neutral",
-          "score": 40,
-          "cardId": "REV_507",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b20b487754d0b077cb96d530e14a82f35e6f1c786efde3897b573bb5a8d519bb.png"
-        },
-        {
-          "name": "История о Барнабусе",
-          "cost": 2,
-          "rarity": "common",
-          "type": "spell",
-          "class": "neutral",
-          "score": 40,
-          "cardId": "TLC_231",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/afee81fa53ddbf4f994ee30f5eb9f1e248453c456ce6df643ffcf0bf18d09ddb.png"
+          "score": 66,
+          "cardId": "ICC_705",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ICC_705.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6cda97dd88a2da8669bc5645e2ad2f8319acd8edfeab4c7d8610d597d55b2be2.png"
         }
       ]
     },
@@ -1988,10 +3740,22 @@
           "cost": 2,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 39,
           "cardId": "VAC_508",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_508.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9f856ce045ab0d85a6fc2e1a2c14f8ae7ce975488bc77edd698e02a79971e22a.png"
+        },
+        {
+          "name": "Последний бой Гароны",
+          "cost": 2,
+          "rarity": "common",
+          "type": "spell",
+          "class": "rogue",
+          "score": 39,
+          "cardId": "CATA_203",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_203.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f6d755bc98f9b5c0cad27d54f70b7ade59897335e3aa45d59163c13e30d3ea2d.png"
         },
         {
           "name": "Джейс Темный Ткач",
@@ -2000,9 +3764,10 @@
           "health": 5,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "dh",
           "score": 38,
           "cardId": "SW_044",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_044.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3a9774011ba927a7f112000a2877b9f45dfb28951ffd403d6a00c90f330a4563.png"
         },
         {
@@ -2015,6 +3780,7 @@
           "class": "neutral",
           "score": 37,
           "cardId": "VAC_439",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_439.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/23edba33d25d27f78f43cbe2b29d12c430be21e761a6a586f66083ec19594b28.png"
         },
         {
@@ -2024,10 +3790,24 @@
           "health": 1,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "mage",
           "score": 37,
           "cardId": "GDB_302",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_302.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ef644dc725a7973cb7bb162f4744c1ca5a64d16c38dc969895957de334503637.png"
+        },
+        {
+          "name": "Алекстраза, Хранительница жизни",
+          "cost": 7,
+          "attack": 8,
+          "health": 8,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "priest",
+          "score": 37,
+          "cardId": "CATA_307",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_307.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bd62f439d2b730ab2f562968c53dca7a041e55cf1ea89f40bee56480ee9fa21d.png"
         },
         {
           "name": "Яйцо костяного паука",
@@ -2036,9 +3816,10 @@
           "health": 2,
           "rarity": "rare",
           "type": "minion",
-          "class": "neutral",
+          "class": "warlock",
           "score": 37,
           "cardId": "SCH_147",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_147.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ef3291562249d350f45a83c9074525149b37c41cd0db1f98161ff33534981f3e.png"
         },
         {
@@ -2046,9 +3827,10 @@
           "cost": 0,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 36,
           "cardId": "RLK_042",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_042.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/50115ba4ba53bea8beac134f22965e5ede17d04a8cadb4af94a59346130e91f7.png"
         },
         {
@@ -2056,10 +3838,35 @@
           "cost": 3,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "druid",
           "score": 36,
           "cardId": "VAC_949",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_949.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e6709149d8403da056b805b8fb8570d71e20e0899ae5392c4176e94f3506d535.png"
+        },
+        {
+          "name": "Шаг сквозь тень",
+          "cost": 0,
+          "rarity": "common",
+          "type": "spell",
+          "class": "rogue",
+          "score": 36,
+          "cardId": "EX1_144",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_144.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e429b85d1d0baae2552bcebe22c35f2ff2e7f4f1a4a5d4b2b65d9cc819ad80ad.png"
+        },
+        {
+          "name": "Малориак",
+          "cost": 7,
+          "attack": 7,
+          "health": 7,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "warlock",
+          "score": 36,
+          "cardId": "CATA_494",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_494.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c80cc8ea621c1637dba41d63d20fe84d481afb2ed1c69fb22c24cd3c2cb351de.png"
         },
         {
           "name": "Леди Азшара",
@@ -2068,22 +3875,24 @@
           "health": 5,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "druid",
           "score": 35,
           "cardId": "TIME_211",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/862c461305a3729cf98f5a29aac8e235fe13c5a9458bec9f96cc959d4d65206b.png"
         },
         {
           "name": "Кровавый боец Бролл",
           "cost": 7,
           "attack": 7,
-          "health": 1,
-          "rarity": "epic",
-          "type": "weapon",
-          "class": "neutral",
+          "health": 7,
+          "rarity": "common",
+          "type": "minion",
+          "class": "warrior",
           "score": 35,
-          "cardId": "VAN_EX1_411",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2dca34be34ead8462e5d4c94d90f9be4d445e56591d98ab16aae3b0059ca36d1.png"
+          "cardId": "TIME_850t",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850t.webp",
+          "imageRu": null
         },
         {
           "name": "Выброшенный кит",
@@ -2095,7 +3904,21 @@
           "class": "neutral",
           "score": 34,
           "cardId": "VAC_934",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_934.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d54c7937baed0664d66ac2fec1154fda969a6a3554a68861d1e26a61638cff88.png"
+        },
+        {
+          "name": "Виранот",
+          "cost": 6,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "neutral",
+          "score": 33,
+          "cardId": "CATA_213",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_213.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/88b7eb566ee9b14657bc015345818b52bc0629bcf101363292e95529e752c886.png"
         },
         {
           "name": "Сквернософия",
@@ -2105,6 +3928,7 @@
           "class": "neutral",
           "score": 33,
           "cardId": "SCH_702",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_702.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/83781ba36657aa97132ed05c18862ac533b22476241b64ed9d403cb63155e788.png"
         },
         {
@@ -2112,10 +3936,24 @@
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "priest",
           "score": 33,
           "cardId": "LOOT_187",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_187.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/59077933a7878af252fe7901eba0c25e4d9db2ffff41cfd25d55ee265583336f.png"
+        },
+        {
+          "name": "Разрушительное пламя",
+          "cost": 5,
+          "attack": 3,
+          "health": 3,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "warrior",
+          "score": 33,
+          "cardId": "CATA_586",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_586.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/7b9673a3f71e111710d17f29087bae9ac8f913eda08355764e986331e2d7197f.png"
         },
         {
           "name": "Чародейка-варвар",
@@ -2127,6 +3965,7 @@
           "class": "neutral",
           "score": 32,
           "cardId": "TSC_020",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_020.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ebbd7f83796dea91d939f32055061b62bfbd0c7b913eb6c06a024fe923c3edb4.png"
         },
         {
@@ -2138,7 +3977,8 @@
           "type": "minion",
           "class": "neutral",
           "score": 32,
-          "cardId": "VAN_NEW1_016",
+          "cardId": "NEW1_016",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/NEW1_016.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2c87bc523dea581ef5ff929536571b199f5c8609f0ca94d231beedd7ccd89d68.png"
         },
         {
@@ -2151,7 +3991,21 @@
           "class": "neutral",
           "score": 32,
           "cardId": "KAR_096",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/KAR_096.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c4d5f7a93004c3d7715108fff5e21b9973bd46e33c4e6ca02cab86a51b965c3c.png"
+        },
+        {
+          "name": "Повелитель Глубин",
+          "cost": 4,
+          "attack": 2,
+          "health": 2,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "warlock",
+          "score": 32,
+          "cardId": "CATA_493",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_493.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4ce0b284309c9fd5d57d9ccb867c2d0dc7302c49e1c89255fd2aa34b5d5d568f.png"
         },
         {
           "name": "Йогг-Сарон, Владыка Судьбы",
@@ -2163,6 +4017,7 @@
           "class": "neutral",
           "score": 31,
           "cardId": "DMF_004",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_004.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fde359dbb659d176bfa90a0f4779197ae5859711319d547239ae375271c6e9d3.png"
         },
         {
@@ -2170,9 +4025,10 @@
           "cost": 5,
           "rarity": "epic",
           "type": "spell",
-          "class": "neutral",
+          "class": "warlock",
           "score": 31,
           "cardId": "LOOT_417",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_417.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/12279a1a8442b946acb370f7b1bd39d0c682a114111bbbde0da2f4014d7a0412.png"
         },
         {
@@ -2182,10 +4038,37 @@
           "health": 8,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "mage",
           "score": 30,
           "cardId": "TIME_852",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a9e2cbbb691cce809ff4da41b3e3a7bc7ef8a4e8430350f5f6ce4f861b18b72d.png"
+        },
+        {
+          "name": "Изо'рат",
+          "cost": 5,
+          "attack": 5,
+          "health": 3,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "rogue",
+          "score": 30,
+          "cardId": "CATA_481",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_481.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/04cc18120838b2cf5f3242fb2f7d76d9cb94c9bade6b68d494405e14d12af3b2.png"
+        },
+        {
+          "name": "Мастер выживания",
+          "cost": 9,
+          "attack": 6,
+          "health": 6,
+          "rarity": "epic",
+          "type": "minion",
+          "class": "neutral",
+          "score": 29,
+          "cardId": "CATA_613",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_613.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fb521f742481b6972c25a08ff438d15a4318a50d40f9a316f9ba1e056b504c6f.png"
         },
         {
           "name": "Игла для тенеткани",
@@ -2194,9 +4077,10 @@
           "health": 3,
           "rarity": "rare",
           "type": "weapon",
-          "class": "neutral",
+          "class": "priest",
           "score": 29,
           "cardId": "SW_012",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_012.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/06b3d91dead65e76cadd81c2af84f4df209028c4fd4d495fc2cc4ab2d0524e9a.png"
         },
         {
@@ -2209,6 +4093,7 @@
           "class": "neutral",
           "score": 28,
           "cardId": "TIME_053",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_053.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ff21b94a8ee9b6e2aa7f927fb67cc7b008cbcba8c86a9ca9d48b9a2ef0570c63.png"
         },
         {
@@ -2221,19 +4106,21 @@
           "class": "neutral",
           "score": 28,
           "cardId": "TLC_251",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_251.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/110b190f7dee88c241cb952f9eac5d5d3cd28113417ae8a11f327fb954c07f9a.png"
         },
         {
           "name": "Кровавый боец Валира",
           "cost": 7,
           "attack": 7,
-          "health": 1,
-          "rarity": "epic",
-          "type": "weapon",
-          "class": "neutral",
+          "health": 7,
+          "rarity": "common",
+          "type": "minion",
+          "class": "warrior",
           "score": 28,
-          "cardId": "VAN_EX1_411",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2dca34be34ead8462e5d4c94d90f9be4d445e56591d98ab16aae3b0059ca36d1.png"
+          "cardId": "TIME_850t1",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850t1.webp",
+          "imageRu": null
         },
         {
           "name": "Балинда Каменный Очаг",
@@ -2242,10 +4129,46 @@
           "health": 5,
           "rarity": "legendary",
           "type": "minion",
-          "class": "neutral",
+          "class": "mage",
           "score": 26,
           "cardId": "AV_284",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_284.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/535aafc807a3a21c559ab297954b02048f87f41c7ff27b21f932d333013ddba7.png"
+        },
+        {
+          "name": "Вечная любовь",
+          "cost": 3,
+          "rarity": "legendary",
+          "type": "spell",
+          "class": "priest",
+          "score": 22,
+          "cardId": "ETC_335",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_335.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a9e97d5a6febe7a7444e3bf23690833ecca73408787a85f64964bbe0cd31c785.png"
+        },
+        {
+          "name": "Проклятые цепи",
+          "cost": 2,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "warlock",
+          "score": 21,
+          "cardId": "CATA_496",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_496.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5237c534e677b3b53c09aa2a1bc3be4c6b8278b8c68c9771148507f50d6357fc.png"
+        },
+        {
+          "name": "Воевода Черный Рог",
+          "cost": 7,
+          "attack": 6,
+          "health": 6,
+          "rarity": "legendary",
+          "type": "minion",
+          "class": "neutral",
+          "score": 20,
+          "cardId": "CATA_720",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_720.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2d993a90a230bb49b660c4871713ab52a52bb90518629c640e56ee3e8903aeba.png"
         },
         {
           "name": "Священный яйценос",
@@ -2257,6 +4180,7 @@
           "class": "neutral",
           "score": 17,
           "cardId": "DINO_411",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_411.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/188661d035b9144d55df5e9252301af1fcb5e0eabec36b112aa990aa855d36d0.png"
         },
         {
@@ -2264,9 +4188,10 @@
           "cost": 5,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "rogue",
           "score": 16,
           "cardId": "AV_405",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_405.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a3211fbb51702e7a0f794cc6df7107e1a0858ced82afafb6bc0389910c872116.png"
         },
         {
@@ -2274,9 +4199,10 @@
           "cost": 3,
           "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
+          "class": "dk",
           "score": 15,
           "cardId": "END_003",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_003.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9d8b3198877a1e83fa6b84aa1de365f2102beb93bc2bdb4e3198b69b0f98d358.png"
         },
         {
@@ -2284,20 +4210,59 @@
           "cost": 0,
           "rarity": "common",
           "type": "spell",
-          "class": "neutral",
+          "class": "mage",
           "score": 15,
           "cardId": "TRL_310",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TRL_310.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/30ac03cdedd45a66e5c0de653cd815bbd97d74daeab40c8a0d571187aa0e7be8.png"
         },
         {
-          "name": "Великий посох Атиеш",
-          "cost": 0,
-          "rarity": "common",
+          "name": "Воин'лок",
+          "cost": 2,
+          "attack": 1,
+          "health": 1,
+          "rarity": "epic",
           "type": "minion",
           "class": "neutral",
+          "score": 14,
+          "cardId": "CATA_180",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_180.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/4dcc1978095bdccb7e721a9031f95d848c79d3b2523ea20d1ce42d121caa6e3c.png"
+        },
+        {
+          "name": "Великий посох Атиеш",
+          "cost": 10,
+          "attack": 1,
+          "health": 3,
+          "rarity": "common",
+          "type": "weapon",
+          "class": "priest",
           "score": 8,
-          "cardId": null,
+          "cardId": "TIME_890t",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_890t.webp",
           "imageRu": null
+        },
+        {
+          "name": "Последний бой Ло'гоша",
+          "cost": 5,
+          "rarity": "common",
+          "type": "spell",
+          "class": "warrior",
+          "score": 7,
+          "cardId": "CATA_610",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_610.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f0fbe421517d1364d5a5af5a121b4a4ed9c737fb626dd529aa68a4f5aedc1aa0.png"
+        },
+        {
+          "name": "Добро пожаловать домой!",
+          "cost": 3,
+          "rarity": "epic",
+          "type": "spell",
+          "class": "neutral",
+          "score": 6,
+          "cardId": "TIME_EVENT_997",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_EVENT_997.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/14825b0035f25bc8139c7279f8e70ac881007cc39ffde20f7346cd950562e8e9.png"
         },
         {
           "name": "Яйцо кхелоса",
@@ -2309,69 +4274,23 @@
           "class": "neutral",
           "score": 5,
           "cardId": "DINO_410",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_410.webp",
           "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0ea74453ba7d4d5fe20631663b54f0fea7faf6b9b3fe788cabf2beb402e8e534.png"
         },
         {
-          "name": "Талант живописца",
-          "cost": 4,
-          "attack": 2,
-          "health": 3,
-          "rarity": "common",
-          "type": "weapon",
-          "class": "neutral",
-          "score": 0,
-          "cardId": "TOY_810",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/da78aa0090130fdd251585c4365ffcbdefc3e08b5aacaa0b0117377f12933bfc.png"
-        },
-        {
-          "name": "Молот ремесленника",
-          "cost": 4,
-          "attack": 3,
-          "health": 3,
-          "rarity": "common",
-          "type": "weapon",
-          "class": "neutral",
-          "score": 0,
-          "cardId": "TTN_467",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/49e14916119d523e6952ff4a4c1998833f765e0292362b739fd175f3715b59b8.png"
-        },
-        {
-          "name": "Вечная любовь",
-          "cost": 3,
-          "rarity": "legendary",
+          "name": "Башня Стылой Крови",
+          "cost": 10,
+          "rarity": "rare",
           "type": "spell",
-          "class": "neutral",
-          "score": 0,
-          "cardId": "ETC_335",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a9e97d5a6febe7a7444e3bf23690833ecca73408787a85f64964bbe0cd31c785.png"
-        },
-        {
-          "name": "Душекрад",
-          "cost": 8,
-          "attack": 5,
-          "health": 5,
-          "rarity": "epic",
-          "type": "minion",
-          "class": "neutral",
-          "score": 0,
-          "cardId": "RLK_741",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/14f6fc9616f264325a072cc324f54de90999c600356dee7572f66c182ddbd8af.png"
-        },
-        {
-          "name": "Леди Лиадрин",
-          "cost": 7,
-          "attack": 4,
-          "health": 6,
-          "rarity": "legendary",
-          "type": "minion",
-          "class": "neutral",
-          "score": 0,
-          "cardId": "CORE_BT_334",
-          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/50176324b48c2a3ce8d05b951dd3acbaf966abc424ae81f2f7ccd5d2285506b0.png"
+          "class": "mage",
+          "score": 4,
+          "cardId": "AV_290",
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_290.webp",
+          "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/61a6c01a8f1d92ba2445fa085bda777d6246929a99f1f6ef4df0456cd6b277b7.png"
         }
       ]
     }
   ],
-  "updatedAt": "2026-03-19T21:12:46.505Z",
+  "updatedAt": "2026-03-19T21:26:48.253Z",
   "source": "heartharena.com"
 }

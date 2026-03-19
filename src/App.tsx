@@ -26,8 +26,9 @@ interface CardData {
   type: string;
   class: string;
   score?: number;
-  cardId?: string | null;    // HearthstoneJSON ID (fallback art)
-  imageRu?: string | null;   // Blizzard API — Russian rendered card image
+  cardId?: string | null;    // HearthstoneJSON ID
+  imageHa?: string | null;   // HearthArena CDN — Russian (always available)
+  imageRu?: string | null;   // Blizzard API  — Russian (premium quality)
 }
 
 interface TierGroup {
@@ -133,10 +134,12 @@ const CardModal: React.FC<CardModalProps> = ({ card, tier, onClose }) => {
   const [visible, setVisible] = useState(false);
   const [imgErr, setImgErr] = useState(false);
 
-  // Best available image: Russian Blizzard render > HearthstoneJSON 512x
-  const bigSrc = (!imgErr && card.imageRu)
-    ? card.imageRu
-    : card.cardId ? hsImgUrl(card.cardId, '512x') : null;
+  // Best available image: Blizzard (Russian) > HearthArena CDN (Russian) > HearthstoneJSON 512x (English)
+  const bigSrc = imgErr ? null
+    : card.imageRu ? card.imageRu
+    : card.imageHa ? card.imageHa
+    : card.cardId  ? hsImgUrl(card.cardId, '512x')
+    : null;
 
   useEffect(() => {
     // Spring-in on next frame
@@ -256,12 +259,14 @@ interface HSCardProps {
 const HSCard: React.FC<HSCardProps> = ({ card, onClick }) => {
   const [imgErr, setImgErr] = useState(false);
 
-  // Best available thumbnail: Russian Blizzard render > HearthstoneJSON 256x
-  const thumbSrc = (!imgErr && card.imageRu)
-    ? card.imageRu
-    : card.cardId ? hsImgUrl(card.cardId) : null;
+  // Image priority: Blizzard (best quality, Russian) > HearthArena CDN (Russian, 100% coverage) > HearthstoneJSON (English fallback)
+  const thumbSrc = imgErr ? null
+    : card.imageRu  ? card.imageRu
+    : card.imageHa  ? card.imageHa
+    : card.cardId   ? hsImgUrl(card.cardId)
+    : null;
 
-  // ── Real card render (Blizzard Russian or HearthstoneJSON fallback) ────────
+  // ── Real card render ───────────────────────────────────────────────────────
   if (thumbSrc) {
     return (
       <div
@@ -269,8 +274,7 @@ const HSCard: React.FC<HSCardProps> = ({ card, onClick }) => {
         onClick={onClick}
         title={card.name}
       >
-        <div
-          className="transform transition-all duration-200 group-hover:scale-110 group-hover:z-10"
+        <div className="transform transition-all duration-200 group-hover:scale-110 group-hover:z-10"
           style={{ filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.85))' }}
         >
           <img
@@ -281,8 +285,6 @@ const HSCard: React.FC<HSCardProps> = ({ card, onClick }) => {
             className="w-28 sm:w-32 md:w-36 h-auto"
           />
         </div>
-        {/* Hover "expand" hint */}
-        <div className="absolute inset-0 rounded-lg ring-2 ring-white/0 group-hover:ring-white/40 transition-all duration-200 pointer-events-none" />
       </div>
     );
   }
