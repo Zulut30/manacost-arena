@@ -353,17 +353,19 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 bg-[#7a1e1e]/20 border-2 border-[#7a1e1e] rounded-xl p-4 mb-6 text-[#7a1e1e]">
-          <AlertTriangle size={20} />
-          <span className="font-body text-sm">Не удалось загрузить тир-лист с сервера. Показаны последние известные данные.</span>
+        <div className="flex items-center gap-2 text-[#8b6c42] text-xs mb-4 opacity-70">
+          <AlertTriangle size={13} />
+          <span>Сервер недоступен — показаны кэшированные данные</span>
         </div>
       )}
 
       {/* Filters */}
       <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 bg-[#e8d5a5] p-4 sm:p-6 rounded-xl border-2 border-[#c4a46a] shadow-[inset_0_3px_8px_rgba(139,69,19,0.2),0_1px_2px_rgba(255,255,255,0.5)] relative overflow-hidden">
         <div className="flex-1 sm:col-span-2 md:col-span-1 relative z-10">
-          <label className="block text-xs sm:text-sm font-bold text-[#8b4513] mb-1.5 uppercase tracking-wider">Поиск карты</label>
+          <label htmlFor="card-search" className="block text-xs sm:text-sm font-bold text-[#8b4513] mb-1.5 uppercase tracking-wider">Поиск карты</label>
           <input
+            id="card-search"
+            name="card-search"
             type="text"
             placeholder="Название карты..."
             value={searchQuery}
@@ -372,8 +374,10 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
           />
         </div>
         <div className="flex-1 relative z-10">
-          <label className="block text-xs sm:text-sm font-bold text-[#8b4513] mb-1.5 uppercase tracking-wider">Класс</label>
+          <label htmlFor="class-filter" className="block text-xs sm:text-sm font-bold text-[#8b4513] mb-1.5 uppercase tracking-wider">Класс</label>
           <select
+            id="class-filter"
+            name="class-filter"
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
             className="hs-input w-full rounded-lg px-3 sm:px-4 py-2.5 transition-colors appearance-none cursor-pointer"
@@ -382,8 +386,10 @@ function TierList({ tiers, loading, error, updatedAt, source, onRefresh, refresh
           </select>
         </div>
         <div className="flex-1 relative z-10">
-          <label className="block text-xs sm:text-sm font-bold text-[#8b4513] mb-1.5 uppercase tracking-wider">Редкость</label>
+          <label htmlFor="rarity-filter" className="block text-xs sm:text-sm font-bold text-[#8b4513] mb-1.5 uppercase tracking-wider">Редкость</label>
           <select
+            id="rarity-filter"
+            name="rarity-filter"
             value={selectedRarity}
             onChange={(e) => setSelectedRarity(e.target.value)}
             className="hs-input w-full rounded-lg px-3 sm:px-4 py-2.5 transition-colors appearance-none cursor-pointer"
