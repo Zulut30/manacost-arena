@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { createPortal } from 'react-dom';
-import { Trophy, Scroll, Swords, RefreshCw, AlertTriangle, X, Search, Star } from 'lucide-react';
+import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -139,6 +139,16 @@ function mergeCard(tc: TierCard, lookup: Record<string, CardLookup>): CardData {
 const hsImgUrl = (cardId: string, size: '256x' | '512x' = '256x') =>
   `https://art.hearthstonejson.com/v1/render/latest/enUS/${size}/${cardId}.png`;
 
+// ─── Local assets ─────────────────────────────────────────────────────────────
+const RARITY_ICON: Record<string, string> = {
+  common:    '/assets/common.png',
+  rare:      '/assets/rare.png',
+  epic:      '/assets/epic.png',
+  legendary: '/assets/legendary.png',
+};
+const MANA_ICON    = '/assets/mana.png';
+const ARENA_ICON   = '/assets/arena_icon.webp';
+
 const TIER_COLORS: Record<string, string> = {
   S: 'bg-gradient-to-br from-[#e63946] to-[#780000] text-[#fff0f0] border-[#ff9999]',
   A: 'bg-gradient-to-br from-[#f4a261] to-[#b34700] text-[#fff9f0] border-[#ffd699]',
@@ -259,9 +269,10 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
           <div className={`w-9 h-9 flex items-center justify-center rounded-full border-2 font-hs text-lg shadow-lg ${TIER_COLORS[tier] || TIER_COLORS['C']}`}>
             {tier}
           </div>
-          {card.rarity && (
-            <div style={{ padding: '6px 12px', borderRadius: '999px', background: 'rgba(26,17,10,0.8)', border: '1px solid rgba(168,138,69,0.6)', color: '#fcd34d', fontSize: '12px', fontWeight: 700 }}>
-              {RARITY_LABEL[card.rarity] || card.rarity}
+          {card.rarity && RARITY_ICON[card.rarity] && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(26,17,10,0.85)', border: '1px solid rgba(168,138,69,0.5)' }}>
+              <img src={RARITY_ICON[card.rarity]} alt={card.rarity} style={{ width: '18px', height: '18px', objectFit: 'contain' }} />
+              <span style={{ color: '#fcd34d', fontSize: '12px', fontWeight: 700 }}>{RARITY_LABEL[card.rarity] || card.rarity}</span>
             </div>
           )}
           {card.type && (
@@ -270,8 +281,9 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
             </div>
           )}
           {card.cost !== undefined && (
-            <div style={{ padding: '6px 12px', borderRadius: '999px', background: 'rgba(30,58,138,0.8)', border: '1px solid rgba(96,165,250,0.6)', color: '#bfdbfe', fontSize: '12px', fontWeight: 700 }}>
-              Мана: {card.cost}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(20,40,100,0.85)', border: '1px solid rgba(96,165,250,0.4)' }}>
+              <img src={MANA_ICON} alt="мана" style={{ width: '18px', height: '18px', objectFit: 'contain' }} />
+              <span style={{ color: '#bfdbfe', fontSize: '12px', fontWeight: 700 }}>{card.cost}</span>
             </div>
           )}
         </div>
@@ -327,17 +339,26 @@ const HSCard: React.FC<{ card: CardData; onClick: () => void }> = memo(({ card, 
   }
 
   // Fallback styled card
-  const rarityColors: Record<string, string> = {
-    free: '#d1d1d1', common: '#ffffff', rare: '#0070dd', epic: '#a335ee', legendary: '#ff8000',
-  };
+  const rarityIconSrc = RARITY_ICON[card.rarity] ?? null;
   return (
     <div
       className="relative w-28 h-40 sm:w-32 sm:h-48 md:w-36 md:h-52 rounded-xl flex flex-col items-center justify-center text-center transform transition-transform hover:scale-105 hover:z-10 cursor-pointer overflow-hidden border-2 border-[#1a110a] bg-[#2c1e16]"
       onClick={onClick} title={card.name}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/90" />
-      <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-4 sm:w-4 sm:h-5 rounded-full z-20 border border-[#3a2210]"
-        style={{ background: `radial-gradient(circle at 30% 30%,#fff 0%,${rarityColors[card.rarity] || '#fff'} 40%,#000 100%)` }} />
+      {/* Mana cost */}
+      {card.cost !== undefined && (
+        <div className="absolute top-1.5 left-1.5 z-20" style={{ width: '22px', height: '22px', position: 'relative' }}>
+          <img src={MANA_ICON} alt="мана" className="w-full h-full object-contain" />
+          <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-[11px] drop-shadow-[0_1px_2px_rgba(0,0,0,1)]">{card.cost}</span>
+        </div>
+      )}
+      {/* Rarity gem */}
+      {rarityIconSrc && (
+        <div className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+          <img src={rarityIconSrc} alt={card.rarity} className="w-5 h-5 sm:w-6 sm:h-6 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
+        </div>
+      )}
       <div className="z-10 mt-auto mb-2 w-[112%] -ml-[6%] bg-gradient-to-b from-[#4a3018] to-[#2c1e16] border-y-2 border-[#a88a45] py-1 px-1">
         <span className="font-hs text-[#fcd34d] text-[9px] sm:text-[11px] leading-tight block text-center truncate">{card.name}</span>
       </div>
@@ -1037,7 +1058,12 @@ function Legendaries({ data, loading, error }: {
                     />
                     <span className="text-[9px] text-[#6b4c2a] text-center leading-tight max-w-[80px]">{pc.name}</span>
                     {pc.cost !== undefined && (
-                      <span className="text-[8px] text-[#2b5c85] font-bold">{pc.cost} маны</span>
+                      <div className="flex items-center gap-0.5 justify-center">
+                        <div className="relative" style={{ width: '14px', height: '14px' }}>
+                          <img src={MANA_ICON} alt="мана" className="w-full h-full object-contain" />
+                          <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-[8px] drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">{pc.cost}</span>
+                        </div>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -1143,12 +1169,17 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col items-center justify-center relative">
           <div className="flex items-center gap-4 sm:gap-6">
             {/* Emblem */}
-            <div className="relative flex items-center justify-center w-14 h-14 sm:w-18 sm:h-18 flex-shrink-0">
+            <div className="relative flex items-center justify-center flex-shrink-0"
+              style={{ width: '64px', height: '64px' }}>
               <div className="absolute inset-0 rounded-full"
-                style={{ background: 'radial-gradient(circle at 40% 35%, #3a6fa8, #0d2a4a)', boxShadow: '0 0 0 2px #fcd34d, 0 0 20px rgba(252,211,77,0.35), 0 0 0 4px rgba(212,175,55,0.15), inset 0 0 15px rgba(0,0,0,0.6)' }} />
-              <div className="absolute inset-[3px] rounded-full border border-[#fcd34d]/25" />
-              <div className="absolute inset-[6px] rounded-full border border-dashed border-[#fcd34d]/20" />
-              <Swords size={22} className="relative z-10 text-white drop-shadow-[0_0_10px_rgba(252,211,77,0.9)]" />
+                style={{ boxShadow: '0 0 0 2px #fcd34d, 0 0 20px rgba(252,211,77,0.4), 0 0 0 4px rgba(212,175,55,0.12)' }} />
+              <img
+                src={ARENA_ICON}
+                alt="Arena"
+                className="w-full h-full rounded-full object-cover"
+                style={{ filter: 'drop-shadow(0 0 10px rgba(252,211,77,0.6))' }}
+                draggable={false}
+              />
             </div>
             {/* Title */}
             <div className="flex flex-col items-start">
