@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
+import { createPortal } from 'react-dom';
 import { Trophy, Scroll, Swords, RefreshCw, AlertTriangle, X, Search, Star } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -166,9 +167,16 @@ const FALLBACK_CLASSES: ClassData[] = [
 
 // ─── Fullscreen card modal ────────────────────────────────────────────────────
 
+const RARITY_LABEL: Record<string, string> = {
+  common: 'Обычная', rare: 'Редкая', epic: 'Эпическая', legendary: 'Легендарная', free: 'Базовая',
+};
+const TYPE_LABEL: Record<string, string> = {
+  minion: 'Существо', spell: 'Заклинание', weapon: 'Оружие', hero: 'Герой', location: 'Локация',
+};
+
 const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }> = ({ card, tier, onClose }) => {
   const [visible, setVisible] = useState(false);
-  const [imgErr, setImgErr] = useState(false);
+  const [imgErr,  setImgErr]  = useState(false);
 
   const bigSrc = imgErr ? null
     : card.imageRu ? card.imageRu
@@ -188,48 +196,63 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
     };
   }, [onClose]);
 
-  const rarityLabel: Record<string, string> = {
-    common: 'Обычная', rare: 'Редкая', epic: 'Эпическая', legendary: 'Легендарная', free: 'Базовая',
-  };
-  const typeLabel: Record<string, string> = {
-    minion: 'Существо', spell: 'Заклинание', weapon: 'Оружие', hero: 'Герой', location: 'Локация',
-  };
-
   const scoreBg = (s: number) => s >= 100 ? '#16a34a' : s >= 75 ? '#ca8a04' : '#dc2626';
 
-  return (
+  // Rendered via portal — completely outside app stacking context
+  return createPortal(
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 select-none"
       style={{
-        zIndex: 9999,
+        position: 'fixed', inset: 0,
+        zIndex: 99999,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px',
         opacity: visible ? 1 : 0,
-        transition: 'opacity 0.2s ease',
+        transition: 'opacity 0.22s ease',
+        userSelect: 'none',
+        WebkitTapHighlightColor: 'transparent',
       }}
+      /* backdrop: close on any pointer/touch outside card */
       onPointerDown={onClose}
+      onTouchEnd={e => { e.preventDefault(); onClose(); }}
     >
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
+      {/* Backdrop */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'rgba(0,0,0,0.87)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }} />
+
+      {/* Card container — stops propagation so tapping card doesn't close */}
       <div
-        className="relative flex flex-col items-center gap-5 max-w-sm w-full"
         style={{
-          zIndex: 10000,
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
+          maxWidth: '340px', width: '100%',
           transform: visible ? 'scale(1) translateY(0)' : 'scale(0.72) translateY(40px)',
           transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
         }}
         onPointerDown={e => e.stopPropagation()}
+        onTouchEnd={e => e.stopPropagation()}
       >
         {bigSrc ? (
           <img src={bigSrc} alt={card.name} onError={() => setImgErr(true)}
-            className="w-64 sm:w-72 md:w-80 h-auto drop-shadow-[0_24px_60px_rgba(0,0,0,0.95)]"
+            style={{ width: '100%', maxWidth: '300px', height: 'auto', filter: 'drop-shadow(0 24px 60px rgba(0,0,0,0.95))' }}
             draggable={false} />
         ) : (
-          <div className="w-64 h-96 bg-[#2c1e16] rounded-2xl border-2 border-[#a88a45] flex items-center justify-center">
-            <span className="text-[#fcd34d] font-hs text-xl text-center px-4">{card.name}</span>
+          <div style={{
+            width: '256px', height: '384px', background: '#2c1e16', borderRadius: '16px',
+            border: '2px solid #a88a45', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <span style={{ color: '#fcd34d', fontFamily: 'var(--font-hs)', fontSize: '18px', textAlign: 'center', padding: '16px' }}>{card.name}</span>
           </div>
         )}
-        <div className="flex flex-wrap items-center justify-center gap-2 w-full">
+
+        {/* Badges row */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
           {card.score > 0 && (
-            <div className="px-4 py-1.5 rounded-full text-white font-bold text-sm shadow-lg border border-white/20"
-              style={{ background: scoreBg(card.score) }}>
+            <div style={{ padding: '6px 16px', borderRadius: '999px', color: '#fff', fontWeight: 700, fontSize: '14px', border: '1px solid rgba(255,255,255,0.2)', background: scoreBg(card.score) }}>
               HearthArena: {card.score}
             </div>
           )}
@@ -237,32 +260,45 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
             {tier}
           </div>
           {card.rarity && (
-            <div className="px-3 py-1.5 rounded-full bg-[#1a110a]/80 border border-[#a88a45]/60 text-[#fcd34d] text-xs font-bold">
-              {rarityLabel[card.rarity] || card.rarity}
+            <div style={{ padding: '6px 12px', borderRadius: '999px', background: 'rgba(26,17,10,0.8)', border: '1px solid rgba(168,138,69,0.6)', color: '#fcd34d', fontSize: '12px', fontWeight: 700 }}>
+              {RARITY_LABEL[card.rarity] || card.rarity}
             </div>
           )}
           {card.type && (
-            <div className="px-3 py-1.5 rounded-full bg-[#1a110a]/80 border border-[#6b4c2a]/60 text-[#e8d5a5] text-xs">
-              {typeLabel[card.type] || card.type}
+            <div style={{ padding: '6px 12px', borderRadius: '999px', background: 'rgba(26,17,10,0.8)', border: '1px solid rgba(107,76,42,0.6)', color: '#e8d5a5', fontSize: '12px' }}>
+              {TYPE_LABEL[card.type] || card.type}
             </div>
           )}
           {card.cost !== undefined && (
-            <div className="px-3 py-1.5 rounded-full bg-[#1e3a8a]/80 border border-[#60a5fa]/60 text-[#bfdbfe] text-xs font-bold">
+            <div style={{ padding: '6px 12px', borderRadius: '999px', background: 'rgba(30,58,138,0.8)', border: '1px solid rgba(96,165,250,0.6)', color: '#bfdbfe', fontSize: '12px', fontWeight: 700 }}>
               Мана: {card.cost}
             </div>
           )}
         </div>
-        <p className="text-white/40 text-xs mt-1">
-          Нажмите вне карточки или <kbd className="bg-white/10 px-1.5 py-0.5 rounded text-white/60">ESC</kbd> для закрытия
+
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '4px', textAlign: 'center' }}>
+          Нажмите вне карточки или{' '}
+          <kbd style={{ background: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px', color: 'rgba(255,255,255,0.6)' }}>ESC</kbd>
+          {' '}для закрытия
         </p>
       </div>
+
+      {/* Close button */}
       <button
-        className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all border border-white/10 hover:border-white/30"
-        onClick={onClose} aria-label="Закрыть"
+        style={{
+          position: 'absolute', top: '16px', right: '16px', zIndex: 2,
+          width: '40px', height: '40px', borderRadius: '50%',
+          background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: 'rgba(255,255,255,0.75)', cursor: 'pointer', transition: 'all 0.2s',
+        }}
+        onPointerDown={e => { e.stopPropagation(); onClose(); }}
+        aria-label="Закрыть"
       >
         <X size={18} />
       </button>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
