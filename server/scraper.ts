@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { config as dotenvConfig } from 'dotenv';
 
 dotenvConfig({ path: join(dirname(fileURLToPath(import.meta.url)), '../.env') });
@@ -409,6 +409,12 @@ async function buildBlizzardImageMap(token: string) {
 
 function saveData(filename: string, data: object) {
   writeFileSync(join(DATA_DIR, filename), JSON.stringify(data, null, 2), 'utf-8');
+}
+
+export function loadData(filename: string): any | null {
+  try {
+    return JSON.parse(readFileSync(join(DATA_DIR, filename), 'utf-8'));
+  } catch { return null; }
 }
 
 // ─── HSReplay Legendaries ─────────────────────────────────────────────────────
