@@ -483,7 +483,9 @@ const ClassTabs: React.FC<{
   sections: ClassSection[];
   activeId: string;
   onChange: (id: string) => void;
-}> = ({ sections, activeId, onChange }) => {
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
+}> = ({ sections, activeId, onChange, searchQuery, onSearchChange }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -493,52 +495,84 @@ const ClassTabs: React.FC<{
 
   return (
     <div
-      ref={scrollRef}
-      className="flex gap-1.5 overflow-x-auto pb-1 snap-x"
-      style={{ scrollbarWidth: 'thin' }}
+      className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 rounded-2xl overflow-x-auto scrollbar-hs"
+      style={{
+        background: 'linear-gradient(135deg,#f4e8cc,#ede0c0)',
+        border: '1.5px solid #c4a46a',
+        boxShadow: 'inset 0 1px 3px rgba(139,69,19,0.15), 0 2px 6px rgba(0,0,0,0.12)',
+      }}
     >
-      {sections.map(sec => {
-        const isActive = sec.id === activeId;
-        const iconSrc  = CLASS_ICON[sec.id];
+      {/* Icon buttons */}
+      <div ref={scrollRef} className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        {sections.map(sec => {
+          const isActive = sec.id === activeId;
+          const iconSrc  = CLASS_ICON[sec.id];
 
-        return (
-          <button
-            key={sec.id}
-            data-id={sec.id}
-            onClick={() => onChange(sec.id)}
-            title={sec.name}
-            className={`snap-start flex-shrink-0 flex flex-col items-center gap-1 px-2.5 py-2 rounded-xl transition-all border-2 ${
-              isActive
-                ? 'border-[#fcd34d] shadow-[0_0_12px_rgba(252,211,77,0.4),inset_0_1px_3px_rgba(255,255,255,0.3)] scale-110 z-10'
-                : 'border-transparent opacity-60 hover:opacity-90 hover:border-[#a88a45]/50 hover:scale-105'
-            }`}
-            style={{
-              background: isActive
-                ? `linear-gradient(145deg, ${sec.color}dd, ${sec.color})`
-                : `${sec.color}44`,
-            }}
-          >
-            {iconSrc ? (
-              <img
-                src={iconSrc}
-                alt={sec.name}
-                className={`object-contain transition-all ${isActive ? 'w-9 h-9' : 'w-8 h-8'}`}
-                draggable={false}
-              />
-            ) : (
-              /* Нейтральные — нет иконки, используем ⚔ */
-              <div className={`flex items-center justify-center font-hs text-white/80 transition-all ${isActive ? 'text-2xl w-9 h-9' : 'text-xl w-8 h-8'}`}>
-                ⚔
+          return (
+            <button
+              key={sec.id}
+              data-id={sec.id}
+              onClick={() => onChange(sec.id)}
+              title={sec.name}
+              className="flex-shrink-0 relative transition-all duration-200"
+              style={{
+                transform: isActive ? 'scale(1.15)' : 'scale(1)',
+                filter: isActive ? 'none' : 'grayscale(0.2) brightness(0.85)',
+              }}
+            >
+              <div
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
+                style={{
+                  background: `radial-gradient(circle at 35% 35%, ${sec.color}ff, ${sec.color}aa)`,
+                  boxShadow: isActive
+                    ? `0 0 0 2.5px #fcd34d, 0 0 10px rgba(252,211,77,0.55), 0 3px 8px rgba(0,0,0,0.45)`
+                    : `0 0 0 1.5px rgba(0,0,0,0.35), 0 2px 5px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.2)`,
+                }}
+              >
+                {iconSrc ? (
+                  <img
+                    src={iconSrc}
+                    alt={sec.name}
+                    className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
+                    draggable={false}
+                  />
+                ) : (
+                  <span className="text-white/80 text-sm font-hs">⚔</span>
+                )}
               </div>
-            )}
-            <span className={`font-hs leading-tight text-center transition-all ${
-              isActive ? 'text-[#fcd34d] text-[10px]' : 'text-white/70 text-[9px]'
-            }`}>
-              {sec.name}
-            </span>
+              {isActive && (
+                <div
+                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#fcd34d]"
+                  style={{ boxShadow: '0 0 4px rgba(252,211,77,0.8)' }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Divider */}
+      <div className="w-px h-7 flex-shrink-0 bg-[#c4a46a]/50 mx-1" />
+
+      {/* Search */}
+      <div className="relative flex-grow min-w-[140px]">
+        <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8b4513]/50 pointer-events-none" />
+        <input
+          type="text"
+          placeholder="Поиск: Йогг-Сарон, Рагнарос..."
+          value={searchQuery}
+          onChange={e => onSearchChange(e.target.value)}
+          className="w-full bg-transparent pl-8 pr-3 py-1.5 text-sm text-[#3d2a1e] placeholder-[#8b6c42]/60 outline-none"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => onSearchChange('')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-[#8b4513]/50 hover:text-[#8b4513] transition-colors"
+          >
+            <X size={13} />
           </button>
-        );
-      })}
+        )}
+      </div>
     </div>
   );
 };
@@ -632,60 +666,45 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
         </div>
       ) : (
         <>
-          {/* Class tabs */}
-          <div className="mb-5 rounded-2xl p-2 scrollbar-hs"
-            style={{
-              background: 'linear-gradient(135deg,rgba(26,17,10,0.45),rgba(44,30,22,0.3))',
-              border: '1.5px solid rgba(168,138,69,0.25)',
-              boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.3)',
-            }}>
-            <ClassTabs sections={sections} activeId={activeClassId} onChange={handleClassChange} />
+          {/* Nav bar: class icons + search */}
+          <div className="mb-5">
+            <ClassTabs
+              sections={sections}
+              activeId={activeClassId}
+              onChange={handleClassChange}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            />
           </div>
 
-          {/* Active class header */}
-          {activeSection && (
-            <div className="flex items-center gap-3 mb-5">
-              {CLASS_ICON[activeSection.id] ? (
-                <img src={CLASS_ICON[activeSection.id]} alt={activeSection.name} className="w-10 h-10 object-contain" />
-              ) : (
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl" style={{ background: activeSection.color }}>⚔</div>
-              )}
-              <div>
-                <h3 className="font-hs text-xl text-[#4a3018]">{activeSection.name}</h3>
-                <span className="text-[#8b6c42] text-xs">
-                  {isNeutralTab
-                    ? `${activeSection.totalCards} нейтральных карт`
-                    : `${activeSection.tiers.flatMap(t => t.cards).filter(c => c.classKey !== 'any').length} карт класса`}
-                </span>
+          {/* Active class header + rarity filter */}
+          <div className="flex items-center justify-between gap-3 mb-5">
+            {activeSection && (
+              <div className="flex items-center gap-3">
+                {CLASS_ICON[activeSection.id] ? (
+                  <img src={CLASS_ICON[activeSection.id]} alt={activeSection.name}
+                    className="w-9 h-9 object-contain drop-shadow-md" />
+                ) : (
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg"
+                    style={{ background: activeSection.color }}>⚔</div>
+                )}
+                <div>
+                  <h3 className="font-hs text-lg sm:text-xl text-[#4a3018] leading-tight">{activeSection.name}</h3>
+                  <span className="text-[#8b6c42] text-xs">
+                    {isNeutralTab
+                      ? `${activeSection.totalCards} нейтральных карт`
+                      : `${activeSection.tiers.flatMap(t => t.cards).filter(c => c.classKey !== 'any').length} карт класса`}
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
-
-          {/* Filters */}
-          <div className="mb-6 flex flex-col sm:flex-row gap-3 p-3 sm:p-4 rounded-2xl"
-            style={{
-              background: 'linear-gradient(135deg,#ede0c0,#e4d0a0)',
-              border: '1.5px solid #c4a46a',
-              boxShadow: 'inset 0 2px 6px rgba(139,69,19,0.18), 0 1px 0 rgba(255,255,255,0.6)',
-            }}>
-            <div className="flex-grow relative">
-              <label htmlFor="card-search" className="block text-xs font-bold text-[#8b4513] mb-1 uppercase tracking-wider">Поиск</label>
-              <div className="relative">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8b4513]/60" />
-                <input id="card-search" name="card-search" type="text"
-                  placeholder="Название карты..."
-                  value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                  className="hs-input w-full rounded-lg pl-8 pr-4 py-2.5 transition-colors placeholder-[#8b4513]/50" />
-              </div>
-            </div>
-            <div className="sm:w-44">
-              <label htmlFor="rarity-filter" className="block text-xs font-bold text-[#8b4513] mb-1 uppercase tracking-wider">Редкость</label>
-              <select id="rarity-filter" name="rarity-filter"
-                value={selectedRarity} onChange={e => setSelectedRarity(e.target.value)}
-                className="hs-input w-full rounded-lg px-4 py-2.5 transition-colors appearance-none cursor-pointer">
-                {rarities.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-              </select>
-            </div>
+            )}
+            <select
+              value={selectedRarity} onChange={e => setSelectedRarity(e.target.value)}
+              className="hs-input rounded-xl px-3 py-2 text-sm transition-colors appearance-none cursor-pointer flex-shrink-0"
+              style={{ minWidth: '130px' }}
+            >
+              {rarities.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+            </select>
           </div>
 
           {/* Tiers */}
