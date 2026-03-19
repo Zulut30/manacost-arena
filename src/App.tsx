@@ -397,26 +397,6 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
                     (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.18)';
                   }}
                 >
-                  {/* Rank badge */}
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-hs text-sm"
-                    style={{
-                      background: index === 0
-                        ? 'linear-gradient(135deg,#fcd34d,#d97706)'
-                        : index === 1
-                        ? 'linear-gradient(135deg,#d1d5db,#9ca3af)'
-                        : index === 2
-                        ? 'linear-gradient(135deg,#d97706,#92400e)'
-                        : 'linear-gradient(135deg,#4a3018,#2c1e16)',
-                      color: '#fff',
-                      boxShadow: '0 2px 6px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.3)',
-                      border: '1.5px solid rgba(255,255,255,0.2)',
-                      fontSize: '11px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    #{index + 1}
-                  </div>
-
                   {/* Class icon */}
                   {icon && (
                     <img src={icon} alt={cls.name}
