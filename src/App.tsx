@@ -29,10 +29,11 @@ interface CardLookup {
 
 /** Minimal card entry inside a tier */
 interface TierCard {
-  name:   string;
-  score:  number;
-  rarity: string;
-  cardId: string;
+  name:     string;
+  score:    number;
+  rarity:   string;
+  cardId:   string;
+  classKey: string;  // 'any' = neutral, else class-specific
 }
 
 /** One tier inside a class section */
@@ -55,6 +56,22 @@ interface ClassSection {
 
 /** Merged card for display: TierCard + CardLookup */
 interface CardData extends TierCard, Partial<CardLookup> {}
+
+// ─── Class icons (from /public/class_icon/) ───────────────────────────────────
+
+const CLASS_ICON: Record<string, string> = {
+  'death-knight': '/class_icon/deathknight.png',
+  'demon-hunter': '/class_icon/demonhunter.png',
+  druid:          '/class_icon/druid.png',
+  hunter:         '/class_icon/hunter.png',
+  mage:           '/class_icon/mage.png',
+  paladin:        '/class_icon/paladin.png',
+  priest:         '/class_icon/priest.png',
+  rogue:          '/class_icon/rogue.png',
+  shaman:         '/class_icon/shaman.png',
+  warlock:        '/class_icon/warlock.png',
+  warrior:        '/class_icon/warrior.png',
+};
 
 interface WinratesData {
   classes: ClassData[];
@@ -334,21 +351,6 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
 
 // ─── Class tabs ───────────────────────────────────────────────────────────────
 
-const CLASS_SHORT: Record<string, string> = {
-  'death-knight': 'ДК',
-  'demon-hunter': 'ОнД',
-  druid:          'Друид',
-  hunter:         'Охот.',
-  mage:           'Маг',
-  paladin:        'Пал.',
-  priest:         'Жрец',
-  rogue:          'Разб.',
-  shaman:         'Шам.',
-  warlock:        'ЧК',
-  warrior:        'Воин',
-  any:            'Нейтр.',
-};
-
 const ClassTabs: React.FC<{
   sections: ClassSection[];
   activeId: string;
@@ -356,36 +358,56 @@ const ClassTabs: React.FC<{
 }> = ({ sections, activeId, onChange }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Scroll active tab into view
   useEffect(() => {
     const el = scrollRef.current?.querySelector(`[data-id="${activeId}"]`) as HTMLElement | null;
     el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }, [activeId]);
 
   return (
-    <div ref={scrollRef}
-      className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#a88a45]/40 snap-x"
-      style={{ scrollbarWidth: 'thin' }}>
+    <div
+      ref={scrollRef}
+      className="flex gap-1.5 overflow-x-auto pb-1 snap-x"
+      style={{ scrollbarWidth: 'thin' }}
+    >
       {sections.map(sec => {
         const isActive = sec.id === activeId;
+        const iconSrc  = CLASS_ICON[sec.id];
+
         return (
           <button
             key={sec.id}
             data-id={sec.id}
             onClick={() => onChange(sec.id)}
-            className={`snap-start flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg text-xs font-bold transition-all border-2 ${
+            title={sec.name}
+            className={`snap-start flex-shrink-0 flex flex-col items-center gap-1 px-2.5 py-2 rounded-xl transition-all border-2 ${
               isActive
-                ? 'border-[#a88a45] shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_3px_rgba(255,255,255,0.3)] scale-105 z-10'
-                : 'border-transparent opacity-70 hover:opacity-100 hover:border-[#a88a45]/40'
+                ? 'border-[#fcd34d] shadow-[0_0_12px_rgba(252,211,77,0.4),inset_0_1px_3px_rgba(255,255,255,0.3)] scale-110 z-10'
+                : 'border-transparent opacity-60 hover:opacity-90 hover:border-[#a88a45]/50 hover:scale-105'
             }`}
             style={{
-              background: isActive ? sec.color : `${sec.color}55`,
-              color: sec.textDark && isActive ? '#111' : '#fff',
+              background: isActive
+                ? `linear-gradient(145deg, ${sec.color}dd, ${sec.color})`
+                : `${sec.color}44`,
             }}
           >
-            <span className="hidden sm:block text-[11px] leading-tight font-hs">{sec.name}</span>
-            <span className="sm:hidden text-[11px] leading-tight font-hs">{CLASS_SHORT[sec.id] || sec.name}</span>
-            <span className="text-[9px] opacity-70">{sec.totalCards}</span>
+            {iconSrc ? (
+              <img
+                src={iconSrc}
+                alt={sec.name}
+                className={`object-contain transition-all ${isActive ? 'w-9 h-9' : 'w-8 h-8'}`}
+                draggable={false}
+              />
+            ) : (
+              /* Нейтральные — нет иконки, используем ⚔ */
+              <div className={`flex items-center justify-center font-hs text-white/80 transition-all ${isActive ? 'text-2xl w-9 h-9' : 'text-xl w-8 h-8'}`}>
+                ⚔
+              </div>
+            )}
+            <span className={`font-hs leading-tight text-center transition-all ${
+              isActive ? 'text-[#fcd34d] text-[10px]' : 'text-white/70 text-[9px]'
+            }`}>
+              {sec.name}
+            </span>
           </button>
         );
       })}
@@ -425,12 +447,18 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
     { id: 'legendary', name: 'Легендарная' },
   ];
 
+  // For class tabs: hide neutral cards (classKey === 'any')
+  // For the neutral tab ('any'): show only neutral cards (already the case since only 'any' cards are in that section)
+  const isNeutralTab = activeClassId === 'any';
+
   const filteredTiers = (activeSection?.tiers ?? []).map(t => ({
     ...t,
     cards: t.cards.filter(c => {
-      const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchRarity = selectedRarity === 'all' || c.rarity === selectedRarity;
-      return matchSearch && matchRarity;
+      const matchSearch  = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchRarity  = selectedRarity === 'all' || c.rarity === selectedRarity;
+      // In class tabs: exclude neutral cards; in neutral tab: show all
+      const matchClass   = isNeutralTab ? true : c.classKey !== 'any';
+      return matchSearch && matchRarity && matchClass;
     }),
   })).filter(t => t.cards.length > 0);
 
@@ -476,10 +504,18 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
           {/* Active class header */}
           {activeSection && (
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-4 h-8 rounded" style={{ background: activeSection.color }} />
+              {CLASS_ICON[activeSection.id] ? (
+                <img src={CLASS_ICON[activeSection.id]} alt={activeSection.name} className="w-10 h-10 object-contain" />
+              ) : (
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xl" style={{ background: activeSection.color }}>⚔</div>
+              )}
               <div>
                 <h3 className="font-hs text-xl text-[#4a3018]">{activeSection.name}</h3>
-                <span className="text-[#8b6c42] text-xs">{activeSection.totalCards} карт во всех тирах</span>
+                <span className="text-[#8b6c42] text-xs">
+                  {isNeutralTab
+                    ? `${activeSection.totalCards} нейтральных карт`
+                    : `${activeSection.tiers.flatMap(t => t.cards).filter(c => c.classKey !== 'any').length} карт класса`}
+                </span>
               </div>
             </div>
           )}

@@ -308,10 +308,11 @@ export async function scrapeHearthArenaTierlist(): Promise<boolean> {
             cards: Array.from(bySection[sid][t].values())
               .sort((a, b) => b.score - a.score)
               .map(card => ({
-                name:    card.name,
-                score:   card.score,
-                rarity:  HA_RARITY[card.rarityKey] ?? 'common',
-                cardId:  card.cardId,
+                name:     card.name,
+                score:    card.score,
+                rarity:   HA_RARITY[card.rarityKey] ?? 'common',
+                cardId:   card.cardId,
+                classKey: card.classKey,  // 'any' = neutral, else class-specific
               })),
           }));
 
