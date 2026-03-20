@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { createPortal } from 'react-dom';
-import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen } from 'lucide-react';
+import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen, Menu } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -268,7 +268,7 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
           {card.score > 0 && (
             <div style={{ padding: '6px 16px', borderRadius: '999px', color: '#fff', fontWeight: 700, fontSize: '14px', border: '1px solid rgba(255,255,255,0.2)', background: scoreBg(card.score) }}>
-              HearthArena: {card.score}
+              Manacost: {card.score}
             </div>
           )}
           <div className={`w-9 h-9 flex items-center justify-center rounded-full border-2 font-hs text-lg shadow-lg ${TIER_COLORS[tier] || TIER_COLORS['C']}`}>
@@ -711,7 +711,7 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pb-5 gap-4"
         style={{ borderBottom: '2px solid #c4a46a' }}>
         <div>
-          <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Тир-лист HearthArena</h2>
+          <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Тир-лист Manacost</h2>
           <p className="text-[#8b6c42] mt-1 text-sm">Оценки карт для каждого класса — текущий патч.</p>
         </div>
         <UpdateBadge updatedAt={data.updatedAt} source={data.source} onRefresh={onRefresh} refreshing={refreshing} />
@@ -733,7 +733,7 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
               style={{ animation: 'spin 0.7s linear infinite reverse' }} />
           </div>
           <p className="font-hs text-[#6b4c2a] text-xl tracking-wide">Загрузка тир-листа…</p>
-          <p className="text-[#8b6c42] text-sm">Получаем данные с HearthArena</p>
+          <p className="text-[#8b6c42] text-sm">Получаем данные с manacost.ru</p>
         </div>
       ) : (
         <>
@@ -1109,13 +1109,13 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
       id: 'tierlist' as const,
       icon: '📜',
       title: 'Тир-лист карт',
-      desc: 'Оценки каждой карты по классам от HearthArena',
+      desc: 'Оценки каждой карты по классам от Manacost',
     },
     {
       id: 'legendaries' as const,
       icon: '⭐',
       title: 'Легендарные группы',
-      desc: 'Лучшие легендарки и пакеты карт от HSReplay',
+      desc: 'Лучшие легендарки и пакеты карт от Manacost',
     },
   ];
 
@@ -1216,144 +1216,114 @@ interface Article {
   image: string;
   excerpt: string;
   tag?: string;
+  url: string;
+}
+interface ArticlesData {
+  articles: Article[];
+  updatedAt: string | null;
 }
 
-const ARTICLES: Article[] = [
-  {
-    id: '1',
-    title: 'Лучшие классы Арены — обзор патча 32.4',
-    date: '2026-03-18',
-    image: 'https://static.hearthstonejson.com/v1/512x/HERO_08bp.jpg',
-    excerpt: 'Разбор текущего мета: какие классы показывают наилучший винрейт и почему Паладин вернулся на вершину.',
-    tag: 'Мета',
-  },
-  {
-    id: '2',
-    title: 'Топ-10 карт для быстрого драфта на Арене',
-    date: '2026-03-10',
-    image: 'https://static.hearthstonejson.com/v1/512x/HERO_05bp.jpg',
-    excerpt: 'Автопик и S-тир: карты которые нужно брать не задумываясь в любой ситуации.',
-    tag: 'Гайд',
-  },
-  {
-    id: '3',
-    title: 'Руководство по легендарным группам для новичков',
-    date: '2026-03-02',
-    image: 'https://static.hearthstonejson.com/v1/512x/HERO_07bp.jpg',
-    excerpt: 'Что такое легендарные группы, как работает выбор первой легендарки и почему это важно для победы.',
-    tag: 'Обучение',
-  },
-  {
-    id: '4',
-    title: 'Анализ новых карт Изумрудного сна в Арене',
-    date: '2026-02-22',
-    image: 'https://static.hearthstonejson.com/v1/512x/HERO_06bp.jpg',
-    excerpt: 'Как новые карты сета Изумрудный сон изменили баланс режима Арена и что стоит пикать.',
-    tag: 'Анализ',
-  },
-  {
-    id: '5',
-    title: 'Секреты высокого винрейта: советы про-игроков',
-    date: '2026-02-14',
-    image: 'https://static.hearthstonejson.com/v1/512x/HERO_09bp.jpg',
-    excerpt: 'Подборка стратегий и лайфхаков от топ-игроков мирового рейтинга Арены.',
-    tag: 'Советы',
-  },
-  {
-    id: '6',
-    title: 'Нейтральные карты: что брать вместо классовых',
-    date: '2026-02-05',
-    image: 'https://static.hearthstonejson.com/v1/512x/HERO_01bp.jpg',
-    excerpt: 'Обзор лучших нейтральных карт которые усиливают любую колоду вне зависимости от класса.',
-    tag: 'Гайд',
-  },
-];
-
-function formatArticleDate(iso: string): string {
-  const [y, m, d] = iso.split('-');
-  return `${d}.${m}.${y}`;
-}
-
-interface ArticleCardProps { article: Article; idx: number; key?: React.Key; }
-function ArticleCard({ article, idx }: ArticleCardProps) {
-  const [hovered, setHovered] = useState(false);
-  const [imgError, setImgError] = useState(false);
+function ArticleCard({ article, idx }: { article: Article; idx: number }) {
+  const [imgErr, setImgErr] = useState(false);
   return (
     <div
-      className="rounded-2xl overflow-hidden anim-scale-in"
+      className="anim-scale-in rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-200"
       style={{
+        animationDelay: `${idx * 0.06}s`,
+        background: 'linear-gradient(145deg,#fdf6e3,#f0e6c8)',
         border: '1.5px solid #c4a46a',
-        background: '#fdf6e3',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-        boxShadow: hovered
-          ? '0 12px 32px rgba(139,69,19,0.35)'
-          : '0 4px 12px rgba(139,69,19,0.15)',
-        animationDelay: `${idx * 60}ms`,
+        boxShadow: '0 3px 12px rgba(0,0,0,0.15)',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 28px rgba(0,0,0,0.25)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = '';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 3px 12px rgba(0,0,0,0.15)';
+      }}
+      onClick={() => { if (article.url && article.url !== '#') window.open(article.url, '_blank'); }}
     >
       {/* Image */}
-      {!imgError ? (
-        <img
-          src={article.image}
-          alt={article.title}
-          loading="lazy"
-          className="h-44 w-full object-cover"
-          onError={() => setImgError(true)}
-        />
-      ) : (
-        <div className="h-44 w-full flex items-center justify-center"
-          style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)' }}>
-          <span className="text-[#fcd34d] font-hs text-sm">{article.tag ?? ''}</span>
-        </div>
-      )}
-      {/* Body */}
-      <div style={{ padding: 16 }}>
+      <div className="relative h-44 w-full overflow-hidden flex-shrink-0"
+        style={{ background: 'linear-gradient(135deg,#3a2210,#1a0e04)' }}>
+        {!imgErr ? (
+          <img src={article.image} alt={article.title} loading="lazy"
+            onError={() => setImgErr(true)}
+            className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-4xl opacity-40">⚔</span>
+          </div>
+        )}
         {article.tag && (
-          <span className="inline-block rounded-full px-2 py-0.5 text-[10px] font-bold mb-2"
-            style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', color: '#fcd34d' }}>
+          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-[#fcd34d]"
+            style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', border: '1px solid #a88a45' }}>
             {article.tag}
           </span>
         )}
-        <h3 className="font-hs text-[#3d2208] text-base leading-tight mb-2 overflow-hidden"
-          style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+      </div>
+      {/* Body */}
+      <div className="p-4 flex flex-col flex-grow gap-2">
+        <h3 className="font-hs text-[#3d2208] text-base leading-tight"
+          style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {article.title}
         </h3>
-        <p className="text-[#6b4c2a] text-xs leading-relaxed mb-3 overflow-hidden"
-          style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+        <p className="text-[#6b4c2a] text-xs leading-relaxed flex-grow"
+          style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {article.excerpt}
         </p>
-        <div className="flex items-center justify-between">
-          <span className="text-[#8b6c42] text-xs">{formatArticleDate(article.date)}</span>
-          <a href="#" className="text-xs font-bold" style={{ color: '#8b4513' }}>Читать →</a>
+        <div className="flex items-center justify-between mt-1 pt-2"
+          style={{ borderTop: '1px solid #c4a46a' }}>
+          <span className="text-[#8b6c42] text-xs">
+            {new Date(article.date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          </span>
+          <span className="text-[#8b4513] text-xs font-bold">Читать →</span>
         </div>
       </div>
     </div>
   );
 }
 
-function ArticlesTab() {
+function ArticlesTab({ data, loading }: { data: ArticlesData; loading: boolean }) {
   return (
-    <div className="flex flex-col gap-6 anim-fade-up">
-      <div>
-        <h2 className="font-hs text-[#3d2208] text-2xl sm:text-3xl mb-1">Статьи</h2>
-        <p className="text-[#8b6c42] text-sm sm:text-base">Гайды, разборы мета и советы по режиму Арена</p>
+    <div className="anim-fade-up">
+      {/* Header */}
+      <div className="mb-6 pb-5" style={{ borderBottom: '2px solid #c4a46a' }}>
+        <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Статьи</h2>
+        <p className="text-[#8b6c42] text-sm mt-1">Гайды, разборы мета и советы по режиму Арена</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {ARTICLES.map((article, idx) => (
-          <ArticleCard key={article.id} article={article} idx={idx} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[1,2,3].map(i => <div key={i} className="skeleton h-72 rounded-2xl" />)}
+        </div>
+      ) : data.articles.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="text-5xl mb-3">📰</div>
+          <p className="font-hs text-[#8b4513] text-xl">Статьи скоро появятся</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {data.articles.map((a, i) => <React.Fragment key={a.id}><ArticleCard article={a} idx={i} /></React.Fragment>)}
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 
+const TABS = [
+  { id: 'home',        label: 'Главная',    icon: Home     },
+  { id: 'articles',    label: 'Статьи',     icon: BookOpen },
+  { id: 'winrates',    label: 'Винрейт',    icon: Trophy   },
+  { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll   },
+  { id: 'legendaries', label: 'Легендарки', icon: Star     },
+] as const;
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'winrates' | 'tierlist' | 'legendaries' | 'articles'>('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
@@ -1362,8 +1332,10 @@ export default function App() {
     sections: [], cards: {}, updatedAt: null, source: 'initial',
   });
   const [legendariesData, setLegendariesData] = useState<LegendariesData>({
-    groups: [], updatedAt: null, source: 'hsreplay.net',
+    groups: [], updatedAt: null, source: 'manacost.ru',
   });
+  const [articlesData, setArticlesData] = useState<ArticlesData>({ articles: [], updatedAt: null });
+  const [loadingArticles, setLoadingArticles] = useState(true);
 
   const [loadingWinrates,    setLoadingWinrates]    = useState(true);
   const [loadingTierlist,    setLoadingTierlist]    = useState(true);
@@ -1403,7 +1375,17 @@ export default function App() {
     finally  { setLoadingLegendaries(false); }
   }, []);
 
-  useEffect(() => { fetchWinrates(); fetchTierlist(); fetchLegendaries(); }, [fetchWinrates, fetchTierlist, fetchLegendaries]);
+  const fetchArticles = useCallback(async () => {
+    try {
+      const res = await fetch('/api/articles');
+      if (!res.ok) throw new Error('not ok');
+      setArticlesData(await res.json());
+    } catch {
+      // keep empty
+    } finally { setLoadingArticles(false); }
+  }, []);
+
+  useEffect(() => { fetchWinrates(); fetchTierlist(); fetchLegendaries(); fetchArticles(); }, [fetchWinrates, fetchTierlist, fetchLegendaries, fetchArticles]);
 
   const handleRefresh = useCallback(async () => {
     if (refreshing) return;
@@ -1486,30 +1468,69 @@ export default function App() {
       <div className="wood-frame-horizontal" />
 
       <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
-        {/* Tab switcher */}
-        <div className="flex overflow-x-auto scrollbar-hs gap-1 sm:gap-2 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 sm:px-4 w-full max-w-6xl">
-          {([
-            { id: 'home',        label: 'Главная',    icon: Home      },
-            { id: 'winrates',    label: 'Винрейт',    icon: Trophy    },
-            { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll    },
-            { id: 'legendaries', label: 'Легендарки', icon: Star      },
-            { id: 'articles',    label: 'Статьи',     icon: BookOpen  },
-          ] as const).map(tab => {
-            const Icon = tab.icon;
-            const active = activeTab === tab.id;
-            return (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={`relative flex-shrink-0 px-3 sm:px-5 md:px-8 py-2 sm:py-3 font-hs text-xs sm:text-base md:text-xl rounded-t-xl transition-all flex items-center gap-1 sm:gap-2 border-t-[3px] sm:border-t-[4px] border-x-[3px] sm:border-x-[4px] ${
-                  active
-                    ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-3 sm:pb-4'
-                    : 'bg-parchment-inactive border-[#8b5a2b] text-[#5c3a21] hover:text-[#4a3018] hover:brightness-105 shadow-[inset_0_-3px_6px_rgba(0,0,0,0.2)] z-0 mt-2 sm:mt-3'
-                }`}>
-                <Icon size={16} className={`w-4 h-4 sm:w-5 sm:h-5 ${active ? 'text-[#8b4513]' : 'opacity-70'}`} />
-                <span className="drop-shadow-sm whitespace-nowrap">{tab.label}</span>
-                {active && <div className="absolute -bottom-[3px] sm:-bottom-[4px] left-0 right-0 h-[3px] sm:h-[4px] bg-[#f4e4bc] z-30" />}
-              </button>
-            );
-          })}
+        {/* Tab bar wrapper */}
+        <div className="relative w-full max-w-6xl flex flex-col items-center">
+          {/* Mobile nav bar */}
+          <div className="sm:hidden flex items-center justify-between px-3 py-2 -mb-px relative z-10 w-full"
+            style={{ background: 'linear-gradient(135deg,#dcb883,#c4a46a)', borderRadius: '12px 12px 0 0', border: '2px solid #8b5a2b', borderBottom: 'none' }}>
+            {/* Active tab label */}
+            <div className="flex items-center gap-2 font-hs text-[#4a3018] text-sm">
+              {(() => { const t = TABS.find(t => t.id === activeTab); const Icon = t!.icon; return <><Icon size={16} className="text-[#8b4513]" /><span>{t!.label}</span></>; })()}
+            </div>
+            {/* Hamburger */}
+            <button
+              onClick={() => setMobileMenuOpen(v => !v)}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-[#4a3018]"
+              style={{ background: mobileMenuOpen ? 'rgba(0,0,0,0.1)' : 'transparent' }}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+
+          {/* Mobile dropdown */}
+          {mobileMenuOpen && (
+            <div className="sm:hidden absolute top-0 left-0 right-0 z-40 px-3 pt-2 pb-3 flex flex-col gap-1.5"
+              style={{ background: 'linear-gradient(180deg,#2c1e16,#1a0e04)', borderBottom: '2px solid #8b5a1a', boxShadow: '0 8px 24px rgba(0,0,0,0.7)' }}>
+              {TABS.map(tab => {
+                const Icon = tab.icon;
+                const active = activeTab === tab.id;
+                return (
+                  <button key={tab.id}
+                    onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left transition-all"
+                    style={{
+                      background: active ? 'linear-gradient(135deg,#6b4c2a,#3a2210)' : 'rgba(255,255,255,0.05)',
+                      border: `1.5px solid ${active ? '#a88a45' : 'rgba(168,138,69,0.2)'}`,
+                      color: active ? '#fcd34d' : 'rgba(255,255,255,0.75)',
+                    }}>
+                    <Icon size={18} className="flex-shrink-0" />
+                    <span className="font-hs text-base">{tab.label}</span>
+                    {active && <div className="ml-auto w-2 h-2 rounded-full bg-[#fcd34d]" />}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Desktop tab bar — centered, no scroll */}
+          <div className="hidden sm:flex justify-center gap-1 md:gap-2 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 w-full max-w-6xl flex-wrap">
+            {TABS.map(tab => {
+              const Icon = tab.icon;
+              const active = activeTab === tab.id;
+              return (
+                <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
+                  className={`relative px-3 sm:px-5 md:px-8 py-2 sm:py-3 font-hs text-xs sm:text-sm md:text-lg rounded-t-xl transition-all flex items-center gap-1.5 sm:gap-2 border-t-[3px] border-x-[3px] flex-shrink-0 ${
+                    active
+                      ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-3 sm:pb-4'
+                      : 'bg-parchment-inactive border-[#8b5a2b] text-[#5c3a21] hover:text-[#4a3018] hover:brightness-105 shadow-[inset_0_-3px_6px_rgba(0,0,0,0.2)] z-0 mt-1 sm:mt-2'
+                  }`}>
+                  <Icon size={16} className={`flex-shrink-0 ${active ? 'text-[#8b4513]' : 'opacity-70'}`} />
+                  <span className="drop-shadow-sm whitespace-nowrap">{tab.label}</span>
+                  {active && <div className="absolute -bottom-[3px] left-0 right-0 h-[3px] bg-[#f4e4bc] z-30" />}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Parchment container */}
@@ -1520,7 +1541,7 @@ export default function App() {
           <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-r-2 sm:border-r-4 border-gold rounded-br-xl opacity-50" />
 
           {activeTab === 'home' && (
-            <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={setActiveTab} />
+            <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => setActiveTab(tab as any)} />
           )}
           {activeTab === 'winrates' && (
             <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
@@ -1534,7 +1555,9 @@ export default function App() {
           {activeTab === 'legendaries' && (
             <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
           )}
-          {activeTab === 'articles' && <ArticlesTab />}
+          {activeTab === 'articles' && (
+            <ArticlesTab data={articlesData} loading={loadingArticles} />
+          )}
         </div>
       </main>
     </div>

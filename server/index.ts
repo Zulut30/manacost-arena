@@ -34,6 +34,12 @@ app.get('/api/legendaries', (req, res) => {
   res.json(data);
 });
 
+app.get('/api/articles', (req, res) => {
+  const data = loadData('articles.json');
+  if (!data) return res.status(404).json({ error: 'No data' });
+  res.json(data);
+});
+
 app.get('/api/status', (req, res) => {
   const wr = loadData('winrates.json');
   const tl = loadData('tierlist.json');
