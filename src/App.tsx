@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { createPortal } from 'react-dom';
-import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star } from 'lucide-react';
+import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -1087,10 +1087,273 @@ function Legendaries({ data, loading, error }: {
   );
 }
 
+// ─── HomeTab ──────────────────────────────────────────────────────────────────
+
+function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
+  winratesData: WinratesData;
+  loadingWinrates: boolean;
+  onNavigate: (tab: 'winrates' | 'tierlist' | 'legendaries') => void;
+}) {
+  const topClasses = [...winratesData.classes]
+    .sort((a, b) => b.winrate - a.winrate)
+    .slice(0, 3);
+
+  const navCards = [
+    {
+      id: 'winrates' as const,
+      icon: '🏆',
+      title: 'Винрейт классов',
+      desc: 'Следите за топ-классами текущего патча',
+    },
+    {
+      id: 'tierlist' as const,
+      icon: '📜',
+      title: 'Тир-лист карт',
+      desc: 'Оценки каждой карты по классам от HearthArena',
+    },
+    {
+      id: 'legendaries' as const,
+      icon: '⭐',
+      title: 'Легендарные группы',
+      desc: 'Лучшие легендарки и пакеты карт от HSReplay',
+    },
+  ];
+
+  return (
+    <div className="flex flex-col gap-8 anim-fade-up">
+      {/* Hero row */}
+      <div className="flex flex-col sm:flex-row items-center gap-6 py-6 px-2">
+        <div className="relative flex-shrink-0" style={{ width: 80, height: 80 }}>
+          <div className="absolute inset-0 rounded-full"
+            style={{ boxShadow: '0 0 0 3px #fcd34d, 0 0 20px rgba(252,211,77,0.4)' }} />
+          <img
+            src={ARENA_ICON}
+            alt="Arena"
+            className="w-full h-full rounded-full object-cover"
+            style={{ filter: 'drop-shadow(0 0 8px rgba(252,211,77,0.5))' }}
+            draggable={false}
+          />
+        </div>
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+          <h2 className="font-hs text-[#3d2208] leading-tight mb-2"
+            style={{ fontSize: 'clamp(1.4rem, 4vw, 2.2rem)' }}>
+            Добро пожаловать в Manacost Arena
+          </h2>
+          <p className="text-[#8b6c42] text-sm sm:text-base max-w-xl leading-relaxed">
+            Актуальная статистика для режима Арена в Hearthstone. Данные обновляются автоматически на основе миллионов партий.
+          </p>
+        </div>
+      </div>
+
+      {/* Stats grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {navCards.map(card => (
+          <div
+            key={card.id}
+            className="rounded-2xl p-5 flex flex-col gap-3"
+            style={{
+              background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)',
+              border: '1.5px solid #c4a46a',
+            }}
+          >
+            <div className="text-3xl">{card.icon}</div>
+            <div>
+              <h3 className="font-hs text-[#3d2208] text-lg mb-1">{card.title}</h3>
+              <p className="text-[#8b6c42] text-sm leading-relaxed">{card.desc}</p>
+            </div>
+            <button
+              onClick={() => onNavigate(card.id)}
+              className="mt-auto self-start px-4 py-2 rounded-lg text-[#fcd34d] text-sm font-hs border border-[#a88a45] transition-all hover:brightness-110"
+              style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)' }}
+            >
+              Перейти →
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Top classes row */}
+      <div className="flex flex-col gap-3">
+        <h3 className="font-hs text-[#3d2208] text-xl">Топ классы по винрейту</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {loadingWinrates
+            ? [0, 1, 2].map(i => (
+                <div key={i} className="rounded-2xl p-4 animate-pulse"
+                  style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a', height: 80 }} />
+              ))
+            : topClasses.map((cls, i) => {
+                const icon = CLASS_ICON_BY_ID[cls.id];
+                const pct = Math.max(0, Math.min(100, (cls.winrate - 40) / 20 * 100));
+                return (
+                  <div key={cls.id} className="rounded-2xl p-4 flex flex-col gap-2"
+                    style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }}>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[#8b6c42] font-bold text-lg" style={{ minWidth: 20 }}>#{i + 1}</span>
+                      {icon && <img src={icon} alt={cls.name} className="w-8 h-8 rounded-full object-cover" />}
+                      <span className="font-hs text-[#3d2208] text-base flex-1">{cls.name}</span>
+                      <span className="font-hs text-[#6b4c2a] text-sm font-bold">{cls.winrate.toFixed(1)}%</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full" style={{ background: '#c4a46a44' }}>
+                      <div className="h-full rounded-full transition-all"
+                        style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#8b4513,#fcd34d)' }} />
+                    </div>
+                  </div>
+                );
+              })
+          }
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ArticlesTab ──────────────────────────────────────────────────────────────
+
+interface Article {
+  id: string;
+  title: string;
+  date: string;
+  image: string;
+  excerpt: string;
+  tag?: string;
+}
+
+const ARTICLES: Article[] = [
+  {
+    id: '1',
+    title: 'Лучшие классы Арены — обзор патча 32.4',
+    date: '2026-03-18',
+    image: 'https://static.hearthstonejson.com/v1/512x/HERO_08bp.jpg',
+    excerpt: 'Разбор текущего мета: какие классы показывают наилучший винрейт и почему Паладин вернулся на вершину.',
+    tag: 'Мета',
+  },
+  {
+    id: '2',
+    title: 'Топ-10 карт для быстрого драфта на Арене',
+    date: '2026-03-10',
+    image: 'https://static.hearthstonejson.com/v1/512x/HERO_05bp.jpg',
+    excerpt: 'Автопик и S-тир: карты которые нужно брать не задумываясь в любой ситуации.',
+    tag: 'Гайд',
+  },
+  {
+    id: '3',
+    title: 'Руководство по легендарным группам для новичков',
+    date: '2026-03-02',
+    image: 'https://static.hearthstonejson.com/v1/512x/HERO_07bp.jpg',
+    excerpt: 'Что такое легендарные группы, как работает выбор первой легендарки и почему это важно для победы.',
+    tag: 'Обучение',
+  },
+  {
+    id: '4',
+    title: 'Анализ новых карт Изумрудного сна в Арене',
+    date: '2026-02-22',
+    image: 'https://static.hearthstonejson.com/v1/512x/HERO_06bp.jpg',
+    excerpt: 'Как новые карты сета Изумрудный сон изменили баланс режима Арена и что стоит пикать.',
+    tag: 'Анализ',
+  },
+  {
+    id: '5',
+    title: 'Секреты высокого винрейта: советы про-игроков',
+    date: '2026-02-14',
+    image: 'https://static.hearthstonejson.com/v1/512x/HERO_09bp.jpg',
+    excerpt: 'Подборка стратегий и лайфхаков от топ-игроков мирового рейтинга Арены.',
+    tag: 'Советы',
+  },
+  {
+    id: '6',
+    title: 'Нейтральные карты: что брать вместо классовых',
+    date: '2026-02-05',
+    image: 'https://static.hearthstonejson.com/v1/512x/HERO_01bp.jpg',
+    excerpt: 'Обзор лучших нейтральных карт которые усиливают любую колоду вне зависимости от класса.',
+    tag: 'Гайд',
+  },
+];
+
+function formatArticleDate(iso: string): string {
+  const [y, m, d] = iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+interface ArticleCardProps { article: Article; idx: number; key?: React.Key; }
+function ArticleCard({ article, idx }: ArticleCardProps) {
+  const [hovered, setHovered] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  return (
+    <div
+      className="rounded-2xl overflow-hidden anim-scale-in"
+      style={{
+        border: '1.5px solid #c4a46a',
+        background: '#fdf6e3',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        boxShadow: hovered
+          ? '0 12px 32px rgba(139,69,19,0.35)'
+          : '0 4px 12px rgba(139,69,19,0.15)',
+        animationDelay: `${idx * 60}ms`,
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Image */}
+      {!imgError ? (
+        <img
+          src={article.image}
+          alt={article.title}
+          loading="lazy"
+          className="h-44 w-full object-cover"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div className="h-44 w-full flex items-center justify-center"
+          style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)' }}>
+          <span className="text-[#fcd34d] font-hs text-sm">{article.tag ?? ''}</span>
+        </div>
+      )}
+      {/* Body */}
+      <div style={{ padding: 16 }}>
+        {article.tag && (
+          <span className="inline-block rounded-full px-2 py-0.5 text-[10px] font-bold mb-2"
+            style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', color: '#fcd34d' }}>
+            {article.tag}
+          </span>
+        )}
+        <h3 className="font-hs text-[#3d2208] text-base leading-tight mb-2 overflow-hidden"
+          style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+          {article.title}
+        </h3>
+        <p className="text-[#6b4c2a] text-xs leading-relaxed mb-3 overflow-hidden"
+          style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+          {article.excerpt}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-[#8b6c42] text-xs">{formatArticleDate(article.date)}</span>
+          <a href="#" className="text-xs font-bold" style={{ color: '#8b4513' }}>Читать →</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArticlesTab() {
+  return (
+    <div className="flex flex-col gap-6 anim-fade-up">
+      <div>
+        <h2 className="font-hs text-[#3d2208] text-2xl sm:text-3xl mb-1">Статьи</h2>
+        <p className="text-[#8b6c42] text-sm sm:text-base">Гайды, разборы мета и советы по режиму Арена</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {ARTICLES.map((article, idx) => (
+          <ArticleCard key={article.id} article={article} idx={idx} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'winrates' | 'tierlist' | 'legendaries'>('winrates');
+  const [activeTab, setActiveTab] = useState<'home' | 'winrates' | 'tierlist' | 'legendaries' | 'articles'>('home');
 
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
@@ -1224,23 +1487,25 @@ export default function App() {
 
       <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
         {/* Tab switcher */}
-        <div className="flex justify-center gap-2 sm:gap-4 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 sm:px-4 w-full max-w-6xl">
+        <div className="flex overflow-x-auto scrollbar-hs gap-1 sm:gap-2 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 sm:px-4 w-full max-w-6xl">
           {([
-            { id: 'winrates',    label: 'Винрейт',    icon: Trophy },
-            { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll },
-            { id: 'legendaries', label: 'Легендарки', icon: Star  },
+            { id: 'home',        label: 'Главная',    icon: Home      },
+            { id: 'winrates',    label: 'Винрейт',    icon: Trophy    },
+            { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll    },
+            { id: 'legendaries', label: 'Легендарки', icon: Star      },
+            { id: 'articles',    label: 'Статьи',     icon: BookOpen  },
           ] as const).map(tab => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
             return (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={`relative px-4 sm:px-8 md:px-12 py-3 sm:py-4 font-hs text-sm sm:text-lg md:text-2xl rounded-t-xl transition-all flex items-center gap-2 sm:gap-3 border-t-[3px] sm:border-t-[4px] border-x-[3px] sm:border-x-[4px] ${
+                className={`relative flex-shrink-0 px-3 sm:px-5 md:px-8 py-2 sm:py-3 font-hs text-xs sm:text-base md:text-xl rounded-t-xl transition-all flex items-center gap-1 sm:gap-2 border-t-[3px] sm:border-t-[4px] border-x-[3px] sm:border-x-[4px] ${
                   active
-                    ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-4 sm:pb-5'
+                    ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-3 sm:pb-4'
                     : 'bg-parchment-inactive border-[#8b5a2b] text-[#5c3a21] hover:text-[#4a3018] hover:brightness-105 shadow-[inset_0_-3px_6px_rgba(0,0,0,0.2)] z-0 mt-2 sm:mt-3'
                 }`}>
-                <Icon size={20} className={`w-5 h-5 sm:w-6 sm:h-6 ${active ? 'text-[#8b4513]' : 'opacity-70'}`} />
-                <span className="drop-shadow-sm">{tab.label}</span>
+                <Icon size={16} className={`w-4 h-4 sm:w-5 sm:h-5 ${active ? 'text-[#8b4513]' : 'opacity-70'}`} />
+                <span className="drop-shadow-sm whitespace-nowrap">{tab.label}</span>
                 {active && <div className="absolute -bottom-[3px] sm:-bottom-[4px] left-0 right-0 h-[3px] sm:h-[4px] bg-[#f4e4bc] z-30" />}
               </button>
             );
@@ -1254,6 +1519,9 @@ export default function App() {
           <div className="absolute bottom-0 left-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-l-2 sm:border-l-4 border-gold rounded-bl-xl opacity-50" />
           <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-r-2 sm:border-r-4 border-gold rounded-br-xl opacity-50" />
 
+          {activeTab === 'home' && (
+            <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={setActiveTab} />
+          )}
           {activeTab === 'winrates' && (
             <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
               updatedAt={winratesData.updatedAt} source={winratesData.source}
@@ -1266,6 +1534,7 @@ export default function App() {
           {activeTab === 'legendaries' && (
             <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
           )}
+          {activeTab === 'articles' && <ArticlesTab />}
         </div>
       </main>
     </div>
