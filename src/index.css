@@ -61,30 +61,26 @@
     background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2H0v-2h20v-2H0V8h20V6H0V4h20V2H0V0h22v20h2V0h2v20h2V0h2v20h2V0h2v20h2V0h2v20h2v2H20v-1.5zM0 20h2v20H0V20zm4 0h2v20H4V20zm4 0h2v20H8V20zm4 0h2v20h-2V20zm4 0h2v20h-2V20zm4 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2zm0 4h20v2H20v-2z' fill='%233d2a1e' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
 
-  /* Wood plank divider */
+  /* Nav divider — uses nav-bg.png wallpaper */
   .wood-frame-horizontal {
-    height: 28px;
     width: 100%;
-    background: linear-gradient(to bottom, #5c3a21 0%, #4a2e15 20%, #2c1e16 80%, #1a0e04 100%);
-    border-top:    2px solid #8b5a2b;
-    border-bottom: 4px solid #0a0502;
-    box-shadow: 0 15px 20px -5px rgba(0,0,0,0.9), 0 8px 10px -3px rgba(0,0,0,0.7);
+    height: 40px;
+    background-image: url('/wallpaper/nav-bg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.7), 0 2px 4px rgba(0,0,0,0.5);
     position: relative;
     z-index: 25;
+    flex-shrink: 0;
   }
-  .wood-frame-horizontal::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='200' height='28' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 4c10 2 20 0 30-2s20 0 30 2 20 2 30 0 20-2 30 0 20 2 30 0' stroke='%231a0e04' stroke-width='1' fill='none' opacity='0.6'/%3E%3Cpath d='M0 12c15-2 25 1 40 0s25-2 40 0 25 2 40 0' stroke='%233a2210' stroke-width='1.5' fill='none' opacity='0.4'/%3E%3Cpath d='M0 20c10 1 20-1 30 0s20 2 30 0 20-1 30 0' stroke='%230a0502' stroke-width='2' fill='none' opacity='0.5'/%3E%3C/svg%3E");
-  }
+  .wood-frame-horizontal::before { display: none; }
 
-  /* Parchment */
+  /* Parchment — uses body-content-bg.jpg wallpaper */
   .bg-parchment {
     background-color: #f4e4bc;
-    background-image:
-      radial-gradient(circle at center, transparent 30%, rgba(139,69,19,0.12) 100%),
-      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+    background-image: url('/wallpaper/body-content-bg.jpg');
+    background-size: cover;
+    background-position: center center;
   }
   .bg-parchment-inactive {
     background-color: #dcb883;

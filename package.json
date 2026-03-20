@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite --port=3000 --host=0.0.0.0\" \"tsx server/index.ts\"",
+    "dev": "concurrently \"vite --port=3000 --host=0.0.0.0\" \"tsx --watch server/index.ts\"",
     "dev:frontend": "vite --port=3000 --host=0.0.0.0",
-    "dev:server": "tsx server/index.ts",
+    "dev:server": "tsx --watch server/index.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",

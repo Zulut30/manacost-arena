@@ -1556,11 +1556,34 @@ function ArticleCard({ article, idx }: { article: Article; idx: number }) {
 function ArticlesTab({ data, loading }: { data: ArticlesData; loading: boolean }) {
   return (
     <div className="anim-fade-up">
-      {/* Header */}
-      <div className="mb-6 pb-5" style={{ borderBottom: '2px solid #c4a46a' }}>
-        <h2 className="text-2xl sm:text-3xl font-hs text-[#3d2208] tracking-wide">Статьи</h2>
-        <p className="text-[#8b6c42] text-sm mt-1">Гайды, разборы мета и советы по режиму Арена</p>
+      {/* Hero banner */}
+      <div className="relative -mx-3 sm:-mx-6 md:-mx-10 -mt-3 sm:-mt-6 md:-mt-10 mb-6 overflow-hidden rounded-t-xl"
+        style={{ height: 'clamp(120px, 18vw, 200px)' }}>
+        <img
+          src="/wallpaper/blog-header-bg.jpg"
+          alt=""
+          className="w-full h-full object-cover object-top"
+          draggable={false}
+        />
+        {/* Title overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center"
+          style={{ background: 'linear-gradient(to bottom, rgba(244,228,188,0) 0%, rgba(244,228,188,0.15) 60%, rgba(244,228,188,0.6) 100%)' }}>
+          <h2
+            className="font-hs tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+            style={{
+              fontSize: 'clamp(1.4rem, 4vw, 2.4rem)',
+              color: '#3d2208',
+              textShadow: '0 2px 12px rgba(244,228,188,0.9), 0 0 30px rgba(244,228,188,0.6)',
+            }}>
+            Статьи
+          </h2>
+          <p className="text-[#6b4c2a] text-xs sm:text-sm mt-1 font-bold"
+            style={{ textShadow: '0 1px 4px rgba(255,255,255,0.8)' }}>
+            Гайды, разборы мета и советы по режиму Арена
+          </p>
+        </div>
       </div>
+
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[1,2,3].map(i => <div key={i} className="skeleton h-72 rounded-2xl" />)}
@@ -1837,6 +1860,22 @@ export default function App() {
           )}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="relative overflow-hidden flex-shrink-0" style={{ height: 'clamp(90px, 14vw, 160px)' }}>
+        <img
+          src="/wallpaper/footer-bg.jpg"
+          alt=""
+          className="w-full h-full object-cover object-top"
+          draggable={false}
+        />
+        <div className="absolute inset-0 flex items-end justify-center pb-3 sm:pb-4"
+          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 100%)' }}>
+          <p className="text-[10px] sm:text-xs text-[#c4a46a]/80 font-body tracking-widest uppercase">
+            manacost.ru · Неофициальный сайт · Hearthstone™ &amp; Blizzard Entertainment
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
