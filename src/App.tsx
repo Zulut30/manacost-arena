@@ -1207,6 +1207,274 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
   );
 }
 
+// ─── AdminPanel ───────────────────────────────────────────────────────────────
+
+interface AdminForm {
+  title: string; tag: string; excerpt: string; image: string; url: string;
+}
+
+const EMPTY_FORM: AdminForm = { title: '', tag: '', excerpt: '', image: '', url: '' };
+
+const ADMIN_INPUT: React.CSSProperties = {
+  background: '#ecddb0',
+  border: '1.5px solid #b89a55',
+  color: '#3d2a1e',
+  padding: '8px 12px',
+  borderRadius: '8px',
+  fontSize: '14px',
+  width: '100%',
+  boxSizing: 'border-box',
+};
+
+function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: () => void }) {
+  const [password,  setPassword]  = useState('');
+  const [authed,    setAuthed]    = useState(false);
+  const [form,      setForm]      = useState<AdminForm>(EMPTY_FORM);
+  const [saving,    setSaving]    = useState(false);
+  const [deleting,  setDeleting]  = useState<string | null>(null);
+  const [msg,       setMsg]       = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+
+  const field = (key: keyof AdminForm) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm(f => ({ ...f, [key]: e.target.value }));
+
+  const handleAuth = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password.length >= 4) { setAuthed(true); setMsg(null); }
+  };
+
+  const handleAdd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.title.trim()) return;
+    setSaving(true); setMsg(null);
+    try {
+      const res = await fetch('/api/admin/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, article: form }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Ошибка');
+      if (data.vercelNote) {
+        setMsg({ type: 'ok', text: `Статья создана. ${data.vercelNote}` });
+      } else {
+        setMsg({ type: 'ok', text: '✓ Статья добавлена!' });
+        setForm(EMPTY_FORM);
+        onRefresh();
+      }
+    } catch (err: any) {
+      setMsg({ type: 'err', text: err.message });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Удалить «${title}»?`)) return;
+    setDeleting(id);
+    try {
+      const res = await fetch(`/api/admin/articles/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Ошибка');
+      if (data.vercelNote) {
+        setMsg({ type: 'ok', text: data.vercelNote });
+      } else {
+        onRefresh();
+      }
+    } catch (err: any) {
+      setMsg({ type: 'err', text: err.message });
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  // ── Login screen ──────────────────────────────────────────────────────────
+  if (!authed) {
+    return (
+      <div style={{ padding: '48px 24px', textAlign: 'center' }}>
+        <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🔐</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '1.4rem', marginBottom: '24px' }}>
+          Панель администратора
+        </h2>
+        <form onSubmit={handleAuth}
+          style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '280px', margin: '0 auto' }}>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Введите пароль"
+            style={ADMIN_INPUT}
+            autoFocus
+          />
+          <button type="submit" style={{
+            background: 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+            color: '#fcd34d',
+            border: '1.5px solid #a88a45',
+            borderRadius: '8px',
+            padding: '10px',
+            fontFamily: 'var(--font-display)',
+            fontSize: '15px',
+            cursor: 'pointer',
+          }}>Войти</button>
+        </form>
+      </div>
+    );
+  }
+
+  // ── Main admin UI ─────────────────────────────────────────────────────────
+  return (
+    <div className="anim-fade-up" style={{ padding: '0' }}>
+      {/* Header */}
+      <div style={{ marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #c4a46a' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '1.5rem' }}>
+          📰 Управление статьями
+        </h2>
+        <p style={{ color: '#8b6c42', fontSize: '13px', marginTop: '4px' }}>
+          Статьи сохраняются в <code style={{ background: 'rgba(0,0,0,0.08)', padding: '1px 5px', borderRadius: '4px' }}>server/data/articles.json</code>
+        </p>
+      </div>
+
+      {/* ── Add form ────────────────────────────────────────────────────── */}
+      <div style={{
+        background: 'rgba(139,69,19,0.07)',
+        border: '1.5px solid #c4a46a',
+        borderRadius: '12px',
+        padding: '20px',
+        marginBottom: '32px',
+      }}>
+        <h3 style={{ fontFamily: 'var(--font-display)', color: '#6b4c2a', marginBottom: '16px', fontSize: '1rem' }}>
+          + Добавить статью
+        </h3>
+        <form onSubmit={handleAdd} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', color: '#6b4c2a', fontSize: '12px', marginBottom: '4px', fontWeight: 600 }}>Заголовок *</label>
+              <input style={ADMIN_INPUT} value={form.title} onChange={field('title')} placeholder="Лучшие классы Арены — март 2026" required />
+            </div>
+            <div>
+              <label style={{ display: 'block', color: '#6b4c2a', fontSize: '12px', marginBottom: '4px', fontWeight: 600 }}>Тег</label>
+              <input style={ADMIN_INPUT} value={form.tag} onChange={field('tag')} placeholder="Мета / Гайд / Обучение" />
+            </div>
+            <div>
+              <label style={{ display: 'block', color: '#6b4c2a', fontSize: '12px', marginBottom: '4px', fontWeight: 600 }}>Ссылка на статью</label>
+              <input style={ADMIN_INPUT} value={form.url} onChange={field('url')} placeholder="https://manacost.ru/..." />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', color: '#6b4c2a', fontSize: '12px', marginBottom: '4px', fontWeight: 600 }}>URL обложки</label>
+              <input style={ADMIN_INPUT} value={form.image} onChange={field('image')} placeholder="https://..." />
+            </div>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'block', color: '#6b4c2a', fontSize: '12px', marginBottom: '4px', fontWeight: 600 }}>Описание (краткое)</label>
+              <textarea
+                style={{ ...ADMIN_INPUT, minHeight: '80px', resize: 'vertical' }}
+                value={form.excerpt}
+                onChange={field('excerpt')}
+                placeholder="Разбор текущего мета: какие классы показывают наилучший винрейт..."
+              />
+            </div>
+          </div>
+
+          {/* Preview if image URL set */}
+          {form.image && (
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', padding: '10px', background: 'rgba(255,255,255,0.4)', borderRadius: '8px' }}>
+              <img src={form.image} alt="preview"
+                style={{ width: '64px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #c4a46a' }}
+                onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <span style={{ fontSize: '12px', color: '#8b6c42' }}>Предпросмотр обложки</span>
+            </div>
+          )}
+
+          {msg && (
+            <div style={{
+              padding: '10px 14px',
+              borderRadius: '8px',
+              background: msg.type === 'ok' ? '#d1fae5' : '#fee2e2',
+              color: msg.type === 'ok' ? '#065f46' : '#991b1b',
+              fontSize: '13px',
+              lineHeight: '1.5',
+            }}>{msg.text}</div>
+          )}
+
+          <button type="submit" disabled={saving} style={{
+            background: saving ? '#aaa' : 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+            color: '#fcd34d',
+            border: '1.5px solid #a88a45',
+            borderRadius: '8px',
+            padding: '10px 20px',
+            fontFamily: 'var(--font-display)',
+            fontSize: '15px',
+            cursor: saving ? 'not-allowed' : 'pointer',
+            alignSelf: 'flex-start',
+          }}>
+            {saving ? 'Сохранение...' : 'Добавить статью'}
+          </button>
+        </form>
+      </div>
+
+      {/* ── Existing articles ─────────────────────────────────────────────── */}
+      <h3 style={{ fontFamily: 'var(--font-display)', color: '#6b4c2a', marginBottom: '12px', fontSize: '1rem' }}>
+        Текущие статьи ({articles.length})
+      </h3>
+      {articles.length === 0 ? (
+        <p style={{ color: '#8b6c42', fontSize: '14px' }}>Нет статей</p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {articles.map(a => (
+            <div key={a.id} style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              padding: '10px 14px',
+              background: 'rgba(139,69,19,0.06)',
+              border: '1px solid #c4a46a',
+              borderRadius: '10px',
+            }}>
+              {a.image ? (
+                <img src={a.image} alt=""
+                  style={{ width: '52px', height: '40px', objectFit: 'cover', borderRadius: '6px', flexShrink: 0 }}
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              ) : (
+                <div style={{ width: '52px', height: '40px', borderRadius: '6px', background: 'rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: '20px', opacity: 0.4 }}>📰</span>
+                </div>
+              )}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '13px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {a.title}
+                </div>
+                <div style={{ color: '#8b6c42', fontSize: '11px', marginTop: '2px' }}>
+                  {a.date}{a.tag ? ` · ${a.tag}` : ''}
+                </div>
+              </div>
+              {a.url && a.url !== '#' && (
+                <a href={a.url} target="_blank" rel="noreferrer"
+                  style={{ fontSize: '11px', color: '#8b4513', textDecoration: 'none', flexShrink: 0 }}>
+                  ↗
+                </a>
+              )}
+              <button
+                onClick={() => handleDelete(a.id, a.title)}
+                disabled={deleting === a.id}
+                style={{
+                  background: '#fee2e2', color: '#991b1b',
+                  border: '1px solid #fca5a5', borderRadius: '6px',
+                  padding: '5px 11px', cursor: deleting === a.id ? 'not-allowed' : 'pointer',
+                  fontSize: '12px', flexShrink: 0,
+                  opacity: deleting === a.id ? 0.6 : 1,
+                }}
+              >
+                {deleting === a.id ? '…' : 'Удалить'}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── ArticlesTab ──────────────────────────────────────────────────────────────
 
 interface Article {
@@ -1324,6 +1592,9 @@ const TABS = [
 export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'winrates' | 'tierlist' | 'legendaries' | 'articles'>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Admin panel: accessible via ?admin in the URL
+  const [isAdminMode] = useState(() => window.location.search.includes('admin'));
 
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
@@ -1468,8 +1739,8 @@ export default function App() {
       <div className="wood-frame-horizontal" />
 
       <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
-        {/* Tab bar wrapper */}
-        <div className="relative w-full max-w-6xl flex flex-col items-center">
+        {/* Tab bar wrapper — hidden in admin mode */}
+        <div className={`relative w-full max-w-6xl flex flex-col items-center ${isAdminMode ? 'hidden' : ''}`}>
           {/* Mobile nav bar */}
           <div className="sm:hidden flex items-center justify-between px-3 py-2 -mb-px relative z-10 w-full"
             style={{ background: 'linear-gradient(135deg,#dcb883,#c4a46a)', borderRadius: '12px 12px 0 0', border: '2px solid #8b5a2b', borderBottom: 'none' }}>
@@ -1540,23 +1811,29 @@ export default function App() {
           <div className="absolute bottom-0 left-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-l-2 sm:border-l-4 border-gold rounded-bl-xl opacity-50" />
           <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-r-2 sm:border-r-4 border-gold rounded-br-xl opacity-50" />
 
-          {activeTab === 'home' && (
-            <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => setActiveTab(tab as any)} />
-          )}
-          {activeTab === 'winrates' && (
-            <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
-              updatedAt={winratesData.updatedAt} source={winratesData.source}
-              onRefresh={handleRefresh} refreshing={refreshing} />
-          )}
-          {activeTab === 'tierlist' && (
-            <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
-              onRefresh={handleRefresh} refreshing={refreshing} />
-          )}
-          {activeTab === 'legendaries' && (
-            <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
-          )}
-          {activeTab === 'articles' && (
-            <ArticlesTab data={articlesData} loading={loadingArticles} />
+          {isAdminMode ? (
+            <AdminPanel articles={articlesData.articles} onRefresh={fetchArticles} />
+          ) : (
+            <>
+              {activeTab === 'home' && (
+                <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => setActiveTab(tab as any)} />
+              )}
+              {activeTab === 'winrates' && (
+                <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
+                  updatedAt={winratesData.updatedAt} source={winratesData.source}
+                  onRefresh={handleRefresh} refreshing={refreshing} />
+              )}
+              {activeTab === 'tierlist' && (
+                <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
+                  onRefresh={handleRefresh} refreshing={refreshing} />
+              )}
+              {activeTab === 'legendaries' && (
+                <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
+              )}
+              {activeTab === 'articles' && (
+                <ArticlesTab data={articlesData} loading={loadingArticles} />
+              )}
+            </>
           )}
         </div>
       </main>

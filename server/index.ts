@@ -1,6 +1,14 @@
 import express from 'express';
 import cron from 'node-cron';
+import { writeFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { scrapeAll, loadData } from './scraper.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = dirname(__filename);
+const DATA_DIR   = join(__dirname, 'data');
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 
 const app = express();
 const PORT = 3001;
@@ -63,6 +71,58 @@ app.post('/api/scrape', async (req, res) => {
     console.log('[Server] Manual scrape result:', result);
   } finally {
     isScraping = false;
+  }
+});
+
+// ─── Admin API ────────────────────────────────────────────────────────────────
+
+app.post('/api/admin/articles', (req, res) => {
+  const { password, article } = req.body ?? {};
+  if (!password || password !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Неверный пароль' });
+  }
+  if (!article?.title?.trim()) {
+    return res.status(400).json({ error: 'Заголовок обязателен' });
+  }
+  try {
+    const filePath = join(DATA_DIR, 'articles.json');
+    const existing: any = loadData('articles.json') ?? { articles: [], updatedAt: null };
+    const newArticle = {
+      id: Date.now().toString(),
+      title:   article.title.trim(),
+      date:    new Date().toISOString().split('T')[0],
+      image:   article.image  ?? '',
+      excerpt: article.excerpt ?? '',
+      tag:     article.tag    ?? '',
+      url:     article.url    ?? '#',
+    };
+    existing.articles.unshift(newArticle);
+    existing.updatedAt = new Date().toISOString();
+    writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf-8');
+    res.json({ success: true, article: newArticle });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/articles/:id', (req, res) => {
+  const { password } = req.body ?? {};
+  if (!password || password !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Неверный пароль' });
+  }
+  try {
+    const filePath = join(DATA_DIR, 'articles.json');
+    const existing: any = loadData('articles.json') ?? { articles: [], updatedAt: null };
+    const before = existing.articles.length;
+    existing.articles = existing.articles.filter((a: any) => a.id !== req.params.id);
+    if (existing.articles.length === before) {
+      return res.status(404).json({ error: 'Статья не найдена' });
+    }
+    existing.updatedAt = new Date().toISOString();
+    writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf-8');
+    res.json({ success: true });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 });
 
