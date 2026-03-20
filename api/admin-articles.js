@@ -8,6 +8,17 @@ const DATA_FILE  = join(__dirname, '../server/data/articles.json');
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 
+const ALLOWED_IPS = [
+  '83.5.235.154',
+  '127.0.0.1',
+  '::1',
+];
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  return (forwarded ? forwarded.split(',')[0] : req.socket?.remoteAddress ?? '').trim();
+}
+
 function loadArticles() {
   try {
     return JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
@@ -21,6 +32,12 @@ export default function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
+
+  // IP whitelist — block non-admin IPs before any auth
+  const clientIp = getClientIp(req);
+  if (!ALLOWED_IPS.includes(clientIp)) {
+    return res.status(403).json({ error: 'Доступ запрещён' });
+  }
 
   // Auth check for mutating methods
   if (req.method === 'POST' || req.method === 'DELETE') {

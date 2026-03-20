@@ -1210,13 +1210,15 @@ const ADMIN_INPUT: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
-function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: () => void }) {
-  const [password,  setPassword]  = useState('');
-  const [authed,    setAuthed]    = useState(false);
+function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; onRefresh: () => void; clientIp: string }) {
+  // Persist password in session so user doesn't retype on refresh
+  const [password,  setPassword]  = useState(() => sessionStorage.getItem('ap') || '');
+  const [authed,    setAuthed]    = useState(() => !!sessionStorage.getItem('ap'));
+  const [activeSection, setActiveSection] = useState<'add' | 'list'>('list');
   const [form,      setForm]      = useState<AdminForm>(EMPTY_FORM);
   const [saving,    setSaving]    = useState(false);
   const [deleting,  setDeleting]  = useState<string | null>(null);
-  const [msg,       setMsg]       = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [msg,       setMsg]       = useState<{ type: 'ok' | 'err' | 'vercel'; text: string; json?: string } | null>(null);
 
   const field = (key: keyof AdminForm) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -1224,7 +1226,18 @@ function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: (
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.length >= 4) { setAuthed(true); setMsg(null); }
+    if (password.length >= 4) {
+      sessionStorage.setItem('ap', password);
+      setAuthed(true);
+      setMsg(null);
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('ap');
+    setAuthed(false);
+    setPassword('');
+    setMsg(null);
   };
 
   const handleAdd = async (e: React.FormEvent) => {
@@ -1281,9 +1294,14 @@ function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: (
     return (
       <div style={{ padding: '48px 24px', textAlign: 'center' }}>
         <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🔐</div>
-        <h2 style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '1.4rem', marginBottom: '24px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '1.4rem', marginBottom: '8px' }}>
           Панель администратора
         </h2>
+        {clientIp && (
+          <p style={{ color: '#8b6c42', fontSize: '12px', marginBottom: '20px' }}>
+            Ваш IP: <code style={{ background: 'rgba(0,0,0,0.08)', padding: '1px 6px', borderRadius: '4px', fontFamily: 'monospace' }}>{clientIp}</code>
+          </p>
+        )}
         <form onSubmit={handleAuth}
           style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '280px', margin: '0 auto' }}>
           <input
@@ -1313,13 +1331,30 @@ function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: (
   return (
     <div className="anim-fade-up" style={{ padding: '0' }}>
       {/* Header */}
-      <div style={{ marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #c4a46a' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '1.5rem' }}>
-          📰 Управление статьями
-        </h2>
-        <p style={{ color: '#8b6c42', fontSize: '13px', marginTop: '4px' }}>
-          Статьи сохраняются в <code style={{ background: 'rgba(0,0,0,0.08)', padding: '1px 5px', borderRadius: '4px' }}>server/data/articles.json</code>
-        </p>
+      <div style={{ marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #c4a46a', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <h2 style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '1.5rem' }}>
+            📰 Управление статьями
+          </h2>
+          <p style={{ color: '#8b6c42', fontSize: '13px', marginTop: '4px' }}>
+            Статьи сохраняются в <code style={{ background: 'rgba(0,0,0,0.08)', padding: '1px 5px', borderRadius: '4px' }}>server/data/articles.json</code>
+          </p>
+          {clientIp && (
+            <p style={{ color: '#aaa', fontSize: '11px', marginTop: '4px' }}>
+              IP: <code style={{ fontFamily: 'monospace' }}>{clientIp}</code>
+            </p>
+          )}
+        </div>
+        <button onClick={handleLogout} style={{
+          background: 'rgba(153,27,27,0.1)',
+          color: '#991b1b',
+          border: '1px solid #fca5a5',
+          borderRadius: '8px',
+          padding: '6px 14px',
+          fontSize: '13px',
+          cursor: 'pointer',
+          flexShrink: 0,
+        }}>Выйти</button>
       </div>
 
       {/* ── Add form ────────────────────────────────────────────────────── */}
@@ -1640,8 +1675,21 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'winrates' | 'tierlist' | 'legendaries' | 'articles'>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Admin panel: accessible via ?admin in the URL
-  const [isAdminMode] = useState(() => window.location.search.includes('admin'));
+  // Admin panel: ?admin in URL + IP whitelist check
+  const wantsAdmin = window.location.search.includes('admin');
+  const [isAdminMode,    setIsAdminMode]    = useState(false);
+  const [adminIpChecked, setAdminIpChecked] = useState(!wantsAdmin); // skip check if not needed
+  const [adminIpAllowed, setAdminIpAllowed] = useState(false);
+  const [clientIp,       setClientIp]       = useState('');
+  useEffect(() => {
+    if (!wantsAdmin) return;
+    fetch('/api/check-ip').then(r => r.json()).then(d => {
+      setAdminIpAllowed(d.allowed);
+      setClientIp(d.ip ?? '');
+      if (d.allowed) setIsAdminMode(true);
+    }).catch(() => {}).finally(() => setAdminIpChecked(true));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
@@ -1798,8 +1846,6 @@ export default function App() {
         </div>
       </header>
 
-      <div className="wood-frame-horizontal" />
-
       <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
         {/* Tab bar wrapper — hidden in admin mode */}
         <div className={`relative w-full max-w-6xl flex flex-col items-center ${isAdminMode ? 'hidden' : ''}`}>
@@ -1863,7 +1909,23 @@ export default function App() {
           <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-r-2 sm:border-r-4 border-gold rounded-br-xl opacity-50" />
 
           {isAdminMode ? (
-            <AdminPanel articles={articlesData.articles} onRefresh={fetchArticles} />
+            <AdminPanel articles={articlesData.articles} onRefresh={fetchArticles} clientIp={clientIp} />
+          ) : wantsAdmin && adminIpChecked && !adminIpAllowed ? (
+            /* Access denied screen */
+            <div style={{ padding: '60px 24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🚫</div>
+              <h2 style={{ fontFamily: 'var(--font-display)', color: '#991b1b', fontSize: '1.4rem', marginBottom: '8px' }}>
+                Доступ запрещён
+              </h2>
+              <p style={{ color: '#8b6c42', fontSize: '14px' }}>
+                Панель администратора недоступна с вашего IP-адреса.
+              </p>
+              {clientIp && (
+                <p style={{ color: '#aaa', fontSize: '12px', marginTop: '8px' }}>
+                  Ваш IP: <code style={{ fontFamily: 'monospace', background: 'rgba(0,0,0,0.06)', padding: '1px 6px', borderRadius: '4px' }}>{clientIp}</code>
+                </p>
+              )}
+            </div>
           ) : (
             <>
               {activeTab === 'home' && (

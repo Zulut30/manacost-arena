@@ -11,6 +11,14 @@ const __dirname  = dirname(__filename);
 const DATA_DIR   = join(__dirname, 'data');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 
+const ALLOWED_IPS = ['83.5.235.154', '127.0.0.1', '::1', '::ffff:127.0.0.1'];
+
+function getClientIp(req: import('express').Request): string {
+  const forwarded = req.headers['x-forwarded-for'];
+  const raw = Array.isArray(forwarded) ? forwarded[0] : forwarded;
+  return (raw ? raw.split(',')[0] : req.socket?.remoteAddress ?? '').trim();
+}
+
 const app = express();
 const PORT = 3001;
 
@@ -86,13 +94,28 @@ app.post('/api/scrape', async (req, res) => {
   }
 });
 
+// ─── IP check endpoint (mirrors api/check-ip.js for Vercel) ──────────────────
+
+app.get('/api/check-ip', (req, res) => {
+  const ip = getClientIp(req);
+  res.json({ allowed: ALLOWED_IPS.includes(ip), ip });
+});
+
 // ─── Admin API (/api/admin-articles — matches Vercel file api/admin-articles.js) ─
 
 function adminAuth(body: any): boolean {
   return body?.password === ADMIN_PASSWORD;
 }
 
-app.post('/api/admin-articles', (req, res) => {
+function adminIpGuard(req: import('express').Request, res: import('express').Response, next: import('express').NextFunction) {
+  const ip = getClientIp(req);
+  if (!ALLOWED_IPS.includes(ip)) {
+    return res.status(403).json({ error: 'Доступ запрещён' });
+  }
+  next();
+}
+
+app.post('/api/admin-articles', adminIpGuard, (req, res) => {
   if (!adminAuth(req.body)) return res.status(401).json({ error: 'Неверный пароль' });
   const { article } = req.body ?? {};
   if (!article?.title?.trim()) return res.status(400).json({ error: 'Заголовок обязателен' });
@@ -115,7 +138,7 @@ app.post('/api/admin-articles', (req, res) => {
   } catch (err: any) { res.status(500).json({ error: err.message }); }
 });
 
-app.delete('/api/admin-articles', (req, res) => {
+app.delete('/api/admin-articles', adminIpGuard, (req, res) => {
   if (!adminAuth(req.body)) return res.status(401).json({ error: 'Неверный пароль' });
   const id = req.body?.id;
   if (!id) return res.status(400).json({ error: 'id обязателен' });
