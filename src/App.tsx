@@ -434,7 +434,7 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
     }
   }, [loading]);
 
-  const maxWinrate = Math.max(...classes.map(c => c.winrate), 1);
+  const maxWinrate = useMemo(() => Math.max(...classes.map(c => c.winrate), 1), [classes]);
 
   return (
     <div>
@@ -680,16 +680,17 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
   // For the neutral tab ('any'): show only neutral cards (already the case since only 'any' cards are in that section)
   const isNeutralTab = activeClassId === 'any';
 
-  const filteredTiers = (activeSection?.tiers ?? []).map(t => ({
-    ...t,
-    cards: t.cards.filter(c => {
-      const matchSearch  = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchRarity  = selectedRarity === 'all' || c.rarity === selectedRarity;
-      // In class tabs: exclude neutral cards; in neutral tab: show all
-      const matchClass   = isNeutralTab ? true : c.classKey !== 'any';
-      return matchSearch && matchRarity && matchClass;
-    }),
-  })).filter(t => t.cards.length > 0);
+  const filteredTiers = useMemo(() =>
+    (activeSection?.tiers ?? []).map(t => ({
+      ...t,
+      cards: t.cards.filter(c => {
+        const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchRarity = selectedRarity === 'all' || c.rarity === selectedRarity;
+        const matchClass  = isNeutralTab ? true : c.classKey !== 'any';
+        return matchSearch && matchRarity && matchClass;
+      }),
+    })).filter(t => t.cards.length > 0),
+  [activeSection, searchQuery, selectedRarity, isNeutralTab]);
 
   const tierLabelFull: Record<string, string> = {
     S: 'Отлично',
@@ -788,7 +789,7 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
                 </div>
 
                 {/* Cards grid */}
-                <div className="flex flex-wrap gap-3 md:gap-5 justify-center md:justify-start">
+                <div className="flex flex-wrap gap-3 md:gap-5 justify-center md:justify-start" style={{ contain: 'layout' }}>
                   {tierGroup.cards.map((tc, idx) => {
                     const card = mergeCard(tc, cards);
                     return (
@@ -1231,7 +1232,7 @@ function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: (
     if (!form.title.trim()) return;
     setSaving(true); setMsg(null);
     try {
-      const res = await fetch('/api/admin/articles', {
+      const res = await fetch('/api/admin-articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password, article: form }),
@@ -1256,10 +1257,10 @@ function AdminPanel({ articles, onRefresh }: { articles: Article[]; onRefresh: (
     if (!confirm(`Удалить «${title}»?`)) return;
     setDeleting(id);
     try {
-      const res = await fetch(`/api/admin/articles/${id}`, {
+      const res = await fetch('/api/admin-articles', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password, id }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Ошибка');
@@ -1465,16 +1466,14 @@ function SectionBanner({ title, subtitle }: { title: string; subtitle: string })
     <>
       {/* Desktop banner — image with text overlay */}
       <div
-        className="relative overflow-hidden rounded-t-xl hidden sm:block"
-        style={{
-          margin: 'calc(-1 * var(--section-inset, 24px)) calc(-1 * var(--section-inset, 24px)) 24px',
-          height: 'clamp(130px, 15vw, 190px)',
-        }}
+        className="relative overflow-hidden rounded-t-xl hidden sm:block -mx-6 md:-mx-10 -mt-6 md:-mt-10 mb-6"
+        style={{ height: 'clamp(130px, 15vw, 190px)' }}
       >
         <img
           src="/wallpaper/blog-header-bg.jpg"
           alt=""
           className="w-full h-full object-cover object-top select-none"
+          loading="lazy"
           draggable={false}
         />
         <div
@@ -1704,7 +1703,22 @@ export default function App() {
     } finally { setLoadingArticles(false); }
   }, []);
 
-  useEffect(() => { fetchWinrates(); fetchTierlist(); fetchLegendaries(); fetchArticles(); }, [fetchWinrates, fetchTierlist, fetchLegendaries, fetchArticles]);
+  // Eager: winrates + articles (needed on Home tab)
+  useEffect(() => { fetchWinrates(); fetchArticles(); }, [fetchWinrates, fetchArticles]);
+
+  // Lazy: load tierlist / legendaries only on first visit to that tab
+  const [tierlistFetched,    setTierlistFetched]    = useState(false);
+  const [legendariesFetched, setLegendariesFetched] = useState(false);
+  useEffect(() => {
+    if (activeTab === 'tierlist' && !tierlistFetched) {
+      setTierlistFetched(true);
+      fetchTierlist();
+    }
+    if (activeTab === 'legendaries' && !legendariesFetched) {
+      setLegendariesFetched(true);
+      fetchLegendaries();
+    }
+  }, [activeTab, tierlistFetched, legendariesFetched, fetchTierlist, fetchLegendaries]);
 
   const handleRefresh = useCallback(async () => {
     if (refreshing) return;
@@ -1784,98 +1798,34 @@ export default function App() {
         </div>
       </header>
 
-      {/* ── Navigation band (nav-bg.png) ───────────────────────────────────────── */}
-      {!isAdminMode && (
-        <div className="relative w-full flex-shrink-0" style={{ zIndex: 30 }}>
-          {/* The red/gold band image as nav background */}
-          <div
-            className="relative w-full"
-            style={{
-              backgroundImage: 'url(/wallpaper/nav-bg.png)',
-              backgroundSize: '100% 100%',
-              backgroundRepeat: 'no-repeat',
-              minHeight: '64px',
-            }}
-          >
-            {/* Mobile: current tab label + hamburger */}
-            <div className="sm:hidden flex items-center justify-between h-full px-4 py-3">
-              <div className="flex items-center gap-2 font-hs text-[#fcd34d] text-sm drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-                {(() => {
-                  const t = TABS.find(t => t.id === activeTab);
-                  const Icon = t!.icon;
-                  return <><Icon size={16} /><span>{t!.label}</span></>;
-                })()}
-              </div>
-              <button
-                onClick={() => setMobileMenuOpen(v => !v)}
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-[#fcd34d]"
-                style={{ background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(212,175,55,0.4)' }}
-              >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
+      <div className="wood-frame-horizontal" />
 
-            {/* Desktop: flat tab buttons centered within the band */}
-            <div className="hidden sm:flex items-center justify-center gap-1 md:gap-2 px-4 py-3">
-              {TABS.map(tab => {
-                const Icon = tab.icon;
-                const active = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
-                    className="relative flex items-center gap-1.5 md:gap-2 px-4 md:px-7 py-2 md:py-2.5 rounded-lg font-hs text-sm md:text-base transition-all flex-shrink-0"
-                    style={{
-                      background: active
-                        ? 'linear-gradient(135deg, rgba(252,211,77,0.32), rgba(212,175,55,0.18))'
-                        : 'rgba(0,0,0,0.28)',
-                      border: active
-                        ? '1.5px solid rgba(252,211,77,0.75)'
-                        : '1.5px solid rgba(0,0,0,0.35)',
-                      color: active ? '#fffde7' : 'rgba(252,211,77,0.82)',
-                      textShadow: active
-                        ? '0 0 14px rgba(252,211,77,0.95), 0 1px 4px rgba(0,0,0,0.8)'
-                        : '0 1px 4px rgba(0,0,0,0.8)',
-                      boxShadow: active
-                        ? '0 2px 14px rgba(252,211,77,0.22), inset 0 1px 0 rgba(255,255,255,0.12)'
-                        : 'inset 0 1px 0 rgba(0,0,0,0.25)',
-                    }}
-                  >
-                    <Icon size={15} className="flex-shrink-0" />
-                    <span className="whitespace-nowrap">{tab.label}</span>
-                    {active && (
-                      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-[#fcd34d]" />
-                    )}
-                  </button>
-                );
-              })}
+      <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
+        {/* Tab bar wrapper — hidden in admin mode */}
+        <div className={`relative w-full max-w-6xl flex flex-col items-center ${isAdminMode ? 'hidden' : ''}`}>
+          {/* Mobile nav bar */}
+          <div className="sm:hidden flex items-center justify-between px-3 py-2 -mb-px relative z-10 w-full"
+            style={{ background: 'linear-gradient(135deg,#dcb883,#c4a46a)', borderRadius: '12px 12px 0 0', border: '2px solid #8b5a2b', borderBottom: 'none' }}>
+            <div className="flex items-center gap-2 font-hs text-[#4a3018] text-sm">
+              {(() => { const t = TABS.find(t => t.id === activeTab); const Icon = t!.icon; return <><Icon size={16} className="text-[#8b4513]" /><span>{t!.label}</span></>; })()}
             </div>
+            <button onClick={() => setMobileMenuOpen(v => !v)}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-[#4a3018]"
+              style={{ background: mobileMenuOpen ? 'rgba(0,0,0,0.1)' : 'transparent' }}>
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
 
           {/* Mobile dropdown */}
           {mobileMenuOpen && (
-            <div
-              className="sm:hidden absolute top-full left-0 right-0 z-50 px-3 pt-2 pb-3 flex flex-col gap-1.5"
-              style={{
-                background: 'linear-gradient(180deg,#2c1e16,#1a0e04)',
-                borderBottom: '2px solid #8b5a1a',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.7)',
-              }}
-            >
+            <div className="sm:hidden absolute top-0 left-0 right-0 z-40 px-3 pt-2 pb-3 flex flex-col gap-1.5"
+              style={{ background: 'linear-gradient(180deg,#2c1e16,#1a0e04)', borderBottom: '2px solid #8b5a1a', boxShadow: '0 8px 24px rgba(0,0,0,0.7)' }}>
               {TABS.map(tab => {
-                const Icon = tab.icon;
-                const active = activeTab === tab.id;
+                const Icon = tab.icon; const active = activeTab === tab.id;
                 return (
-                  <button
-                    key={tab.id}
-                    onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
+                  <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
                     className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left transition-all"
-                    style={{
-                      background: active ? 'linear-gradient(135deg,#6b4c2a,#3a2210)' : 'rgba(255,255,255,0.05)',
-                      border: `1.5px solid ${active ? '#a88a45' : 'rgba(168,138,69,0.2)'}`,
-                      color: active ? '#fcd34d' : 'rgba(255,255,255,0.75)',
-                    }}
-                  >
+                    style={{ background: active ? 'linear-gradient(135deg,#6b4c2a,#3a2210)' : 'rgba(255,255,255,0.05)', border: `1.5px solid ${active ? '#a88a45' : 'rgba(168,138,69,0.2)'}`, color: active ? '#fcd34d' : 'rgba(255,255,255,0.75)' }}>
                     <Icon size={18} className="flex-shrink-0" />
                     <span className="font-hs text-base">{tab.label}</span>
                     {active && <div className="ml-auto w-2 h-2 rounded-full bg-[#fcd34d]" />}
@@ -1884,15 +1834,29 @@ export default function App() {
               })}
             </div>
           )}
-        </div>
-      )}
 
-      <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
+          {/* Desktop tab bar */}
+          <div className="hidden sm:flex justify-center gap-1 md:gap-2 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 w-full max-w-6xl flex-wrap">
+            {TABS.map(tab => {
+              const Icon = tab.icon; const active = activeTab === tab.id;
+              return (
+                <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
+                  className={`relative px-3 sm:px-5 md:px-8 py-2 sm:py-3 font-hs text-xs sm:text-sm md:text-lg rounded-t-xl transition-all flex items-center gap-1.5 sm:gap-2 border-t-[3px] border-x-[3px] flex-shrink-0 ${
+                    active
+                      ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-3 sm:pb-4'
+                      : 'bg-parchment-inactive border-[#8b5a2b] text-[#5c3a21] hover:text-[#4a3018] hover:brightness-105 shadow-[inset_0_-3px_6px_rgba(0,0,0,0.2)] z-0 mt-1 sm:mt-2'
+                  }`}>
+                  <Icon size={16} className={`flex-shrink-0 ${active ? 'text-[#8b4513]' : 'opacity-70'}`} />
+                  <span className="drop-shadow-sm whitespace-nowrap">{tab.label}</span>
+                  {active && <div className="absolute -bottom-[3px] left-0 right-0 h-[3px] bg-[#f4e4bc] z-30" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Parchment container */}
-        <div
-          className="w-full max-w-6xl mx-auto bg-parchment rounded-xl border-[3px] sm:border-[4px] border-[#6b4c2a] shadow-[inset_0_0_60px_rgba(139,69,19,0.15),0_0_0_2px_#2c1e16,0_15px_30px_rgba(0,0,0,0.6)] p-3 sm:p-6 md:p-10 relative z-0"
-          style={{ '--section-inset': 'clamp(12px,2.5vw,40px)' } as React.CSSProperties}
-        >
+        <div className="w-full max-w-6xl mx-auto bg-parchment rounded-xl border-[3px] sm:border-[4px] border-[#6b4c2a] shadow-[inset_0_0_60px_rgba(139,69,19,0.15),0_0_0_2px_#2c1e16,0_15px_30px_rgba(0,0,0,0.6)] p-3 sm:p-6 md:p-10 relative z-0">
           <div className="absolute top-0 left-0 w-8 h-8 sm:w-16 sm:h-16 border-t-2 sm:border-t-4 border-l-2 sm:border-l-4 border-gold rounded-tl-xl opacity-50" />
           <div className="absolute top-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-t-2 sm:border-t-4 border-r-2 sm:border-r-4 border-gold rounded-tr-xl opacity-50" />
           <div className="absolute bottom-0 left-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-l-2 sm:border-l-4 border-gold rounded-bl-xl opacity-50" />

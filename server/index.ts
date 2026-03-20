@@ -1,5 +1,6 @@
 import express from 'express';
 import cron from 'node-cron';
+import compression from 'compression';
 import { writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -13,6 +14,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 const app = express();
 const PORT = 3001;
 
+app.use(compression());
 app.use(express.json());
 
 // CORS for Vite dev server
@@ -26,27 +28,35 @@ app.use((req, res, next) => {
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
 
+// 6 h cache (aligns with scrape schedule) — stale-while-revalidate keeps UX snappy
+const CACHE_6H  = 'public, max-age=21600, stale-while-revalidate=3600';
+const CACHE_1H  = 'public, max-age=3600,  stale-while-revalidate=600';
+
 app.get('/api/winrates', (req, res) => {
   const data = loadData('winrates.json');
   if (!data) return res.status(404).json({ error: 'No data available' });
+  res.set('Cache-Control', CACHE_6H);
   res.json(data);
 });
 
 app.get('/api/tierlist', (req, res) => {
   const data = loadData('tierlist.json');
   if (!data) return res.status(404).json({ error: 'No data available' });
+  res.set('Cache-Control', CACHE_6H);
   res.json(data);
 });
 
 app.get('/api/legendaries', (req, res) => {
   const data = loadData('legendaries.json');
   if (!data) return res.status(404).json({ error: 'No data available' });
+  res.set('Cache-Control', CACHE_6H);
   res.json(data);
 });
 
 app.get('/api/articles', (req, res) => {
   const data = loadData('articles.json');
   if (!data) return res.status(404).json({ error: 'No data' });
+  res.set('Cache-Control', CACHE_1H);
   res.json(data);
 });
 
@@ -76,56 +86,49 @@ app.post('/api/scrape', async (req, res) => {
   }
 });
 
-// ─── Admin API ────────────────────────────────────────────────────────────────
+// ─── Admin API (/api/admin-articles — matches Vercel file api/admin-articles.js) ─
 
-app.post('/api/admin/articles', (req, res) => {
-  const { password, article } = req.body ?? {};
-  if (!password || password !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Неверный пароль' });
-  }
-  if (!article?.title?.trim()) {
-    return res.status(400).json({ error: 'Заголовок обязателен' });
-  }
+function adminAuth(body: any): boolean {
+  return body?.password === ADMIN_PASSWORD;
+}
+
+app.post('/api/admin-articles', (req, res) => {
+  if (!adminAuth(req.body)) return res.status(401).json({ error: 'Неверный пароль' });
+  const { article } = req.body ?? {};
+  if (!article?.title?.trim()) return res.status(400).json({ error: 'Заголовок обязателен' });
   try {
     const filePath = join(DATA_DIR, 'articles.json');
     const existing: any = loadData('articles.json') ?? { articles: [], updatedAt: null };
     const newArticle = {
-      id: Date.now().toString(),
+      id:      Date.now().toString(),
       title:   article.title.trim(),
       date:    new Date().toISOString().split('T')[0],
-      image:   article.image  ?? '',
+      image:   article.image   ?? '',
       excerpt: article.excerpt ?? '',
-      tag:     article.tag    ?? '',
-      url:     article.url    ?? '#',
+      tag:     article.tag     ?? '',
+      url:     article.url     ?? '#',
     };
     existing.articles.unshift(newArticle);
     existing.updatedAt = new Date().toISOString();
     writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf-8');
     res.json({ success: true, article: newArticle });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
+  } catch (err: any) { res.status(500).json({ error: err.message }); }
 });
 
-app.delete('/api/admin/articles/:id', (req, res) => {
-  const { password } = req.body ?? {};
-  if (!password || password !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Неверный пароль' });
-  }
+app.delete('/api/admin-articles', (req, res) => {
+  if (!adminAuth(req.body)) return res.status(401).json({ error: 'Неверный пароль' });
+  const id = req.body?.id;
+  if (!id) return res.status(400).json({ error: 'id обязателен' });
   try {
     const filePath = join(DATA_DIR, 'articles.json');
     const existing: any = loadData('articles.json') ?? { articles: [], updatedAt: null };
     const before = existing.articles.length;
-    existing.articles = existing.articles.filter((a: any) => a.id !== req.params.id);
-    if (existing.articles.length === before) {
-      return res.status(404).json({ error: 'Статья не найдена' });
-    }
+    existing.articles = existing.articles.filter((a: any) => a.id !== id);
+    if (existing.articles.length === before) return res.status(404).json({ error: 'Статья не найдена' });
     existing.updatedAt = new Date().toISOString();
     writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf-8');
     res.json({ success: true });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
+  } catch (err: any) { res.status(500).json({ error: err.message }); }
 });
 
 // ─── Scheduled scraping every 6 hours ─────────────────────────────────────────
