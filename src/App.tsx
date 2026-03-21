@@ -64,6 +64,7 @@ interface CardData extends TierCard, Partial<CardLookup> {}
 
 /** Maps tier-list section IDs → icon path */
 const CLASS_ICON: Record<string, string> = {
+  '__all__':      '/class_icon/all1.png',
   'death-knight': '/class_icon/deathknight.png',
   'demon-hunter': '/class_icon/demonhunter.png',
   druid:          '/class_icon/druid.png',
@@ -75,6 +76,7 @@ const CLASS_ICON: Record<string, string> = {
   shaman:         '/class_icon/shaman.png',
   warlock:        '/class_icon/warlock.png',
   warrior:        '/class_icon/warrior.png',
+  any:            '/class_icon/neutral.webp',
 };
 
 /** Maps winrate class IDs → icon path (supports both short 'dk' and full 'death-knight' forms) */
@@ -660,20 +662,21 @@ const ClassTabs: React.FC<{
               onClick={() => onChange(ALL_CARDS_ID)}
               title="Все карты"
               className="flex-shrink-0 relative transition-all duration-200"
-              style={{ transform: isActive ? 'scale(1.15)' : 'scale(1)' }}
+              style={{
+                transform: isActive ? 'scale(1.15)' : 'scale(1)',
+                filter: isActive ? 'none' : 'grayscale(0.2) brightness(0.85)',
+              }}
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden flex items-center justify-center"
                 style={{
-                  background: isActive
-                    ? 'linear-gradient(135deg,#5a3000,#8b5a20)'
-                    : 'linear-gradient(135deg,#c4a46a,#a88a45)',
                   boxShadow: isActive
                     ? '0 0 0 2.5px #fcd34d, 0 3px 10px rgba(0,0,0,0.5)'
                     : '0 2px 6px rgba(0,0,0,0.35)',
                   border: '2px solid rgba(0,0,0,0.25)',
-                  fontSize: '18px',
                 }}
-              >⚔</div>
+              >
+                <img src="/class_icon/all1.png" alt="Все карты" className="w-full h-full object-cover" />
+              </div>
               {isActive && (
                 <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#fcd34d]" />
               )}
