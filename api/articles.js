@@ -36,8 +36,8 @@ export default async function handler(req, res) {
 
   try {
     const data = await loadArticles();
-    // Short cache so new articles appear quickly; SWR keeps it snappy
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
+    // No CDN cache — articles must be fresh immediately after admin writes
+    res.setHeader('Cache-Control', 'no-store');
     return res.json(data);
   } catch (err) {
     return res.status(500).json({ error: err.message });

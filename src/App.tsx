@@ -1781,9 +1781,11 @@ export default function App() {
     finally  { setLoadingLegendaries(false); }
   }, []);
 
-  const fetchArticles = useCallback(async () => {
+  const fetchArticles = useCallback(async (bust = false) => {
     try {
-      const res = await fetch('/api/articles');
+      // bust=true adds timestamp so browser & CDN don't serve stale cache
+      const url = bust ? `/api/articles?t=${Date.now()}` : '/api/articles';
+      const res = await fetch(url, bust ? { cache: 'no-store' } : {});
       if (!res.ok) throw new Error('not ok');
       setArticlesData(await res.json());
     } catch {
@@ -1955,7 +1957,7 @@ export default function App() {
           <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-r-2 sm:border-r-4 border-gold rounded-br-xl opacity-50" />
 
           {isAdminMode ? (
-            <AdminPanel articles={articlesData.articles} onRefresh={fetchArticles} clientIp={clientIp} />
+            <AdminPanel articles={articlesData.articles} onRefresh={() => fetchArticles(true)} clientIp={clientIp} />
           ) : wantsAdmin && adminIpChecked && !adminIpAllowed ? (
             /* Access denied screen */
             <div style={{ padding: '60px 24px', textAlign: 'center' }}>
