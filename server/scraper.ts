@@ -125,6 +125,7 @@ const HSREPLAY_CLASS_MAP: Record<string, string> = {
 /**
  * HSReplay /api/v1/arena/classes_stats/ uses numeric deck_class IDs.
  * Confirmed mapping from network log (deck_class 1=51.7% → DK, 2=53.2% → Druid etc.)
+ * Extra IDs (12, 14) added for Demon Hunter / Warlock in case numbering varies.
  */
 const HSREPLAY_DECK_CLASS_NUM: Record<number, string> = {
   1:  'death-knight',
@@ -138,6 +139,9 @@ const HSREPLAY_DECK_CLASS_NUM: Record<number, string> = {
   9:  'warlock',
   10: 'warrior',
   11: 'demon-hunter',
+  12: 'demon-hunter',  // alternate DH id seen in some regions
+  14: 'death-knight',  // alternate DK id in some API versions
+  15: 'warlock',       // alternate Warlock id fallback
 };
 
 function tryParseClassList(rows: any[]): Array<{ id: string; name: string; color: string; textDark: boolean; winrate: number; games: number }> | null {
