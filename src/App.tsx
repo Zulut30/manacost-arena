@@ -1401,12 +1401,8 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                 <div key={i} className="flex-shrink-0 w-24 sm:w-28 rounded-xl animate-pulse"
                   style={{ height: 150, background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }} />
               ))
-            : topCards.map(({ card, lookup, tier }) => {
+            : topCards.map(({ card, lookup }) => {
                 const imgSrc = lookup?.imageRu || lookup?.imageHa || null;
-                const tierColorMap: Record<string, string> = {
-                  S: '#e63946', A: '#f4a261', B: '#9b5de5',
-                  C: '#2a9d8f', D: '#457b9d', E: '#92400e', F: '#6b6b6b',
-                };
                 return (
                   <button
                     key={card.cardId}
@@ -1414,30 +1410,25 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                     className="flex-shrink-0 flex flex-col items-center gap-1 group"
                     style={{ WebkitTapHighlightColor: 'transparent', background: 'none', border: 'none', padding: 0 }}
                   >
-                    <div className="relative" style={{ filter: 'drop-shadow(0 5px 14px rgba(0,0,0,0.65))' }}>
-                      {imgSrc ? (
-                        <img
-                          src={imgSrc}
-                          alt={card.name}
-                          loading="lazy"
-                          className="w-20 sm:w-24 h-auto transition-transform duration-200 group-hover:scale-105"
-                          draggable={false}
-                        />
-                      ) : (
-                        <div className="w-20 sm:w-24 h-32 rounded-xl flex items-center justify-center text-center px-1.5"
-                          style={{ background: 'linear-gradient(135deg,#2c1e16,#1a110a)', border: '1.5px solid #a88a45' }}>
-                          <span className="font-hs text-[#fcd34d] text-[10px] leading-tight">{card.name}</span>
-                        </div>
-                      )}
-                      {/* Tier badge */}
-                      <div className="absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center text-white font-hs text-xs font-bold"
+                    {imgSrc ? (
+                      <img
+                        src={imgSrc}
+                        alt={card.name}
+                        loading="lazy"
+                        className="w-20 sm:w-24 h-auto transition-transform duration-200 group-hover:scale-105"
+                        draggable={false}
+                        style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.55)) drop-shadow(0 1px 3px rgba(0,0,0,0.4))' }}
+                      />
+                    ) : (
+                      <div className="w-20 sm:w-24 h-32 rounded-xl flex items-center justify-center text-center px-1.5 transition-transform duration-200 group-hover:scale-105"
                         style={{
-                          background: tierColorMap[tier] ?? '#6b6b6b',
-                          boxShadow: '0 2px 6px rgba(0,0,0,0.7)',
+                          background: 'linear-gradient(135deg,#2c1e16,#1a110a)',
+                          border: '1.5px solid #a88a45',
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.5)',
                         }}>
-                        {tier}
+                        <span className="font-hs text-[#fcd34d] text-[10px] leading-tight">{card.name}</span>
                       </div>
-                    </div>
+                    )}
                     <span className="font-hs text-[#3d2208] text-[10px] sm:text-[11px] text-center leading-tight max-w-[5rem] sm:max-w-[6rem] line-clamp-2">{card.name}</span>
                   </button>
                 );
