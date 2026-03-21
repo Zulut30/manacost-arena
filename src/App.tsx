@@ -1249,11 +1249,11 @@ function Legendaries({ data, loading, error }: {
 
 const HOME_NAV_CARDS: Array<{
   id: 'winrates' | 'tierlist' | 'legendaries';
-  icon: string; title: string; desc: string;
+  img: string; title: string; desc: string;
 }> = [
-  { id: 'winrates',   icon: '🏆', title: 'Винрейт классов',   desc: 'Следите за топ-классами текущего патча' },
-  { id: 'tierlist',   icon: '📜', title: 'Тир-лист карт',     desc: 'Оценки каждой карты по классам от Manacost' },
-  { id: 'legendaries',icon: '⭐', title: 'Легендарные группы', desc: 'Лучшие легендарки и пакеты карт от Manacost' },
+  { id: 'winrates',   img: '/main_assets/winrate-classes.png', title: 'Винрейт классов',   desc: 'Следите за топ-классами текущего патча' },
+  { id: 'tierlist',   img: '/main_assets/tier-list.png',       title: 'Тир-лист карт',     desc: 'Оценки каждой карты по классам от Manacost' },
+  { id: 'legendaries',img: '/main_assets/legendary_group.png', title: 'Легендарные группы', desc: 'Лучшие легендарки и пакеты карт от Manacost' },
 ];
 
 function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
@@ -1303,7 +1303,7 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
               border: '1.5px solid #c4a46a',
             }}
           >
-            <div className="text-3xl">{card.icon}</div>
+            <img src={card.img} alt={card.title} className="w-14 h-14 object-contain" draggable={false} />
             <div>
               <h3 className="font-hs text-[#3d2208] text-lg mb-1">{card.title}</h3>
               <p className="text-[#8b6c42] text-sm leading-relaxed">{card.desc}</p>
