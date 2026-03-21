@@ -40,7 +40,49 @@ app.use((req, res, next) => {
 const CACHE_6H  = 'public, max-age=21600, stale-while-revalidate=3600';
 const CACHE_1H  = 'public, max-age=3600,  stale-while-revalidate=600';
 
-app.get('/api/winrates', (req, res) => {
+app.get('/api/winrates', async (req, res) => {
+  const source = (req.query.source as string) ?? 'hsreplay';
+
+  // Firestone: proxy live zerotoheroes.com API
+  if (source === 'firestone') {
+    const CLASS_INFO: Record<string, { id: string; name: string; color: string; textDark?: boolean }> = {
+      deathknight: { id: 'death-knight', name: 'Рыцарь смерти',     color: '#1f252d' },
+      paladin:     { id: 'paladin',      name: 'Паладин',            color: '#a88a45' },
+      shaman:      { id: 'shaman',       name: 'Шаман',              color: '#2a2e6b' },
+      hunter:      { id: 'hunter',       name: 'Охотник',            color: '#1d5921' },
+      mage:        { id: 'mage',         name: 'Маг',                color: '#2b5c85' },
+      rogue:       { id: 'rogue',        name: 'Разбойник',          color: '#333333' },
+      warlock:     { id: 'warlock',      name: 'Чернокнижник',       color: '#5c265c' },
+      druid:       { id: 'druid',        name: 'Друид',              color: '#704a16' },
+      warrior:     { id: 'warrior',      name: 'Воин',               color: '#7a1e1e' },
+      priest:      { id: 'priest',       name: 'Жрец',               color: '#d1d1d1', textDark: true },
+      demonhunter: { id: 'demon-hunter', name: 'Охотник на демонов', color: '#224722' },
+    };
+    try {
+      const upstream = await fetch(
+        'https://static.zerotoheroes.com/api/arena/stats/classes/arena/last-patch/overview.gz.json',
+        { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ManacostArena/1.0)' } },
+      );
+      if (!upstream.ok) throw new Error(`HTTP ${upstream.status}`);
+      const raw = await upstream.json() as any;
+      const classes = ((raw.stats ?? []) as any[])
+        .map((s: any) => {
+          const key  = String(s.playerClass ?? '').toLowerCase().replace(/\s+/g, '');
+          const info = CLASS_INFO[key];
+          if (!info || !s.totalGames) return null;
+          const winrate = Math.round((s.totalsWins / s.totalGames) * 1000) / 10;
+          return { ...info, winrate, games: s.totalGames };
+        })
+        .filter(Boolean)
+        .sort((a: any, b: any) => b.winrate - a.winrate);
+      res.set('Cache-Control', CACHE_1H);
+      return res.json({ classes, updatedAt: raw.lastUpdated ?? null, source: 'firestoneapp.com' });
+    } catch {
+      // fallback to snapshot on error
+    }
+  }
+
+  // HSReplay (default): return snapshot
   const data = loadData('winrates.json');
   if (!data) return res.status(404).json({ error: 'No data available' });
   res.set('Cache-Control', CACHE_6H);

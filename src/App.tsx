@@ -1961,6 +1961,7 @@ export default function App() {
   }, []);
 
   const [winrateSource, setWinrateSource] = useState<'hsreplay' | 'firestone'>('hsreplay');
+  const winrateSourceRef = useRef<'hsreplay' | 'firestone'>('hsreplay');
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
   });
@@ -1981,16 +1982,15 @@ export default function App() {
   const [errorLegendaries,   setErrorLegendaries]   = useState(false);
   const [refreshing,         setRefreshing]         = useState(false);
 
-  const fetchWinrates = useCallback(async (src?: 'hsreplay' | 'firestone') => {
-    const source = src ?? winrateSource;
+  const fetchWinrates = useCallback(async (src: 'hsreplay' | 'firestone' = 'hsreplay') => {
     try {
-      const res = await fetch(`/api/winrates?source=${source}`);
+      const res = await fetch(`/api/winrates?source=${src}`);
       if (!res.ok) throw new Error('not ok');
       setWinratesData(await res.json());
       setErrorWinrates(false);
     } catch { setErrorWinrates(true); }
     finally  { setLoadingWinrates(false); }
-  }, [winrateSource]);
+  }, []); // source passed explicitly — no stale closure
 
   const fetchTierlist = useCallback(async () => {
     try {
@@ -2064,7 +2064,7 @@ export default function App() {
       let attempts = 0;
       pollRef.current = setInterval(async () => {
         attempts++;
-        await Promise.all([fetchWinrates(), fetchTierlist()]);
+        await Promise.all([fetchWinrates(winrateSourceRef.current), fetchTierlist()]);
         if (attempts >= 6) {          // 6 × 5 s = 30 s max
           clearInterval(pollRef.current!); pollRef.current = null;
           setRefreshing(false);
@@ -2240,6 +2240,7 @@ export default function App() {
                     winrateSource={winrateSource}
                     onSourceChange={async (src) => {
                       setWinrateSource(src);
+                      winrateSourceRef.current = src;
                       setLoadingWinrates(true);
                       await fetchWinrates(src);
                     }} />
