@@ -1256,14 +1256,24 @@ const HOME_NAV_CARDS: Array<{
   { id: 'legendaries',img: '/main_assets/legendary_group.png', title: 'Легендарные группы', desc: 'Лучшие легендарки и пакеты карт от Manacost' },
 ];
 
-function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
+function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegendaries, onNavigate }: {
   winratesData: WinratesData;
   loadingWinrates: boolean;
+  legendariesData: LegendariesData;
+  loadingLegendaries: boolean;
   onNavigate: (tab: 'winrates' | 'tierlist' | 'legendaries') => void;
 }) {
   const topClasses = useMemo(
     () => [...winratesData.classes].sort((a, b) => b.winrate - a.winrate).slice(0, 3),
     [winratesData.classes],
+  );
+
+  const topLegendaries = useMemo(
+    () => [...(legendariesData.groups ?? [])]
+      .filter(g => g.winRate !== null)
+      .sort((a, b) => (b.winRate ?? 0) - (a.winRate ?? 0))
+      .slice(0, 8),
+    [legendariesData.groups],
   );
 
   return (
@@ -1347,6 +1357,68 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
                         style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#8b4513,#fcd34d)' }} />
                     </div>
                   </div>
+                );
+              })
+          }
+        </div>
+      </div>
+
+      {/* Top legendaries */}
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <h3 className="font-hs text-[#3d2208] text-xl">Лучшие легендарки</h3>
+          <button
+            onClick={() => onNavigate('legendaries')}
+            className="text-sm font-hs text-[#8b4513] hover:text-[#fcd34d] transition-colors"
+          >
+            Все →
+          </button>
+        </div>
+        <div className="flex gap-3 overflow-x-auto scrollbar-hs pb-2">
+          {loadingLegendaries
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-28 sm:w-32 rounded-xl animate-pulse"
+                  style={{ height: 160, background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }} />
+              ))
+            : topLegendaries.map(g => {
+                const kc = g.keyCard;
+                const imgSrc = kc.imageRu || kc.imageHa || null;
+                return (
+                  <button
+                    key={kc.cardId}
+                    onClick={() => onNavigate('legendaries')}
+                    className="flex-shrink-0 flex flex-col items-center gap-1 group cursor-pointer"
+                    style={{ WebkitTapHighlightColor: 'transparent', background: 'none', border: 'none', padding: 0 }}
+                  >
+                    <div className="relative" style={{ filter: 'drop-shadow(0 6px 18px rgba(0,0,0,0.7))' }}>
+                      {imgSrc ? (
+                        <img
+                          src={imgSrc}
+                          alt={kc.name}
+                          loading="lazy"
+                          className="w-24 sm:w-28 h-auto transition-transform duration-200 group-hover:scale-105"
+                          draggable={false}
+                        />
+                      ) : (
+                        <div className="w-24 sm:w-28 h-36 rounded-xl flex items-center justify-center text-center px-2"
+                          style={{ background: 'linear-gradient(135deg,#2c1e16,#1a110a)', border: '1.5px solid #a88a45' }}>
+                          <span className="font-hs text-[#fcd34d] text-xs leading-tight">{kc.name}</span>
+                        </div>
+                      )}
+                      {g.winRate !== null && (
+                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap"
+                          style={{
+                            background: 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+                            border: '1px solid #a88a45',
+                            color: '#fcd34d',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.6)',
+                          }}>
+                          {g.winRate.toFixed(1)}%
+                        </div>
+                      )}
+                    </div>
+                    <span className="font-hs text-[#3d2208] text-[11px] sm:text-xs text-center leading-tight max-w-[6rem] sm:max-w-[7rem] line-clamp-2">{kc.name}</span>
+                  </button>
                 );
               })
           }
@@ -2339,7 +2411,7 @@ export default function App() {
             <TabTransition tabKey={activeTab}>
               <>
                 {activeTab === 'home' && (
-                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => navigate(tab as TabId)} />
+                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} legendariesData={legendariesData} loadingLegendaries={loadingLegendaries} onNavigate={tab => navigate(tab as TabId)} />
                 )}
                 {activeTab === 'winrates' && (
                   <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
