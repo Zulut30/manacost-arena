@@ -1930,24 +1930,13 @@ export default function App() {
     } finally { setLoadingArticles(false); }
   }, []);
 
-  // Eager: winrates + articles (needed on Home tab)
-  useEffect(() => { fetchWinrates(); fetchArticles(); }, [fetchWinrates, fetchArticles]);
-
-  // Lazy: load tierlist / legendaries only on first visit to that tab
-  const [tierlistFetched,    setTierlistFetched]    = useState(false);
-  const [legendariesFetched, setLegendariesFetched] = useState(false);
+  // Fetch all data in parallel on mount — fastest time-to-data on first tab switch
   useEffect(() => {
-    if (activeTab === 'tierlist' && !tierlistFetched) {
-      setTierlistFetched(true);
-      fetchTierlist();
-      // Also load legendaries now — needed to build companion filter for tier list
-      if (!legendariesFetched) { setLegendariesFetched(true); fetchLegendaries(); }
-    }
-    if (activeTab === 'legendaries' && !legendariesFetched) {
-      setLegendariesFetched(true);
-      fetchLegendaries();
-    }
-  }, [activeTab, tierlistFetched, legendariesFetched, fetchTierlist, fetchLegendaries]);
+    fetchWinrates();
+    fetchArticles();
+    fetchTierlist();
+    fetchLegendaries();
+  }, [fetchWinrates, fetchArticles, fetchTierlist, fetchLegendaries]);
 
   // Set of cardIds that are companion cards in legendary groups (not the key legendary itself)
   const companionIds = useMemo(() => {
@@ -1959,19 +1948,40 @@ export default function App() {
     return ids;
   }, [legendariesData]);
 
+  const pollRef    = useRef<ReturnType<typeof setInterval>  | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>   | null>(null);
+
+  // Cleanup on unmount
+  useEffect(() => () => {
+    if (pollRef.current)    clearInterval(pollRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  }, []);
+
   const handleRefresh = useCallback(async () => {
     if (refreshing) return;
     setRefreshing(true);
+
+    // Clear any previous poll
+    if (pollRef.current)    { clearInterval(pollRef.current);   pollRef.current    = null; }
+    if (timeoutRef.current) { clearTimeout(timeoutRef.current); timeoutRef.current = null; }
+
     try {
       await fetch('/api/scrape', { method: 'POST' });
       let attempts = 0;
-      const poll = setInterval(async () => {
+      pollRef.current = setInterval(async () => {
         attempts++;
         await Promise.all([fetchWinrates(), fetchTierlist()]);
-        if (attempts >= 24) clearInterval(poll);
+        if (attempts >= 6) {          // 6 × 5 s = 30 s max
+          clearInterval(pollRef.current!); pollRef.current = null;
+          setRefreshing(false);
+        }
       }, 5000);
-      setTimeout(() => { clearInterval(poll); setRefreshing(false); }, 120000);
-      setTimeout(() => setRefreshing(false), 30000);
+
+      // Hard safety timeout: cancel poll after 30 s
+      timeoutRef.current = setTimeout(() => {
+        if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+        setRefreshing(false);
+      }, 30000);
     } catch { setRefreshing(false); }
   }, [refreshing, fetchWinrates, fetchTierlist]);
 

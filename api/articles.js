@@ -39,7 +39,8 @@ export default async function handler(req, res) {
 
   try {
     const data = await loadArticles();
-    res.setHeader('Cache-Control', 'no-store');
+    // 5 min CDN cache; admin bust-fetches with ?t= to bypass
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
     return res.json(data);
   } catch (err) {
     return res.status(500).json({ error: err.message });
