@@ -52,13 +52,13 @@
 }
 
 @keyframes tabExit {
-  from { opacity: 1; transform: translateY(0) scale(1);     }
-  to   { opacity: 0; transform: translateY(-6px) scale(0.99); }
+  from { opacity: 1; transform: translateY(0);   }
+  to   { opacity: 0; transform: translateY(-8px); }
 }
 
 @keyframes tabEnter {
-  from { opacity: 0; transform: translateY(12px) scale(0.99); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
 
 /* ─── Utility classes ─────────────────────────────────────────────────────── */
@@ -127,11 +127,13 @@
 
   /* Tab transition animations */
   .tab-exit {
-    animation: tabExit 0.14s ease-in both;
+    animation: tabExit 0.12s ease-in both;
     pointer-events: none;
+    will-change: opacity, transform;
   }
   .tab-enter {
-    animation: tabEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: tabEnter 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+    will-change: opacity, transform;
   }
 
   /* Hover-lift for winrate rows — replaces JS onMouseEnter/Leave DOM mutation */

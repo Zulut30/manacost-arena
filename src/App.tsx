@@ -742,7 +742,7 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
   [activeSection, searchQuery, selectedRarity, isNeutralTab, companionIds, cards]);
 
   return (
-    <div className="animate-in fade-in duration-500">
+    <div>
       <SectionBanner title="Тир-лист" subtitle="Оценки карт для каждого класса — текущий патч" />
       <div className="flex justify-end mb-4 -mt-2">
         <UpdateBadge updatedAt={data.updatedAt} source={data.source} onRefresh={onRefresh} refreshing={refreshing} />
@@ -1120,7 +1120,7 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
   );
 
   return (
-    <div className="flex flex-col gap-8 anim-fade-up">
+    <div className="flex flex-col gap-8">
       {/* Hero row */}
       <div className="flex flex-col sm:flex-row items-center gap-6 py-6 px-2">
         <div className="relative flex-shrink-0" style={{ width: 80, height: 80 }}>
@@ -1745,7 +1745,7 @@ function ArticleCard({ article, idx }: { article: Article; idx: number }) {
 
 function ArticlesTab({ data, loading }: { data: ArticlesData; loading: boolean }) {
   return (
-    <div className="anim-fade-up">
+    <div>
       <SectionBanner title="Статьи" subtitle="Гайды, разборы мета и советы по режиму Арена" />
 
       {loading ? (
