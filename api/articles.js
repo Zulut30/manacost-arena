@@ -17,7 +17,8 @@ async function loadArticles() {
   if (USE_BLOB) {
     const { blobs } = await list({ prefix: BLOB_KEY, limit: 1 });
     if (!blobs.length) return { articles: [], updatedAt: null };
-    const res = await fetch(blobs[0].url);
+    // downloadUrl contains signed token — works for private stores
+    const res = await fetch(blobs[0].downloadUrl);
     if (!res.ok) throw new Error('Blob fetch failed');
     return res.json();
   }

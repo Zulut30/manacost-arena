@@ -36,7 +36,8 @@ async function loadArticles() {
     try {
       const { blobs } = await list({ prefix: BLOB_KEY, limit: 1 });
       if (!blobs.length) return { articles: [], updatedAt: null };
-      const res = await fetch(blobs[0].url);
+      // downloadUrl contains signed token — works for private stores
+      const res = await fetch(blobs[0].downloadUrl);
       if (!res.ok) throw new Error('blob fetch failed');
       return res.json();
     } catch {
@@ -54,7 +55,7 @@ async function loadArticles() {
 async function saveArticles(data) {
   if (USE_BLOB) {
     await put(BLOB_KEY, JSON.stringify(data, null, 2), {
-      access: 'public',
+      access: 'private',
       allowOverwrite: true,
       contentType: 'application/json',
     });
