@@ -122,41 +122,57 @@ const HSREPLAY_CLASS_MAP: Record<string, string> = {
   WARRIOR:      'warrior',
 };
 
+function tryParseClassList(rows: any[]): Array<{ id: string; name: string; color: string; textDark: boolean; winrate: number; games: number }> | null {
+  const result = rows
+    .map((row: any) => {
+      const cls  = (row.player_class || row.playerClass || row.class || row.className || '').toUpperCase();
+      const key  = HSREPLAY_CLASS_MAP[cls];
+      const info = key ? CLASS_SECTIONS[key] : null;
+      if (!key || !info) return null;
+      const winrate = row.win_rate ?? row.winrate ?? row.winRate;
+      const games   = row.total_games ?? row.totalGames ?? row.games;
+      if (winrate == null) return null;
+      return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
+    })
+    .filter(Boolean) as any[];
+  return result.length >= 8 ? result : null;
+}
+
 function parseHSReplayClassStats(raw: any): Array<{ id: string; name: string; color: string; textDark: boolean; winrate: number; games: number }> | null {
   // Format 1: { series: { data: { DRUID: [{win_rate, total_games}] } } }
   const seriesData = raw?.series?.data;
-  if (seriesData && typeof seriesData === 'object') {
-    const result = Object.entries(seriesData)
-      .map(([cls, rows]: [string, any]) => {
-        const key  = HSREPLAY_CLASS_MAP[cls.toUpperCase()];
-        const info = key ? CLASS_SECTIONS[key] : null;
-        if (!key || !info) return null;
-        const row = Array.isArray(rows) ? rows[0] : rows;
-        const winrate = row?.win_rate ?? row?.winrate;
-        const games   = row?.total_games ?? row?.games;
-        if (winrate == null) return null;
-        return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
-      })
-      .filter(Boolean) as any[];
-    if (result.length >= 8) return result;
+  if (seriesData && typeof seriesData === 'object' && !Array.isArray(seriesData)) {
+    const rows = Object.entries(seriesData).map(([cls, val]: [string, any]) => {
+      const row = Array.isArray(val) ? val[0] : val;
+      return { player_class: cls, ...(typeof row === 'object' ? row : {}) };
+    });
+    const r = tryParseClassList(rows);
+    if (r) return r;
   }
 
-  // Format 2: { data: { ALL: [{player_class, win_rate, total_games}] } }
-  const dataAll = raw?.data?.ALL ?? raw?.data;
+  // Format 2: { data: { ALL: [{player_class, win_rate}] } }
+  const dataAll = raw?.data?.ALL ?? (Array.isArray(raw?.data) ? raw.data : null);
   if (Array.isArray(dataAll)) {
-    const result = dataAll
-      .map((row: any) => {
-        const cls  = (row.player_class || row.playerClass || '').toUpperCase();
-        const key  = HSREPLAY_CLASS_MAP[cls];
-        const info = key ? CLASS_SECTIONS[key] : null;
-        if (!key || !info) return null;
-        const winrate = row.win_rate ?? row.winrate;
-        const games   = row.total_games ?? row.games;
-        if (winrate == null) return null;
-        return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
-      })
-      .filter(Boolean) as any[];
-    if (result.length >= 8) return result;
+    const r = tryParseClassList(dataAll);
+    if (r) return r;
+  }
+
+  // Format 3: flat array [{player_class, win_rate}]
+  if (Array.isArray(raw)) {
+    const r = tryParseClassList(raw);
+    if (r) return r;
+  }
+
+  // Format 4: object with class keys at top level { DRUID: {win_rate, total_games} }
+  if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+    const keys = Object.keys(raw).map(k => k.toUpperCase());
+    if (keys.some(k => HSREPLAY_CLASS_MAP[k])) {
+      const rows = Object.entries(raw).map(([cls, val]: [string, any]) => ({
+        player_class: cls, ...(typeof val === 'object' ? val : {}),
+      }));
+      const r = tryParseClassList(rows);
+      if (r) return r;
+    }
   }
 
   return null;
@@ -214,16 +230,22 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
       if (intercepted) return;
       const url = response.url();
       if (!url.includes('hsreplay.net')) return;
-      if (!url.includes('class_stat') && !url.includes('arena_class') && !url.includes('arena/class')) return;
+      const ct = response.headers()['content-type'] || '';
+      if (!ct.includes('json')) return;
+      // Log all API URLs for debugging
+      if (url.includes('/api/')) console.log('[Scraper] HSReplay API call:', url);
       try {
         const json = await response.json();
         const classes = parseHSReplayClassStats(json);
-        if (classes && classes.length >= 8) intercepted = classes;
+        if (classes && classes.length >= 8) {
+          console.log('[Scraper] HSReplay: matched class stats from:', url);
+          intercepted = classes;
+        }
       } catch { /* skip */ }
     });
 
     await page.goto('https://hsreplay.net/arena/', { waitUntil: 'networkidle2', timeout: 60000 });
-    await new Promise(r => setTimeout(r, 8000));
+    await new Promise(r => setTimeout(r, 10000));
 
     if (!intercepted) throw new Error('class_stats response not intercepted');
 
