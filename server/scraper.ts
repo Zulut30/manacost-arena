@@ -183,8 +183,9 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
 
   // ── Try direct API first (fast, no browser) ─────────────────────────────
   const DIRECT_URLS = [
+    'https://hsreplay.net/api/v1/arena/classes_stats/',           // confirmed from network log
+    'https://hsreplay.net/api/v1/arena/classes_stats/?Region=ALL',
     'https://hsreplay.net/api/v1/live/arena/class_stats/?Region=ALL&TimeRange=LAST_1_DAY',
-    'https://hsreplay.net/api/v1/live/arena/class_stats/?TimeRange=LAST_1_DAY',
     'https://hsreplay.net/api/v1/analytics/query/arena_class_performance_summary/?GameType=ARENA&TimeRange=LAST_1_DAY&Region=ALL',
   ];
 
@@ -198,8 +199,11 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
           'X-Requested-With': 'XMLHttpRequest',
         },
       });
-      if (!res.ok) continue;
-      const json = await res.json();
+      if (!res.ok) { console.log(`[Scraper] HSReplay direct ${url} → HTTP ${res.status}`); continue; }
+      const text = await res.text();
+      console.log(`[Scraper] HSReplay direct preview:`, text.slice(0, 400));
+      let json: any;
+      try { json = JSON.parse(text); } catch { continue; }
       const classes = parseHSReplayClassStats(json);
       if (classes && classes.length >= 8) {
         saveData('winrates.json', {
@@ -210,7 +214,8 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
         console.log(`[Scraper] HSReplay: saved ${classes.length} classes (direct API)`);
         return true;
       }
-    } catch { /* try next */ }
+      console.log('[Scraper] HSReplay direct: 0 classes parsed, trying next URL...');
+    } catch (e) { console.log(`[Scraper] HSReplay direct error: ${(e as Error).message}`); }
   }
 
   // ── Fallback: intercept via puppeteer ────────────────────────────────────
@@ -235,7 +240,11 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
       // Log all API URLs for debugging
       if (url.includes('/api/')) console.log('[Scraper] HSReplay API call:', url);
       try {
-        const json = await response.json();
+        const text = await response.text();
+        if (url.includes('classes_stats')) {
+          console.log('[Scraper] HSReplay classes_stats raw:', text.slice(0, 500));
+        }
+        const json = JSON.parse(text);
         const classes = parseHSReplayClassStats(json);
         if (classes && classes.length >= 8) {
           console.log('[Scraper] HSReplay: matched class stats from:', url);
