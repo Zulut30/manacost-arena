@@ -1677,16 +1677,43 @@ function ArticlesTab({ data, loading }: { data: ArticlesData; loading: boolean }
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 const TABS = [
-  { id: 'home',        label: 'Главная',    icon: Home     },
-  { id: 'articles',    label: 'Статьи',     icon: BookOpen },
-  { id: 'winrates',    label: 'Классы',     icon: Trophy   },
-  { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll   },
-  { id: 'legendaries', label: 'Легендарки', icon: Star     },
+  { id: 'home',        label: 'Главная',    icon: Home,     slug: '/'           },
+  { id: 'articles',    label: 'Статьи',     icon: BookOpen, slug: '/articles'   },
+  { id: 'winrates',    label: 'Классы',     icon: Trophy,   slug: '/classes'    },
+  { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll,   slug: '/tierlist'   },
+  { id: 'legendaries', label: 'Легендарки', icon: Star,     slug: '/legendaries'},
 ] as const;
 
+type TabId = (typeof TABS)[number]['id'];
+
+/** Resolve tab from current pathname */
+function tabFromPath(path: string): TabId {
+  const found = TABS.find(t => t.slug !== '/' && path.startsWith(t.slug));
+  return (found?.id ?? 'home') as TabId;
+}
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'winrates' | 'tierlist' | 'legendaries' | 'articles'>('home');
+  const [activeTab, setActiveTab] = useState<TabId>(() => tabFromPath(window.location.pathname));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  /** Navigate to a tab: update state + browser URL */
+  const navigate = useCallback((tab: TabId) => {
+    const slug = TABS.find(t => t.id === tab)!.slug;
+    if (window.location.pathname !== slug) {
+      window.history.pushState({ tab }, '', slug);
+    }
+    setActiveTab(tab);
+    setMobileMenuOpen(false);
+  }, []);
+
+  /** Handle browser back / forward */
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      setActiveTab(e.state?.tab ?? tabFromPath(window.location.pathname));
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   // Admin panel: ?admin in URL + IP whitelist check
   const wantsAdmin = window.location.search.includes('admin');
@@ -1813,9 +1840,15 @@ export default function App() {
         <div className="absolute inset-0 opacity-[0.06]"
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col items-center justify-center relative">
-          <div className="flex items-center gap-4 sm:gap-6">
+          {/* Logo — click to go home */}
+          <button
+            onClick={() => navigate('home')}
+            className="flex items-center gap-4 sm:gap-6 focus:outline-none group"
+            aria-label="На главную"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          >
             {/* Emblem */}
-            <div className="relative flex items-center justify-center flex-shrink-0"
+            <div className="relative flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105"
               style={{ width: '64px', height: '64px' }}>
               <div className="absolute inset-0 rounded-full"
                 style={{ boxShadow: '0 0 0 2px #fcd34d, 0 0 20px rgba(252,211,77,0.4), 0 0 0 4px rgba(212,175,55,0.12)' }} />
@@ -1830,7 +1863,7 @@ export default function App() {
             {/* Title */}
             <div className="flex flex-col items-start">
               <h1
-                className="leading-none tracking-wider uppercase select-none"
+                className="leading-none tracking-wider uppercase select-none transition-opacity group-hover:opacity-90"
                 style={{
                   fontFamily: 'var(--font-display, "Cinzel", serif)',
                   fontSize: 'clamp(1.8rem, 5vw, 3.5rem)',
@@ -1855,7 +1888,7 @@ export default function App() {
                 <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
               </div>
             </div>
-          </div>
+          </button>
         </div>
       </header>
 
@@ -1882,7 +1915,7 @@ export default function App() {
               {TABS.map(tab => {
                 const Icon = tab.icon; const active = activeTab === tab.id;
                 return (
-                  <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
+                  <button key={tab.id} onClick={() => navigate(tab.id)}
                     className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left transition-all"
                     style={{ background: active ? 'linear-gradient(135deg,#6b4c2a,#3a2210)' : 'rgba(255,255,255,0.05)', border: `1.5px solid ${active ? '#a88a45' : 'rgba(168,138,69,0.2)'}`, color: active ? '#fcd34d' : 'rgba(255,255,255,0.75)' }}>
                     <Icon size={18} className="flex-shrink-0" />
@@ -1899,7 +1932,7 @@ export default function App() {
             {TABS.map(tab => {
               const Icon = tab.icon; const active = activeTab === tab.id;
               return (
-                <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false); }}
+                <button key={tab.id} onClick={() => navigate(tab.id)}
                   className={`relative px-3 sm:px-5 md:px-8 py-2 sm:py-3 font-hs text-xs sm:text-sm md:text-lg rounded-t-xl transition-all flex items-center gap-1.5 sm:gap-2 border-t-[3px] border-x-[3px] flex-shrink-0 ${
                     active
                       ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-3 sm:pb-4'
@@ -1942,7 +1975,7 @@ export default function App() {
           ) : (
             <>
               {activeTab === 'home' && (
-                <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => setActiveTab(tab as any)} />
+                <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => navigate(tab as TabId)} />
               )}
               {activeTab === 'winrates' && (
                 <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
