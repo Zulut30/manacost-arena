@@ -667,9 +667,10 @@ const ClassTabs: React.FC<{
 
 // ─── TierList tab ─────────────────────────────────────────────────────────────
 
-function TierList({ data, loading, error, onRefresh, refreshing }: {
+function TierList({ data, loading, error, onRefresh, refreshing, companionIds }: {
   data: TierlistData; loading: boolean; error: boolean;
   onRefresh: () => void; refreshing: boolean;
+  companionIds: Set<string>;
 }) {
   const [activeClassId, setActiveClassId] = useState<string>('death-knight');
   const [searchQuery, setSearchQuery]     = useState('');
@@ -708,10 +709,12 @@ function TierList({ data, loading, error, onRefresh, refreshing }: {
         const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
         const matchRarity = selectedRarity === 'all' || c.rarity === selectedRarity;
         const matchClass  = isNeutralTab ? true : c.classKey !== 'any';
-        return matchSearch && matchRarity && matchClass;
+        // Hide legendary cards that are companions in legendary groups (e.g. Святыня Каражан, Бвонсамди)
+        const isLegendaryCompanion = c.rarity === 'legendary' && companionIds.has(c.cardId);
+        return matchSearch && matchRarity && matchClass && !isLegendaryCompanion;
       }),
     })).filter(t => t.cards.length > 0),
-  [activeSection, searchQuery, selectedRarity, isNeutralTab]);
+  [activeSection, searchQuery, selectedRarity, isNeutralTab, companionIds]);
 
   const tierLabelFull: Record<string, string> = {
     S: 'Отлично',
@@ -1900,12 +1903,24 @@ export default function App() {
     if (activeTab === 'tierlist' && !tierlistFetched) {
       setTierlistFetched(true);
       fetchTierlist();
+      // Also load legendaries now — needed to build companion filter for tier list
+      if (!legendariesFetched) { setLegendariesFetched(true); fetchLegendaries(); }
     }
     if (activeTab === 'legendaries' && !legendariesFetched) {
       setLegendariesFetched(true);
       fetchLegendaries();
     }
   }, [activeTab, tierlistFetched, legendariesFetched, fetchTierlist, fetchLegendaries]);
+
+  // Set of cardIds that are companion cards in legendary groups (not the key legendary itself)
+  const companionIds = useMemo(() => {
+    const keyIds = new Set(legendariesData.groups.map(g => g.keyCard.cardId));
+    const ids = new Set<string>();
+    legendariesData.groups.forEach(g =>
+      g.cards.forEach(c => { if (!keyIds.has(c.cardId)) ids.add(c.cardId); })
+    );
+    return ids;
+  }, [legendariesData]);
 
   const handleRefresh = useCallback(async () => {
     if (refreshing) return;
@@ -2083,7 +2098,7 @@ export default function App() {
               )}
               {activeTab === 'tierlist' && (
                 <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
-                  onRefresh={handleRefresh} refreshing={refreshing} />
+                  onRefresh={handleRefresh} refreshing={refreshing} companionIds={companionIds} />
               )}
               {activeTab === 'legendaries' && (
                 <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
