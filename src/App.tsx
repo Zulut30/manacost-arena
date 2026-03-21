@@ -650,6 +650,36 @@ const ClassTabs: React.FC<{
     >
       {/* Icon buttons */}
       <div ref={scrollRef} className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        {/* "All cards" virtual tab */}
+        {(() => {
+          const isActive = activeId === ALL_CARDS_ID;
+          return (
+            <button
+              key={ALL_CARDS_ID}
+              data-id={ALL_CARDS_ID}
+              onClick={() => onChange(ALL_CARDS_ID)}
+              title="Все карты"
+              className="flex-shrink-0 relative transition-all duration-200"
+              style={{ transform: isActive ? 'scale(1.15)' : 'scale(1)' }}
+            >
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden"
+                style={{
+                  background: isActive
+                    ? 'linear-gradient(135deg,#5a3000,#8b5a20)'
+                    : 'linear-gradient(135deg,#c4a46a,#a88a45)',
+                  boxShadow: isActive
+                    ? '0 0 0 2.5px #fcd34d, 0 3px 10px rgba(0,0,0,0.5)'
+                    : '0 2px 6px rgba(0,0,0,0.35)',
+                  border: '2px solid rgba(0,0,0,0.25)',
+                  fontSize: '18px',
+                }}
+              >⚔</div>
+              {isActive && (
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#fcd34d]" />
+              )}
+            </button>
+          );
+        })()}
         {sections.map(sec => {
           const isActive = sec.id === activeId;
           const iconSrc  = CLASS_ICON[sec.id];
@@ -736,6 +766,16 @@ const TIER_LABEL_FULL: Record<string, string> = {
   F: 'Ужасно',
 };
 
+const TIER_DESC_MAP: Record<string, string> = {
+  S: 'Авто-пик — доминирующие карты текущего мета.',
+  A: 'Отличные карты, очень сильны в большинстве ситуаций.',
+  B: 'Выше среднего — хороший выбор для стабильной колоды.',
+  C: 'Средние карты, полезны при нехватке лучших вариантов.',
+  D: 'Ниже среднего — берите только если нет лучших карт.',
+  E: 'Плохие карты — последний выбор.',
+  F: 'Ужасные карты — никогда не стоит брать.',
+};
+
 const RARITY_OPTIONS = [
   { id: 'all',       name: 'Все',        icon: null },
   { id: 'common',    name: 'Обычная',    icon: '/assets/common.png' },
@@ -744,21 +784,60 @@ const RARITY_OPTIONS = [
   { id: 'legendary', name: 'Легендарная',icon: '/assets/legendary.png' },
 ];
 
+const ALL_CARDS_ID = '__all__';
+
 function TierList({ data, loading, error, onRefresh, refreshing, companionIds }: {
   data: TierlistData; loading: boolean; error: boolean;
   onRefresh: () => void; refreshing: boolean;
   companionIds: Set<string>;
 }) {
-  const [activeClassId, setActiveClassId] = useState<string>('death-knight');
+  const [activeClassId, setActiveClassId] = useState<string>(ALL_CARDS_ID);
   const [searchQuery, setSearchQuery]     = useState('');
   const [selectedRarity, setSelectedRarity] = useState<string>('all');
   const [modalCard, setModalCard] = useState<{ card: CardData; tier: string } | null>(null);
 
-  const sections  = data.sections;
-  const cards     = data.cards;
+  const sections = data.sections;
+  const cards    = data.cards;
 
-  // Find active section
-  const activeSection = sections.find(s => s.id === activeClassId) ?? sections[0];
+  // Virtual "all cards" section — best tier per unique cardId across all sections
+  const allCardsSection = useMemo(() => {
+    const TIER_RANK: Record<string, number> = { S:6, A:5, B:4, C:3, D:2, E:1, F:0 };
+    const best = new Map<string, { card: TierCard; tier: string }>();
+    for (const sec of sections) {
+      for (const tierGroup of sec.tiers) {
+        for (const card of tierGroup.cards) {
+          if (companionIds.has(card.cardId)) continue;
+          const prev = best.get(card.cardId);
+          if (!prev || (TIER_RANK[tierGroup.tier] ?? 0) > (TIER_RANK[prev.tier] ?? 0)) {
+            best.set(card.cardId, { card, tier: tierGroup.tier });
+          }
+        }
+      }
+    }
+    // Group deduplicated cards by tier
+    const tierMap = new Map<string, TierCard[]>();
+    for (const { card, tier } of best.values()) {
+      if (!tierMap.has(tier)) tierMap.set(tier, []);
+      tierMap.get(tier)!.push(card);
+    }
+    const tierOrder = ['S','A','B','C','D','E','F'];
+    return {
+      id: ALL_CARDS_ID, name: 'Все карты', color: '#5a3000',
+      totalCards: best.size,
+      tiers: tierOrder
+        .filter(t => tierMap.has(t))
+        .map(t => ({
+          tier: t, label: TIER_LABEL_FULL[t] ?? t,
+          description: TIER_DESC_MAP[t] ?? '',
+          cards: tierMap.get(t)!,
+        })),
+    };
+  }, [sections, companionIds]);
+
+  // Find active section (virtual "all" or real class)
+  const activeSection = activeClassId === ALL_CARDS_ID
+    ? allCardsSection
+    : (sections.find(s => s.id === activeClassId) ?? sections[0]);
 
   // When class changes, reset filters
   const handleClassChange = (id: string) => {
@@ -767,27 +846,23 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
     setSelectedRarity('all');
   };
 
-
-  // For class tabs: hide neutral cards (classKey === 'any')
-  // For the neutral tab ('any'): show only neutral cards (already the case since only 'any' cards are in that section)
-  const isNeutralTab = activeClassId === 'any';
+  const isNeutralTab    = activeClassId === 'any';
+  const isAllCardsTab   = activeClassId === ALL_CARDS_ID;
 
   const filteredTiers = useMemo(() =>
     (activeSection?.tiers ?? []).map(t => ({
       ...t,
-      // Filter then merge in one pass — avoids re-running mergeCard on every parent re-render
       cards: t.cards
         .filter(c => {
           const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
           const matchRarity = selectedRarity === 'all' || c.rarity === selectedRarity;
-          const matchClass  = isNeutralTab ? true : c.classKey !== 'any';
-          // Hide legendary cards that are companions (e.g. Святыня Каражана, Бвонсамди)
+          const matchClass  = isNeutralTab ? true : isAllCardsTab ? true : c.classKey !== 'any';
           const isLegendaryCompanion = c.rarity === 'legendary' && companionIds.has(c.cardId);
           return matchSearch && matchRarity && matchClass && !isLegendaryCompanion;
         })
         .map(tc => mergeCard(tc, cards)),
     })).filter(t => t.cards.length > 0),
-  [activeSection, searchQuery, selectedRarity, isNeutralTab, companionIds, cards]);
+  [activeSection, searchQuery, selectedRarity, isNeutralTab, isAllCardsTab, companionIds, cards]);
 
   return (
     <div>
@@ -841,9 +916,11 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
                 <div>
                   <h3 className="font-hs text-lg sm:text-xl text-[#4a3018] leading-tight">{activeSection.name}</h3>
                   <span className="text-[#8b6c42] text-xs">
-                    {isNeutralTab
-                      ? `${activeSection.totalCards} нейтральных карт`
-                      : `${activeSection.tiers.flatMap(t => t.cards).filter(c => c.classKey !== 'any').length} карт класса`}
+                    {isAllCardsTab
+                      ? `${allCardsSection.totalCards} уникальных карт`
+                      : isNeutralTab
+                        ? `${activeSection.totalCards} нейтральных карт`
+                        : `${activeSection.tiers.flatMap(t => t.cards).filter(c => c.classKey !== 'any').length} карт класса`}
                   </span>
                 </div>
               </div>
@@ -1917,40 +1994,12 @@ function tabFromPath(path: string): TabId {
 }
 
 // ─── Tab transition wrapper ────────────────────────────────────────────────────
-type TransitionPhase = 'idle' | 'exit' | 'enter';
-
+// Simple key-based remount: React unmounts old tab, mounts new with enter animation.
+// No state machine needed — eliminates double-animation and stale-children bugs.
 function TabTransition({ tabKey, children }: { tabKey: string; children: React.ReactNode }) {
-  const [phase, setPhase] = useState<TransitionPhase>('idle');
-  const [content, setContent] = useState(children);
-  const [shownKey, setShownKey] = useState(tabKey);
-  const nextRef = useRef<{ key: string; children: React.ReactNode } | null>(null);
-
-  useEffect(() => {
-    if (tabKey === shownKey) return;
-    nextRef.current = { key: tabKey, children };
-    setPhase('exit');
-  }, [tabKey]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleAnimEnd = useCallback((e: React.AnimationEvent<HTMLDivElement>) => {
-    if (e.target !== e.currentTarget) return; // ignore bubbled child events
-    if (phase === 'exit' && nextRef.current) {
-      setContent(nextRef.current.children);
-      setShownKey(nextRef.current.key);
-      nextRef.current = null;
-      setPhase('enter');
-    } else if (phase === 'enter') {
-      setPhase('idle');
-    }
-  }, [phase]);
-
   return (
-    <div
-      className={phase === 'exit' ? 'tab-exit' : phase === 'enter' ? 'tab-enter' : ''}
-      onAnimationEnd={handleAnimEnd}
-    >
-      {/* While idle on same tab — render live children so props update correctly.
-          During exit/enter — render cached content for the animation. */}
-      {phase === 'idle' ? children : content}
+    <div key={tabKey} className="tab-enter">
+      {children}
     </div>
   );
 }
