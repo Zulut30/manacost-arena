@@ -1208,6 +1208,45 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
           }
         </div>
       </div>
+
+      {/* ── Promo banners ──────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Telegram */}
+        <a
+          href="https://t.me/manacost_ru"
+          target="_blank"
+          rel="noreferrer"
+          className="group relative overflow-hidden rounded-2xl transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
+          style={{ border: '1.5px solid #2aabee55' }}
+        >
+          <img
+            src="/ad/telegram.png"
+            alt="Подписаться на Telegram канал Manacost"
+            className="w-full h-full object-cover block"
+            loading="lazy"
+            draggable={false}
+          />
+          <div className="absolute inset-0 bg-[#2aabee] opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-2xl" />
+        </a>
+
+        {/* Boosty */}
+        <a
+          href="https://boosty.to/kolodahearthstone"
+          target="_blank"
+          rel="noreferrer"
+          className="group relative overflow-hidden rounded-2xl transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
+          style={{ border: '1.5px solid #f6821f55' }}
+        >
+          <img
+            src="/ad/boosty.png"
+            alt="Поддержать на Boosty"
+            className="w-full h-full object-cover block"
+            loading="lazy"
+            draggable={false}
+          />
+          <div className="absolute inset-0 bg-[#f6821f] opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-2xl" />
+        </a>
+      </div>
     </div>
   );
 }
