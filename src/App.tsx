@@ -1792,6 +1792,43 @@ function tabFromPath(path: string): TabId {
   return (found?.id ?? 'home') as TabId;
 }
 
+// ─── Tab transition wrapper ────────────────────────────────────────────────────
+type TransitionPhase = 'idle' | 'exit' | 'enter';
+
+function TabTransition({ tabKey, children }: { tabKey: string; children: React.ReactNode }) {
+  const [phase, setPhase] = useState<TransitionPhase>('idle');
+  const [content, setContent] = useState(children);
+  const [shownKey, setShownKey] = useState(tabKey);
+  const nextRef = useRef<{ key: string; children: React.ReactNode } | null>(null);
+
+  useEffect(() => {
+    if (tabKey === shownKey) return;
+    nextRef.current = { key: tabKey, children };
+    setPhase('exit');
+  }, [tabKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleAnimEnd = useCallback((e: React.AnimationEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) return; // ignore bubbled child events
+    if (phase === 'exit' && nextRef.current) {
+      setContent(nextRef.current.children);
+      setShownKey(nextRef.current.key);
+      nextRef.current = null;
+      setPhase('enter');
+    } else if (phase === 'enter') {
+      setPhase('idle');
+    }
+  }, [phase]);
+
+  return (
+    <div
+      className={phase === 'exit' ? 'tab-exit' : phase === 'enter' ? 'tab-enter' : ''}
+      onAnimationEnd={handleAnimEnd}
+    >
+      {content}
+    </div>
+  );
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>(() => tabFromPath(window.location.pathname));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -2087,26 +2124,28 @@ export default function App() {
               )}
             </div>
           ) : (
-            <>
-              {activeTab === 'home' && (
-                <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => navigate(tab as TabId)} />
-              )}
-              {activeTab === 'winrates' && (
-                <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
-                  updatedAt={winratesData.updatedAt} source={winratesData.source}
-                  onRefresh={handleRefresh} refreshing={refreshing} />
-              )}
-              {activeTab === 'tierlist' && (
-                <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
-                  onRefresh={handleRefresh} refreshing={refreshing} companionIds={companionIds} />
-              )}
-              {activeTab === 'legendaries' && (
-                <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
-              )}
-              {activeTab === 'articles' && (
-                <ArticlesTab data={articlesData} loading={loadingArticles} />
-              )}
-            </>
+            <TabTransition tabKey={activeTab}>
+              <>
+                {activeTab === 'home' && (
+                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} onNavigate={tab => navigate(tab as TabId)} />
+                )}
+                {activeTab === 'winrates' && (
+                  <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
+                    updatedAt={winratesData.updatedAt} source={winratesData.source}
+                    onRefresh={handleRefresh} refreshing={refreshing} />
+                )}
+                {activeTab === 'tierlist' && (
+                  <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
+                    onRefresh={handleRefresh} refreshing={refreshing} companionIds={companionIds} />
+                )}
+                {activeTab === 'legendaries' && (
+                  <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
+                )}
+                {activeTab === 'articles' && (
+                  <ArticlesTab data={articlesData} loading={loadingArticles} />
+                )}
+              </>
+            </TabTransition>
           )}
         </div>
       </main>

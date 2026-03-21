@@ -51,6 +51,16 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes tabExit {
+  from { opacity: 1; transform: translateY(0) scale(1);     }
+  to   { opacity: 0; transform: translateY(-6px) scale(0.99); }
+}
+
+@keyframes tabEnter {
+  from { opacity: 0; transform: translateY(12px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
 /* ─── Utility classes ─────────────────────────────────────────────────────── */
 
 @layer utilities {
@@ -113,6 +123,15 @@
     background-size: 400% 100%;
     animation: shimmer 1.8s ease-in-out infinite;
     border-radius: 0.5rem;
+  }
+
+  /* Tab transition animations */
+  .tab-exit {
+    animation: tabExit 0.14s ease-in both;
+    pointer-events: none;
+  }
+  .tab-enter {
+    animation: tabEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   /* Gold glow pulse */
