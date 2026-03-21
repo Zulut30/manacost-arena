@@ -192,6 +192,8 @@ const TYPE_LABEL: Record<string, string> = {
 const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }> = ({ card, tier, onClose }) => {
   const [visible, setVisible] = useState(false);
   const [imgErr,  setImgErr]  = useState(false);
+  // Track touch start position to distinguish tap vs scroll
+  const touchOrigin = useRef<{ x: number; y: number } | null>(null);
 
   const bigSrc = imgErr ? null
     : card.imageRu ? card.imageRu
@@ -226,9 +228,23 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
         userSelect: 'none',
         WebkitTapHighlightColor: 'transparent',
       }}
-      /* backdrop: close on any pointer/touch outside card */
-      onPointerDown={onClose}
-      onTouchEnd={e => { e.preventDefault(); onClose(); }}
+      /* Desktop: click backdrop → close */
+      onClick={onClose}
+      /* Mobile: record touch start, close only if finger barely moved (tap, not scroll) */
+      onTouchStart={e => {
+        const t = e.touches[0];
+        touchOrigin.current = { x: t.clientX, y: t.clientY };
+      }}
+      onTouchEnd={e => {
+        if (!touchOrigin.current) return;
+        const t = e.changedTouches[0];
+        const moved = Math.hypot(
+          t.clientX - touchOrigin.current.x,
+          t.clientY - touchOrigin.current.y,
+        );
+        touchOrigin.current = null;
+        if (moved < 12) { e.preventDefault(); onClose(); }
+      }}
     >
       {/* Backdrop */}
       <div style={{
@@ -238,17 +254,21 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
         WebkitBackdropFilter: 'blur(12px)',
       }} />
 
-      {/* Card container — stops propagation so tapping card doesn't close */}
+      {/* Card container — stops propagation so tapping/scrolling card doesn't close modal */}
       <div
         style={{
           position: 'relative',
           zIndex: 1,
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px',
           maxWidth: '340px', width: '100%',
+          maxHeight: '90dvh',
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch',
           transform: visible ? 'scale(1) translateY(0)' : 'scale(0.72) translateY(40px)',
           transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
         }}
-        onPointerDown={e => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
+        onTouchStart={e => e.stopPropagation()}
         onTouchEnd={e => e.stopPropagation()}
       >
         {bigSrc ? (
@@ -293,8 +313,8 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
           )}
         </div>
 
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '4px', textAlign: 'center' }}>
-          Нажмите вне карточки или{' '}
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', marginTop: '4px', textAlign: 'center', paddingBottom: '8px' }}>
+          Коснитесь вне карточки или{' '}
           <kbd style={{ background: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px', color: 'rgba(255,255,255,0.6)' }}>ESC</kbd>
           {' '}для закрытия
         </p>
@@ -304,15 +324,16 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
       <button
         style={{
           position: 'absolute', top: '16px', right: '16px', zIndex: 2,
-          width: '40px', height: '40px', borderRadius: '50%',
+          width: '44px', height: '44px', borderRadius: '50%',
           background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           color: 'rgba(255,255,255,0.75)', cursor: 'pointer', transition: 'all 0.2s',
+          touchAction: 'manipulation',
         }}
-        onPointerDown={e => { e.stopPropagation(); onClose(); }}
+        onClick={e => { e.stopPropagation(); onClose(); }}
         aria-label="Закрыть"
       >
-        <X size={18} />
+        <X size={20} />
       </button>
     </div>,
     document.body,
