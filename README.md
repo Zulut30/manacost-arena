@@ -19,11 +19,22 @@
 
 ## 📸 Скриншоты
 
-> *Скриншоты будут добавлены после деплоя.*
-
-| Главная — Тир-лист | Винрейты классов | Легендарки |
-|:---:|:---:|:---:|
-| *(coming soon)* | *(coming soon)* | *(coming soon)* |
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="screenshot/главная.png" alt="Главная страница" width="100%"/>
+      <br/><sub><b>🏠 Главная</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="screenshot/Тир лист.png" alt="Тир-лист карт" width="100%"/>
+      <br/><sub><b>📜 Тир-лист карт</b></sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="screenshot/легендарки.png" alt="Легендарные группы" width="100%"/>
+      <br/><sub><b>⭐ Легендарки</b></sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
