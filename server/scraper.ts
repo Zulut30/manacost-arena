@@ -122,15 +122,39 @@ const HSREPLAY_CLASS_MAP: Record<string, string> = {
   WARRIOR:      'warrior',
 };
 
+/**
+ * HSReplay /api/v1/arena/classes_stats/ uses numeric deck_class IDs.
+ * Confirmed mapping from network log (deck_class 1=51.7% → DK, 2=53.2% → Druid etc.)
+ */
+const HSREPLAY_DECK_CLASS_NUM: Record<number, string> = {
+  1:  'death-knight',
+  2:  'druid',
+  3:  'hunter',
+  4:  'mage',
+  5:  'paladin',
+  6:  'priest',
+  7:  'rogue',
+  8:  'shaman',
+  9:  'warlock',
+  10: 'warrior',
+  11: 'demon-hunter',
+};
+
 function tryParseClassList(rows: any[]): Array<{ id: string; name: string; color: string; textDark: boolean; winrate: number; games: number }> | null {
   const result = rows
     .map((row: any) => {
-      const cls  = (row.player_class || row.playerClass || row.class || row.className || '').toUpperCase();
-      const key  = HSREPLAY_CLASS_MAP[cls];
+      // Numeric deck_class (HSReplay classes_stats format)
+      let key: string | undefined;
+      if (typeof row.deck_class === 'number') {
+        key = HSREPLAY_DECK_CLASS_NUM[row.deck_class];
+      } else {
+        const cls = (row.player_class || row.playerClass || row.class || row.className || '').toUpperCase();
+        key = HSREPLAY_CLASS_MAP[cls];
+      }
       const info = key ? CLASS_SECTIONS[key] : null;
       if (!key || !info) return null;
       const winrate = row.win_rate ?? row.winrate ?? row.winRate;
-      const games   = row.total_games ?? row.totalGames ?? row.games;
+      const games   = row.num_drafts ?? row.total_games ?? row.totalGames ?? row.games;
       if (winrate == null) return null;
       return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
     })
@@ -181,45 +205,8 @@ function parseHSReplayClassStats(raw: any): Array<{ id: string; name: string; co
 export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
   console.log('[Scraper] HSReplay: fetching arena class stats...');
 
-  // ── Try direct API first (fast, no browser) ─────────────────────────────
-  const DIRECT_URLS = [
-    'https://hsreplay.net/api/v1/arena/classes_stats/',           // confirmed from network log
-    'https://hsreplay.net/api/v1/arena/classes_stats/?Region=ALL',
-    'https://hsreplay.net/api/v1/live/arena/class_stats/?Region=ALL&TimeRange=LAST_1_DAY',
-    'https://hsreplay.net/api/v1/analytics/query/arena_class_performance_summary/?GameType=ARENA&TimeRange=LAST_1_DAY&Region=ALL',
-  ];
-
-  for (const url of DIRECT_URLS) {
-    try {
-      const res = await fetch(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-          'Accept': 'application/json',
-          'Referer': 'https://hsreplay.net/arena/',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-      });
-      if (!res.ok) { console.log(`[Scraper] HSReplay direct ${url} → HTTP ${res.status}`); continue; }
-      const text = await res.text();
-      console.log(`[Scraper] HSReplay direct preview:`, text.slice(0, 400));
-      let json: any;
-      try { json = JSON.parse(text); } catch { continue; }
-      const classes = parseHSReplayClassStats(json);
-      if (classes && classes.length >= 8) {
-        saveData('winrates.json', {
-          classes: classes.sort((a, b) => b.winrate - a.winrate),
-          updatedAt: new Date().toISOString(),
-          source: 'hsreplay.net',
-        });
-        console.log(`[Scraper] HSReplay: saved ${classes.length} classes (direct API)`);
-        return true;
-      }
-      console.log('[Scraper] HSReplay direct: 0 classes parsed, trying next URL...');
-    } catch (e) { console.log(`[Scraper] HSReplay direct error: ${(e as Error).message}`); }
-  }
-
-  // ── Fallback: intercept via puppeteer ────────────────────────────────────
-  console.log('[Scraper] HSReplay: falling back to browser interception...');
+  // ── Intercept via puppeteer (classes_stats requires browser session) ────
+  console.log('[Scraper] HSReplay: launching browser for classes_stats...');
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
@@ -237,13 +224,8 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
       if (!url.includes('hsreplay.net')) return;
       const ct = response.headers()['content-type'] || '';
       if (!ct.includes('json')) return;
-      // Log all API URLs for debugging
-      if (url.includes('/api/')) console.log('[Scraper] HSReplay API call:', url);
       try {
         const text = await response.text();
-        if (url.includes('classes_stats')) {
-          console.log('[Scraper] HSReplay classes_stats raw:', text.slice(0, 500));
-        }
         const json = JSON.parse(text);
         const classes = parseHSReplayClassStats(json);
         if (classes && classes.length >= 8) {
