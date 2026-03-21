@@ -1284,19 +1284,23 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
   };
 
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Удалить «${title}»?`)) return;
+    if (!window.confirm(`Удалить «${title}»?`)) return;
     setDeleting(id);
+    setMsg(null);
     try {
-      const res = await fetch('/api/admin-articles', {
+      const res = await fetch(`/api/admin-articles?t=${Date.now()}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
         body: JSON.stringify({ password, id }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Ошибка');
+      let data: any = {};
+      try { data = await res.json(); } catch { /* non-json body */ }
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      setMsg({ type: 'ok', text: '✓ Статья удалена' });
       onRefresh();
     } catch (err: any) {
-      setMsg({ type: 'err', text: err.message });
+      setMsg({ type: 'err', text: `Ошибка удаления: ${err.message}` });
     } finally {
       setDeleting(null);
     }
@@ -1343,6 +1347,27 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
   // ── Main admin UI ─────────────────────────────────────────────────────────
   return (
     <div className="anim-fade-up" style={{ padding: '0' }}>
+
+      {/* Global status message — visible from both add and delete actions */}
+      {msg && (
+        <div style={{
+          marginBottom: '16px',
+          padding: '10px 16px',
+          borderRadius: '8px',
+          background: msg.type === 'ok' ? '#d1fae5' : '#fee2e2',
+          color: msg.type === 'ok' ? '#065f46' : '#991b1b',
+          fontSize: '13px',
+          lineHeight: '1.5',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+        }}>
+          <span>{msg.text}</span>
+          <button onClick={() => setMsg(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', opacity: 0.5, lineHeight: 1 }}>×</button>
+        </div>
+      )}
+
       {/* Header */}
       <div style={{ marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid #c4a46a', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <div>
@@ -1418,17 +1443,6 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
                 onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               <span style={{ fontSize: '12px', color: '#8b6c42' }}>Предпросмотр обложки</span>
             </div>
-          )}
-
-          {msg && (
-            <div style={{
-              padding: '10px 14px',
-              borderRadius: '8px',
-              background: msg.type === 'ok' ? '#d1fae5' : '#fee2e2',
-              color: msg.type === 'ok' ? '#065f46' : '#991b1b',
-              fontSize: '13px',
-              lineHeight: '1.5',
-            }}>{msg.text}</div>
           )}
 
           <button type="submit" disabled={saving} style={{
