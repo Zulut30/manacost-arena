@@ -1256,11 +1256,13 @@ const HOME_NAV_CARDS: Array<{
   { id: 'legendaries',img: '/main_assets/legendary_group.png', title: 'Легендарные группы', desc: 'Лучшие легендарки и пакеты карт от Manacost' },
 ];
 
-function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegendaries, onNavigate }: {
+function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegendaries, tierlistData, loadingTierlist, onNavigate }: {
   winratesData: WinratesData;
   loadingWinrates: boolean;
   legendariesData: LegendariesData;
   loadingLegendaries: boolean;
+  tierlistData: TierlistData;
+  loadingTierlist: boolean;
   onNavigate: (tab: 'winrates' | 'tierlist' | 'legendaries') => void;
 }) {
   const topClasses = useMemo(
@@ -1275,6 +1277,25 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
       .slice(0, 8),
     [legendariesData.groups],
   );
+
+  // Top S-tier cards across all classes, deduplicated, sorted by score
+  const topCards = useMemo(() => {
+    const seen = new Set<string>();
+    const result: Array<{ card: TierCard; lookup: CardLookup | undefined; tier: string }> = [];
+    for (const tier of ['S', 'A']) {
+      for (const sec of tierlistData.sections) {
+        const tierGroup = sec.tiers.find(t => t.tier === tier);
+        if (!tierGroup) continue;
+        for (const card of [...tierGroup.cards].sort((a, b) => b.score - a.score)) {
+          if (seen.has(card.cardId)) continue;
+          seen.add(card.cardId);
+          result.push({ card, lookup: tierlistData.cards[card.cardId], tier });
+        }
+      }
+      if (result.length >= 12) break;
+    }
+    return result.slice(0, 10);
+  }, [tierlistData]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -1357,6 +1378,68 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                         style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#8b4513,#fcd34d)' }} />
                     </div>
                   </div>
+                );
+              })
+          }
+        </div>
+      </div>
+
+      {/* Top cards from tier list */}
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <h3 className="font-hs text-[#3d2208] text-xl">Лучшие карты</h3>
+          <button
+            onClick={() => onNavigate('tierlist')}
+            className="text-sm font-hs text-[#8b4513] hover:text-[#fcd34d] transition-colors"
+          >
+            Тир-лист →
+          </button>
+        </div>
+        <div className="flex gap-2 overflow-x-auto scrollbar-hs pb-2">
+          {loadingTierlist
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-24 sm:w-28 rounded-xl animate-pulse"
+                  style={{ height: 150, background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }} />
+              ))
+            : topCards.map(({ card, lookup, tier }) => {
+                const imgSrc = lookup?.imageRu || lookup?.imageHa || null;
+                const tierColorMap: Record<string, string> = {
+                  S: '#e63946', A: '#f4a261', B: '#9b5de5',
+                  C: '#2a9d8f', D: '#457b9d', E: '#92400e', F: '#6b6b6b',
+                };
+                return (
+                  <button
+                    key={card.cardId}
+                    onClick={() => onNavigate('tierlist')}
+                    className="flex-shrink-0 flex flex-col items-center gap-1 group"
+                    style={{ WebkitTapHighlightColor: 'transparent', background: 'none', border: 'none', padding: 0 }}
+                  >
+                    <div className="relative" style={{ filter: 'drop-shadow(0 5px 14px rgba(0,0,0,0.65))' }}>
+                      {imgSrc ? (
+                        <img
+                          src={imgSrc}
+                          alt={card.name}
+                          loading="lazy"
+                          className="w-20 sm:w-24 h-auto transition-transform duration-200 group-hover:scale-105"
+                          draggable={false}
+                        />
+                      ) : (
+                        <div className="w-20 sm:w-24 h-32 rounded-xl flex items-center justify-center text-center px-1.5"
+                          style={{ background: 'linear-gradient(135deg,#2c1e16,#1a110a)', border: '1.5px solid #a88a45' }}>
+                          <span className="font-hs text-[#fcd34d] text-[10px] leading-tight">{card.name}</span>
+                        </div>
+                      )}
+                      {/* Tier badge */}
+                      <div className="absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center text-white font-hs text-xs font-bold"
+                        style={{
+                          background: tierColorMap[tier] ?? '#6b6b6b',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.7)',
+                        }}>
+                        {tier}
+                      </div>
+                    </div>
+                    <span className="font-hs text-[#3d2208] text-[10px] sm:text-[11px] text-center leading-tight max-w-[5rem] sm:max-w-[6rem] line-clamp-2">{card.name}</span>
+                  </button>
                 );
               })
           }
@@ -2411,7 +2494,7 @@ export default function App() {
             <TabTransition tabKey={activeTab}>
               <>
                 {activeTab === 'home' && (
-                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} legendariesData={legendariesData} loadingLegendaries={loadingLegendaries} onNavigate={tab => navigate(tab as TabId)} />
+                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} legendariesData={legendariesData} loadingLegendaries={loadingLegendaries} tierlistData={tierlistData} loadingTierlist={loadingTierlist} onNavigate={tab => navigate(tab as TabId)} />
                 )}
                 {activeTab === 'winrates' && (
                   <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
