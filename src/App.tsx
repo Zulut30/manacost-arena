@@ -675,7 +675,7 @@ const ClassTabs: React.FC<{
                   border: '2px solid rgba(0,0,0,0.25)',
                 }}
               >
-                <img src="/class_icon/all1.png" alt="Все карты" className="w-full h-full object-cover" />
+                <img src="/class_icon/all1.png" alt="Все карты" className="w-7 h-7 sm:w-8 sm:h-8 object-contain" draggable={false} />
               </div>
               {isActive && (
                 <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#fcd34d]" />
@@ -712,7 +712,7 @@ const ClassTabs: React.FC<{
                   <img
                     src={iconSrc}
                     alt={sec.name}
-                    className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
+                    className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
                     draggable={false}
                   />
                 ) : (
