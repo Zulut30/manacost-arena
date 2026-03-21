@@ -402,13 +402,32 @@ const Skeleton: React.FC<{ className?: string; style?: React.CSSProperties }> = 
 );
 
 const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefresh: () => void; refreshing: boolean }> =
-  ({ updatedAt, onRefresh, refreshing }) => (
+  ({ updatedAt, onRefresh, refreshing }) => {
+    // Warn when data hasn't been updated in >24 hours
+    const isStale = updatedAt
+      ? (Date.now() - new Date(updatedAt).getTime()) > 24 * 60 * 60 * 1000
+      : false;
+
+    return (
     <div className="flex flex-wrap items-center gap-2">
+      {/* Staleness warning */}
+      {isStale && (
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold"
+          style={{
+            background: 'linear-gradient(135deg,#7a1e1e,#4a0a0a)',
+            border: '1.5px solid #dc2626',
+            color: '#fca5a5',
+            boxShadow: '0 2px 6px rgba(220,38,38,0.3)',
+          }}>
+          <AlertTriangle size={11} />
+          <span>Данные устарели</span>
+        </div>
+      )}
       {/* Timestamp pill */}
       <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs"
         style={{
           background: 'linear-gradient(135deg,#3a2210,#2c1e16)',
-          border: '1.5px solid #6b4c2a',
+          border: `1.5px solid ${isStale ? '#dc2626' : '#6b4c2a'}`,
           color: '#e8d5a5',
           boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
         }}>
@@ -439,6 +458,7 @@ const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefres
       </button>
     </div>
   );
+};
 
 // ─── Winrates tab ─────────────────────────────────────────────────────────────
 

@@ -1,4 +1,12 @@
 // Vercel Serverless Function — fetches live data from public zerotoheroes.com API
+// Falls back to last committed snapshot (server/data/winrates.json) when upstream is down
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = dirname(__filename);
+
 const CLASS_INFO = {
   deathknight: { id: 'dk',      name: 'Рыцарь смерти',     color: '#1f252d' },
   paladin:     { id: 'paladin', name: 'Паладин',            color: '#a88a45' },
@@ -43,7 +51,17 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=7200');
     return res.json({ classes, updatedAt: data.lastUpdated, source: 'firestoneapp.com' });
   } catch (err) {
-    console.error('[api/winrates]', err.message);
-    return res.status(502).json({ error: err.message });
+    console.error('[api/winrates] live fetch failed:', err.message);
+
+    // Fallback: serve last committed snapshot so the UI stays functional
+    try {
+      const snapshot = JSON.parse(
+        readFileSync(join(__dirname, '../server/data/winrates.json'), 'utf-8'),
+      );
+      res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=3600');
+      return res.json({ ...snapshot, source: 'cached' });
+    } catch {
+      return res.status(502).json({ error: err.message });
+    }
   }
 }

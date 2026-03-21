@@ -1,0 +1,61 @@
+name: Scrape data
+
+# ─── Triggers ─────────────────────────────────────────────────────────────────
+on:
+  schedule:
+    # Fires at 00:15, 06:15, 12:15, 18:15 UTC every day
+    # Offset by 15 min to avoid GitHub Actions rush-hour congestion
+    - cron: '15 0,6,12,18 * * *'
+  workflow_dispatch:          # also triggerable manually from the GitHub UI
+
+# ─── Permissions ──────────────────────────────────────────────────────────────
+permissions:
+  contents: write             # needed to push the data commit
+
+# ─── Job ──────────────────────────────────────────────────────────────────────
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30       # kill the job if scraping hangs
+
+    steps:
+      # 1. Checkout with the default GITHUB_TOKEN (has write permission above)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node 20 + npm cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install all dependencies.
+      #    puppeteer@22 downloads Chrome automatically during npm ci
+      #    UNLESS PUPPETEER_SKIP_DOWNLOAD=true — we intentionally do NOT set
+      #    that variable here (it's set in vercel.json only for the Vercel build).
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Run the scraper
+      - name: Scrape data
+        env:
+          BLIZZARD_CLIENT_ID:     ${{ secrets.BLIZZARD_CLIENT_ID }}
+          BLIZZARD_CLIENT_SECRET: ${{ secrets.BLIZZARD_CLIENT_SECRET }}
+        run: npm run scrape
+
+      # 5. Commit & push only if any data file actually changed
+      - name: Commit updated data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add server/data/winrates.json \
+                  server/data/tierlist.json \
+                  server/data/legendaries.json
+          if git diff --staged --quiet; then
+            echo "✓ No changes — data is already up to date"
+          else
+            git commit -m "chore: auto-update scraped data [skip ci]"
+            git push
+            echo "✓ Fresh data committed and pushed"
+          fi
