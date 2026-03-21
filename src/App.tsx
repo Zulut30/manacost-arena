@@ -1239,7 +1239,7 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
   const [form,      setForm]      = useState<AdminForm>(EMPTY_FORM);
   const [saving,    setSaving]    = useState(false);
   const [deleting,  setDeleting]  = useState<string | null>(null);
-  const [msg,       setMsg]       = useState<{ type: 'ok' | 'err' | 'vercel'; text: string; json?: string } | null>(null);
+  const [msg,       setMsg]       = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
 
   const field = (key: keyof AdminForm) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -1273,13 +1273,9 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Ошибка');
-      if (data.vercelNote) {
-        setMsg({ type: 'ok', text: `Статья создана. ${data.vercelNote}` });
-      } else {
-        setMsg({ type: 'ok', text: '✓ Статья добавлена!' });
-        setForm(EMPTY_FORM);
-        onRefresh();
-      }
+      setMsg({ type: 'ok', text: '✓ Статья добавлена!' });
+      setForm(EMPTY_FORM);
+      onRefresh();
     } catch (err: any) {
       setMsg({ type: 'err', text: err.message });
     } finally {
@@ -1298,11 +1294,7 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Ошибка');
-      if (data.vercelNote) {
-        setMsg({ type: 'ok', text: data.vercelNote });
-      } else {
-        onRefresh();
-      }
+      onRefresh();
     } catch (err: any) {
       setMsg({ type: 'err', text: err.message });
     } finally {
