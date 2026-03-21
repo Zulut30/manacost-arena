@@ -1999,47 +1999,8 @@ function tabFromPath(path: string): TabId {
 }
 
 // ─── Tab transition wrapper ────────────────────────────────────────────────────
-// Crossfade: fade-out old content (0.15s) → fade-in new content (0.3s spring).
-// During transition renders cached content so old tab stays visible while exiting.
-// When idle renders live children so same-tab prop updates (e.g. winrateSource) work.
-function TabTransition({ tabKey, children }: { tabKey: string; children: React.ReactNode }) {
-  const [transitioning, setTransitioning] = useState(false);
-  const [opacity, setOpacity]             = useState(1);
-  const [shownKey, setShownKey]           = useState(tabKey);
-  const [shownContent, setShownContent]   = useState(children);
-  const pendingRef = useRef<{ key: string; content: React.ReactNode } | null>(null);
-
-  useEffect(() => {
-    if (tabKey === shownKey) return;
-    pendingRef.current = { key: tabKey, content: children };
-    setTransitioning(true);
-    setOpacity(0);
-  }, [tabKey]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleTransitionEnd = useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.propertyName !== 'opacity' || !pendingRef.current) return;
-    const { key, content } = pendingRef.current;
-    pendingRef.current = null;
-    setShownKey(key);
-    setShownContent(content);
-    setTransitioning(false);
-    setOpacity(1);
-  }, []);
-
-  return (
-    <div
-      style={{
-        opacity,
-        transition: `opacity ${transitioning ? '0.15s ease-out' : '0.3s cubic-bezier(0.16,1,0.3,1)'}`,
-        willChange: 'opacity',
-      }}
-      onTransitionEnd={handleTransitionEnd}
-    >
-      {/* During transition show cached content (old tab fading out).
-          When idle show live children so prop updates propagate instantly. */}
-      {transitioning ? shownContent : children}
-    </div>
-  );
+function TabTransition({ children }: { tabKey: string; children: React.ReactNode }) {
+  return <>{children}</>;
 }
 
 export default function App() {
