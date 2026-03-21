@@ -105,7 +105,145 @@ const CLASS_INFO_MAP: Record<string, string> = {
   warrior:        'warrior',
 };
 
-// ─── Firestone Winrates ───────────────────────────────────────────────────────
+// ─── HSReplay Class Winrates ──────────────────────────────────────────────────
+
+/** Map HSReplay UPPERCASE class name → our class key */
+const HSREPLAY_CLASS_MAP: Record<string, string> = {
+  DEATHKNIGHT:  'death-knight',
+  DEMONHUNTER:  'demon-hunter',
+  DRUID:        'druid',
+  HUNTER:       'hunter',
+  MAGE:         'mage',
+  PALADIN:      'paladin',
+  PRIEST:       'priest',
+  ROGUE:        'rogue',
+  SHAMAN:       'shaman',
+  WARLOCK:      'warlock',
+  WARRIOR:      'warrior',
+};
+
+function parseHSReplayClassStats(raw: any): Array<{ id: string; name: string; color: string; textDark: boolean; winrate: number; games: number }> | null {
+  // Format 1: { series: { data: { DRUID: [{win_rate, total_games}] } } }
+  const seriesData = raw?.series?.data;
+  if (seriesData && typeof seriesData === 'object') {
+    const result = Object.entries(seriesData)
+      .map(([cls, rows]: [string, any]) => {
+        const key  = HSREPLAY_CLASS_MAP[cls.toUpperCase()];
+        const info = key ? CLASS_SECTIONS[key] : null;
+        if (!key || !info) return null;
+        const row = Array.isArray(rows) ? rows[0] : rows;
+        const winrate = row?.win_rate ?? row?.winrate;
+        const games   = row?.total_games ?? row?.games;
+        if (winrate == null) return null;
+        return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
+      })
+      .filter(Boolean) as any[];
+    if (result.length >= 8) return result;
+  }
+
+  // Format 2: { data: { ALL: [{player_class, win_rate, total_games}] } }
+  const dataAll = raw?.data?.ALL ?? raw?.data;
+  if (Array.isArray(dataAll)) {
+    const result = dataAll
+      .map((row: any) => {
+        const cls  = (row.player_class || row.playerClass || '').toUpperCase();
+        const key  = HSREPLAY_CLASS_MAP[cls];
+        const info = key ? CLASS_SECTIONS[key] : null;
+        if (!key || !info) return null;
+        const winrate = row.win_rate ?? row.winrate;
+        const games   = row.total_games ?? row.games;
+        if (winrate == null) return null;
+        return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
+      })
+      .filter(Boolean) as any[];
+    if (result.length >= 8) return result;
+  }
+
+  return null;
+}
+
+export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
+  console.log('[Scraper] HSReplay: fetching arena class stats...');
+
+  // ── Try direct API first (fast, no browser) ─────────────────────────────
+  const DIRECT_URLS = [
+    'https://hsreplay.net/api/v1/live/arena/class_stats/?Region=ALL&TimeRange=LAST_1_DAY',
+    'https://hsreplay.net/api/v1/live/arena/class_stats/?TimeRange=LAST_1_DAY',
+    'https://hsreplay.net/api/v1/analytics/query/arena_class_performance_summary/?GameType=ARENA&TimeRange=LAST_1_DAY&Region=ALL',
+  ];
+
+  for (const url of DIRECT_URLS) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'Accept': 'application/json',
+          'Referer': 'https://hsreplay.net/arena/',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      });
+      if (!res.ok) continue;
+      const json = await res.json();
+      const classes = parseHSReplayClassStats(json);
+      if (classes && classes.length >= 8) {
+        saveData('winrates.json', {
+          classes: classes.sort((a, b) => b.winrate - a.winrate),
+          updatedAt: new Date().toISOString(),
+          source: 'hsreplay.net',
+        });
+        console.log(`[Scraper] HSReplay: saved ${classes.length} classes (direct API)`);
+        return true;
+      }
+    } catch { /* try next */ }
+  }
+
+  // ── Fallback: intercept via puppeteer ────────────────────────────────────
+  console.log('[Scraper] HSReplay: falling back to browser interception...');
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+  });
+  try {
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    );
+
+    let intercepted: any = null;
+    page.on('response', async (response) => {
+      if (intercepted) return;
+      const url = response.url();
+      if (!url.includes('hsreplay.net')) return;
+      if (!url.includes('class_stat') && !url.includes('arena_class') && !url.includes('arena/class')) return;
+      try {
+        const json = await response.json();
+        const classes = parseHSReplayClassStats(json);
+        if (classes && classes.length >= 8) intercepted = classes;
+      } catch { /* skip */ }
+    });
+
+    await page.goto('https://hsreplay.net/arena/', { waitUntil: 'networkidle2', timeout: 60000 });
+    await new Promise(r => setTimeout(r, 8000));
+
+    if (!intercepted) throw new Error('class_stats response not intercepted');
+
+    saveData('winrates.json', {
+      classes: intercepted.sort((a: any, b: any) => b.winrate - a.winrate),
+      updatedAt: new Date().toISOString(),
+      source: 'hsreplay.net',
+    });
+    console.log(`[Scraper] HSReplay: saved ${intercepted.length} classes (browser)`);
+    return true;
+
+  } catch (err) {
+    console.error('[Scraper] HSReplay class stats error:', (err as Error).message);
+    return false;
+  } finally {
+    await browser.close();
+  }
+}
+
+// ─── Firestone Winrates (fallback) ────────────────────────────────────────────
 
 export async function scrapeFirestoneWinrates(): Promise<boolean> {
   console.log('[Scraper] Firestone: fetching public API...');
@@ -572,13 +710,17 @@ export async function scrapeLegendaries(): Promise<boolean> {
 
 export async function scrapeAll() {
   console.log('[Scraper] Starting full scrape...');
-  const [wr, tl, lg] = await Promise.allSettled([
-    scrapeFirestoneWinrates(),
+
+  // Winrates: try HSReplay first, fall back to Firestone
+  const winratesOk = await scrapeHSReplayClassWinrates()
+    || await scrapeFirestoneWinrates();
+
+  const [tl, lg] = await Promise.allSettled([
     scrapeHearthArenaTierlist(),
     scrapeLegendaries(),
   ]);
   return {
-    winrates:    wr.status === 'fulfilled' && wr.value,
+    winrates:    winratesOk,
     tierlist:    tl.status === 'fulfilled' && tl.value,
     legendaries: lg.status === 'fulfilled' && lg.value,
   };
