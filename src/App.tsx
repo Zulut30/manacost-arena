@@ -464,8 +464,8 @@ const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefres
 
 // ─── Winrates tab ─────────────────────────────────────────────────────────────
 
-function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refreshing, winrateSource, onSourceChange }: {
-  classes: ClassData[]; loading: boolean; error: boolean;
+function Winrates({ classes, loading, switching, error, updatedAt, source, onRefresh, refreshing, winrateSource, onSourceChange }: {
+  classes: ClassData[]; loading: boolean; switching: boolean; error: boolean;
   updatedAt: string | null; source: string; onRefresh: () => void; refreshing: boolean;
   winrateSource: 'hsreplay' | 'firestone';
   onSourceChange: (src: 'hsreplay' | 'firestone') => void;
@@ -495,17 +495,20 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
             return (
               <button
                 key={src}
-                onClick={() => !active && onSourceChange(src)}
-                disabled={loading}
-                className="px-3 py-1.5 rounded-lg text-xs font-hs transition-all disabled:opacity-50"
+                onClick={() => { if (!active && !switching) onSourceChange(src); }}
+                className="px-3 py-1.5 rounded-lg text-xs font-hs transition-all flex items-center gap-1.5"
                 style={active ? {
                   background: 'linear-gradient(135deg,#5a3000,#3d1e00)',
                   color: '#fcd34d',
                   boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
                 } : {
-                  color: '#6b4c2a',
+                  color: switching ? '#b8a080' : '#6b4c2a',
+                  cursor: switching ? 'wait' : 'pointer',
                 }}
               >
+                {active && switching && (
+                  <RefreshCw size={10} style={{ animation: 'spin 0.8s linear infinite' }} />
+                )}
                 {label}
               </button>
             );
@@ -520,7 +523,17 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
         </div>
       )}
 
-      <div className="space-y-2.5 sm:space-y-3">
+      <div className="space-y-2.5 sm:space-y-3 relative">
+        {switching && !loading && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl"
+            style={{ background: 'rgba(237,224,192,0.55)', backdropFilter: 'blur(2px)' }}>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl font-hs text-sm"
+              style={{ background: 'linear-gradient(135deg,#5a3000,#3d1e00)', color: '#fcd34d' }}>
+              <RefreshCw size={14} style={{ animation: 'spin 0.8s linear infinite' }} />
+              Загрузка {winrateSource === 'firestone' ? 'Firestone' : 'HSReplay'}…
+            </div>
+          </div>
+        )}
         {loading
           ? Array.from({ length: 11 }).map((_, i) => (
               <div key={i} className="skeleton h-16 sm:h-[72px] w-full" style={{ animationDelay: `${i * 0.06}s` }} />
@@ -1981,22 +1994,34 @@ export default function App() {
   const [errorTierlist,      setErrorTierlist]      = useState(false);
   const [errorLegendaries,   setErrorLegendaries]   = useState(false);
   const [refreshing,         setRefreshing]         = useState(false);
+  const [switchingSource,    setSwitchingSource]    = useState(false);
 
   const fetchWinrates = useCallback(async (src: 'hsreplay' | 'firestone' = 'hsreplay') => {
+    const cacheKey = `wr_${src}`;
     try {
+      // Show cached data instantly if available
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) { setWinratesData(JSON.parse(cached)); setLoadingWinrates(false); }
+      // Always refetch fresh data in background
       const res = await fetch(`/api/winrates?source=${src}`);
       if (!res.ok) throw new Error('not ok');
-      setWinratesData(await res.json());
+      const data = await res.json();
+      sessionStorage.setItem(cacheKey, JSON.stringify(data));
+      setWinratesData(data);
       setErrorWinrates(false);
     } catch { setErrorWinrates(true); }
-    finally  { setLoadingWinrates(false); }
-  }, []); // source passed explicitly — no stale closure
+    finally  { setLoadingWinrates(false); setSwitchingSource(false); }
+  }, []);
 
   const fetchTierlist = useCallback(async () => {
     try {
+      const cached = sessionStorage.getItem('tl');
+      if (cached) { setTierlistData(JSON.parse(cached)); setLoadingTierlist(false); }
       const res = await fetch('/api/tierlist');
       if (!res.ok) throw new Error('not ok');
-      setTierlistData(await res.json());
+      const data = await res.json();
+      sessionStorage.setItem('tl', JSON.stringify(data));
+      setTierlistData(data);
       setErrorTierlist(false);
     } catch { setErrorTierlist(true); }
     finally  { setLoadingTierlist(false); }
@@ -2238,10 +2263,11 @@ export default function App() {
                     updatedAt={winratesData.updatedAt} source={winratesData.source}
                     onRefresh={handleRefresh} refreshing={refreshing}
                     winrateSource={winrateSource}
+                    switching={switchingSource}
                     onSourceChange={async (src) => {
                       setWinrateSource(src);
                       winrateSourceRef.current = src;
-                      setLoadingWinrates(true);
+                      setSwitchingSource(true);
                       await fetchWinrates(src);
                     }} />
                 )}
