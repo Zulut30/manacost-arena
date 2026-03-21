@@ -1,9 +1,10 @@
 import express from 'express';
 import cron from 'node-cron';
 import compression from 'compression';
-import { writeFileSync } from 'fs';
+import { writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { spawn } from 'child_process';
 import { scrapeAll, loadData } from './scraper.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -178,6 +179,59 @@ app.post('/api/admin-articles', adminIpGuard, (req, res) => {
     writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf-8');
     res.json({ success: true, article: newArticle });
   } catch (err: any) { res.status(500).json({ error: err.message }); }
+});
+
+// ─── Image generation (/api/admin/gen-image) ──────────────────────────────────
+
+let isGenerating = false;
+
+app.post('/api/admin/gen-image', adminIpGuard, (req, res) => {
+  if (!adminAuth(req.body)) return res.status(401).json({ error: 'Неверный пароль' });
+
+  const type = (req.body?.type as string) ?? 'legendaries';
+  const scriptMap: Record<string, string> = {
+    legendaries: join(__dirname, 'gen_legendary_image.py'),
+  };
+  const script = scriptMap[type];
+  if (!script || !existsSync(script)) {
+    return res.status(400).json({ error: `Скрипт для типа "${type}" не найден` });
+  }
+  if (isGenerating) {
+    return res.status(409).json({ error: 'Генерация уже запущена' });
+  }
+
+  const outRel = `generated/${type === 'legendaries' ? 'top_legendaries' : type}.png`;
+  const outAbs = join(__dirname, '..', 'public', outRel);
+
+  isGenerating = true;
+  const logs: string[] = [];
+
+  const py = spawn('python', [script, outAbs], { cwd: __dirname });
+
+  py.stdout.on('data', (d: Buffer) => {
+    const line = d.toString().trim();
+    if (line) { logs.push(line); console.log('[gen-image]', line); }
+  });
+  py.stderr.on('data', (d: Buffer) => {
+    const line = d.toString().trim();
+    if (line) { logs.push('ERR: ' + line); console.error('[gen-image]', line); }
+  });
+
+  py.on('close', (code: number) => {
+    isGenerating = false;
+    if (code === 0) {
+      console.log('[gen-image] Done →', outAbs);
+    } else {
+      console.error('[gen-image] Failed, code:', code);
+    }
+  });
+
+  // Respond immediately with task started; client polls /api/admin/gen-status
+  res.json({ message: 'Генерация запущена', outUrl: '/' + outRel });
+});
+
+app.get('/api/admin/gen-status', adminIpGuard, (_req, res) => {
+  res.json({ busy: isGenerating });
 });
 
 app.delete('/api/admin-articles', adminIpGuard, (req, res) => {

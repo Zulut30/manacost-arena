@@ -1614,6 +1614,58 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
   const [deleting,  setDeleting]  = useState<string | null>(null);
   const [msg,       setMsg]       = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
 
+  // ── Image generation state ────────────────────────────────────────────────
+  const [genBusy,   setGenBusy]   = useState(false);
+  const [genLog,    setGenLog]    = useState<string[]>([]);
+  const [genImgUrl, setGenImgUrl] = useState<string | null>(null);
+  const genPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const stopPoll = () => {
+    if (genPollRef.current) { clearInterval(genPollRef.current); genPollRef.current = null; }
+  };
+
+  const handleGenImage = async () => {
+    if (genBusy) return;
+    setGenBusy(true);
+    setGenLog(['⏳ Запускаем генерацию...']);
+    setGenImgUrl(null);
+    try {
+      const res = await fetch('/api/admin/gen-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, type: 'legendaries' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Ошибка запуска');
+      setGenLog(prev => [...prev, '🚀 ' + data.message]);
+      const outUrl = data.outUrl as string;
+
+      // Poll until the server is no longer busy
+      stopPoll();
+      genPollRef.current = setInterval(async () => {
+        try {
+          const st = await fetch('/api/admin/gen-status');
+          const { busy } = await st.json();
+          if (!busy) {
+            stopPoll();
+            setGenBusy(false);
+            setGenImgUrl(outUrl + '?t=' + Date.now());
+            setGenLog(prev => [...prev, '✅ Готово! Картинка сгенерирована.']);
+          } else {
+            setGenLog(prev => {
+              const last = prev[prev.length - 1];
+              if (last?.startsWith('⌛')) return [...prev.slice(0, -1), '⌛ Генерируется' + '.'.repeat((last.length - 12) % 4 + 1)];
+              return [...prev, '⌛ Генерируется.'];
+            });
+          }
+        } catch { /* ignore poll errors */ }
+      }, 2000);
+    } catch (err: any) {
+      setGenBusy(false);
+      setGenLog(prev => [...prev, '❌ ' + err.message]);
+    }
+  };
+
   const field = (key: keyof AdminForm) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm(f => ({ ...f, [key]: e.target.value }));
@@ -1832,6 +1884,105 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
             {saving ? 'Сохранение...' : 'Добавить статью'}
           </button>
         </form>
+      </div>
+
+      {/* ── Image generator ────────────────────────────────────────────── */}
+      <div style={{
+        background: 'rgba(61,34,8,0.06)',
+        border: '1.5px solid #c4a46a',
+        borderRadius: '12px',
+        padding: '20px',
+        marginBottom: '32px',
+      }}>
+        <h3 style={{ fontFamily: 'var(--font-display)', color: '#6b4c2a', marginBottom: '6px', fontSize: '1rem' }}>
+          🖼 Генерация картинки
+        </h3>
+        <p style={{ color: '#8b6c42', fontSize: '13px', marginBottom: '16px' }}>
+          Создаёт PNG 1200×680 с топ-10 легендарками и пергаментным фоном.
+        </p>
+
+        <button
+          onClick={handleGenImage}
+          disabled={genBusy}
+          style={{
+            background: genBusy ? 'rgba(139,69,19,0.3)' : 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+            color: genBusy ? '#a88a45' : '#fcd34d',
+            border: '1.5px solid #a88a45',
+            borderRadius: '8px',
+            padding: '10px 22px',
+            fontFamily: 'var(--font-display)',
+            fontSize: '15px',
+            cursor: genBusy ? 'not-allowed' : 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          {genBusy ? (
+            <>
+              <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite', fontSize: '16px' }}>⚙</span>
+              Генерируется…
+            </>
+          ) : '🎨 Создать картинку'}
+        </button>
+
+        {/* Log output */}
+        {genLog.length > 0 && (
+          <div style={{
+            marginTop: '14px',
+            background: 'rgba(0,0,0,0.06)',
+            border: '1px solid #c4a46a',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            fontSize: '12px',
+            color: '#5a3a1a',
+            fontFamily: 'monospace',
+            maxHeight: '100px',
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2px',
+          }}>
+            {genLog.map((line, i) => <span key={i}>{line}</span>)}
+          </div>
+        )}
+
+        {/* Preview + download */}
+        {genImgUrl && (
+          <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <img
+              src={genImgUrl}
+              alt="Топ легендарки"
+              style={{
+                width: '100%',
+                maxWidth: '600px',
+                borderRadius: '10px',
+                border: '2px solid #c4a46a',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+              }}
+            />
+            <a
+              href={genImgUrl}
+              download="top_legendaries.png"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 18px',
+                background: 'linear-gradient(135deg,#1d5921,#0f3012)',
+                color: '#86efac',
+                border: '1.5px solid #4ade80',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-display)',
+                fontSize: '14px',
+                alignSelf: 'flex-start',
+              }}
+            >
+              ⬇ Скачать PNG
+            </a>
+          </div>
+        )}
       </div>
 
       {/* ── Existing articles ─────────────────────────────────────────────── */}
