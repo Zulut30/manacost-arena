@@ -1923,7 +1923,9 @@ function TabTransition({ tabKey, children }: { tabKey: string; children: React.R
       className={phase === 'exit' ? 'tab-exit' : phase === 'enter' ? 'tab-enter' : ''}
       onAnimationEnd={handleAnimEnd}
     >
-      {content}
+      {/* While idle on same tab — render live children so props update correctly.
+          During exit/enter — render cached content for the animation. */}
+      {phase === 'idle' ? children : content}
     </div>
   );
 }
