@@ -1210,23 +1210,45 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
       </div>
 
       {/* ── Promo banners ──────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="flex flex-col gap-3">
         {/* Telegram */}
         <a
           href="https://t.me/manacost_ru"
           target="_blank"
           rel="noreferrer"
-          className="group relative overflow-hidden rounded-2xl transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
-          style={{ border: '1.5px solid #2aabee55' }}
+          className="group flex items-center gap-4 px-5 py-4 rounded-2xl no-underline transition-all duration-200 hover:scale-[1.01] hover:shadow-lg"
+          style={{
+            background: 'linear-gradient(135deg, #0f2942 0%, #1a3a5c 50%, #0d2035 100%)',
+            border: '1px solid rgba(42,171,238,0.35)',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(42,171,238,0.15)',
+          }}
         >
-          <img
-            src="/ad/telegram.png"
-            alt="Подписаться на Telegram канал Manacost"
-            className="w-full h-full object-cover block"
-            loading="lazy"
-            draggable={false}
-          />
-          <div className="absolute inset-0 bg-[#2aabee] opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-2xl" />
+          {/* Icon */}
+          <div className="flex-shrink-0 w-11 h-11 rounded-full overflow-hidden"
+            style={{ boxShadow: '0 0 0 2px rgba(42,171,238,0.4)' }}>
+            <img src="/ad/telegram.png" alt="Telegram" className="w-full h-full object-cover" draggable={false} />
+          </div>
+
+          {/* Text */}
+          <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="font-hs text-white text-sm sm:text-base leading-tight">Telegram-канал Manacost</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide flex-shrink-0"
+                style={{ background: 'rgba(42,171,238,0.25)', color: '#7dd3fc', border: '1px solid rgba(42,171,238,0.3)' }}>
+                Новости
+              </span>
+            </div>
+            <span className="text-xs leading-snug" style={{ color: 'rgba(186,224,255,0.65)' }}>
+              Патчи, обзоры мета и советы по Арене — первыми
+            </span>
+          </div>
+
+          {/* CTA */}
+          <div className="flex-shrink-0 flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-hs transition-all duration-200 group-hover:brightness-110"
+            style={{ background: 'rgba(42,171,238,0.2)', border: '1px solid rgba(42,171,238,0.45)', color: '#7dd3fc', whiteSpace: 'nowrap' }}>
+            Подписаться
+            <span className="text-base leading-none">→</span>
+          </div>
         </a>
 
         {/* Boosty */}
@@ -1234,17 +1256,39 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
           href="https://boosty.to/kolodahearthstone"
           target="_blank"
           rel="noreferrer"
-          className="group relative overflow-hidden rounded-2xl transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
-          style={{ border: '1.5px solid #f6821f55' }}
+          className="group flex items-center gap-4 px-5 py-4 rounded-2xl no-underline transition-all duration-200 hover:scale-[1.01] hover:shadow-lg"
+          style={{
+            background: 'linear-gradient(135deg, #2a1200 0%, #3d1a00 50%, #241000 100%)',
+            border: '1px solid rgba(246,130,31,0.35)',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(246,130,31,0.15)',
+          }}
         >
-          <img
-            src="/ad/boosty.png"
-            alt="Поддержать на Boosty"
-            className="w-full h-full object-cover block"
-            loading="lazy"
-            draggable={false}
-          />
-          <div className="absolute inset-0 bg-[#f6821f] opacity-0 group-hover:opacity-10 transition-opacity duration-200 rounded-2xl" />
+          {/* Icon */}
+          <div className="flex-shrink-0 w-11 h-11 rounded-xl overflow-hidden p-1.5"
+            style={{ background: 'rgba(246,130,31,0.15)', boxShadow: '0 0 0 2px rgba(246,130,31,0.35)' }}>
+            <img src="/ad/boosty.png" alt="Boosty" className="w-full h-full object-contain" draggable={false} />
+          </div>
+
+          {/* Text */}
+          <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="font-hs text-white text-sm sm:text-base leading-tight">Koloda на Boosty</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide flex-shrink-0"
+                style={{ background: 'rgba(246,130,31,0.25)', color: '#fdba74', border: '1px solid rgba(246,130,31,0.35)' }}>
+                Эксклюзив
+              </span>
+            </div>
+            <span className="text-xs leading-snug" style={{ color: 'rgba(255,210,170,0.6)' }}>
+              Авторские гайды, разборы и контент для подписчиков
+            </span>
+          </div>
+
+          {/* CTA */}
+          <div className="flex-shrink-0 flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-hs transition-all duration-200 group-hover:brightness-110"
+            style={{ background: 'rgba(246,130,31,0.2)', border: '1px solid rgba(246,130,31,0.45)', color: '#fdba74', whiteSpace: 'nowrap' }}>
+            Поддержать
+            <span className="text-base leading-none">→</span>
+          </div>
         </a>
       </div>
     </div>
