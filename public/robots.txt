@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://manacost-arena.vercel.app/sitemap.xml
+
+# Don't index admin panel
+Disallow: /?admin
+Disallow: /api/

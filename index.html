@@ -3,16 +3,133 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manacost Arena — Статистика Арены Hearthstone</title>
-    <meta name="description" content="Актуальные винрейты классов и тир-лист карт для режима Арена в Hearthstone. Данные обновляются автоматически." />
-    <link rel="icon" type="image/webp" href="/assets/arena_icon.webp" />
-    <link rel="apple-touch-icon" href="/assets/arena_icon.webp" />
-    <!-- Preconnect to Google Fonts CDN to eliminate connection latency -->
+
+    <!-- ═══ Primary SEO ══════════════════════════════════════════════════════ -->
+    <title>Manacost Arena — Тир-лист и Винрейты для Арены Hearthstone</title>
+    <meta name="description" content="Актуальная статистика Арены Hearthstone: тир-лист карт по классам, винрейты, легендарные группы. Данные обновляются автоматически 4 раза в сутки." />
+    <meta name="keywords" content="арена hearthstone, хартстоун арена, тир лист арена, hearthstone arena tier list, винрейт арена hearthstone, лучшие карты арена, статистика арены, легендарки арена, арена тир лист 2025, арена хартстоун классы, hearthstone arena stats, arena winrates hearthstone, hearthstone arena guide, manacost арена" />
+    <meta name="author" content="Manacost" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://manacost-arena.vercel.app/" />
+
+    <!-- ═══ Open Graph (ВКонтакте, Telegram, Facebook) ══════════════════════ -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://manacost-arena.vercel.app/" />
+    <meta property="og:site_name"   content="Manacost Arena" />
+    <meta property="og:locale"      content="ru_RU" />
+    <meta property="og:title"       content="Manacost Arena — Тир-лист и Винрейты для Арены Hearthstone" />
+    <meta property="og:description" content="Актуальная статистика Арены: тир-лист карт, винрейты классов, легендарные группы. Обновляется автоматически." />
+    <meta property="og:image"       content="https://manacost-arena.vercel.app/assets/og-preview.png" />
+    <meta property="og:image:alt"   content="Manacost Arena — статистика Арены Hearthstone" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- ═══ Twitter / X Card ════════════════════════════════════════════════ -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Manacost Arena — Тир-лист и Винрейты Арены Hearthstone" />
+    <meta name="twitter:description" content="Тир-лист карт, винрейты классов и легендарные группы для Арены. Обновляется автоматически." />
+    <meta name="twitter:image"       content="https://manacost-arena.vercel.app/assets/og-preview.png" />
+
+    <!-- ═══ Icons ════════════════════════════════════════════════════════════ -->
+    <link rel="icon"             type="image/webp" href="/assets/arena_icon.webp" />
+    <link rel="apple-touch-icon"                   href="/assets/arena_icon.webp" />
+
+    <!-- ═══ Font performance ════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Preload custom HS display font so it's ready before first paint -->
-    <link rel="preload" href="/fonts/2318-font.otf" as="font" type="font/otf" crossorigin />
-    <!-- Yandex.Metrika counter -->
+    <link rel="preload"    href="/fonts/2318-font.otf" as="font" type="font/otf" crossorigin />
+
+    <!-- ═══ JSON-LD Structured Data ════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://manacost-arena.vercel.app/#website",
+          "url": "https://manacost-arena.vercel.app/",
+          "name": "Manacost Arena",
+          "description": "Актуальная статистика режима Арена в Hearthstone",
+          "inLanguage": "ru",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Manacost",
+            "url": "https://t.me/manacost_ru",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://manacost-arena.vercel.app/assets/arena_icon.webp"
+            }
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://manacost-arena.vercel.app/#app",
+          "name": "Manacost Arena",
+          "url": "https://manacost-arena.vercel.app/",
+          "description": "Актуальная статистика режима Арена в Hearthstone: тир-лист карт по классам, винрейты, легендарные группы.",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Web",
+          "inLanguage": "ru",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+          "featureList": [
+            "Тир-лист карт Арены Hearthstone по всем классам",
+            "Винрейты классов с актуального патча",
+            "Группы легендарных карт для первого выбора",
+            "Автоматическое обновление данных 4 раза в сутки"
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Главная",    "item": "https://manacost-arena.vercel.app/" },
+            { "@type": "ListItem", "position": 2, "name": "Классы",     "item": "https://manacost-arena.vercel.app/classes" },
+            { "@type": "ListItem", "position": 3, "name": "Тир-лист",   "item": "https://manacost-arena.vercel.app/tierlist" },
+            { "@type": "ListItem", "position": 4, "name": "Легендарки", "item": "https://manacost-arena.vercel.app/legendaries" },
+            { "@type": "ListItem", "position": 5, "name": "Статьи",     "item": "https://manacost-arena.vercel.app/articles" }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Какой класс лучший на Арене Hearthstone?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Актуальные винрейты всех классов обновляются автоматически на странице «Классы». Данные берутся с миллионов реальных Арена-партий."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Как пользоваться тир-листом карт для Арены?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Выберите класс в шапке тир-листа, затем используйте поиск и фильтр по редкости. Карты ранжированы от S (авто-пик) до F (не брать никогда)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Как выбрать легендарку на Арене Hearthstone?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "На вкладке «Легендарки» показаны все возможные группы первого выбора с процентом побед. Выбирайте группу с наибольшим винрейтом для вашего класса."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Как часто обновляются данные Арены?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Данные обновляются автоматически 4 раза в сутки: в 00:15, 06:15, 12:15 и 18:15 UTC."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══ Yandex.Metrika ════════════════════════════════════════════════ -->
     <script type="text/javascript">
       (function(m,e,t,r,i,k,a){
         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -22,7 +139,7 @@
       })(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=108159528','ym');
       ym(108159528,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
     </script>
-    <!-- /Yandex.Metrika counter -->
+    <!-- /Yandex.Metrika -->
   </head>
   <body>
     <noscript><div><img src="https://mc.yandex.ru/watch/108159528" style="position:absolute;left:-9999px;" alt="" /></div></noscript>

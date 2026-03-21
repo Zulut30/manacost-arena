@@ -1776,6 +1776,71 @@ const TABS = [
   { id: 'legendaries', label: 'Легендарки', icon: Star,     slug: '/legendaries'},
 ] as const;
 
+// ─── Per-tab SEO meta ─────────────────────────────────────────────────────────
+
+const SITE_URL = 'https://manacost-arena.vercel.app';
+
+const PAGE_META: Record<string, { title: string; description: string; slug: string }> = {
+  home:        {
+    title:       'Manacost Arena — Тир-лист и Винрейты для Арены Hearthstone',
+    description: 'Актуальная статистика Арены Hearthstone: тир-лист карт, винрейты классов, легендарные группы. Данные обновляются 4 раза в сутки.',
+    slug:        '/',
+  },
+  winrates:    {
+    title:       'Винрейт классов — Арена Hearthstone | Manacost',
+    description: 'Актуальные винрейты всех 11 классов в режиме Арена Hearthstone. Рейтинг на основе миллионов партий, обновляется автоматически.',
+    slug:        '/classes',
+  },
+  tierlist:    {
+    title:       'Тир-лист карт — Арена Hearthstone | Manacost',
+    description: 'Полный тир-лист карт для каждого класса в режиме Арена Hearthstone. Лучшие карты текущего патча с оценками от S до F.',
+    slug:        '/tierlist',
+  },
+  legendaries: {
+    title:       'Легендарки на Арене Hearthstone — Лучшие группы | Manacost',
+    description: 'Какую легендарную карту выбрать на Арене? Все группы первого выбора с процентом побед. Обновляется автоматически.',
+    slug:        '/legendaries',
+  },
+  articles:    {
+    title:       'Статьи и гайды по Арене Hearthstone | Manacost',
+    description: 'Гайды, разборы и советы по режиму Арена в Hearthstone от команды Manacost.',
+    slug:        '/articles',
+  },
+};
+
+/** Update <title>, meta description and canonical <link> for the current tab */
+function applyPageMeta(tabId: string): void {
+  const meta = PAGE_META[tabId] ?? PAGE_META.home;
+
+  document.title = meta.title;
+
+  const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+  if (desc) desc.content = meta.description;
+
+  const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+  if (ogTitle) ogTitle.content = meta.title;
+
+  const ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
+  if (ogDesc) ogDesc.content = meta.description;
+
+  const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+  if (ogUrl) ogUrl.content = `${SITE_URL}${meta.slug}`;
+
+  const twTitle = document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]');
+  if (twTitle) twTitle.content = meta.title;
+
+  const twDesc = document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]');
+  if (twDesc) twDesc.content = meta.description;
+
+  let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.appendChild(canonical);
+  }
+  canonical.href = `${SITE_URL}${meta.slug}`;
+}
+
 type TabId = (typeof TABS)[number]['id'];
 
 /** Resolve tab from current pathname */
@@ -1833,16 +1898,22 @@ export default function App() {
     }
     setActiveTab(tab);
     setMobileMenuOpen(false);
+    applyPageMeta(tab);
   }, []);
 
   /** Handle browser back / forward */
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
-      setActiveTab(e.state?.tab ?? tabFromPath(window.location.pathname));
+      const tab = e.state?.tab ?? tabFromPath(window.location.pathname);
+      setActiveTab(tab);
+      applyPageMeta(tab);
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
+
+  /** Apply initial meta on first mount */
+  useEffect(() => { applyPageMeta(activeTab); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Admin panel: ?admin in URL + IP whitelist check
   const wantsAdmin = window.location.search.includes('admin');
