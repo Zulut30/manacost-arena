@@ -134,6 +134,30 @@
     animation: tabEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /* Hover-lift for winrate rows — replaces JS onMouseEnter/Leave DOM mutation */
+  .row-hover {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  @media (hover: hover) {
+    .row-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 20px rgba(0,0,0,0.25);
+    }
+  }
+
+  /* Hover-lift for legendary group cards */
+  .card-hover {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 3px 10px rgba(0,0,0,0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  @media (hover: hover) {
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 24px rgba(0,0,0,0.28);
+    }
+  }
+
   /* Gold glow pulse */
   .gold-pulse {
     animation: goldPulse 3s ease-in-out infinite;

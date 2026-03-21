@@ -485,22 +485,12 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
               return (
                 <div
                   key={cls.id}
-                  className="anim-fade-up group relative flex items-center gap-3 sm:gap-4 rounded-2xl overflow-hidden cursor-default"
+                  className="anim-fade-up row-hover group relative flex items-center gap-3 sm:gap-4 rounded-2xl overflow-hidden cursor-default"
                   style={{
                     animationDelay: delay,
                     background: 'linear-gradient(135deg, #ede0c0 0%, #e2cfa0 50%, #d8c090 100%)',
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.18)',
                     border: '1.5px solid #c9a86c',
                     padding: '10px 14px',
-                    transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 20px rgba(0,0,0,0.25)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLDivElement).style.transform = '';
-                    (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.18)';
                   }}
                 >
                   {/* Class icon */}
@@ -573,7 +563,7 @@ const ClassTabs: React.FC<{
   onChange: (id: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
-}> = ({ sections, activeId, onChange, searchQuery, onSearchChange }) => {
+}> = memo(({ sections, activeId, onChange, searchQuery, onSearchChange }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -663,9 +653,28 @@ const ClassTabs: React.FC<{
       </div>
     </div>
   );
-};
+}) as React.FC<{ sections: ClassSection[]; activeId: string; onChange: (id: string) => void; searchQuery: string; onSearchChange: (q: string) => void }>;
 
 // ─── TierList tab ─────────────────────────────────────────────────────────────
+
+// Kept outside the function — these never change and would be recreated every render
+const TIER_LABEL_FULL: Record<string, string> = {
+  S: 'Отлично',
+  A: 'Хорошо',
+  B: 'Выше среднего',
+  C: 'Средне',
+  D: 'Ниже среднего',
+  E: 'Плохо',
+  F: 'Ужасно',
+};
+
+const RARITY_OPTIONS = [
+  { id: 'all',       name: 'Все редкости' },
+  { id: 'common',    name: 'Обычная' },
+  { id: 'rare',      name: 'Редкая' },
+  { id: 'epic',      name: 'Эпическая' },
+  { id: 'legendary', name: 'Легендарная' },
+];
 
 function TierList({ data, loading, error, onRefresh, refreshing, companionIds }: {
   data: TierlistData; loading: boolean; error: boolean;
@@ -690,13 +699,6 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
     setSelectedRarity('all');
   };
 
-  const rarities = [
-    { id: 'all',       name: 'Все редкости' },
-    { id: 'common',    name: 'Обычная' },
-    { id: 'rare',      name: 'Редкая' },
-    { id: 'epic',      name: 'Эпическая' },
-    { id: 'legendary', name: 'Легендарная' },
-  ];
 
   // For class tabs: hide neutral cards (classKey === 'any')
   // For the neutral tab ('any'): show only neutral cards (already the case since only 'any' cards are in that section)
@@ -705,26 +707,19 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
   const filteredTiers = useMemo(() =>
     (activeSection?.tiers ?? []).map(t => ({
       ...t,
-      cards: t.cards.filter(c => {
-        const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchRarity = selectedRarity === 'all' || c.rarity === selectedRarity;
-        const matchClass  = isNeutralTab ? true : c.classKey !== 'any';
-        // Hide legendary cards that are companions in legendary groups (e.g. Святыня Каражан, Бвонсамди)
-        const isLegendaryCompanion = c.rarity === 'legendary' && companionIds.has(c.cardId);
-        return matchSearch && matchRarity && matchClass && !isLegendaryCompanion;
-      }),
+      // Filter then merge in one pass — avoids re-running mergeCard on every parent re-render
+      cards: t.cards
+        .filter(c => {
+          const matchSearch = !searchQuery || c.name.toLowerCase().includes(searchQuery.toLowerCase());
+          const matchRarity = selectedRarity === 'all' || c.rarity === selectedRarity;
+          const matchClass  = isNeutralTab ? true : c.classKey !== 'any';
+          // Hide legendary cards that are companions (e.g. Святыня Каражана, Бвонсамди)
+          const isLegendaryCompanion = c.rarity === 'legendary' && companionIds.has(c.cardId);
+          return matchSearch && matchRarity && matchClass && !isLegendaryCompanion;
+        })
+        .map(tc => mergeCard(tc, cards)),
     })).filter(t => t.cards.length > 0),
-  [activeSection, searchQuery, selectedRarity, isNeutralTab, companionIds]);
-
-  const tierLabelFull: Record<string, string> = {
-    S: 'Отлично',
-    A: 'Хорошо',
-    B: 'Выше среднего',
-    C: 'Средне',
-    D: 'Ниже среднего',
-    E: 'Плохо',
-    F: 'Ужасно',
-  };
+  [activeSection, searchQuery, selectedRarity, isNeutralTab, companionIds, cards]);
 
   return (
     <div className="animate-in fade-in duration-500">
@@ -790,7 +785,7 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
               className="hs-input rounded-xl px-3 py-2 text-sm transition-colors appearance-none cursor-pointer flex-shrink-0"
               style={{ minWidth: '130px' }}
             >
-              {rarities.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+              {RARITY_OPTIONS.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
             </select>
           </div>
 
@@ -805,30 +800,27 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
                   </div>
                   <div className="flex-grow">
                     <div className="flex items-baseline gap-2">
-                      <h3 className="text-xl md:text-2xl font-hs text-[#3d2208] tracking-wide">{tierLabelFull[tierGroup.tier] ?? tierGroup.label}</h3>
+                      <h3 className="text-xl md:text-2xl font-hs text-[#3d2208] tracking-wide">{TIER_LABEL_FULL[tierGroup.tier] ?? tierGroup.label}</h3>
                       <span className="text-xs font-medium text-[#8b6c42] bg-[#8b6c42]/10 px-2 py-0.5 rounded-full border border-[#8b6c42]/20">{tierGroup.cards.length} карт</span>
                     </div>
                     <p className="text-sm text-[#6b4c2a] mt-0.5">{tierGroup.description}</p>
                   </div>
                 </div>
 
-                {/* Cards grid */}
+                {/* Cards grid — cards are already merged in filteredTiers useMemo */}
                 <div className="flex flex-wrap gap-3 md:gap-5 justify-center md:justify-start" style={{ contain: 'layout' }}>
-                  {tierGroup.cards.map((tc, idx) => {
-                    const card = mergeCard(tc, cards);
-                    return (
-                      <div
-                        key={`${tc.cardId}-${idx}`}
-                        className="anim-scale-in"
-                        style={{ animationDelay: `${tierIdx * 0.07 + idx * 0.018}s` }}
-                      >
-                        <HSCard
-                          card={card}
-                          onClick={() => setModalCard({ card, tier: tierGroup.tier })}
-                        />
-                      </div>
-                    );
-                  })}
+                  {tierGroup.cards.map((card, idx) => (
+                    <div
+                      key={`${card.cardId}-${idx}`}
+                      className="anim-scale-in"
+                      style={{ animationDelay: `${tierIdx * 0.07 + idx * 0.018}s` }}
+                    >
+                      <HSCard
+                        card={card}
+                        onClick={() => setModalCard({ card, tier: tierGroup.tier })}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             )) : (
@@ -863,7 +855,7 @@ const LegendaryCardThumb: React.FC<{
   card: LegendaryCard;
   size: 'lg' | 'sm';
   onClick: () => void;
-}> = ({ card, size, onClick }) => {
+}> = memo(({ card, size, onClick }) => {
   // Fallback chain: imageRu → imageHa → hsJson enUS
   const sources = [
     card.imageRu || null,
@@ -906,7 +898,7 @@ const LegendaryCardThumb: React.FC<{
       <span className="font-hs text-[#fcd34d] text-[10px] leading-tight">{card.name}</span>
     </div>
   );
-};
+}) as React.FC<{ card: LegendaryCard; size: 'lg' | 'sm'; onClick: () => void }>;
 
 // CLASS_SECTIONS_LEGEND: sections for legend tab (no neutral)
 const LEGEND_CLASSES: Array<{ id: string; name: string; color: string }> = [
@@ -1033,20 +1025,11 @@ function Legendaries({ data, loading, error }: {
           {filtered.map((group, idx) => (
             <div
               key={`${group.keyCard.cardId}-${idx}`}
-              className="anim-scale-in rounded-2xl flex flex-col items-center p-4 gap-3 transition-all duration-200 cursor-default"
+              className="anim-scale-in card-hover rounded-2xl flex flex-col items-center p-4 gap-3 cursor-default"
               style={{
                 animationDelay: `${Math.min(idx, 20) * 0.04}s`,
                 background: 'linear-gradient(145deg,#ede0c0,#e0cc9e)',
                 border: '1.5px solid #c4a46a',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6), 0 3px 10px rgba(0,0,0,0.18)',
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
-                (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 24px rgba(0,0,0,0.28)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLDivElement).style.transform = '';
-                (e.currentTarget as HTMLDivElement).style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.6), 0 3px 10px rgba(0,0,0,0.18)';
               }}
             >
               {/* Key card image */}
@@ -1097,35 +1080,24 @@ function Legendaries({ data, loading, error }: {
 
 // ─── HomeTab ──────────────────────────────────────────────────────────────────
 
+const HOME_NAV_CARDS: Array<{
+  id: 'winrates' | 'tierlist' | 'legendaries';
+  icon: string; title: string; desc: string;
+}> = [
+  { id: 'winrates',   icon: '🏆', title: 'Винрейт классов',   desc: 'Следите за топ-классами текущего патча' },
+  { id: 'tierlist',   icon: '📜', title: 'Тир-лист карт',     desc: 'Оценки каждой карты по классам от Manacost' },
+  { id: 'legendaries',icon: '⭐', title: 'Легендарные группы', desc: 'Лучшие легендарки и пакеты карт от Manacost' },
+];
+
 function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
   winratesData: WinratesData;
   loadingWinrates: boolean;
   onNavigate: (tab: 'winrates' | 'tierlist' | 'legendaries') => void;
 }) {
-  const topClasses = [...winratesData.classes]
-    .sort((a, b) => b.winrate - a.winrate)
-    .slice(0, 3);
-
-  const navCards = [
-    {
-      id: 'winrates' as const,
-      icon: '🏆',
-      title: 'Винрейт классов',
-      desc: 'Следите за топ-классами текущего патча',
-    },
-    {
-      id: 'tierlist' as const,
-      icon: '📜',
-      title: 'Тир-лист карт',
-      desc: 'Оценки каждой карты по классам от Manacost',
-    },
-    {
-      id: 'legendaries' as const,
-      icon: '⭐',
-      title: 'Легендарные группы',
-      desc: 'Лучшие легендарки и пакеты карт от Manacost',
-    },
-  ];
+  const topClasses = useMemo(
+    () => [...winratesData.classes].sort((a, b) => b.winrate - a.winrate).slice(0, 3),
+    [winratesData.classes],
+  );
 
   return (
     <div className="flex flex-col gap-8 anim-fade-up">
@@ -1155,7 +1127,7 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
 
       {/* Stats grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {navCards.map(card => (
+        {HOME_NAV_CARDS.map(card => (
           <div
             key={card.id}
             className="rounded-2xl p-5 flex flex-col gap-3"
