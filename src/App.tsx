@@ -1987,7 +1987,7 @@ export default function App() {
   const [articlesData, setArticlesData] = useState<ArticlesData>({ articles: [], updatedAt: null });
   const [loadingArticles, setLoadingArticles] = useState(true);
 
-  const [loadingWinrates,    setLoadingWinrates]    = useState(true);
+  const [loadingWinrates,    setLoadingWinrates]    = useState(false); // false = show fallback immediately
   const [loadingTierlist,    setLoadingTierlist]    = useState(true);
   const [loadingLegendaries, setLoadingLegendaries] = useState(true);
   const [errorWinrates,      setErrorWinrates]      = useState(false);
@@ -1996,21 +1996,29 @@ export default function App() {
   const [refreshing,         setRefreshing]         = useState(false);
   const [switchingSource,    setSwitchingSource]    = useState(false);
 
+  // Generation counter prevents race conditions when two fetches run simultaneously
+  const wrGenRef = useRef(0);
+
   const fetchWinrates = useCallback(async (src: 'hsreplay' | 'firestone' = 'hsreplay') => {
+    const gen = ++wrGenRef.current;
     const cacheKey = `wr_${src}`;
     try {
       // Show cached data instantly if available
       const cached = sessionStorage.getItem(cacheKey);
-      if (cached) { setWinratesData(JSON.parse(cached)); setLoadingWinrates(false); }
-      // Always refetch fresh data in background
+      if (cached && gen === wrGenRef.current) {
+        setWinratesData(JSON.parse(cached));
+      }
+      // Refetch fresh data
       const res = await fetch(`/api/winrates?source=${src}`);
       if (!res.ok) throw new Error('not ok');
       const data = await res.json();
+      // Only apply if this is still the latest fetch (not superseded)
+      if (gen !== wrGenRef.current) return;
       sessionStorage.setItem(cacheKey, JSON.stringify(data));
       setWinratesData(data);
       setErrorWinrates(false);
-    } catch { setErrorWinrates(true); }
-    finally  { setLoadingWinrates(false); setSwitchingSource(false); }
+    } catch { if (gen === wrGenRef.current) setErrorWinrates(true); }
+    finally  { if (gen === wrGenRef.current) { setLoadingWinrates(false); setSwitchingSource(false); } }
   }, []);
 
   const fetchTierlist = useCallback(async () => {
