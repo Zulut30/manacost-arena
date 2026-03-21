@@ -1303,7 +1303,9 @@ function HomeTab({ winratesData, loadingWinrates, onNavigate }: {
               border: '1.5px solid #c4a46a',
             }}
           >
-            <img src={card.img} alt={card.title} className="w-14 h-14 object-contain" draggable={false} />
+            <div className="w-16 h-16 flex-shrink-0">
+              <img src={card.img} alt={card.title} className="w-full h-full object-contain" draggable={false} />
+            </div>
             <div>
               <h3 className="font-hs text-[#3d2208] text-lg mb-1">{card.title}</h3>
               <p className="text-[#8b6c42] text-sm leading-relaxed">{card.desc}</p>
@@ -1997,12 +1999,45 @@ function tabFromPath(path: string): TabId {
 }
 
 // ─── Tab transition wrapper ────────────────────────────────────────────────────
-// Simple key-based remount: React unmounts old tab, mounts new with enter animation.
-// No state machine needed — eliminates double-animation and stale-children bugs.
+// Crossfade: fade-out old content (0.15s) → fade-in new content (0.3s spring).
+// During transition renders cached content so old tab stays visible while exiting.
+// When idle renders live children so same-tab prop updates (e.g. winrateSource) work.
 function TabTransition({ tabKey, children }: { tabKey: string; children: React.ReactNode }) {
+  const [transitioning, setTransitioning] = useState(false);
+  const [opacity, setOpacity]             = useState(1);
+  const [shownKey, setShownKey]           = useState(tabKey);
+  const [shownContent, setShownContent]   = useState(children);
+  const pendingRef = useRef<{ key: string; content: React.ReactNode } | null>(null);
+
+  useEffect(() => {
+    if (tabKey === shownKey) return;
+    pendingRef.current = { key: tabKey, content: children };
+    setTransitioning(true);
+    setOpacity(0);
+  }, [tabKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleTransitionEnd = useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
+    if (e.propertyName !== 'opacity' || !pendingRef.current) return;
+    const { key, content } = pendingRef.current;
+    pendingRef.current = null;
+    setShownKey(key);
+    setShownContent(content);
+    setTransitioning(false);
+    setOpacity(1);
+  }, []);
+
   return (
-    <div key={tabKey} className="tab-enter">
-      {children}
+    <div
+      style={{
+        opacity,
+        transition: `opacity ${transitioning ? '0.15s ease-out' : '0.3s cubic-bezier(0.16,1,0.3,1)'}`,
+        willChange: 'opacity',
+      }}
+      onTransitionEnd={handleTransitionEnd}
+    >
+      {/* During transition show cached content (old tab fading out).
+          When idle show live children so prop updates propagate instantly. */}
+      {transitioning ? shownContent : children}
     </div>
   );
 }
