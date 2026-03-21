@@ -524,16 +524,22 @@ function Winrates({ classes, loading, switching, error, updatedAt, source, onRef
       )}
 
       <div className="space-y-2.5 sm:space-y-3 relative">
-        {switching && !loading && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl"
-            style={{ background: 'rgba(237,224,192,0.55)', backdropFilter: 'blur(2px)' }}>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl font-hs text-sm"
-              style={{ background: 'linear-gradient(135deg,#5a3000,#3d1e00)', color: '#fcd34d' }}>
-              <RefreshCw size={14} style={{ animation: 'spin 0.8s linear infinite' }} />
-              Загрузка {winrateSource === 'firestone' ? 'Firestone' : 'HSReplay'}…
-            </div>
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl pointer-events-none"
+          style={{
+            background: 'rgba(237,224,192,0.6)',
+            backdropFilter: switching && !loading ? 'blur(3px)' : 'blur(0px)',
+            opacity: switching && !loading ? 1 : 0,
+            transition: 'opacity 0.25s ease, backdrop-filter 0.25s ease',
+          }}>
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl font-hs text-sm"
+            style={{ background: 'linear-gradient(135deg,#5a3000,#3d1e00)', color: '#fcd34d',
+              transform: switching && !loading ? 'scale(1)' : 'scale(0.9)',
+              transition: 'transform 0.25s cubic-bezier(0.16,1,0.3,1)',
+            }}>
+            <RefreshCw size={14} style={{ animation: 'spin 0.8s linear infinite' }} />
+            Загрузка {winrateSource === 'firestone' ? 'Firestone' : 'HSReplay'}…
           </div>
-        )}
+        </div>
         {loading
           ? Array.from({ length: 11 }).map((_, i) => (
               <div key={i} className="skeleton h-16 sm:h-[72px] w-full" style={{ animationDelay: `${i * 0.06}s` }} />
@@ -731,11 +737,11 @@ const TIER_LABEL_FULL: Record<string, string> = {
 };
 
 const RARITY_OPTIONS = [
-  { id: 'all',       name: 'Все редкости' },
-  { id: 'common',    name: 'Обычная' },
-  { id: 'rare',      name: 'Редкая' },
-  { id: 'epic',      name: 'Эпическая' },
-  { id: 'legendary', name: 'Легендарная' },
+  { id: 'all',       name: 'Все',        icon: null },
+  { id: 'common',    name: 'Обычная',    icon: '/assets/common.png' },
+  { id: 'rare',      name: 'Редкая',     icon: '/assets/rare.png' },
+  { id: 'epic',      name: 'Эпическая',  icon: '/assets/epic.png' },
+  { id: 'legendary', name: 'Легендарная',icon: '/assets/legendary.png' },
 ];
 
 function TierList({ data, loading, error, onRefresh, refreshing, companionIds }: {
@@ -842,13 +848,32 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
                 </div>
               </div>
             )}
-            <select
-              value={selectedRarity} onChange={e => setSelectedRarity(e.target.value)}
-              className="hs-input rounded-xl px-3 py-2 text-sm transition-colors appearance-none cursor-pointer flex-shrink-0"
-              style={{ minWidth: '130px' }}
-            >
-              {RARITY_OPTIONS.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-            </select>
+            {/* Rarity filter — icon buttons */}
+            <div className="flex items-center gap-1 p-1 rounded-xl flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg,#e8d5a0,#d4b87a)', border: '1.5px solid #b8904a' }}>
+              {RARITY_OPTIONS.map(r => {
+                const active = selectedRarity === r.id;
+                return (
+                  <button
+                    key={r.id}
+                    onClick={() => setSelectedRarity(r.id)}
+                    title={r.name}
+                    className="flex items-center justify-center rounded-lg transition-all"
+                    style={{
+                      padding: r.icon ? '4px' : '4px 10px',
+                      background: active ? 'linear-gradient(135deg,#5a3000,#3d1e00)' : 'transparent',
+                      boxShadow: active ? '0 2px 6px rgba(0,0,0,0.4)' : 'none',
+                    }}
+                  >
+                    {r.icon
+                      ? <img src={r.icon} alt={r.name} className="w-6 h-6 object-contain"
+                          style={{ filter: active ? 'brightness(1.2) drop-shadow(0 0 4px rgba(252,211,77,0.6))' : 'brightness(0.75) saturate(0.6)', transition: 'filter 0.2s' }} />
+                      : <span className="font-hs text-xs" style={{ color: active ? '#fcd34d' : '#6b4c2a' }}>Все</span>
+                    }
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Tiers */}

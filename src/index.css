@@ -52,13 +52,13 @@
 }
 
 @keyframes tabExit {
-  from { opacity: 1; transform: translateY(0);   }
-  to   { opacity: 0; transform: translateY(-8px); }
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 @keyframes tabEnter {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  from { opacity: 0; transform: translateY(7px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);     }
 }
 
 /* ─── Utility classes ─────────────────────────────────────────────────────── */
@@ -127,12 +127,12 @@
 
   /* Tab transition animations */
   .tab-exit {
-    animation: tabExit 0.12s ease-in both;
+    animation: tabExit 0.18s ease-out both;
     pointer-events: none;
-    will-change: opacity, transform;
+    will-change: opacity;
   }
   .tab-enter {
-    animation: tabEnter 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: tabEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
     will-change: opacity, transform;
   }
 
