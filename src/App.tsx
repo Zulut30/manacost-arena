@@ -77,19 +77,21 @@ const CLASS_ICON: Record<string, string> = {
   warrior:        '/class_icon/warrior.png',
 };
 
-/** Maps winrate class IDs (dk/dh/…) → icon path */
+/** Maps winrate class IDs → icon path (supports both short 'dk' and full 'death-knight' forms) */
 const CLASS_ICON_BY_ID: Record<string, string> = {
-  dk:      '/class_icon/deathknight.png',
-  dh:      '/class_icon/demonhunter.png',
-  druid:   '/class_icon/druid.png',
-  hunter:  '/class_icon/hunter.png',
-  mage:    '/class_icon/mage.png',
-  paladin: '/class_icon/paladin.png',
-  priest:  '/class_icon/priest.png',
-  rogue:   '/class_icon/rogue.png',
-  shaman:  '/class_icon/shaman.png',
-  warlock: '/class_icon/warlock.png',
-  warrior: '/class_icon/warrior.png',
+  dk:             '/class_icon/deathknight.png',
+  'death-knight': '/class_icon/deathknight.png',
+  dh:             '/class_icon/demonhunter.png',
+  'demon-hunter': '/class_icon/demonhunter.png',
+  druid:          '/class_icon/druid.png',
+  hunter:         '/class_icon/hunter.png',
+  mage:           '/class_icon/mage.png',
+  paladin:        '/class_icon/paladin.png',
+  priest:         '/class_icon/priest.png',
+  rogue:          '/class_icon/rogue.png',
+  shaman:         '/class_icon/shaman.png',
+  warlock:        '/class_icon/warlock.png',
+  warrior:        '/class_icon/warrior.png',
 };
 
 interface LegendaryCard {
@@ -462,9 +464,11 @@ const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefres
 
 // ─── Winrates tab ─────────────────────────────────────────────────────────────
 
-function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refreshing }: {
+function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refreshing, winrateSource, onSourceChange }: {
   classes: ClassData[]; loading: boolean; error: boolean;
   updatedAt: string | null; source: string; onRefresh: () => void; refreshing: boolean;
+  winrateSource: 'hsreplay' | 'firestone';
+  onSourceChange: (src: 'hsreplay' | 'firestone') => void;
 }) {
   // Trigger bar fill animation after mount
   const [barsVisible, setBarsVisible] = useState(false);
@@ -480,8 +484,33 @@ function Winrates({ classes, loading, error, updatedAt, source, onRefresh, refre
   return (
     <div>
       <SectionBanner title="Классы" subtitle="Статистика побед на Арене — текущий патч" />
-      {/* UpdateBadge row */}
-      <div className="flex justify-end mb-6 -mt-2">
+      {/* Source toggle + UpdateBadge row */}
+      <div className="flex items-center justify-between mb-6 -mt-2 flex-wrap gap-2">
+        {/* Source switcher */}
+        <div className="flex items-center gap-1 p-1 rounded-xl"
+          style={{ background: 'linear-gradient(135deg,#e8d5a0,#d4b87a)', border: '1.5px solid #b8904a' }}>
+          {(['hsreplay', 'firestone'] as const).map(src => {
+            const active = winrateSource === src;
+            const label  = src === 'hsreplay' ? 'HSReplay' : 'Firestone';
+            return (
+              <button
+                key={src}
+                onClick={() => !active && onSourceChange(src)}
+                disabled={loading}
+                className="px-3 py-1.5 rounded-lg text-xs font-hs transition-all disabled:opacity-50"
+                style={active ? {
+                  background: 'linear-gradient(135deg,#5a3000,#3d1e00)',
+                  color: '#fcd34d',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                } : {
+                  color: '#6b4c2a',
+                }}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
         <UpdateBadge updatedAt={updatedAt} source={source} onRefresh={onRefresh} refreshing={refreshing} />
       </div>
 
@@ -1931,6 +1960,7 @@ export default function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [winrateSource, setWinrateSource] = useState<'hsreplay' | 'firestone'>('hsreplay');
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
   });
@@ -1951,15 +1981,16 @@ export default function App() {
   const [errorLegendaries,   setErrorLegendaries]   = useState(false);
   const [refreshing,         setRefreshing]         = useState(false);
 
-  const fetchWinrates = useCallback(async () => {
+  const fetchWinrates = useCallback(async (src?: 'hsreplay' | 'firestone') => {
+    const source = src ?? winrateSource;
     try {
-      const res = await fetch('/api/winrates');
+      const res = await fetch(`/api/winrates?source=${source}`);
       if (!res.ok) throw new Error('not ok');
       setWinratesData(await res.json());
       setErrorWinrates(false);
     } catch { setErrorWinrates(true); }
     finally  { setLoadingWinrates(false); }
-  }, []);
+  }, [winrateSource]);
 
   const fetchTierlist = useCallback(async () => {
     try {
@@ -2205,7 +2236,13 @@ export default function App() {
                 {activeTab === 'winrates' && (
                   <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
                     updatedAt={winratesData.updatedAt} source={winratesData.source}
-                    onRefresh={handleRefresh} refreshing={refreshing} />
+                    onRefresh={handleRefresh} refreshing={refreshing}
+                    winrateSource={winrateSource}
+                    onSourceChange={async (src) => {
+                      setWinrateSource(src);
+                      setLoadingWinrates(true);
+                      await fetchWinrates(src);
+                    }} />
                 )}
                 {activeTab === 'tierlist' && (
                   <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
