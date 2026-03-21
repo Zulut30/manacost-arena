@@ -5,7 +5,7 @@
  * Storage: Vercel Blob Store (production) | local filesystem (dev fallback)
  * Access:  IP whitelist + password auth
  */
-import { list, put } from '@vercel/blob';
+import { list, put, del } from '@vercel/blob';
 import { readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -33,16 +33,15 @@ function getClientIp(req) {
 
 async function loadArticles() {
   if (USE_BLOB) {
-    try {
-      const { blobs } = await list({ prefix: BLOB_KEY, limit: 1 });
-      if (!blobs.length) return { articles: [], updatedAt: null };
-      // downloadUrl contains signed token — works for private stores
-      const res = await fetch(blobs[0].downloadUrl);
-      if (!res.ok) throw new Error('blob fetch failed');
-      return res.json();
-    } catch {
-      return { articles: [], updatedAt: null };
-    }
+    const { blobs } = await list({ prefix: BLOB_KEY, limit: 1 });
+    if (!blobs.length) return { articles: [], updatedAt: null };
+
+    // Use Authorization header — works for private stores from server-side
+    const res = await fetch(blobs[0].url, {
+      headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+    });
+    if (!res.ok) throw new Error(`Blob read failed: ${res.status} ${res.statusText}`);
+    return res.json();
   }
   // Local dev fallback
   try {
@@ -54,9 +53,13 @@ async function loadArticles() {
 
 async function saveArticles(data) {
   if (USE_BLOB) {
+    // Delete old blob first, then put new one (guarantees single copy)
+    const { blobs } = await list({ prefix: BLOB_KEY, limit: 10 });
+    if (blobs.length > 0) {
+      await del(blobs.map(b => b.url));
+    }
     await put(BLOB_KEY, JSON.stringify(data, null, 2), {
       access: 'private',
-      allowOverwrite: true,
       contentType: 'application/json',
     });
   } else {
@@ -93,24 +96,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Заголовок обязателен' });
     }
 
-    const existing = await loadArticles();
-    const newArticle = {
-      id:      Date.now().toString(),
-      title:   article.title.trim(),
-      date:    new Date().toISOString().split('T')[0],
-      image:   article.image   ?? '',
-      excerpt: article.excerpt ?? '',
-      tag:     article.tag     ?? '',
-      url:     article.url     ?? '#',
-    };
-    existing.articles.unshift(newArticle);
-    existing.updatedAt = new Date().toISOString();
-
     try {
+      const existing = await loadArticles();
+      const newArticle = {
+        id:      Date.now().toString(),
+        title:   article.title.trim(),
+        date:    new Date().toISOString().split('T')[0],
+        image:   article.image   ?? '',
+        excerpt: article.excerpt ?? '',
+        tag:     article.tag     ?? '',
+        url:     article.url     ?? '#',
+      };
+      existing.articles.unshift(newArticle);
+      existing.updatedAt = new Date().toISOString();
       await saveArticles(existing);
       return res.json({ success: true, article: newArticle });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: String(err.message ?? err) });
     }
   }
 
@@ -119,19 +121,18 @@ export default async function handler(req, res) {
     const id = req.query?.id ?? req.body?.id;
     if (!id) return res.status(400).json({ error: 'id обязателен' });
 
-    const existing = await loadArticles();
-    const before = existing.articles.length;
-    existing.articles = existing.articles.filter(a => a.id !== id);
-    if (existing.articles.length === before) {
-      return res.status(404).json({ error: 'Статья не найдена' });
-    }
-    existing.updatedAt = new Date().toISOString();
-
     try {
+      const existing = await loadArticles();
+      const before = existing.articles.length;
+      existing.articles = existing.articles.filter(a => a.id !== id);
+      if (existing.articles.length === before) {
+        return res.status(404).json({ error: 'Статья не найдена' });
+      }
+      existing.updatedAt = new Date().toISOString();
       await saveArticles(existing);
       return res.json({ success: true });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: String(err.message ?? err) });
     }
   }
 

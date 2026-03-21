@@ -17,9 +17,12 @@ async function loadArticles() {
   if (USE_BLOB) {
     const { blobs } = await list({ prefix: BLOB_KEY, limit: 1 });
     if (!blobs.length) return { articles: [], updatedAt: null };
-    // downloadUrl contains signed token — works for private stores
-    const res = await fetch(blobs[0].downloadUrl);
-    if (!res.ok) throw new Error('Blob fetch failed');
+
+    // Use Authorization header — works for private stores from server-side
+    const res = await fetch(blobs[0].url, {
+      headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+    });
+    if (!res.ok) throw new Error(`Blob read failed: ${res.status}`);
     return res.json();
   }
   // Local dev fallback
@@ -36,7 +39,6 @@ export default async function handler(req, res) {
 
   try {
     const data = await loadArticles();
-    // No CDN cache — articles must be fresh immediately after admin writes
     res.setHeader('Cache-Control', 'no-store');
     return res.json(data);
   } catch (err) {
