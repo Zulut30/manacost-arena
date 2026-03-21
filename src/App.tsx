@@ -1635,8 +1635,12 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password, type: 'legendaries' }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Ошибка запуска');
+      // Guard against non-JSON responses (e.g. 404 HTML when server not restarted)
+      const text = await res.text();
+      if (!text.trim()) throw new Error(`Сервер вернул пустой ответ (HTTP ${res.status}). Перезапусти сервер: npm run dev`);
+      let data: any = {};
+      try { data = JSON.parse(text); } catch { throw new Error(`Не JSON: ${text.slice(0, 120)}`); }
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
       setGenLog(prev => [...prev, '🚀 ' + data.message]);
       const outUrl = data.outUrl as string;
 
