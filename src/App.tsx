@@ -2613,7 +2613,7 @@ export default function App() {
           >
             {/* Emblem */}
             <div className="relative flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105"
-              style={{ width: '64px', height: '64px' }}>
+              style={{ width: '82px', height: '82px' }}>
               <img
                 src="/logo_transparent.png"
                 alt="HS-Arena"
@@ -2624,30 +2624,42 @@ export default function App() {
             </div>
             {/* Title */}
             <div className="flex flex-col items-start">
-              <h1
-                className="leading-none tracking-wider uppercase select-none transition-opacity group-hover:opacity-90"
-                style={{
-                  fontFamily: 'var(--font-display, "Cinzel", serif)',
-                  fontSize: 'clamp(1.8rem, 5vw, 3.5rem)',
-                  background: 'linear-gradient(180deg, #fffde7 0%, #fcd34d 35%, #e8a000 70%, #b35c00 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 2px 8px rgba(212,175,55,0.5))',
-                  textShadow: 'none',
-                }}
-              >
-                HS-ARENA
-              </h1>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
+              <div className="flex items-baseline gap-1 leading-none select-none transition-opacity group-hover:opacity-90"
+                style={{ filter: 'drop-shadow(0 2px 8px rgba(212,175,55,0.5))' }}>
+                <h1
+                  className="tracking-wider uppercase"
+                  style={{
+                    fontFamily: 'var(--font-display, "Cinzel", serif)',
+                    fontSize: 'clamp(1.8rem, 5vw, 3.5rem)',
+                    background: 'linear-gradient(180deg, #fffde7 0%, #fcd34d 35%, #e8a000 70%, #b35c00 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    lineHeight: 1,
+                  }}
+                >HS-ARENA</h1>
                 <span
-                  className="uppercase tracking-[0.45em] text-[#c4a46a] font-bold"
-                  style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(0.6rem, 1.8vw, 0.85rem)', letterSpacing: '0.5em' }}
+                  style={{
+                    fontFamily: 'var(--font-display, "Cinzel", serif)',
+                    fontSize: 'clamp(0.9rem, 2.5vw, 1.7rem)',
+                    background: 'linear-gradient(180deg, #fffde7 0%, #fcd34d 35%, #e8a000 70%, #b35c00 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    opacity: 0.65,
+                    lineHeight: 1,
+                  }}
+                >.RU</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '20px' }} />
+                <span
+                  className="text-[#c4a46a]"
+                  style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(0.55rem, 1.5vw, 0.75rem)', letterSpacing: '0.08em' }}
                 >
-                  .RU
+                  Сайт по Арене от Манакоста
                 </span>
-                <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
+                <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '20px' }} />
               </div>
             </div>
           </button>
