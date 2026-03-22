@@ -139,8 +139,8 @@ const HSREPLAY_DECK_CLASS_NUM: Record<number, string> = {
   9:  'warlock',
   10: 'warrior',
   11: 'demon-hunter',
-  12: 'demon-hunter',  // alternate DH id seen in some regions
-  14: 'death-knight',  // alternate DK id in some API versions
+  12: 'death-knight',  // Blizzard enum: 12 = DEATHKNIGHT
+  14: 'demon-hunter',  // Blizzard enum: 14 = DEMONHUNTER
   15: 'warlock',       // alternate Warlock id fallback
 };
 
