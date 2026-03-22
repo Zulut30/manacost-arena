@@ -1451,8 +1451,8 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
         <div className="flex gap-3 overflow-x-auto scrollbar-hs pb-2">
           {loadingLegendaries
             ? Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-28 sm:w-32 rounded-xl animate-pulse"
-                  style={{ height: 160, background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }} />
+                <div key={i} className="flex-shrink-0 w-20 sm:w-24 rounded-xl animate-pulse"
+                  style={{ height: 130, background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }} />
               ))
             : topLegendaries.map(g => {
                 const kc = g.keyCard;
@@ -1470,11 +1470,11 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                           src={imgSrc}
                           alt={kc.name}
                           loading="lazy"
-                          className="w-24 sm:w-28 h-auto transition-transform duration-200 group-hover:scale-105"
+                          className="w-20 sm:w-24 h-auto transition-transform duration-200 group-hover:scale-105"
                           draggable={false}
                         />
                       ) : (
-                        <div className="w-24 sm:w-28 h-36 rounded-xl flex items-center justify-center text-center px-2"
+                        <div className="w-20 sm:w-24 h-32 rounded-xl flex items-center justify-center text-center px-2"
                           style={{ background: 'linear-gradient(135deg,#2c1e16,#1a110a)', border: '1.5px solid #a88a45' }}>
                           <span className="font-hs text-[#fcd34d] text-xs leading-tight">{kc.name}</span>
                         </div>
@@ -1491,7 +1491,7 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                         </div>
                       )}
                     </div>
-                    <span className="font-hs text-[#3d2208] text-[11px] sm:text-xs text-center leading-tight max-w-[6rem] sm:max-w-[7rem] line-clamp-2">{kc.name}</span>
+                    <span className="font-hs text-[#3d2208] text-[11px] sm:text-xs text-center leading-tight max-w-[5rem] sm:max-w-[6rem] line-clamp-2">{kc.name}</span>
                   </button>
                 );
               })
