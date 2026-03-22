@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { createPortal } from 'react-dom';
-import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen, Menu } from 'lucide-react';
+import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen, Menu, Briefcase } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -1464,7 +1464,7 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                     className="flex-shrink-0 flex flex-col items-center gap-1 group cursor-pointer"
                     style={{ WebkitTapHighlightColor: 'transparent', background: 'none', border: 'none', padding: 0 }}
                   >
-                    <div className="relative" style={{ filter: 'drop-shadow(0 6px 18px rgba(0,0,0,0.7))' }}>
+                    <div className="relative">
                       {imgSrc ? (
                         <img
                           src={imgSrc}
@@ -1472,6 +1472,7 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                           loading="lazy"
                           className="w-20 sm:w-24 h-auto transition-transform duration-200 group-hover:scale-105"
                           draggable={false}
+                          style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.55)) drop-shadow(0 1px 3px rgba(0,0,0,0.4))' }}
                         />
                       ) : (
                         <div className="w-20 sm:w-24 h-32 rounded-xl flex items-center justify-center text-center px-2"
@@ -2193,6 +2194,127 @@ function ArticleCard({ article, idx }: { article: Article; idx: number }) {
   );
 }
 
+// ─── Jobs Tab ─────────────────────────────────────────────────────────────────
+
+const VACANCIES = [
+  {
+    id: 'arena',
+    title: 'Автор по режиму Арена',
+    formUrl: 'https://forms.gle/mFjbNRs1BQCsXgmC8',
+    requirements: [
+      'Стабильно делать от 5 до 7 побед за забег (окупаемость билета)',
+      'Регулярно играть в актуальных патчах, следить за изменениями формата',
+      'Глубоко понимать кривую маны и синергию при составлении колоды',
+      'Уметь объяснять логику выбора карт во время драфта, а не просто цитировать винрейт',
+      'Писать структурированные тексты без «воды», с правильной игровой терминологией',
+      'Уверенно использовать статистические ресурсы (HSReplay, Firestone)',
+      'Оперативно выпускать материалы в первые дни после выхода патчей',
+    ],
+  },
+  {
+    id: 'battlegrounds',
+    title: 'Автор по режиму Поля Сражений',
+    formUrl: 'https://forms.gle/Gekqqz3NqWudk9eR8',
+    requirements: [
+      'Стабильно держать высокий MMR (минимум 8 000 – 10 000+ очков)',
+      'Активно играть на протяжении каждого сезона',
+      'Знать актуальные кривые прокачки таверны и понимать, когда форсировать уровень',
+      'Досконально знать все архетипы и ключевые карты для победы в лейтгейме',
+      'Быстро адаптироваться к сезонным механикам: квестам, аномалиям, заклинаниям таверны',
+      'Объяснять позиционирование существ (защита от яда, порядок предсмертных хрипов)',
+      'Составлять тир-листы героев с аргументацией, опираясь не только на винрейт',
+      'Писать гайды по типам существ с маршрутами перехода на средних этапах игры',
+      'Уверенно работать с HSReplay (Tier7) и Firestone на высоких рейтингах',
+      'Оперативно выпускать обзоры патчноутов в день их выхода',
+    ],
+  },
+];
+
+function JobsTab() {
+  return (
+    <div>
+      <SectionBanner title="Работа" subtitle="Открытые вакансии в команду Manacost Arena" />
+      <div className="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-8">
+        {/* PDF download */}
+        <div className="flex items-center justify-between p-4 rounded-2xl"
+          style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }}>
+          <div>
+            <p className="font-hs text-[#3d2208] text-base">Полное описание вакансий (PDF)</p>
+            <p className="text-[#8b6c42] text-sm mt-0.5">Скачать или открыть официальный документ</p>
+          </div>
+          <div className="flex gap-2 flex-shrink-0">
+            <a
+              href="/vacancies.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl text-[#fcd34d] text-sm font-hs border border-[#a88a45] hover:brightness-110 transition-all"
+              style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)' }}
+            >
+              Открыть
+            </a>
+            <a
+              href="/vacancies.pdf"
+              download="Вакансии Manacost.pdf"
+              className="px-4 py-2 rounded-xl text-[#fcd34d] text-sm font-hs border border-[#a88a45] hover:brightness-110 transition-all"
+              style={{ background: 'linear-gradient(135deg,#3a2210,#2c1e16)' }}
+            >
+              Скачать
+            </a>
+          </div>
+        </div>
+
+        {/* Vacancy cards */}
+        {VACANCIES.map(v => (
+          <div key={v.id} className="rounded-2xl overflow-hidden"
+            style={{ border: '1.5px solid #c4a46a', background: 'linear-gradient(135deg,#f5ead0,#ede0c0)' }}>
+            {/* Header */}
+            <div className="px-6 py-4 flex items-center justify-between"
+              style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', borderBottom: '1px solid #a88a45' }}>
+              <h2 className="font-hs text-[#fcd34d] text-lg">{v.title}</h2>
+              <a
+                href={v.formUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2 rounded-xl text-[#3d2208] text-sm font-hs font-bold hover:brightness-105 transition-all flex-shrink-0 ml-4"
+                style={{ background: 'linear-gradient(135deg,#fcd34d,#f0a800)' }}
+              >
+                Откликнуться →
+              </a>
+            </div>
+            {/* Requirements */}
+            <div className="px-6 py-5">
+              <p className="font-hs text-[#6b4c2a] text-sm mb-3 uppercase tracking-wide">Требования</p>
+              <ul className="flex flex-col gap-2.5">
+                {v.requirements.map((req, i) => (
+                  <li key={i} className="flex gap-3 items-start">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold mt-0.5"
+                      style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', color: '#fcd34d', border: '1px solid #a88a45' }}>
+                      {i + 1}
+                    </span>
+                    <span className="text-[#3d2208] text-sm leading-relaxed">{req}</span>
+                  </li>
+                ))}
+              </ul>
+              {/* CTA bottom */}
+              <div className="mt-6 pt-4" style={{ borderTop: '1px solid #c4a46a55' }}>
+                <a
+                  href={v.formUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[#3d2208] font-hs font-bold text-sm hover:brightness-105 transition-all"
+                  style={{ background: 'linear-gradient(135deg,#fcd34d,#f0a800)' }}
+                >
+                  Заполнить анкету →
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ArticlesTab({ data, loading }: { data: ArticlesData; loading: boolean }) {
   return (
     <div>
@@ -2223,7 +2345,8 @@ const TABS = [
   { id: 'articles',    label: 'Статьи',     icon: BookOpen, slug: '/articles'   },
   { id: 'winrates',    label: 'Классы',     icon: Trophy,   slug: '/classes'    },
   { id: 'tierlist',    label: 'Тир-лист',   icon: Scroll,   slug: '/tierlist'   },
-  { id: 'legendaries', label: 'Легендарки', icon: Star,     slug: '/legendaries'},
+  { id: 'legendaries', label: 'Легендарки', icon: Star,      slug: '/legendaries'},
+  { id: 'jobs',        label: 'Работа',     icon: Briefcase, slug: '/jobs'       },
 ] as const;
 
 // ─── Per-tab SEO meta ─────────────────────────────────────────────────────────
@@ -2255,6 +2378,11 @@ const PAGE_META: Record<string, { title: string; description: string; slug: stri
     title:       'Статьи и гайды по Арене Hearthstone | Manacost',
     description: 'Гайды, разборы и советы по режиму Арена в Hearthstone от команды Manacost.',
     slug:        '/articles',
+  },
+  jobs:        {
+    title:       'Вакансии — Работа автором | Manacost Arena',
+    description: 'Открытые вакансии авторов по Арене и Полям Сражений Hearthstone. Присоединяйся к команде Manacost.',
+    slug:        '/jobs',
   },
 };
 
@@ -2664,6 +2792,9 @@ export default function App() {
                 )}
                 {activeTab === 'articles' && (
                   <ArticlesTab data={articlesData} loading={loadingArticles} />
+                )}
+                {activeTab === 'jobs' && (
+                  <JobsTab />
                 )}
               </>
             </TabTransition>
