@@ -1315,7 +1315,7 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
           <h2 className="font-hs text-[#3d2208] leading-tight mb-2"
             style={{ fontSize: 'clamp(1.4rem, 4vw, 2.2rem)' }}>
-            Добро пожаловать в Manacost Arena
+            Добро пожаловать в HS-Arena
           </h2>
           <p className="text-[#8b6c42] text-sm sm:text-base max-w-xl leading-relaxed">
             Актуальная статистика для режима Арена в Hearthstone. Данные обновляются автоматически на основе миллионов партий.
@@ -2327,32 +2327,32 @@ const SITE_URL = 'https://manacost-arena.vercel.app';
 
 const PAGE_META: Record<string, { title: string; description: string; slug: string }> = {
   home:        {
-    title:       'Manacost Arena — Тир-лист и Винрейты для Арены Hearthstone',
+    title:       'HS-Arena — Тир-лист и Винрейты для Арены Hearthstone',
     description: 'Актуальная статистика Арены Hearthstone: тир-лист карт, винрейты классов, легендарные группы. Данные обновляются 4 раза в сутки.',
     slug:        '/',
   },
   winrates:    {
-    title:       'Винрейт классов — Арена Hearthstone | Manacost',
+    title:       'Винрейт классов — Арена Hearthstone | HS-Arena',
     description: 'Актуальные винрейты всех 11 классов в режиме Арена Hearthstone. Рейтинг на основе миллионов партий, обновляется автоматически.',
     slug:        '/classes',
   },
   tierlist:    {
-    title:       'Тир-лист карт — Арена Hearthstone | Manacost',
+    title:       'Тир-лист карт — Арена Hearthstone | HS-Arena',
     description: 'Полный тир-лист карт для каждого класса в режиме Арена Hearthstone. Лучшие карты текущего патча с оценками от S до F.',
     slug:        '/tierlist',
   },
   legendaries: {
-    title:       'Легендарки на Арене Hearthstone — Лучшие группы | Manacost',
+    title:       'Легендарки на Арене Hearthstone — Лучшие группы | HS-Arena',
     description: 'Какую легендарную карту выбрать на Арене? Все группы первого выбора с процентом побед. Обновляется автоматически.',
     slug:        '/legendaries',
   },
   articles:    {
-    title:       'Статьи и гайды по Арене Hearthstone | Manacost',
+    title:       'Статьи и гайды по Арене Hearthstone | HS-Arena',
     description: 'Гайды, разборы и советы по режиму Арена в Hearthstone от команды Manacost.',
     slug:        '/articles',
   },
   jobs:        {
-    title:       'Вакансии — Работа автором | Manacost Arena',
+    title:       'Вакансии — Работа автором | HS-Arena Arena',
     description: 'Открытые вакансии авторов по Арене и Полям Сражений Hearthstone. Присоединяйся к команде Manacost.',
     slug:        '/jobs',
   },
@@ -2614,13 +2614,11 @@ export default function App() {
             {/* Emblem */}
             <div className="relative flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105"
               style={{ width: '64px', height: '64px' }}>
-              <div className="absolute inset-0 rounded-full"
-                style={{ boxShadow: '0 0 0 2px #fcd34d, 0 0 20px rgba(252,211,77,0.4), 0 0 0 4px rgba(212,175,55,0.12)' }} />
               <img
-                src={ARENA_ICON}
-                alt="Arena"
-                className="w-full h-full rounded-full object-cover"
-                style={{ filter: 'drop-shadow(0 0 10px rgba(252,211,77,0.6))' }}
+                src="/logo_transparent.png"
+                alt="HS-Arena"
+                className="w-full h-full object-contain"
+                style={{ filter: 'drop-shadow(0 0 10px rgba(252,211,77,0.6)) brightness(1.1)' }}
                 draggable={false}
               />
             </div>
@@ -2639,7 +2637,7 @@ export default function App() {
                   textShadow: 'none',
                 }}
               >
-                Manacost
+                HS-ARENA
               </h1>
               <div className="flex items-center gap-2 mt-1">
                 <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
@@ -2647,7 +2645,7 @@ export default function App() {
                   className="uppercase tracking-[0.45em] text-[#c4a46a] font-bold"
                   style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(0.6rem, 1.8vw, 0.85rem)', letterSpacing: '0.5em' }}
                 >
-                  Arena
+                  .RU
                 </span>
                 <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '30px' }} />
               </div>
