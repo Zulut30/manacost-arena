@@ -2235,34 +2235,6 @@ function JobsTab() {
     <div>
       <SectionBanner title="Работа" subtitle="Открытые вакансии в команду Manacost Arena" />
       <div className="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-8">
-        {/* PDF download */}
-        <div className="flex items-center justify-between p-4 rounded-2xl"
-          style={{ background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)', border: '1.5px solid #c4a46a' }}>
-          <div>
-            <p className="font-hs text-[#3d2208] text-base">Полное описание вакансий (PDF)</p>
-            <p className="text-[#8b6c42] text-sm mt-0.5">Скачать или открыть официальный документ</p>
-          </div>
-          <div className="flex gap-2 flex-shrink-0">
-            <a
-              href="/vacancies.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl text-[#fcd34d] text-sm font-hs border border-[#a88a45] hover:brightness-110 transition-all"
-              style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)' }}
-            >
-              Открыть
-            </a>
-            <a
-              href="/vacancies.pdf"
-              download="Вакансии Manacost.pdf"
-              className="px-4 py-2 rounded-xl text-[#fcd34d] text-sm font-hs border border-[#a88a45] hover:brightness-110 transition-all"
-              style={{ background: 'linear-gradient(135deg,#3a2210,#2c1e16)' }}
-            >
-              Скачать
-            </a>
-          </div>
-        </div>
-
         {/* Vacancy cards */}
         {VACANCIES.map(v => (
           <div key={v.id} className="rounded-2xl overflow-hidden"
