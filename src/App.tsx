@@ -2409,6 +2409,15 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (aboutOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [aboutOpen]);
+
   /** Navigate to a tab: update state + browser URL */
   const navigate = useCallback((tab: TabId) => {
     const slug = TABS.find(t => t.id === tab)!.slug;
@@ -2802,8 +2811,10 @@ export default function App() {
       {/* О проекте modal */}
       {aboutOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
-          style={{ background: 'rgba(0,0,0,0.7)' }}
-          onClick={() => setAboutOpen(false)}>
+          style={{ background: 'rgba(0,0,0,0.75)' }}
+          onClick={() => setAboutOpen(false)}
+          onWheel={e => e.preventDefault()}
+          onTouchMove={e => e.preventDefault()}>
           <div className="w-full sm:w-[480px] sm:mx-auto max-h-[85vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl pb-8"
             style={{ background: 'linear-gradient(180deg,#1a0e04,#241408)', border: '2px solid #8b5a1a', borderBottom: 'none' }}
             onClick={e => e.stopPropagation()}>
@@ -2824,12 +2835,10 @@ export default function App() {
             {/* Content */}
             <div className="px-5 py-4 flex flex-col gap-5">
               {/* About */}
-              <div>
-                <p style={{ color: '#e8d5a8', fontFamily: 'var(--font-body)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  <strong style={{ color: '#fcd34d' }}>HS-Arena.ru</strong> — сайт по Арене в Hearthstone от Манакоста.
-                  Тир-листы карт, винрейты классов, легендарки и статьи — всё для арены.
-                </p>
-              </div>
+              <p style={{ color: '#e8d5a8', fontFamily: 'var(--font-body)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                <strong style={{ color: '#fcd34d' }}>HS-Arena.ru</strong> — сайт по Арене в Hearthstone от Манакоста.
+                Тир-листы карт, винрейты классов, легендарки и статьи — всё для арены.
+              </p>
               {/* Version badge */}
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1.5 rounded-lg" style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', border: '1.5px solid #a88a45' }}>
@@ -2837,34 +2846,47 @@ export default function App() {
                 </div>
                 <span style={{ color: '#8b7355', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>Март 2026</span>
               </div>
-              {/* Roadmap */}
+              {/* Roadmap — only current version */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,rgba(212,175,55,0.5),transparent)' }} />
                   <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.8rem', letterSpacing: '0.1em' }}>ДОРОЖНАЯ КАРТА</span>
                   <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,175,55,0.5))' }} />
                 </div>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { ver: '1.0', label: 'Запуск', items: ['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'], done: true },
-                    { ver: '1.1', label: 'Контент', items: ['Больше статей', 'Фильтры в тир-листе', 'Поиск карт'], done: false },
-                    { ver: '1.2', label: 'Инструменты', items: ['Калькулятор драфта', 'История обновлений'], done: false },
-                  ].map(({ ver, label, items, done }) => (
-                    <div key={ver} className="rounded-xl p-3" style={{ background: done ? 'rgba(252,211,77,0.07)' : 'rgba(255,255,255,0.03)', border: `1.5px solid ${done ? 'rgba(252,211,77,0.3)' : 'rgba(255,255,255,0.08)'}` }}>
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ background: done ? 'rgba(252,211,77,0.2)' : 'rgba(255,255,255,0.08)', color: done ? '#fcd34d' : '#8b7355', fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>v{ver}</span>
-                        <span style={{ color: done ? '#fcd34d' : '#8b7355', fontSize: '0.85rem', fontFamily: 'var(--font-body)' }}>{label}</span>
-                        {done && <span className="ml-auto text-xs" style={{ color: '#4ade80' }}>✓ Готово</span>}
-                      </div>
-                      <ul className="flex flex-col gap-0.5 pl-1">
-                        {items.map(item => (
-                          <li key={item} className="flex items-center gap-2" style={{ color: done ? '#c4a46a' : '#6b5a45', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>
-                            <span style={{ color: done ? '#fcd34d' : '#4a3a28' }}>•</span>{item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                <div className="rounded-xl p-3" style={{ background: 'rgba(252,211,77,0.07)', border: '1.5px solid rgba(252,211,77,0.3)' }}>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ background: 'rgba(252,211,77,0.2)', color: '#fcd34d', fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>v1.0</span>
+                    <span style={{ color: '#fcd34d', fontSize: '0.85rem', fontFamily: 'var(--font-body)' }}>Запуск</span>
+                    <span className="ml-auto text-xs" style={{ color: '#4ade80' }}>✓ Готово</span>
+                  </div>
+                  <ul className="flex flex-col gap-0.5 pl-1">
+                    {['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'].map(item => (
+                      <li key={item} className="flex items-center gap-2" style={{ color: '#c4a46a', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>
+                        <span style={{ color: '#fcd34d' }}>•</span>{item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              {/* Donate section */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,rgba(212,175,55,0.5),transparent)' }} />
+                  <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.8rem', letterSpacing: '0.1em' }}>ПОДДЕРЖАТЬ ПРОЕКТ</span>
+                  <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,175,55,0.5))' }} />
+                </div>
+                <div className="rounded-xl p-4 flex flex-col items-center gap-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1.5px solid rgba(139,90,26,0.4)' }}>
+                  <p style={{ color: '#c4a46a', fontFamily: 'var(--font-body)', fontSize: '0.85rem', textAlign: 'center', lineHeight: 1.5 }}>
+                    Если сайт полезен — поддержи проект на Бусти. Это помогает развивать его дальше 🙌
+                  </p>
+                  <img src="/ad/donate-qr.png" alt="QR Boosty donate" className="rounded-lg"
+                    style={{ width: 140, height: 140, border: '2px solid rgba(212,175,55,0.4)' }} />
+                  <a href="https://boosty.to/kolodahearthstone/donate" target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all hover:brightness-110 active:scale-95"
+                    style={{ background: 'linear-gradient(135deg,#f77f00,#e05500)', color: '#fff', fontFamily: 'var(--font-display)', fontSize: '0.9rem', letterSpacing: '0.05em', textDecoration: 'none', boxShadow: '0 4px 12px rgba(247,127,0,0.35)' }}
+                    onClick={e => e.stopPropagation()}>
+                    ♥ Поддержать на Boosty
+                  </a>
                 </div>
               </div>
             </div>
