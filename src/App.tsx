@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
 import { createPortal } from 'react-dom';
-import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen, Menu, Briefcase } from 'lucide-react';
+import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen, Menu, Briefcase, Info } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -2407,6 +2407,7 @@ function TabTransition({ children }: { tabKey: string; children: React.ReactNode
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>(() => tabFromPath(window.location.pathname));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   /** Navigate to a tab: update state + browser URL */
   const navigate = useCallback((tab: TabId) => {
@@ -2675,11 +2676,19 @@ export default function App() {
             <div className="flex items-center gap-2 font-hs text-[#4a3018] text-sm">
               {(() => { const t = TABS.find(t => t.id === activeTab); const Icon = t!.icon; return <><Icon size={16} className="text-[#8b4513]" /><span>{t!.label}</span></>; })()}
             </div>
-            <button onClick={() => setMobileMenuOpen(v => !v)}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-[#4a3018]"
-              style={{ background: mobileMenuOpen ? 'rgba(0,0,0,0.1)' : 'transparent' }}>
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            <div className="flex items-center gap-1">
+              <button onClick={() => { setAboutOpen(true); setMobileMenuOpen(false); }}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-[#4a3018]"
+                style={{ background: 'transparent' }}
+                aria-label="О проекте">
+                <Info size={20} />
+              </button>
+              <button onClick={() => setMobileMenuOpen(v => !v)}
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-[#4a3018]"
+                style={{ background: mobileMenuOpen ? 'rgba(0,0,0,0.1)' : 'transparent' }}>
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
 
           {/* Mobile dropdown */}
@@ -2718,6 +2727,12 @@ export default function App() {
                 </button>
               );
             })}
+            {/* О проекте — desktop info button */}
+            <button onClick={() => setAboutOpen(true)}
+              className="relative px-3 sm:px-4 py-2 sm:py-3 rounded-t-xl transition-all flex items-center gap-1.5 border-t-[3px] border-x-[3px] flex-shrink-0 bg-parchment-inactive border-[#8b5a2b] text-[#5c3a21] hover:text-[#4a3018] hover:brightness-105 shadow-[inset_0_-3px_6px_rgba(0,0,0,0.2)] z-0 mt-1 sm:mt-2"
+              aria-label="О проекте">
+              <Info size={16} className="opacity-70" />
+            </button>
           </div>
         </div>
 
@@ -2783,6 +2798,79 @@ export default function App() {
           )}
         </div>
       </main>
+
+      {/* О проекте modal */}
+      {aboutOpen && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+          style={{ background: 'rgba(0,0,0,0.7)' }}
+          onClick={() => setAboutOpen(false)}>
+          <div className="w-full sm:w-[480px] sm:mx-auto max-h-[85vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl pb-8"
+            style={{ background: 'linear-gradient(180deg,#1a0e04,#241408)', border: '2px solid #8b5a1a', borderBottom: 'none' }}
+            onClick={e => e.stopPropagation()}>
+            {/* Handle — mobile only */}
+            <div className="flex justify-center pt-3 pb-1 sm:hidden">
+              <div className="w-10 h-1 rounded-full" style={{ background: '#8b5a1a' }} />
+            </div>
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: 'rgba(139,90,26,0.4)' }}>
+              <div className="flex items-center gap-2">
+                <Info size={18} style={{ color: '#fcd34d' }} />
+                <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.05em' }}>О проекте</span>
+              </div>
+              <button onClick={() => setAboutOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-lg" style={{ color: '#c4a46a' }}>
+                <X size={18} />
+              </button>
+            </div>
+            {/* Content */}
+            <div className="px-5 py-4 flex flex-col gap-5">
+              {/* About */}
+              <div>
+                <p style={{ color: '#e8d5a8', fontFamily: 'var(--font-body)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <strong style={{ color: '#fcd34d' }}>HS-Arena.ru</strong> — сайт по Арене в Hearthstone от Манакоста.
+                  Тир-листы карт, винрейты классов, легендарки и статьи — всё для арены.
+                </p>
+              </div>
+              {/* Version badge */}
+              <div className="flex items-center gap-3">
+                <div className="px-3 py-1.5 rounded-lg" style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', border: '1.5px solid #a88a45' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '0.85rem', letterSpacing: '0.1em' }}>Версия 1.0</span>
+                </div>
+                <span style={{ color: '#8b7355', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>Март 2026</span>
+              </div>
+              {/* Roadmap */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,rgba(212,175,55,0.5),transparent)' }} />
+                  <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.8rem', letterSpacing: '0.1em' }}>ДОРОЖНАЯ КАРТА</span>
+                  <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,175,55,0.5))' }} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { ver: '1.0', label: 'Запуск', items: ['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'], done: true },
+                    { ver: '1.1', label: 'Контент', items: ['Больше статей', 'Фильтры в тир-листе', 'Поиск карт'], done: false },
+                    { ver: '1.2', label: 'Инструменты', items: ['Калькулятор драфта', 'История обновлений'], done: false },
+                  ].map(({ ver, label, items, done }) => (
+                    <div key={ver} className="rounded-xl p-3" style={{ background: done ? 'rgba(252,211,77,0.07)' : 'rgba(255,255,255,0.03)', border: `1.5px solid ${done ? 'rgba(252,211,77,0.3)' : 'rgba(255,255,255,0.08)'}` }}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ background: done ? 'rgba(252,211,77,0.2)' : 'rgba(255,255,255,0.08)', color: done ? '#fcd34d' : '#8b7355', fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>v{ver}</span>
+                        <span style={{ color: done ? '#fcd34d' : '#8b7355', fontSize: '0.85rem', fontFamily: 'var(--font-body)' }}>{label}</span>
+                        {done && <span className="ml-auto text-xs" style={{ color: '#4ade80' }}>✓ Готово</span>}
+                      </div>
+                      <ul className="flex flex-col gap-0.5 pl-1">
+                        {items.map(item => (
+                          <li key={item} className="flex items-center gap-2" style={{ color: done ? '#c4a46a' : '#6b5a45', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>
+                            <span style={{ color: done ? '#fcd34d' : '#4a3a28' }}>•</span>{item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
