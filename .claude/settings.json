@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "You receive a JSON object on stdin. Parse it and check if '.tool_input.command' contains 'git push'. If it does NOT, stop immediately — do nothing.\n\nIf it DOES contain 'git push', perform an automated code review:\n1. Run: export PATH=\"$PATH:/c/Program Files/GitHub CLI\"\n2. Get the commit SHA: git -C D:/manacost-arena rev-parse HEAD\n3. Get commit message: git -C D:/manacost-arena log -1 --format='%s'\n4. Get the diff stat: git -C D:/manacost-arena diff HEAD~1 HEAD --stat\n5. Get the full diff (first 4000 chars): git -C D:/manacost-arena diff HEAD~1 HEAD\n6. Review the diff carefully. Write a concise code review with:\n   - Max 5 bullet points\n   - Focus only on real bugs, security issues, or important problems\n   - Skip nitpicks and style issues\n   - If no issues found, say so\n7. Post the review as a GitHub commit comment:\n   gh api repos/Zulut30/manacost-arena/commits/{SHA}/comments -f body='### Auto Code Review\\n\\n{review}\\n\\n---\\n_🤖 Auto-generated after push_'\n\nKeep the total review under 300 words.",
+            "timeout": 120,
+            "async": true,
+            "statusMessage": "🔍 Auto code review running..."
+          }
+        ]
+      }
+    ]
+  }
+}
