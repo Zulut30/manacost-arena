@@ -2819,26 +2819,29 @@ export default function App() {
             style={{ background: 'linear-gradient(180deg,#1a0e04,#1e1008)', border: '2px solid #8b5a1a', borderBottom: 'none' }}
             onClick={e => e.stopPropagation()}>
 
-            {/* Handle — mobile only */}
-            <div className="flex justify-center pt-3 pb-0 sm:hidden">
-              <div className="w-10 h-1 rounded-full" style={{ background: '#8b5a1a' }} />
+            {/* Top bar: handle (mobile) + close button */}
+            <div className="flex items-center justify-between px-4 pt-3 pb-2">
+              {/* Handle — mobile only, centered */}
+              <div className="flex-1 flex justify-center sm:hidden">
+                <div className="w-10 h-1 rounded-full" style={{ background: '#8b5a1a' }} />
+              </div>
+              {/* Close button — always visible */}
+              <button onClick={() => setAboutOpen(false)}
+                className="ml-auto w-8 h-8 flex items-center justify-center rounded-lg flex-shrink-0"
+                style={{ background: 'rgba(255,255,255,0.06)', color: '#c4a46a' }}>
+                <X size={17} />
+              </button>
             </div>
 
             {/* Hero banner */}
-            <div className="relative overflow-hidden" style={{ height: 140 }}>
+            <div className="relative overflow-hidden mx-3 rounded-xl" style={{ height: 148 }}>
               <img src="/ad/wallpaper_info.jpg" alt="" className="w-full h-full object-cover object-center"
-                style={{ opacity: 0.75 }} />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 30%, #1a0e04 100%)' }} />
-              {/* Close button over image */}
-              <button onClick={() => setAboutOpen(false)}
-                className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg"
-                style={{ background: 'rgba(0,0,0,0.55)', color: '#e8d5a8', backdropFilter: 'blur(4px)' }}>
-                <X size={16} />
-              </button>
+                style={{ opacity: 0.82 }} />
+              <div className="absolute inset-0 rounded-xl" style={{ background: 'linear-gradient(to bottom, transparent 25%, rgba(26,14,4,0.92) 100%)' }} />
               {/* Title over image */}
-              <div className="absolute bottom-3 left-5 flex items-center gap-2">
+              <div className="absolute bottom-3 left-4 flex items-center gap-2">
                 <Info size={17} style={{ color: '#fcd34d' }} />
-                <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.06em', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>О проекте</span>
+                <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.06em', textShadow: '0 1px 6px rgba(0,0,0,0.9)' }}>О проекте</span>
               </div>
             </div>
 
