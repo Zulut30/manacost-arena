@@ -2450,12 +2450,14 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
 
-  // Lock body scroll when modal is open
+  // Lock body scroll + close on Escape when modal is open
   useEffect(() => {
     if (aboutOpen) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-      return () => { document.body.style.overflow = prev; };
+      const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setAboutOpen(false); };
+      document.addEventListener('keydown', onKey);
+      return () => { document.body.style.overflow = prev; document.removeEventListener('keydown', onKey); };
     }
   }, [aboutOpen]);
 
