@@ -2811,34 +2811,69 @@ export default function App() {
       {/* О проекте modal */}
       {aboutOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
-          style={{ background: 'rgba(0,0,0,0.75)' }}
+          style={{ background: 'rgba(0,0,0,0.78)' }}
           onClick={() => setAboutOpen(false)}
           onWheel={e => e.preventDefault()}
           onTouchMove={e => e.preventDefault()}>
-          <div className="w-full sm:w-[480px] sm:mx-auto max-h-[85vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl pb-8"
-            style={{ background: 'linear-gradient(180deg,#1a0e04,#241408)', border: '2px solid #8b5a1a', borderBottom: 'none' }}
+          <div className="w-full sm:w-[520px] sm:mx-auto max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl"
+            style={{ background: 'linear-gradient(180deg,#1a0e04,#1e1008)', border: '2px solid #8b5a1a', borderBottom: 'none' }}
             onClick={e => e.stopPropagation()}>
+
             {/* Handle — mobile only */}
-            <div className="flex justify-center pt-3 pb-1 sm:hidden">
+            <div className="flex justify-center pt-3 pb-0 sm:hidden">
               <div className="w-10 h-1 rounded-full" style={{ background: '#8b5a1a' }} />
             </div>
-            {/* Header */}
-            <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: 'rgba(139,90,26,0.4)' }}>
-              <div className="flex items-center gap-2">
-                <Info size={18} style={{ color: '#fcd34d' }} />
-                <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.05em' }}>О проекте</span>
-              </div>
-              <button onClick={() => setAboutOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-lg" style={{ color: '#c4a46a' }}>
-                <X size={18} />
+
+            {/* Hero banner */}
+            <div className="relative overflow-hidden" style={{ height: 140 }}>
+              <img src="/ad/wallpaper_info.jpg" alt="" className="w-full h-full object-cover object-center"
+                style={{ opacity: 0.75 }} />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 30%, #1a0e04 100%)' }} />
+              {/* Close button over image */}
+              <button onClick={() => setAboutOpen(false)}
+                className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg"
+                style={{ background: 'rgba(0,0,0,0.55)', color: '#e8d5a8', backdropFilter: 'blur(4px)' }}>
+                <X size={16} />
               </button>
+              {/* Title over image */}
+              <div className="absolute bottom-3 left-5 flex items-center gap-2">
+                <Info size={17} style={{ color: '#fcd34d' }} />
+                <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.06em', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>О проекте</span>
+              </div>
             </div>
+
             {/* Content */}
-            <div className="px-5 py-4 flex flex-col gap-5">
-              {/* About */}
-              <p style={{ color: '#e8d5a8', fontFamily: 'var(--font-body)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                <strong style={{ color: '#fcd34d' }}>HS-Arena.ru</strong> — сайт по Арене в Hearthstone от Манакоста.
-                Тир-листы карт, винрейты классов, легендарки и статьи — всё для арены.
+            <div className="px-5 pt-3 pb-8 flex flex-col gap-5">
+
+              {/* Description */}
+              <p style={{ color: '#e8d5a8', fontFamily: 'var(--font-body)', fontSize: '0.88rem', lineHeight: 1.65 }}>
+                <strong style={{ color: '#fcd34d' }}>HS-Arena.ru</strong> — ведущий портал от команды <strong style={{ color: '#fcd34d' }}>Манакост</strong>, посвящённый режиму Арена в Hearthstone.
+                На сайте собрано всё необходимое для прогресса: актуальные тир-листы карт, винрейты классов, обзоры легендарных карт и аналитические статьи.
               </p>
+
+              {/* Open source + suggest fixes */}
+              <div className="rounded-xl p-3 flex flex-col gap-2.5" style={{ background: 'rgba(255,255,255,0.03)', border: '1.5px solid rgba(139,90,26,0.35)' }}>
+                <p style={{ color: '#c4a46a', fontFamily: 'var(--font-body)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                  Проект имеет <strong style={{ color: '#fcd34d' }}>открытый исходный код</strong> — мы рады любой помощи сообщества: правкам, идеям и замечаниям.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <a href="https://github.com/Zulut30/manacost-arena" target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:brightness-110"
+                    style={{ background: 'rgba(255,255,255,0.07)', color: '#e8d5a8', fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.12)' }}
+                    onClick={e => e.stopPropagation()}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                    GitHub
+                  </a>
+                  <a href="https://t.me/LordZulut" target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:brightness-110"
+                    style={{ background: 'rgba(41,171,226,0.15)', color: '#7dd3fc', fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textDecoration: 'none', border: '1px solid rgba(41,171,226,0.25)' }}
+                    onClick={e => e.stopPropagation()}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.982l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.963.577z"/></svg>
+                    Предложить правки (@LordZulut)
+                  </a>
+                </div>
+              </div>
+
               {/* Version badge */}
               <div className="flex items-center gap-3">
                 <div className="px-3 py-1.5 rounded-lg" style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', border: '1.5px solid #a88a45' }}>
@@ -2846,49 +2881,64 @@ export default function App() {
                 </div>
                 <span style={{ color: '#8b7355', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>Март 2026</span>
               </div>
-              {/* Roadmap — only current version */}
+
+              {/* Roadmap */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,rgba(212,175,55,0.5),transparent)' }} />
-                  <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.8rem', letterSpacing: '0.1em' }}>ДОРОЖНАЯ КАРТА</span>
+                  <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.75rem', letterSpacing: '0.12em' }}>ДОРОЖНАЯ КАРТА</span>
                   <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,175,55,0.5))' }} />
                 </div>
-                <div className="rounded-xl p-3" style={{ background: 'rgba(252,211,77,0.07)', border: '1.5px solid rgba(252,211,77,0.3)' }}>
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ background: 'rgba(252,211,77,0.2)', color: '#fcd34d', fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>v1.0</span>
-                    <span style={{ color: '#fcd34d', fontSize: '0.85rem', fontFamily: 'var(--font-body)' }}>Запуск</span>
-                    <span className="ml-auto text-xs" style={{ color: '#4ade80' }}>✓ Готово</span>
-                  </div>
-                  <ul className="flex flex-col gap-0.5 pl-1">
-                    {['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'].map(item => (
-                      <li key={item} className="flex items-center gap-2" style={{ color: '#c4a46a', fontSize: '0.8rem', fontFamily: 'var(--font-body)' }}>
-                        <span style={{ color: '#fcd34d' }}>•</span>{item}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="flex flex-col gap-2">
+                  {([
+                    { ver: '1.0', label: 'Запуск', done: true, items: ['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'] },
+                    { ver: '1.1', label: 'Данные и аналитика', done: true, items: ['Данные HSReplay в тир-листе карт', 'Статистика HearthArena для классов', 'Регулярные мета-отчёты'] },
+                    { ver: '1.2', label: 'Контент и гайды', done: true, items: ['Советы по игре для каждого класса', 'Топ лучших легендарных карт', 'Блок последних новостей'] },
+                  ] as const).map(({ ver, label, done, items }) => (
+                    <div key={ver} className="rounded-xl p-3"
+                      style={{ background: done ? 'rgba(252,211,77,0.06)' : 'rgba(255,255,255,0.02)', border: `1.5px solid ${done ? 'rgba(252,211,77,0.28)' : 'rgba(255,255,255,0.07)'}` }}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-xs font-bold px-2 py-0.5 rounded"
+                          style={{ background: done ? 'rgba(252,211,77,0.18)' : 'rgba(255,255,255,0.07)', color: done ? '#fcd34d' : '#6b5a45', fontFamily: 'var(--font-display)', letterSpacing: '0.05em' }}>
+                          v{ver}
+                        </span>
+                        <span style={{ color: done ? '#e8d5a8' : '#6b5a45', fontSize: '0.83rem', fontFamily: 'var(--font-body)' }}>{label}</span>
+                        {done && <span className="ml-auto text-xs" style={{ color: '#4ade80' }}>✓ Готово</span>}
+                      </div>
+                      <ul className="flex flex-col gap-0.5 pl-1">
+                        {items.map(item => (
+                          <li key={item} className="flex items-start gap-2" style={{ color: done ? '#c4a46a' : '#4a3a28', fontSize: '0.78rem', fontFamily: 'var(--font-body)' }}>
+                            <span style={{ color: done ? '#fcd34d' : '#3a2a18', flexShrink: 0 }}>•</span>{item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
+
               {/* Donate section */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,rgba(212,175,55,0.5),transparent)' }} />
-                  <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.8rem', letterSpacing: '0.1em' }}>ПОДДЕРЖАТЬ ПРОЕКТ</span>
+                  <span style={{ fontFamily: 'var(--font-display)', color: '#c4a46a', fontSize: '0.75rem', letterSpacing: '0.12em' }}>ПОДДЕРЖАТЬ ПРОЕКТ</span>
                   <div className="h-px flex-grow" style={{ background: 'linear-gradient(90deg,transparent,rgba(212,175,55,0.5))' }} />
                 </div>
-                <div className="rounded-xl p-4 flex flex-col items-center gap-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1.5px solid rgba(139,90,26,0.4)' }}>
-                  <p style={{ color: '#c4a46a', fontFamily: 'var(--font-body)', fontSize: '0.85rem', textAlign: 'center', lineHeight: 1.5 }}>
+                <div className="rounded-xl p-4 flex flex-col items-center gap-3" style={{ background: 'rgba(255,255,255,0.02)', border: '1.5px solid rgba(139,90,26,0.35)' }}>
+                  <p style={{ color: '#c4a46a', fontFamily: 'var(--font-body)', fontSize: '0.83rem', textAlign: 'center', lineHeight: 1.55 }}>
                     Если сайт полезен — поддержи проект на Бусти. Это помогает развивать его дальше 🙌
                   </p>
                   <img src="/ad/donate-qr.png" alt="QR Boosty donate" className="rounded-lg"
-                    style={{ width: 140, height: 140, border: '2px solid rgba(212,175,55,0.4)' }} />
+                    style={{ width: 136, height: 136, border: '2px solid rgba(212,175,55,0.4)' }} />
                   <a href="https://boosty.to/kolodahearthstone/donate" target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold transition-all hover:brightness-110 active:scale-95"
-                    style={{ background: 'linear-gradient(135deg,#f77f00,#e05500)', color: '#fff', fontFamily: 'var(--font-display)', fontSize: '0.9rem', letterSpacing: '0.05em', textDecoration: 'none', boxShadow: '0 4px 12px rgba(247,127,0,0.35)' }}
+                    style={{ background: 'linear-gradient(135deg,#f77f00,#e05500)', color: '#fff', fontFamily: 'var(--font-display)', fontSize: '0.88rem', letterSpacing: '0.05em', textDecoration: 'none', boxShadow: '0 4px 14px rgba(247,127,0,0.35)' }}
                     onClick={e => e.stopPropagation()}>
                     ♥ Поддержать на Boosty
                   </a>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
