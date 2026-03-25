@@ -959,7 +959,13 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
           {/* Tiers */}
           <div className="space-y-10">
             {filteredTiers.length > 0 ? filteredTiers.map((tierGroup, tierIdx) => (
-              <div key={tierGroup.tier} className="anim-fade-up" style={{ animationDelay: `${tierIdx * 0.07}s` }}>
+              <div key={tierGroup.tier} className="anim-fade-up"
+                style={{
+                  animationDelay: `${tierIdx * 0.07}s`,
+                  // Skip rendering off-screen tiers — browser handles visibility automatically
+                  contentVisibility: tierIdx > 1 ? 'auto' : 'visible',
+                  containIntrinsicSize: tierIdx > 1 ? '0 480px' : undefined,
+                }}>
                 {/* Tier header */}
                 <div className="flex items-center gap-4 mb-5">
                   <div className={`w-12 h-12 md:w-14 md:h-14 flex-shrink-0 flex items-center justify-center text-2xl md:text-3xl font-hs rounded-full border-[3px] shadow-[0_4px_14px_rgba(0,0,0,0.7),inset_0_4px_6px_rgba(255,255,255,0.35),inset_0_-4px_6px_rgba(0,0,0,0.45)] ${TIER_COLORS[tierGroup.tier] || TIER_COLORS['C']}`}>
@@ -975,12 +981,15 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
                 </div>
 
                 {/* Cards grid — cards are already merged in filteredTiers useMemo */}
-                <div className="flex flex-wrap gap-3 md:gap-5 justify-center md:justify-start" style={{ contain: 'layout' }}>
+                <div className="flex flex-wrap gap-3 md:gap-5 justify-center md:justify-start" style={{ contain: 'layout style' }}>
                   {tierGroup.cards.map((card, idx) => (
                     <div
                       key={`${card.cardId}-${idx}`}
                       className="anim-scale-in"
-                      style={{ animationDelay: `${tierIdx * 0.07 + idx * 0.018}s` }}
+                      style={{
+                        // Cap animation delay: past 20 cards the stagger is imperceptible
+                        animationDelay: idx < 20 ? `${tierIdx * 0.05 + idx * 0.015}s` : '0s',
+                      }}
                     >
                       <HSCard
                         card={card}
@@ -2404,6 +2413,38 @@ function TabTransition({ children }: { tabKey: string; children: React.ReactNode
   return <>{children}</>;
 }
 
+// ─── Persistent cache with TTL (survives tab close, expires with data) ────────
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 h — matches server scrape interval
+
+function cacheGet<T>(key: string): T | null {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { data, ts } = JSON.parse(raw) as { data: T; ts: number };
+    if (Date.now() - ts > CACHE_TTL_MS) { localStorage.removeItem(key); return null; }
+    return data;
+  } catch { return null; }
+}
+
+function cacheSet(key: string, data: unknown): void {
+  try { localStorage.setItem(key, JSON.stringify({ data, ts: Date.now() })); } catch { /* quota exceeded — ignore */ }
+}
+
+// ─── Conditional fetch with ETag (skips body if data unchanged) ───────────────
+async function fetchWithETag(url: string, cacheKey: string): Promise<{ data: any; fresh: boolean } | null> {
+  const etag = localStorage.getItem(`etag_${cacheKey}`);
+  try {
+    const res = await fetch(url, etag ? { headers: { 'If-None-Match': etag } } : {});
+    if (res.status === 304) return { data: cacheGet(cacheKey), fresh: false }; // server says "not changed"
+    if (!res.ok) return null;
+    const data = await res.json();
+    const newEtag = res.headers.get('ETag');
+    if (newEtag) localStorage.setItem(`etag_${cacheKey}`, newEtag);
+    cacheSet(cacheKey, data);
+    return { data, fresh: true };
+  } catch { return null; }
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>(() => tabFromPath(window.location.pathname));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -2489,19 +2530,13 @@ export default function App() {
     const gen = ++wrGenRef.current;
     const cacheKey = `wr_${src}`;
     try {
-      // Show cached data instantly if available
-      const cached = sessionStorage.getItem(cacheKey);
-      if (cached && gen === wrGenRef.current) {
-        setWinratesData(JSON.parse(cached));
-      }
-      // Refetch fresh data
-      const res = await fetch(`/api/winrates?source=${src}`);
-      if (!res.ok) throw new Error('not ok');
-      const data = await res.json();
-      // Only apply if this is still the latest fetch (not superseded)
-      if (gen !== wrGenRef.current) return;
-      sessionStorage.setItem(cacheKey, JSON.stringify(data));
-      setWinratesData(data);
+      // Show persisted cache instantly (survives tab close)
+      const cached = cacheGet<any>(cacheKey);
+      if (cached && gen === wrGenRef.current) setWinratesData(cached);
+      // Fetch fresh — ETag skips body if unchanged
+      const result = await fetchWithETag(`/api/winrates?source=${src}`, cacheKey);
+      if (!result || gen !== wrGenRef.current) return;
+      setWinratesData(result.data);
       setErrorWinrates(false);
     } catch { if (gen === wrGenRef.current) setErrorWinrates(true); }
     finally  { if (gen === wrGenRef.current) { setLoadingWinrates(false); setSwitchingSource(false); } }
@@ -2509,13 +2544,13 @@ export default function App() {
 
   const fetchTierlist = useCallback(async () => {
     try {
-      const cached = sessionStorage.getItem('tl');
-      if (cached) { setTierlistData(JSON.parse(cached)); setLoadingTierlist(false); }
-      const res = await fetch('/api/tierlist');
-      if (!res.ok) throw new Error('not ok');
-      const data = await res.json();
-      sessionStorage.setItem('tl', JSON.stringify(data));
-      setTierlistData(data);
+      // Show persisted cache instantly
+      const cached = cacheGet<any>('tl');
+      if (cached) { setTierlistData(cached); setLoadingTierlist(false); }
+      // ETag: only re-download 1.5 MB if data actually changed
+      const result = await fetchWithETag('/api/tierlist', 'tl');
+      if (!result) throw new Error('fetch failed');
+      setTierlistData(result.data);
       setErrorTierlist(false);
     } catch { setErrorTierlist(true); }
     finally  { setLoadingTierlist(false); }
@@ -2523,9 +2558,11 @@ export default function App() {
 
   const fetchLegendaries = useCallback(async () => {
     try {
-      const res = await fetch('/api/legendaries');
-      if (!res.ok) throw new Error('not ok');
-      setLegendariesData(await res.json());
+      const cached = cacheGet<any>('leg');
+      if (cached) { setLegendariesData(cached); setLoadingLegendaries(false); }
+      const result = await fetchWithETag('/api/legendaries', 'leg');
+      if (!result) throw new Error('fetch failed');
+      setLegendariesData(result.data);
       setErrorLegendaries(false);
     } catch { setErrorLegendaries(true); }
     finally  { setLoadingLegendaries(false); }
@@ -2543,12 +2580,16 @@ export default function App() {
     } finally { setLoadingArticles(false); }
   }, []);
 
-  // Fetch all data in parallel on mount — fastest time-to-data on first tab switch
+  // Priority fetch: critical data first, heavy data deferred
   useEffect(() => {
+    // Tier 1 — immediately visible on first tab: winrates (small) + articles (small)
     fetchWinrates();
     fetchArticles();
+    // Tier 2 — tierlist needed for Tier-list tab: load right away but don't block
     fetchTierlist();
-    fetchLegendaries();
+    // Tier 3 — legendaries (165 KB) deferred 300ms to not compete with critical requests
+    const t = setTimeout(fetchLegendaries, 300);
+    return () => clearTimeout(t);
   }, [fetchWinrates, fetchArticles, fetchTierlist, fetchLegendaries]);
 
   // Set of cardIds that are companion cards in legendary groups (not the key legendary itself)

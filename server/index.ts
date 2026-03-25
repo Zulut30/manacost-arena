@@ -1,7 +1,8 @@
 import express from 'express';
 import cron from 'node-cron';
 import compression from 'compression';
-import { writeFileSync, existsSync } from 'fs';
+import rateLimit from 'express-rate-limit';
+import { writeFileSync, existsSync, statSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { spawn } from 'child_process';
@@ -10,6 +11,27 @@ import { scrapeAll, loadData } from './scraper.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 const DATA_DIR   = join(__dirname, 'data');
+
+// ─── In-memory data cache (avoids disk I/O on every request) ──────────────────
+interface CacheEntry { data: any; etag: string; mtime: number }
+const dataCache = new Map<string, CacheEntry>();
+
+function loadDataCached(filename: string): CacheEntry | null {
+  const filePath = join(DATA_DIR, filename);
+  try {
+    const mtime = statSync(filePath).mtimeMs;
+    const cached = dataCache.get(filename);
+    if (cached && cached.mtime === mtime) return cached;
+    const data = loadData(filename);
+    if (!data) return null;
+    const entry: CacheEntry = { data, etag: `"${mtime.toString(36)}-${filename}"`, mtime };
+    dataCache.set(filename, entry);
+    return entry;
+  } catch { return null; }
+}
+
+/** Call after scrape to invalidate stale cache entries */
+function invalidateDataCache() { dataCache.clear(); }
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 
 const ALLOWED_IPS = ['83.5.235.154', '127.0.0.1', '::1', '::ffff:127.0.0.1'];
@@ -23,8 +45,19 @@ function getClientIp(req: import('express').Request): string {
 const app = express();
 const PORT = 3001;
 
-app.use(compression());
+app.use(compression({ level: 6, threshold: 1024 }));
 app.use(express.json());
+
+// Rate limiting: max 120 req/min per IP for data API
+const apiLimiter = rateLimit({
+  windowMs: 60_000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Слишком много запросов. Попробуйте через минуту.' },
+  skip: (req) => req.ip === '127.0.0.1' || req.ip === '::1',
+});
+app.use('/api/', apiLimiter);
 
 // CORS for Vite dev server
 app.use((req, res, next) => {
@@ -40,6 +73,14 @@ app.use((req, res, next) => {
 // 6 h cache (aligns with scrape schedule) — stale-while-revalidate keeps UX snappy
 const CACHE_6H  = 'public, max-age=21600, stale-while-revalidate=3600';
 const CACHE_1H  = 'public, max-age=3600,  stale-while-revalidate=600';
+
+// ─── ETag helper ──────────────────────────────────────────────────────────────
+function sendCached(req: express.Request, res: express.Response, entry: CacheEntry, cacheHeader: string) {
+  res.set('Cache-Control', cacheHeader);
+  res.set('ETag', entry.etag);
+  if (req.headers['if-none-match'] === entry.etag) return res.status(304).end();
+  res.json(entry.data);
+}
 
 app.get('/api/winrates', async (req, res) => {
   const source = (req.query.source as string) ?? 'hsreplay';
@@ -83,32 +124,28 @@ app.get('/api/winrates', async (req, res) => {
     }
   }
 
-  // HSReplay (default): return snapshot
-  const data = loadData('winrates.json');
-  if (!data) return res.status(404).json({ error: 'No data available' });
-  res.set('Cache-Control', CACHE_6H);
-  res.json(data);
+  // HSReplay (default): return cached snapshot
+  const entry = loadDataCached('winrates.json');
+  if (!entry) return res.status(404).json({ error: 'No data available' });
+  return sendCached(req, res, entry, CACHE_6H);
 });
 
 app.get('/api/tierlist', (req, res) => {
-  const data = loadData('tierlist.json');
-  if (!data) return res.status(404).json({ error: 'No data available' });
-  res.set('Cache-Control', CACHE_6H);
-  res.json(data);
+  const entry = loadDataCached('tierlist.json');
+  if (!entry) return res.status(404).json({ error: 'No data available' });
+  return sendCached(req, res, entry, CACHE_6H);
 });
 
 app.get('/api/legendaries', (req, res) => {
-  const data = loadData('legendaries.json');
-  if (!data) return res.status(404).json({ error: 'No data available' });
-  res.set('Cache-Control', CACHE_6H);
-  res.json(data);
+  const entry = loadDataCached('legendaries.json');
+  if (!entry) return res.status(404).json({ error: 'No data available' });
+  return sendCached(req, res, entry, CACHE_6H);
 });
 
 app.get('/api/articles', (req, res) => {
-  const data = loadData('articles.json');
-  if (!data) return res.status(404).json({ error: 'No data' });
-  res.set('Cache-Control', CACHE_1H);
-  res.json(data);
+  const entry = loadDataCached('articles.json');
+  if (!entry) return res.status(404).json({ error: 'No data' });
+  return sendCached(req, res, entry, CACHE_1H);
 });
 
 app.get('/api/status', (req, res) => {
@@ -131,6 +168,7 @@ app.post('/api/scrape', async (req, res) => {
   res.json({ message: 'Парсинг запущен' });
   try {
     const result = await scrapeAll();
+    invalidateDataCache();
     console.log('[Server] Manual scrape result:', result);
   } finally {
     isScraping = false;
@@ -257,6 +295,7 @@ cron.schedule('0 */6 * * *', async () => {
   console.log('[Cron] Starting scheduled scrape...');
   try {
     const result = await scrapeAll();
+    invalidateDataCache();
     console.log('[Cron] Scrape complete:', result);
   } finally {
     isScraping = false;
