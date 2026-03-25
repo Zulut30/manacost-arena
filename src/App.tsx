@@ -2856,37 +2856,37 @@ export default function App() {
           onClick={() => setAboutOpen(false)}
           onWheel={e => e.preventDefault()}
           onTouchMove={e => e.preventDefault()}>
-          <div className="w-full sm:w-[520px] sm:mx-auto max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl"
-            style={{ background: 'linear-gradient(180deg,#1a0e04,#1e1008)', border: '2px solid #8b5a1a', borderBottom: 'none' }}
+          <div className="w-full sm:w-[520px] sm:mx-auto flex flex-col rounded-t-2xl sm:rounded-2xl"
+            style={{ background: 'linear-gradient(180deg,#1a0e04,#1e1008)', border: '2px solid #8b5a1a', borderBottom: 'none', maxHeight: '88vh' }}
             onClick={e => e.stopPropagation()}>
 
-            {/* Top bar: handle (mobile) + close button */}
-            <div className="flex items-center justify-between px-4 pt-3 pb-2">
-              {/* Handle — mobile only, centered */}
-              <div className="flex-1 flex justify-center sm:hidden">
+            {/* ── Sticky top bar (never scrolls away) ── */}
+            <div className="flex-shrink-0">
+              {/* Handle — mobile only */}
+              <div className="flex justify-center pt-3 pb-1 sm:hidden">
                 <div className="w-10 h-1 rounded-full" style={{ background: '#8b5a1a' }} />
               </div>
-              {/* Close button — always visible */}
-              <button onClick={() => setAboutOpen(false)}
-                className="ml-auto w-8 h-8 flex items-center justify-center rounded-lg flex-shrink-0"
-                style={{ background: 'rgba(255,255,255,0.06)', color: '#c4a46a' }}>
-                <X size={17} />
-              </button>
-            </div>
-
-            {/* Hero banner */}
-            <div className="relative overflow-hidden mx-3 rounded-xl" style={{ height: 148 }}>
-              <img src="/ad/wallpaper_info.jpg" alt="" className="w-full h-full object-cover object-center"
-                style={{ opacity: 0.82 }} />
-              <div className="absolute inset-0 rounded-xl" style={{ background: 'linear-gradient(to bottom, transparent 25%, rgba(26,14,4,0.92) 100%)' }} />
-              {/* Title over image */}
-              <div className="absolute bottom-3 left-4 flex items-center gap-2">
-                <Info size={17} style={{ color: '#fcd34d' }} />
-                <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.06em', textShadow: '0 1px 6px rgba(0,0,0,0.9)' }}>О проекте</span>
+              {/* Hero banner with X inside */}
+              <div className="relative overflow-hidden mx-3 rounded-xl" style={{ height: 140 }}>
+                <img src="/ad/wallpaper_info.jpg" alt="" className="w-full h-full object-cover object-center"
+                  style={{ opacity: 0.82 }} />
+                <div className="absolute inset-0 rounded-xl" style={{ background: 'linear-gradient(to bottom, transparent 25%, rgba(26,14,4,0.95) 100%)' }} />
+                {/* Close button — top-right of banner, always on screen */}
+                <button onClick={() => setAboutOpen(false)}
+                  className="absolute top-2.5 right-2.5 w-8 h-8 flex items-center justify-center rounded-lg z-10"
+                  style={{ background: 'rgba(0,0,0,0.6)', color: '#e8d5a8', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <X size={16} />
+                </button>
+                {/* Title — bottom of banner */}
+                <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                  <Info size={17} style={{ color: '#fcd34d' }} />
+                  <span style={{ fontFamily: 'var(--font-display)', color: '#fcd34d', fontSize: '1.1rem', letterSpacing: '0.06em', textShadow: '0 1px 6px rgba(0,0,0,0.9)' }}>О проекте</span>
+                </div>
               </div>
             </div>
 
-            {/* Content */}
+            {/* ── Scrollable content ── */}
+            <div className="flex-1 overflow-y-auto">
             <div className="px-5 pt-3 pb-8 flex flex-col gap-5">
 
               {/* Description */}
@@ -2984,6 +2984,7 @@ export default function App() {
               </div>
 
             </div>
+            </div>{/* end scrollable */}
           </div>
         </div>
       )}
