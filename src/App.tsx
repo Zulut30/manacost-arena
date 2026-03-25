@@ -2892,8 +2892,8 @@ export default function App() {
                 <div className="flex flex-col gap-2">
                   {([
                     { ver: '1.0', label: 'Запуск', done: true, items: ['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'] },
-                    { ver: '1.1', label: 'Данные и аналитика', done: true, items: ['Данные HSReplay в тир-листе карт', 'Статистика HearthArena для классов', 'Регулярные мета-отчёты'] },
-                    { ver: '1.2', label: 'Контент и гайды', done: true, items: ['Советы по игре для каждого класса', 'Топ лучших легендарных карт', 'Блок последних новостей'] },
+                    { ver: '1.1', label: 'Данные и аналитика', done: false, items: ['Данные HSReplay в тир-листе карт', 'Статистика HearthArena для классов', 'Регулярные мета-отчёты'] },
+                    { ver: '1.2', label: 'Контент и гайды', done: false, items: ['Советы по игре для каждого класса', 'Топ лучших легендарных карт', 'Блок последних новостей'] },
                   ] as const).map(({ ver, label, done, items }) => (
                     <div key={ver} className="rounded-xl p-3"
                       style={{ background: done ? 'rgba(252,211,77,0.06)' : 'rgba(255,255,255,0.02)', border: `1.5px solid ${done ? 'rgba(252,211,77,0.28)' : 'rgba(255,255,255,0.07)'}` }}>
