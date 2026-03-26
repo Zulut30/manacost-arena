@@ -919,25 +919,12 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds, t
 
       {/* HSReplay data not yet scraped — show notice */}
       {tierlistSource === 'hsreplay' && !loading && data.source !== 'hsreplay.net' && (
-        <div className="flex items-center justify-between gap-3 mb-5 px-4 py-3 rounded-2xl flex-wrap"
+        <div className="flex items-center gap-3 mb-5 px-4 py-3 rounded-2xl"
           style={{ background: 'linear-gradient(135deg,#1a2a3a,#0f1e2d)', border: '1.5px solid rgba(96,165,250,0.35)' }}>
-          <div className="flex items-center gap-2.5">
-            <AlertTriangle size={15} style={{ color: '#93c5fd', flexShrink: 0 }} />
-            <span style={{ color: '#bfdbfe', fontSize: '13px' }}>
-              Данные HSReplay ещё не собраны — нажмите <strong style={{ color: '#93c5fd' }}>Обновить</strong> для запуска парсинга (≈30 сек)
-            </span>
-          </div>
-          <button
-            onClick={onRefresh}
-            disabled={refreshing}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all disabled:opacity-40"
-            style={{ background: 'rgba(96,165,250,0.2)', border: '1px solid rgba(96,165,250,0.4)', color: '#93c5fd' }}
-          >
-            {refreshing
-              ? <RefreshCw size={11} style={{ animation: 'spin 1s linear infinite' }} />
-              : <RefreshCw size={11} />}
-            {refreshing ? 'Парсинг…' : 'Обновить'}
-          </button>
+          <AlertTriangle size={15} style={{ color: '#93c5fd', flexShrink: 0 }} />
+          <span style={{ color: '#bfdbfe', fontSize: '13px' }}>
+            Данные HSReplay ещё не собраны — обновление происходит автоматически каждые 6 часов
+          </span>
         </div>
       )}
 

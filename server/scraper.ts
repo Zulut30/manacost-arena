@@ -296,16 +296,28 @@ function winrateToTier(wr: number): string {
 }
 
 interface HsrCardRow {
-  card_id?: string;
+  card_id?: string;          // string card ID, e.g. "MIS_006"
+  dbf_id?: number;           // numeric Blizzard DBF id — HSReplay primary key
   player_class?: string;
   deck_win_rate?: number;
   win_rate?: number;
 }
 
-function parseHSReplayCards(raw: any): Array<{ cardId: string; playerClass: string; winrate: number }> | null {
+/**
+ * Parse HSReplay arena cards JSON.
+ * dbfToCardId map is required to convert numeric dbf_id → string cardId.
+ * Handles multiple response formats:
+ *   1. { series: { data: { DRUID: [{dbf_id, deck_win_rate}] } } }
+ *   2. flat array [{dbf_id/card_id, player_class, deck_win_rate}]
+ *   3. { data: { ALL: [...] } }
+ */
+function parseHSReplayCards(
+  raw: any,
+  dbfToCardId: Map<number, string>,
+): Array<{ cardId: string; playerClass: string; winrate: number }> | null {
   let rows: Array<HsrCardRow & { player_class?: string }> = [];
 
-  // Format 1: { series: { data: { DRUID: [{card_id, win_rate/deck_win_rate}] } } }
+  // Format 1: { series: { data: { DRUID: [{dbf_id/card_id, deck_win_rate}] } } }
   if (raw?.series?.data && typeof raw.series.data === 'object' && !Array.isArray(raw.series.data)) {
     for (const [cls, cards] of Object.entries(raw.series.data) as [string, any][]) {
       if (Array.isArray(cards)) {
@@ -316,7 +328,9 @@ function parseHSReplayCards(raw: any): Array<{ cardId: string; playerClass: stri
 
   // Format 2: flat array or data.ALL array
   if (rows.length === 0) {
-    const arr = Array.isArray(raw) ? raw : (Array.isArray(raw?.data?.ALL) ? raw.data.ALL : (Array.isArray(raw?.data) ? raw.data : null));
+    const arr = Array.isArray(raw)
+      ? raw
+      : (Array.isArray(raw?.data?.ALL) ? raw.data.ALL : (Array.isArray(raw?.data) ? raw.data : null));
     if (arr) rows = arr;
   }
 
@@ -324,8 +338,15 @@ function parseHSReplayCards(raw: any): Array<{ cardId: string; playerClass: stri
 
   const result = rows
     .map(row => {
-      const cardId = row.card_id ?? '';
+      // Resolve cardId: prefer string card_id, fallback to dbf_id lookup
+      let cardId: string | undefined;
+      if (row.card_id) {
+        cardId = row.card_id;
+      } else if (row.dbf_id) {
+        cardId = dbfToCardId.get(row.dbf_id);
+      }
       if (!cardId) return null;
+
       const cls = (row.player_class ?? '').toUpperCase();
       const playerClass = HSREPLAY_CARD_CLASS_MAP[cls] ?? 'any';
       const winrate = row.deck_win_rate ?? row.win_rate ?? 0;
@@ -339,6 +360,19 @@ function parseHSReplayCards(raw: any): Array<{ cardId: string; playerClass: stri
 
 export async function scrapeHSReplayTierlist(): Promise<boolean> {
   console.log('[Scraper] HSReplay: fetching arena cards tier list...');
+
+  // ── Build dbf_id → cardId map from cards_ru.json (before browser launch) ──
+  const dbfToCardId = new Map<number, string>();
+  try {
+    const cardsRuRaw = JSON.parse(readFileSync(join(DATA_DIR, 'cards_ru.json'), 'utf-8'));
+    for (const [cardId, data] of Object.entries(cardsRuRaw) as [string, any][]) {
+      if (typeof data.dbf === 'number') dbfToCardId.set(data.dbf, cardId);
+    }
+    console.log(`[Scraper] HSReplay: dbf map built: ${dbfToCardId.size} entries`);
+  } catch (e) {
+    console.warn('[Scraper] HSReplay: could not load cards_ru.json for dbf map:', (e as Error).message);
+  }
+
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
@@ -361,16 +395,20 @@ export async function scrapeHSReplayTierlist(): Promise<boolean> {
       try {
         const text = await response.text();
         const json = JSON.parse(text);
-        const cards = parseHSReplayCards(json);
+        const cards = parseHSReplayCards(json, dbfToCardId);
         if (cards && cards.length >= 20) {
           console.log(`[Scraper] HSReplay cards: intercepted ${cards.length} cards from: ${url}`);
           intercepted = cards;
+        } else if (json && typeof json === 'object') {
+          // Log any JSON response for debugging
+          const keys = Object.keys(json).slice(0, 5).join(', ');
+          console.log(`[Scraper] HSReplay: skipped JSON from ${url} (keys: ${keys})`);
         }
       } catch { /* skip */ }
     });
 
     await page.goto('https://hsreplay.net/arena/cards/', { waitUntil: 'networkidle2', timeout: 60000 });
-    await new Promise(r => setTimeout(r, 10000));
+    await new Promise(r => setTimeout(r, 12000));
 
     if (!intercepted) throw new Error('arena cards response not intercepted');
 
