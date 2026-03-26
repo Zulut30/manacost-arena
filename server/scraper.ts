@@ -260,6 +260,204 @@ export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
   }
 }
 
+// ─── HSReplay Arena Cards Tier List ──────────────────────────────────────────
+
+/** Map HSReplay UPPERCASE class names → our section IDs */
+const HSREPLAY_CARD_CLASS_MAP: Record<string, string> = {
+  DEATHKNIGHT: 'death-knight',
+  DEMONHUNTER: 'demon-hunter',
+  DRUID:       'druid',
+  HUNTER:      'hunter',
+  MAGE:        'mage',
+  PALADIN:     'paladin',
+  PRIEST:      'priest',
+  ROGUE:       'rogue',
+  SHAMAN:      'shaman',
+  WARLOCK:     'warlock',
+  WARRIOR:     'warrior',
+  NEUTRAL:     'any',
+};
+
+/** Deck winrate thresholds → tier letter */
+const HSREPLAY_WINRATE_TIERS: Array<[number, string]> = [
+  [59, 'S'],
+  [56, 'A'],
+  [54, 'B'],
+  [52, 'C'],
+  [50, 'D'],
+  [48, 'E'],
+];
+
+function winrateToTier(wr: number): string {
+  for (const [threshold, tier] of HSREPLAY_WINRATE_TIERS) {
+    if (wr >= threshold) return tier;
+  }
+  return 'F';
+}
+
+interface HsrCardRow {
+  card_id?: string;
+  player_class?: string;
+  deck_win_rate?: number;
+  win_rate?: number;
+}
+
+function parseHSReplayCards(raw: any): Array<{ cardId: string; playerClass: string; winrate: number }> | null {
+  let rows: Array<HsrCardRow & { player_class?: string }> = [];
+
+  // Format 1: { series: { data: { DRUID: [{card_id, win_rate/deck_win_rate}] } } }
+  if (raw?.series?.data && typeof raw.series.data === 'object' && !Array.isArray(raw.series.data)) {
+    for (const [cls, cards] of Object.entries(raw.series.data) as [string, any][]) {
+      if (Array.isArray(cards)) {
+        for (const card of cards) rows.push({ player_class: cls, ...card });
+      }
+    }
+  }
+
+  // Format 2: flat array or data.ALL array
+  if (rows.length === 0) {
+    const arr = Array.isArray(raw) ? raw : (Array.isArray(raw?.data?.ALL) ? raw.data.ALL : (Array.isArray(raw?.data) ? raw.data : null));
+    if (arr) rows = arr;
+  }
+
+  if (rows.length < 20) return null;
+
+  const result = rows
+    .map(row => {
+      const cardId = row.card_id ?? '';
+      if (!cardId) return null;
+      const cls = (row.player_class ?? '').toUpperCase();
+      const playerClass = HSREPLAY_CARD_CLASS_MAP[cls] ?? 'any';
+      const winrate = row.deck_win_rate ?? row.win_rate ?? 0;
+      if (!winrate || winrate < 20 || winrate > 80) return null; // sanity check
+      return { cardId, playerClass, winrate: Math.round(winrate * 10) / 10 };
+    })
+    .filter(Boolean) as Array<{ cardId: string; playerClass: string; winrate: number }>;
+
+  return result.length >= 20 ? result : null;
+}
+
+export async function scrapeHSReplayTierlist(): Promise<boolean> {
+  console.log('[Scraper] HSReplay: fetching arena cards tier list...');
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+  });
+
+  try {
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    );
+
+    let intercepted: Array<{ cardId: string; playerClass: string; winrate: number }> | null = null;
+
+    page.on('response', async (response) => {
+      if (intercepted) return;
+      const url = response.url();
+      if (!url.includes('hsreplay.net')) return;
+      const ct = response.headers()['content-type'] ?? '';
+      if (!ct.includes('json')) return;
+      try {
+        const text = await response.text();
+        const json = JSON.parse(text);
+        const cards = parseHSReplayCards(json);
+        if (cards && cards.length >= 20) {
+          console.log(`[Scraper] HSReplay cards: intercepted ${cards.length} cards from: ${url}`);
+          intercepted = cards;
+        }
+      } catch { /* skip */ }
+    });
+
+    await page.goto('https://hsreplay.net/arena/cards/', { waitUntil: 'networkidle2', timeout: 60000 });
+    await new Promise(r => setTimeout(r, 10000));
+
+    if (!intercepted) throw new Error('arena cards response not intercepted');
+
+    // Load existing HearthArena card lookup for images + stats
+    const existingTierlist = loadData('tierlist.json');
+    const cardImages: Record<string, any> = existingTierlist?.cards ?? {};
+
+    // Build cardId → Russian name from existing tierlist sections
+    const nameFromTierlist: Record<string, string> = {};
+    if (existingTierlist?.sections) {
+      for (const sec of existingTierlist.sections) {
+        for (const t of sec.tiers) {
+          for (const c of t.cards) {
+            if (c.cardId && c.name && !nameFromTierlist[c.cardId]) {
+              nameFromTierlist[c.cardId] = c.name;
+            }
+          }
+        }
+      }
+    }
+
+    // Also load cards_ru.json for names not in tierlist
+    let cardsRuDb: Record<string, { name?: string; rarity: string; mana: number; type: string }> = {};
+    try {
+      cardsRuDb = JSON.parse(readFileSync(join(DATA_DIR, 'cards_ru.json'), 'utf-8'));
+    } catch { /* optional */ }
+
+    // Group cards by class section and tier
+    const TIER_ORDER    = ['S', 'A', 'B', 'C', 'D', 'E', 'F'];
+    const SECTION_ORDER = ['death-knight', 'demon-hunter', 'druid', 'hunter', 'mage', 'paladin', 'priest', 'rogue', 'shaman', 'warlock', 'warrior', 'any'];
+
+    const bySection: Record<string, Record<string, Array<{ cardId: string; winrate: number }>>> = {};
+
+    for (const card of intercepted) {
+      const section = card.playerClass;
+      const tier    = winrateToTier(card.winrate);
+      if (!bySection[section]) bySection[section] = {};
+      if (!bySection[section][tier]) bySection[section][tier] = [];
+      bySection[section][tier].push({ cardId: card.cardId, winrate: card.winrate });
+    }
+
+    const sections = SECTION_ORDER
+      .filter(sid => bySection[sid])
+      .map(sid => {
+        const info = CLASS_SECTIONS[sid] ?? { name: sid, color: '#555', textDark: false };
+        const tiers = TIER_ORDER
+          .filter(t => (bySection[sid][t]?.length ?? 0) > 0)
+          .map(t => ({
+            tier:        t,
+            label:       TIER_LABEL[t],
+            description: TIER_DESC[t],
+            cards: bySection[sid][t]
+              .sort((a, b) => b.winrate - a.winrate)
+              .map(c => {
+                const ruCard = cardsRuDb[c.cardId];
+                const rarity = cardImages[c.cardId]?.rarity ?? ruCard?.rarity ?? 'common';
+                return {
+                  name:     nameFromTierlist[c.cardId] ?? ruCard?.name ?? c.cardId,
+                  score:    0,   // no HA score for HSReplay cards
+                  winrate:  c.winrate,
+                  rarity,
+                  cardId:   c.cardId,
+                  classKey: sid === 'any' ? 'any' : sid,
+                };
+              }),
+          }));
+        const totalCards = tiers.reduce((s, t) => s + t.cards.length, 0);
+        return { id: sid, name: info.name, color: info.color, textDark: (info as any).textDark ?? false, tiers, totalCards };
+      });
+
+    saveData('hsreplay_tierlist.json', {
+      sections,
+      cards:     cardImages, // reuse HearthArena images
+      updatedAt: new Date().toISOString(),
+      source:    'hsreplay.net',
+    });
+    console.log(`[Scraper] HSReplay tierlist: ${sections.length} classes, ${intercepted.length} cards saved`);
+    return true;
+
+  } catch (err) {
+    console.error('[Scraper] HSReplay tierlist error:', (err as Error).message);
+    return false;
+  } finally {
+    await browser.close();
+  }
+}
+
 // ─── Firestone Winrates (fallback) ────────────────────────────────────────────
 
 export async function scrapeFirestoneWinrates(): Promise<boolean> {
@@ -732,14 +930,16 @@ export async function scrapeAll() {
   const winratesOk = await scrapeHSReplayClassWinrates()
     || await scrapeFirestoneWinrates();
 
-  const [tl, lg] = await Promise.allSettled([
+  const [tl, lg, hsr] = await Promise.allSettled([
     scrapeHearthArenaTierlist(),
     scrapeLegendaries(),
+    scrapeHSReplayTierlist(),
   ]);
   return {
-    winrates:    winratesOk,
-    tierlist:    tl.status === 'fulfilled' && tl.value,
-    legendaries: lg.status === 'fulfilled' && lg.value,
+    winrates:          winratesOk,
+    tierlist:          tl.status === 'fulfilled' && tl.value,
+    legendaries:       lg.status === 'fulfilled' && lg.value,
+    hsreplayTierlist:  hsr.status === 'fulfilled' && hsr.value,
   };
 }
 
