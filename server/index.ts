@@ -131,8 +131,17 @@ app.get('/api/winrates', async (req, res) => {
 });
 
 app.get('/api/tierlist', (req, res) => {
-  const entry = loadDataCached('tierlist.json');
-  if (!entry) return res.status(404).json({ error: 'No data available' });
+  const source = (req.query.source as string) ?? 'heartharena';
+  const filename = source === 'hsreplay' ? 'hsreplay_tierlist.json' : 'tierlist.json';
+  const entry = loadDataCached(filename);
+  if (!entry) {
+    // Fall back to HearthArena if HSReplay file doesn't exist yet
+    if (source === 'hsreplay') {
+      const fallback = loadDataCached('tierlist.json');
+      if (fallback) return sendCached(req, res, fallback, CACHE_6H);
+    }
+    return res.status(404).json({ error: 'No data available' });
+  }
   return sendCached(req, res, entry, CACHE_6H);
 });
 

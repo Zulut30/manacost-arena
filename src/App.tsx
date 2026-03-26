@@ -36,7 +36,8 @@ interface TierCard {
   score:    number;
   rarity:   string;
   cardId:   string;
-  classKey: string;  // 'any' = neutral, else class-specific
+  classKey: string;   // 'any' = neutral, else class-specific
+  winrate?: number;   // HSReplay deck winrate (%)
 }
 
 /** One tier inside a class section */
@@ -290,11 +291,15 @@ const CardModal: React.FC<{ card: CardData; tier: string; onClose: () => void }>
 
         {/* Badges row */}
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
-          {card.score > 0 && (
+          {card.winrate !== undefined ? (
+            <div style={{ padding: '6px 16px', borderRadius: '999px', color: '#fff', fontWeight: 700, fontSize: '14px', border: '1px solid rgba(96,165,250,0.4)', background: card.winrate >= 56 ? '#16a34a' : card.winrate >= 52 ? '#ca8a04' : '#dc2626' }}>
+              HSReplay: {card.winrate.toFixed(1)}%
+            </div>
+          ) : card.score > 0 ? (
             <div style={{ padding: '6px 16px', borderRadius: '999px', color: '#fff', fontWeight: 700, fontSize: '14px', border: '1px solid rgba(255,255,255,0.2)', background: scoreBg(card.score) }}>
               Manacost: {card.score}
             </div>
-          )}
+          ) : null}
           <div className={`w-9 h-9 flex items-center justify-center rounded-full border-2 font-hs text-lg shadow-lg ${TIER_COLORS[tier] || TIER_COLORS['C']}`}>
             {tier}
           </div>
@@ -789,10 +794,13 @@ const RARITY_OPTIONS = [
 
 const ALL_CARDS_ID = '__all__';
 
-function TierList({ data, loading, error, onRefresh, refreshing, companionIds }: {
+function TierList({ data, loading, error, onRefresh, refreshing, companionIds, tierlistSource, onTierlistSourceChange, switchingTierlistSource }: {
   data: TierlistData; loading: boolean; error: boolean;
   onRefresh: () => void; refreshing: boolean;
   companionIds: Set<string>;
+  tierlistSource: 'heartharena' | 'hsreplay';
+  onTierlistSourceChange: (src: 'heartharena' | 'hsreplay') => void;
+  switchingTierlistSource: boolean;
 }) {
   const [activeClassId, setActiveClassId] = useState<string>(ALL_CARDS_ID);
   const [searchQuery, setSearchQuery]     = useState('');
@@ -870,7 +878,36 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds }:
   return (
     <div>
       <SectionBanner title="Тир-лист" subtitle="Оценки карт для каждого класса — текущий патч" />
-      <div className="flex justify-end mb-4 -mt-2">
+      {/* Source toggle + UpdateBadge row */}
+      <div className="flex items-center justify-between mb-4 -mt-2 flex-wrap gap-2">
+        {/* Source switcher */}
+        <div className="flex items-center gap-1 p-1 rounded-xl"
+          style={{ background: 'linear-gradient(135deg,#e8d5a0,#d4b87a)', border: '1.5px solid #b8904a' }}>
+          {(['heartharena', 'hsreplay'] as const).map(src => {
+            const active = tierlistSource === src;
+            const label  = src === 'heartharena' ? 'HearthArena' : 'HSReplay';
+            return (
+              <button
+                key={src}
+                onClick={() => { if (!active && !switchingTierlistSource) onTierlistSourceChange(src); }}
+                className="px-3 py-1.5 rounded-lg text-xs font-hs transition-all flex items-center gap-1.5"
+                style={active ? {
+                  background: 'linear-gradient(135deg,#5a3000,#3d1e00)',
+                  color: '#fcd34d',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                } : {
+                  color: switchingTierlistSource ? '#b8a080' : '#6b4c2a',
+                  cursor: switchingTierlistSource ? 'wait' : 'pointer',
+                }}
+              >
+                {active && switchingTierlistSource && (
+                  <RefreshCw size={10} style={{ animation: 'spin 0.8s linear infinite' }} />
+                )}
+                {label}
+              </button>
+            );
+          })}
+        </div>
         <UpdateBadge updatedAt={data.updatedAt} source={data.source} onRefresh={onRefresh} refreshing={refreshing} />
       </div>
 
@@ -2504,6 +2541,9 @@ export default function App() {
 
   const [winrateSource, setWinrateSource] = useState<'hsreplay' | 'firestone'>('hsreplay');
   const winrateSourceRef = useRef<'hsreplay' | 'firestone'>('hsreplay');
+  const [tierlistSource, setTierlistSource] = useState<'heartharena' | 'hsreplay'>('heartharena');
+  const tierlistSourceRef = useRef<'heartharena' | 'hsreplay'>('heartharena');
+  const [switchingTierlistSource, setSwitchingTierlistSource] = useState(false);
   const [winratesData, setWinratesData] = useState<WinratesData>({
     classes: FALLBACK_CLASSES, updatedAt: null, source: 'initial',
   });
@@ -2525,8 +2565,9 @@ export default function App() {
   const [refreshing,         setRefreshing]         = useState(false);
   const [switchingSource,    setSwitchingSource]    = useState(false);
 
-  // Generation counter prevents race conditions when two fetches run simultaneously
+  // Generation counters prevent race conditions when two fetches run simultaneously
   const wrGenRef = useRef(0);
+  const tlGenRef = useRef(0);
 
   const fetchWinrates = useCallback(async (src: 'hsreplay' | 'firestone' = 'hsreplay') => {
     const gen = ++wrGenRef.current;
@@ -2544,18 +2585,21 @@ export default function App() {
     finally  { if (gen === wrGenRef.current) { setLoadingWinrates(false); setSwitchingSource(false); } }
   }, []);
 
-  const fetchTierlist = useCallback(async () => {
+  const fetchTierlist = useCallback(async (src: 'heartharena' | 'hsreplay' = 'heartharena') => {
+    const gen = ++tlGenRef.current;
+    const cacheKey = src === 'hsreplay' ? 'tl_hsr' : 'tl';
+    const url      = src === 'hsreplay' ? '/api/tierlist?source=hsreplay' : '/api/tierlist';
     try {
       // Show persisted cache instantly
-      const cached = cacheGet<any>('tl');
-      if (cached) { setTierlistData(cached); setLoadingTierlist(false); }
-      // ETag: only re-download 1.5 MB if data actually changed
-      const result = await fetchWithETag('/api/tierlist', 'tl');
-      if (!result) throw new Error('fetch failed');
+      const cached = cacheGet<any>(cacheKey);
+      if (cached && gen === tlGenRef.current) { setTierlistData(cached); setLoadingTierlist(false); }
+      // ETag: only re-download if data actually changed
+      const result = await fetchWithETag(url, cacheKey);
+      if (!result || gen !== tlGenRef.current) return;
       setTierlistData(result.data);
       setErrorTierlist(false);
-    } catch { setErrorTierlist(true); }
-    finally  { setLoadingTierlist(false); }
+    } catch { if (gen === tlGenRef.current) setErrorTierlist(true); }
+    finally  { if (gen === tlGenRef.current) { setLoadingTierlist(false); setSwitchingTierlistSource(false); } }
   }, []);
 
   const fetchLegendaries = useCallback(async () => {
@@ -2626,7 +2670,7 @@ export default function App() {
       let attempts = 0;
       pollRef.current = setInterval(async () => {
         attempts++;
-        await Promise.all([fetchWinrates(winrateSourceRef.current), fetchTierlist()]);
+        await Promise.all([fetchWinrates(winrateSourceRef.current), fetchTierlist(tierlistSourceRef.current)]);
         if (attempts >= 6) {          // 6 × 5 s = 30 s max
           clearInterval(pollRef.current!); pollRef.current = null;
           setRefreshing(false);
@@ -2834,7 +2878,16 @@ export default function App() {
                 )}
                 {activeTab === 'tierlist' && (
                   <TierList data={tierlistData} loading={loadingTierlist} error={errorTierlist}
-                    onRefresh={handleRefresh} refreshing={refreshing} companionIds={companionIds} />
+                    onRefresh={handleRefresh} refreshing={refreshing} companionIds={companionIds}
+                    tierlistSource={tierlistSource}
+                    switchingTierlistSource={switchingTierlistSource}
+                    onTierlistSourceChange={async (src) => {
+                      setTierlistSource(src);
+                      tierlistSourceRef.current = src;
+                      setSwitchingTierlistSource(true);
+                      setLoadingTierlist(false); // keep showing current data while switching
+                      await fetchTierlist(src);
+                    }} />
                 )}
                 {activeTab === 'legendaries' && (
                   <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
@@ -2938,7 +2991,7 @@ export default function App() {
                 <div className="flex flex-col gap-2">
                   {([
                     { ver: '1.0', label: 'Запуск', done: true, items: ['Тир-лист карт', 'Винрейты классов', 'Легендарки', 'Статьи'] },
-                    { ver: '1.1', label: 'Данные и аналитика', done: false, items: ['Данные HSReplay в тир-листе карт', 'Статистика HearthArena для классов', 'Регулярные мета-отчёты'] },
+                    { ver: '1.1', label: 'Данные и аналитика', done: true, items: ['Данные HSReplay в тир-листе карт', 'Статистика HearthArena для классов', 'Регулярные мета-отчёты'] },
                     { ver: '1.2', label: 'Контент и гайды', done: false, items: ['Советы по игре для каждого класса', 'Топ лучших легендарных карт', 'Блок последних новостей'] },
                   ] as const).map(({ ver, label, done, items }) => (
                     <div key={ver} className="rounded-xl p-3"
