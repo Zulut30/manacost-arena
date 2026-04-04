@@ -6,7 +6,7 @@
       "color": "#1f252d",
       "textDark": false,
       "winrate": 53.2,
-      "games": 2170
+      "games": 2219
     },
     {
       "id": "mage",
@@ -14,15 +14,15 @@
       "color": "#2b5c85",
       "textDark": false,
       "winrate": 51.3,
-      "games": 1787
+      "games": 1858
     },
     {
       "id": "rogue",
       "name": "Разбойник",
       "color": "#333333",
       "textDark": false,
-      "winrate": 51.2,
-      "games": 1958
+      "winrate": 51,
+      "games": 2047
     },
     {
       "id": "druid",
@@ -30,65 +30,65 @@
       "color": "#704a16",
       "textDark": false,
       "winrate": 48.7,
-      "games": 1242
+      "games": 1138
     },
     {
       "id": "shaman",
       "name": "Шаман",
       "color": "#2a2e6b",
       "textDark": false,
-      "winrate": 47.9,
-      "games": 1098
+      "winrate": 48.3,
+      "games": 1109
     },
     {
       "id": "hunter",
       "name": "Охотник",
       "color": "#1d5921",
       "textDark": false,
-      "winrate": 47.3,
-      "games": 449
+      "winrate": 47.1,
+      "games": 481
     },
     {
       "id": "warrior",
       "name": "Воин",
       "color": "#7a1e1e",
       "textDark": false,
-      "winrate": 47,
-      "games": 838
+      "winrate": 46.8,
+      "games": 797
     },
     {
       "id": "paladin",
       "name": "Паладин",
       "color": "#a88a45",
       "textDark": false,
-      "winrate": 46.7,
-      "games": 490
+      "winrate": 46.6,
+      "games": 462
     },
     {
       "id": "priest",
       "name": "Жрец",
       "color": "#d1d1d1",
       "textDark": true,
-      "winrate": 44,
-      "games": 336
+      "winrate": 44.4,
+      "games": 373
     },
     {
       "id": "demon-hunter",
       "name": "Охотник на демонов",
       "color": "#224722",
       "textDark": false,
-      "winrate": 42.3,
-      "games": 140
+      "winrate": 42.2,
+      "games": 139
     },
     {
       "id": "warlock",
       "name": "Чернокнижник",
       "color": "#5c265c",
       "textDark": false,
-      "winrate": 36.8,
-      "games": 91
+      "winrate": 35.5,
+      "games": 89
     }
   ],
-  "updatedAt": "2026-04-04T13:19:46.524Z",
+  "updatedAt": "2026-04-04T19:00:23.258Z",
   "source": "hsreplay.net"
 }
