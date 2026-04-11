@@ -5,16 +5,16 @@
       "name": "Рыцарь смерти",
       "color": "#1f252d",
       "textDark": false,
-      "winrate": 52.2,
-      "games": 2207
+      "winrate": 52.3,
+      "games": 2228
     },
     {
       "id": "mage",
       "name": "Маг",
       "color": "#2b5c85",
       "textDark": false,
-      "winrate": 51.7,
-      "games": 2061
+      "winrate": 51.9,
+      "games": 2057
     },
     {
       "id": "rogue",
@@ -22,73 +22,73 @@
       "color": "#333333",
       "textDark": false,
       "winrate": 50.8,
-      "games": 2375
+      "games": 2389
     },
     {
       "id": "druid",
       "name": "Друид",
       "color": "#704a16",
       "textDark": false,
-      "winrate": 49.3,
-      "games": 1112
+      "winrate": 48.8,
+      "games": 1143
     },
     {
       "id": "shaman",
       "name": "Шаман",
       "color": "#2a2e6b",
       "textDark": false,
-      "winrate": 48.1,
-      "games": 1030
+      "winrate": 48.2,
+      "games": 1072
     },
     {
       "id": "hunter",
       "name": "Охотник",
       "color": "#1d5921",
       "textDark": false,
-      "winrate": 47.8,
-      "games": 393
-    },
-    {
-      "id": "warrior",
-      "name": "Воин",
-      "color": "#7a1e1e",
-      "textDark": false,
-      "winrate": 47,
-      "games": 1009
+      "winrate": 47.9,
+      "games": 388
     },
     {
       "id": "paladin",
       "name": "Паладин",
       "color": "#a88a45",
       "textDark": false,
-      "winrate": 46.7,
-      "games": 517
+      "winrate": 47.3,
+      "games": 569
     },
     {
-      "id": "priest",
-      "name": "Жрец",
-      "color": "#d1d1d1",
-      "textDark": true,
-      "winrate": 42.4,
-      "games": 362
+      "id": "warrior",
+      "name": "Воин",
+      "color": "#7a1e1e",
+      "textDark": false,
+      "winrate": 46.8,
+      "games": 972
     },
     {
       "id": "demon-hunter",
       "name": "Охотник на демонов",
       "color": "#224722",
       "textDark": false,
-      "winrate": 41.8,
-      "games": 147
+      "winrate": 42.2,
+      "games": 142
+    },
+    {
+      "id": "priest",
+      "name": "Жрец",
+      "color": "#d1d1d1",
+      "textDark": true,
+      "winrate": 41.6,
+      "games": 384
     },
     {
       "id": "warlock",
       "name": "Чернокнижник",
       "color": "#5c265c",
       "textDark": false,
-      "winrate": 32.4,
-      "games": 71
+      "winrate": 32.3,
+      "games": 70
     }
   ],
-  "updatedAt": "2026-04-11T13:21:15.903Z",
+  "updatedAt": "2026-04-11T19:03:57.835Z",
   "source": "hsreplay.net"
 }
