@@ -27,7 +27,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_561.webp"
         }
       ],
-      "winRate": 60.14,
+      "winRate": 60.31,
       "classKey": "shaman"
     },
     {
@@ -57,7 +57,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TRL_310.webp"
         }
       ],
-      "winRate": 64.95,
+      "winRate": 64.84,
       "classKey": "mage"
     },
     {
@@ -87,7 +87,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
         }
       ],
-      "winRate": 57.65,
+      "winRate": 57.53,
       "classKey": "death-knight"
     },
     {
@@ -117,8 +117,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_336.webp"
         }
       ],
-      "winRate": 56.73,
+      "winRate": 57.03,
       "classKey": "druid"
+    },
+    {
+      "keyCard": {
+        "cardId": "CATA_154",
+        "name": "Синестра",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_154.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/92967d1dc2d55c00f25528eed1b4425cb191838eec4203f9a2a15be6e55d29ce.png"
+      },
+      "cards": [
+        {
+          "cardId": "CATA_785",
+          "name": "Сумеречный обряд",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_785.webp"
+        },
+        {
+          "cardId": "CATA_158",
+          "name": "Безумный приспешник",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_158.webp"
+        },
+        {
+          "cardId": "CATA_722",
+          "name": "Глашатай конца времен",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
+        }
+      ],
+      "winRate": 56.14,
+      "classKey": "rogue"
     },
     {
       "keyCard": {
@@ -152,36 +182,6 @@
     },
     {
       "keyCard": {
-        "cardId": "CATA_154",
-        "name": "Синестра",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_154.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/92967d1dc2d55c00f25528eed1b4425cb191838eec4203f9a2a15be6e55d29ce.png"
-      },
-      "cards": [
-        {
-          "cardId": "CATA_785",
-          "name": "Сумеречный обряд",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_785.webp"
-        },
-        {
-          "cardId": "CATA_158",
-          "name": "Безумный приспешник",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_158.webp"
-        },
-        {
-          "cardId": "CATA_722",
-          "name": "Глашатай конца времен",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
-        }
-      ],
-      "winRate": 56.16,
-      "classKey": "rogue"
-    },
-    {
-      "keyCard": {
         "cardId": "TIME_609",
         "name": "Командир следопытов Сильвана",
         "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_609.webp",
@@ -201,7 +201,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_609t2.webp"
         }
       ],
-      "winRate": 53.69,
+      "winRate": 53.92,
       "classKey": "hunter"
     },
     {
@@ -231,7 +231,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
         }
       ],
-      "winRate": 54.4,
+      "winRate": 54.35,
       "classKey": "any"
     },
     {
@@ -255,7 +255,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_890t2.webp"
         }
       ],
-      "winRate": 52.48,
+      "winRate": 52.67,
       "classKey": "priest"
     },
     {
@@ -285,7 +285,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
         }
       ],
-      "winRate": 51.73,
+      "winRate": 51.6,
       "classKey": "warrior"
     },
     {
@@ -315,7 +315,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_138.webp"
         }
       ],
-      "winRate": 54.08,
+      "winRate": 54.24,
       "classKey": "druid"
     },
     {
@@ -345,7 +345,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
         }
       ],
-      "winRate": 48.92,
+      "winRate": 49.28,
       "classKey": "demon-hunter"
     },
     {
@@ -375,7 +375,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_213.webp"
         }
       ],
-      "winRate": 55.14,
+      "winRate": 54.95,
       "classKey": "hunter"
     },
     {
@@ -405,7 +405,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_334.webp"
         }
       ],
-      "winRate": 51.83,
+      "winRate": 51.75,
       "classKey": "mage"
     },
     {
@@ -435,7 +435,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_472.webp"
         }
       ],
-      "winRate": 49.2,
+      "winRate": 48.84,
       "classKey": "paladin"
     },
     {
@@ -465,7 +465,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_187.webp"
         }
       ],
-      "winRate": 44.4,
+      "winRate": 44.24,
       "classKey": "priest"
     },
     {
@@ -495,7 +495,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_854.webp"
         }
       ],
-      "winRate": 52.63,
+      "winRate": 53.54,
       "classKey": "priest"
     },
     {
@@ -525,7 +525,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_244.webp"
         }
       ],
-      "winRate": 49.2,
+      "winRate": 48.5,
       "classKey": "hunter"
     },
     {
@@ -555,38 +555,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_654.webp"
         }
       ],
-      "winRate": 48.19,
+      "winRate": 48.57,
       "classKey": "druid"
-    },
-    {
-      "keyCard": {
-        "cardId": "CATA_726",
-        "name": "Лидер Чо'Галл",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_726.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b547bb40a1630b8b55e387f52cf9f5ba52c984436800d33983dd91107d9ebe76.png"
-      },
-      "cards": [
-        {
-          "cardId": "CATA_492",
-          "name": "Сумеречное святилище",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_492.webp"
-        },
-        {
-          "cardId": "CATA_725",
-          "name": "Ученик Приверженцев Тени",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_725.webp"
-        },
-        {
-          "cardId": "CATA_722",
-          "name": "Глашатай конца времен",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
-        }
-      ],
-      "winRate": 33.17,
-      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -609,38 +579,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_009t2.webp"
         }
       ],
-      "winRate": 52.81,
+      "winRate": 53.01,
       "classKey": "paladin"
-    },
-    {
-      "keyCard": {
-        "cardId": "EDR_487",
-        "name": "Иводрев Презренный",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_487.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9114f0cf2905f80664696bafec45b137d1f5bdff25b0e4413992a86a0a5beb13.png"
-      },
-      "cards": [
-        {
-          "cardId": "EDR_105",
-          "name": "Порождение безумия",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_105.webp"
-        },
-        {
-          "cardId": "EDR_488",
-          "name": "Передовое садоводство",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_488.webp"
-        },
-        {
-          "cardId": "FIR_924",
-          "name": "Ловчий пламени Тьмы",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_924.webp"
-        }
-      ],
-      "winRate": 38.73,
-      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -669,7 +609,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_405.webp"
         }
       ],
-      "winRate": 49.87,
+      "winRate": 50.25,
       "classKey": "demon-hunter"
     },
     {
@@ -699,38 +639,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_RLK_035.webp"
         }
       ],
-      "winRate": 54.86,
+      "winRate": 54.72,
       "classKey": "death-knight"
     },
     {
       "keyCard": {
-        "cardId": "ETC_206",
-        "name": "Бесконечный максимум",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_206.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/477e5b3706c043d04067a0ca1dde555c6d8e7eedc766584f83490352837a126e.png"
+        "cardId": "CATA_726",
+        "name": "Лидер Чо'Галл",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_726.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b547bb40a1630b8b55e387f52cf9f5ba52c984436800d33983dd91107d9ebe76.png"
       },
       "cards": [
         {
-          "cardId": "ETC_521",
-          "name": "Космические клавишные",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_521.webp"
-        },
-        {
-          "cardId": "VAC_435",
-          "name": "Верховный маг в беде",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_435.webp"
-        },
-        {
-          "cardId": "LOOT_537",
-          "name": "Элементаль-манипулятор",
+          "cardId": "CATA_492",
+          "name": "Сумеречное святилище",
           "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_537.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_492.webp"
+        },
+        {
+          "cardId": "CATA_725",
+          "name": "Ученик Приверженцев Тени",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_725.webp"
+        },
+        {
+          "cardId": "CATA_722",
+          "name": "Глашатай конца времен",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_722.webp"
         }
       ],
-      "winRate": 50.73,
-      "classKey": "mage"
+      "winRate": 34.62,
+      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -759,7 +699,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_024.webp"
         }
       ],
-      "winRate": 46.22,
+      "winRate": 47.16,
       "classKey": "paladin"
     },
     {
@@ -789,8 +729,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_712.webp"
         }
       ],
-      "winRate": 51.47,
+      "winRate": 51.16,
       "classKey": "warrior"
+    },
+    {
+      "keyCard": {
+        "cardId": "ETC_206",
+        "name": "Бесконечный максимум",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_206.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/477e5b3706c043d04067a0ca1dde555c6d8e7eedc766584f83490352837a126e.png"
+      },
+      "cards": [
+        {
+          "cardId": "ETC_521",
+          "name": "Космические клавишные",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_521.webp"
+        },
+        {
+          "cardId": "VAC_435",
+          "name": "Верховный маг в беде",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_435.webp"
+        },
+        {
+          "cardId": "LOOT_537",
+          "name": "Элементаль-манипулятор",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_537.webp"
+        }
+      ],
+      "winRate": 50.91,
+      "classKey": "mage"
     },
     {
       "keyCard": {
@@ -819,7 +789,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_405.webp"
         }
       ],
-      "winRate": 53.32,
+      "winRate": 53.26,
       "classKey": "rogue"
     },
     {
@@ -849,7 +819,37 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_070.webp"
         }
       ],
-      "winRate": 39.01,
+      "winRate": 37.68,
+      "classKey": "warlock"
+    },
+    {
+      "keyCard": {
+        "cardId": "EDR_487",
+        "name": "Иводрев Презренный",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_487.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9114f0cf2905f80664696bafec45b137d1f5bdff25b0e4413992a86a0a5beb13.png"
+      },
+      "cards": [
+        {
+          "cardId": "EDR_105",
+          "name": "Порождение безумия",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_105.webp"
+        },
+        {
+          "cardId": "EDR_488",
+          "name": "Передовое садоводство",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_488.webp"
+        },
+        {
+          "cardId": "FIR_924",
+          "name": "Ловчий пламени Тьмы",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/FIR_924.webp"
+        }
+      ],
+      "winRate": 39.88,
       "classKey": "warlock"
     },
     {
@@ -879,7 +879,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_513.webp"
         }
       ],
-      "winRate": 48.02,
+      "winRate": 48.5,
       "classKey": "shaman"
     },
     {
@@ -909,7 +909,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_753.webp"
         }
       ],
-      "winRate": 54.2,
+      "winRate": 54.58,
       "classKey": "warrior"
     },
     {
@@ -939,8 +939,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_821.webp"
         }
       ],
-      "winRate": 52.42,
+      "winRate": 52.66,
       "classKey": "druid"
+    },
+    {
+      "keyCard": {
+        "cardId": "AV_316",
+        "name": "Лич ужаса Тамсин",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_316.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/878ec7af099267679bf2d3c786839051250681d141c83755b90255f1860a6393.png"
+      },
+      "cards": [
+        {
+          "cardId": "WC_021",
+          "name": "Нестабильная стрела Тьмы",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WC_021.webp"
+        },
+        {
+          "cardId": "REV_244",
+          "name": "Зловредный бес",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_244.webp"
+        },
+        {
+          "cardId": "SW_088",
+          "name": "Нападение демонов",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_088.webp"
+        }
+      ],
+      "winRate": 40,
+      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -969,7 +999,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_513.webp"
         }
       ],
-      "winRate": 47.15,
+      "winRate": 46.43,
       "classKey": "priest"
     },
     {
@@ -999,8 +1029,32 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_076.webp"
         }
       ],
-      "winRate": 52.28,
+      "winRate": 52.54,
       "classKey": "rogue"
+    },
+    {
+      "keyCard": {
+        "cardId": "TIME_619",
+        "name": "Могильная Таланджи",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1cf82d3ed91615aaef6dc25aee6a17ad20f3d75d80d55c9d8c703caf816c944a.png"
+      },
+      "cards": [
+        {
+          "cardId": "TIME_619t",
+          "name": "Бвонсамди",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619t.webp"
+        },
+        {
+          "cardId": "TIME_619t2",
+          "name": "Что стало с Зандаларом",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619t2.webp"
+        }
+      ],
+      "winRate": 54.62,
+      "classKey": "death-knight"
     },
     {
       "keyCard": {
@@ -1029,62 +1083,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_822.webp"
         }
       ],
-      "winRate": 57.13,
+      "winRate": 56.93,
       "classKey": "death-knight"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_619",
-        "name": "Могильная Таланджи",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/1cf82d3ed91615aaef6dc25aee6a17ad20f3d75d80d55c9d8c703caf816c944a.png"
-      },
-      "cards": [
-        {
-          "cardId": "TIME_619t",
-          "name": "Бвонсамди",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619t.webp"
-        },
-        {
-          "cardId": "TIME_619t2",
-          "name": "Что стало с Зандаларом",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_619t2.webp"
-        }
-      ],
-      "winRate": 54.67,
-      "classKey": "death-knight"
-    },
-    {
-      "keyCard": {
-        "cardId": "GDB_447",
-        "name": "Предсказатель Нобундо",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_447.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fa1557178387ee6c84fbc52e93bd65efa22e9a1e5ae1c6b0b8e0afe550edd61c.png"
-      },
-      "cards": [
-        {
-          "cardId": "GDB_479",
-          "name": "Туманность",
-          "cost": 9,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_479.webp"
-        },
-        {
-          "cardId": "GDB_445",
-          "name": "Метеоритный шторм",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_445.webp"
-        },
-        {
-          "cardId": "GDB_443",
-          "name": "Космонавт",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_443.webp"
-        }
-      ],
-      "winRate": 46.48,
-      "classKey": "shaman"
     },
     {
       "keyCard": {
@@ -1113,8 +1113,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_880.webp"
         }
       ],
-      "winRate": 54.52,
+      "winRate": 54.6,
       "classKey": "paladin"
+    },
+    {
+      "keyCard": {
+        "cardId": "GDB_447",
+        "name": "Предсказатель Нобундо",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_447.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/fa1557178387ee6c84fbc52e93bd65efa22e9a1e5ae1c6b0b8e0afe550edd61c.png"
+      },
+      "cards": [
+        {
+          "cardId": "GDB_479",
+          "name": "Туманность",
+          "cost": 9,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_479.webp"
+        },
+        {
+          "cardId": "GDB_445",
+          "name": "Метеоритный шторм",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_445.webp"
+        },
+        {
+          "cardId": "GDB_443",
+          "name": "Космонавт",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_443.webp"
+        }
+      ],
+      "winRate": 46.55,
+      "classKey": "shaman"
     },
     {
       "keyCard": {
@@ -1143,7 +1173,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_394.webp"
         }
       ],
-      "winRate": 36.59,
+      "winRate": 36.54,
       "classKey": "demon-hunter"
     },
     {
@@ -1173,7 +1203,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_000.webp"
         }
       ],
-      "winRate": 48.18,
+      "winRate": 48.08,
       "classKey": "mage"
     },
     {
@@ -1203,7 +1233,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_844.webp"
         }
       ],
-      "winRate": 50.34,
+      "winRate": 50.77,
       "classKey": "hunter"
     },
     {
@@ -1227,68 +1257,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_209t2.webp"
         }
       ],
-      "winRate": 45.89,
+      "winRate": 45.74,
       "classKey": "shaman"
-    },
-    {
-      "keyCard": {
-        "cardId": "CATA_458",
-        "name": "Верховный маг Кейлек",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_458.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ada5fbf33e004e066124bf1f2de0f06fc51988276f2fc66c36cf7bcd1b10395a.png"
-      },
-      "cards": [
-        {
-          "cardId": "JAM_002",
-          "name": "Сила звезд",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_002.webp"
-        },
-        {
-          "cardId": "TIME_855",
-          "name": "Чародейский обстрел",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_855.webp"
-        },
-        {
-          "cardId": "REV_601",
-          "name": "Морозное касание",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_601.webp"
-        }
-      ],
-      "winRate": 49.5,
-      "classKey": "mage"
-    },
-    {
-      "keyCard": {
-        "cardId": "AV_316",
-        "name": "Лич ужаса Тамсин",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_316.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/878ec7af099267679bf2d3c786839051250681d141c83755b90255f1860a6393.png"
-      },
-      "cards": [
-        {
-          "cardId": "WC_021",
-          "name": "Нестабильная стрела Тьмы",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WC_021.webp"
-        },
-        {
-          "cardId": "REV_244",
-          "name": "Зловредный бес",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_244.webp"
-        },
-        {
-          "cardId": "SW_088",
-          "name": "Нападение демонов",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_088.webp"
-        }
-      ],
-      "winRate": 46.15,
-      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -1317,38 +1287,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CS2_023.webp"
         }
       ],
-      "winRate": 51.78,
+      "winRate": 52.3,
       "classKey": "mage"
     },
     {
       "keyCard": {
-        "cardId": "TTN_811",
-        "name": "Один, главный куратор",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_811.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8320046caddb826fd8a95d984097e9819d07b285edf3401c47c5c6509e991b0c.png"
+        "cardId": "CATA_458",
+        "name": "Верховный маг Кейлек",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_458.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ada5fbf33e004e066124bf1f2de0f06fc51988276f2fc66c36cf7bcd1b10395a.png"
       },
       "cards": [
         {
-          "cardId": "YOG_502",
-          "name": "Обеззараживание",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_502.webp"
+          "cardId": "JAM_002",
+          "name": "Сила звезд",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_002.webp"
         },
         {
-          "cardId": "TTN_466",
-          "name": "Минотаурен",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_466.webp"
+          "cardId": "TIME_855",
+          "name": "Чародейский обстрел",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_855.webp"
         },
         {
-          "cardId": "TTN_467",
-          "name": "Молот ремесленника",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_467.webp"
+          "cardId": "REV_601",
+          "name": "Морозное касание",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_601.webp"
         }
       ],
-      "winRate": 49.03,
-      "classKey": "warrior"
+      "winRate": 49.54,
+      "classKey": "mage"
     },
     {
       "keyCard": {
@@ -1377,38 +1347,68 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_806.webp"
         }
       ],
-      "winRate": 49.95,
+      "winRate": 49.78,
       "classKey": "hunter"
     },
     {
       "keyCard": {
-        "cardId": "DINO_401",
-        "name": "Великий дракорекс",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_401.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d6ee8c5421a30d406dd6e83d66b5b3f2deb7863efb23c43869380cf57a47634b.png"
+        "cardId": "TTN_811",
+        "name": "Один, главный куратор",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_811.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8320046caddb826fd8a95d984097e9819d07b285edf3401c47c5c6509e991b0c.png"
       },
       "cards": [
         {
-          "cardId": "VAC_527",
-          "name": "Дракон-гурман",
-          "cost": 8,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_527.webp"
+          "cardId": "YOG_502",
+          "name": "Обеззараживание",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_502.webp"
         },
         {
-          "cardId": "EDR_455",
-          "name": "Поддаться безумию",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_455.webp"
+          "cardId": "TTN_466",
+          "name": "Минотаурен",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_466.webp"
         },
         {
-          "cardId": "EDR_454",
-          "name": "Кладка порчи",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_454.webp"
+          "cardId": "TTN_467",
+          "name": "Молот ремесленника",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_467.webp"
         }
       ],
-      "winRate": 53.26,
+      "winRate": 49.61,
       "classKey": "warrior"
+    },
+    {
+      "keyCard": {
+        "cardId": "TTN_842",
+        "name": "Йотун Вечный",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_842.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e811612adacbaf54c3ec4b454b401f98480513677467a0f6f87d52fb910dcd33.png"
+      },
+      "cards": [
+        {
+          "cardId": "WW_405",
+          "name": "Скоростная стрельба",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_405.webp"
+        },
+        {
+          "cardId": "AV_269",
+          "name": "Обходной маневр",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_269.webp"
+        },
+        {
+          "cardId": "DMF_224",
+          "name": "Одноразовые акробаты",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_224.webp"
+        }
+      ],
+      "winRate": 51.24,
+      "classKey": "demon-hunter"
     },
     {
       "keyCard": {
@@ -1437,38 +1437,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_370.webp"
         }
       ],
-      "winRate": 45.29,
+      "winRate": 45.06,
       "classKey": "mage"
     },
     {
       "keyCard": {
-        "cardId": "CATA_553",
-        "name": "Абиссиан",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_553.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/179a55b7c5626945525ef8703c3357eeeef99afe22528ed950fe81457d417448.png"
+        "cardId": "DINO_401",
+        "name": "Великий дракорекс",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DINO_401.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d6ee8c5421a30d406dd6e83d66b5b3f2deb7863efb23c43869380cf57a47634b.png"
       },
       "cards": [
         {
-          "cardId": "CATA_552",
-          "name": "Черночешуйный разведчик",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_552.webp"
+          "cardId": "VAC_527",
+          "name": "Дракон-гурман",
+          "cost": 8,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_527.webp"
         },
         {
-          "cardId": "CATA_551",
-          "name": "Камнерукий боец",
+          "cardId": "EDR_455",
+          "name": "Поддаться безумию",
           "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_551.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_455.webp"
         },
         {
-          "cardId": "CATA_556",
-          "name": "Дракончик-носильщик",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp"
+          "cardId": "EDR_454",
+          "name": "Кладка порчи",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_454.webp"
         }
       ],
-      "winRate": 47.77,
-      "classKey": "hunter"
+      "winRate": 52.26,
+      "classKey": "warrior"
     },
     {
       "keyCard": {
@@ -1497,8 +1497,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_424.webp"
         }
       ],
-      "winRate": 52.7,
+      "winRate": 52.72,
       "classKey": "death-knight"
+    },
+    {
+      "keyCard": {
+        "cardId": "CATA_553",
+        "name": "Абиссиан",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_553.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/179a55b7c5626945525ef8703c3357eeeef99afe22528ed950fe81457d417448.png"
+      },
+      "cards": [
+        {
+          "cardId": "CATA_552",
+          "name": "Черночешуйный разведчик",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_552.webp"
+        },
+        {
+          "cardId": "CATA_551",
+          "name": "Камнерукий боец",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_551.webp"
+        },
+        {
+          "cardId": "CATA_556",
+          "name": "Дракончик-носильщик",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp"
+        }
+      ],
+      "winRate": 48.03,
+      "classKey": "hunter"
     },
     {
       "keyCard": {
@@ -1527,7 +1557,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_022.webp"
         }
       ],
-      "winRate": 51.26,
+      "winRate": 50.89,
       "classKey": "rogue"
     },
     {
@@ -1557,37 +1587,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_642.webp"
         }
       ],
-      "winRate": 42.57,
-      "classKey": "demon-hunter"
-    },
-    {
-      "keyCard": {
-        "cardId": "TTN_842",
-        "name": "Йотун Вечный",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_842.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e811612adacbaf54c3ec4b454b401f98480513677467a0f6f87d52fb910dcd33.png"
-      },
-      "cards": [
-        {
-          "cardId": "WW_405",
-          "name": "Скоростная стрельба",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_405.webp"
-        },
-        {
-          "cardId": "AV_269",
-          "name": "Обходной маневр",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_269.webp"
-        },
-        {
-          "cardId": "DMF_224",
-          "name": "Одноразовые акробаты",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_224.webp"
-        }
-      ],
-      "winRate": 50.42,
+      "winRate": 44.05,
       "classKey": "demon-hunter"
     },
     {
@@ -1617,7 +1617,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BOT_533.webp"
         }
       ],
-      "winRate": 45.43,
+      "winRate": 45.58,
       "classKey": "shaman"
     },
     {
@@ -1647,8 +1647,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_210.webp"
         }
       ],
-      "winRate": 49.32,
+      "winRate": 50.03,
       "classKey": "druid"
+    },
+    {
+      "keyCard": {
+        "cardId": "VAC_415",
+        "name": "Большеклюв",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_415.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0680d2daf94bfa10d27e86448a46b6c3274c8fe12ab7ddb89f12fab3016ae8fa.png"
+      },
+      "cards": [
+        {
+          "cardId": "VAC_407",
+          "name": "Болтливый ара",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_407.webp"
+        },
+        {
+          "cardId": "VAC_410",
+          "name": "Разъяренные птахи",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_410.webp"
+        },
+        {
+          "cardId": "VAC_416",
+          "name": "Смертельный захват",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_416.webp"
+        }
+      ],
+      "winRate": 52,
+      "classKey": "hunter"
     },
     {
       "keyCard": {
@@ -1677,7 +1707,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_042.webp"
         }
       ],
-      "winRate": 49.71,
+      "winRate": 48.17,
       "classKey": "warlock"
     },
     {
@@ -1707,7 +1737,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_116.webp"
         }
       ],
-      "winRate": 49.69,
+      "winRate": 50.11,
       "classKey": "death-knight"
     },
     {
@@ -1737,38 +1767,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS2_235.webp"
         }
       ],
-      "winRate": 44.35,
+      "winRate": 43.82,
       "classKey": "priest"
-    },
-    {
-      "keyCard": {
-        "cardId": "VAC_415",
-        "name": "Большеклюв",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_415.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0680d2daf94bfa10d27e86448a46b6c3274c8fe12ab7ddb89f12fab3016ae8fa.png"
-      },
-      "cards": [
-        {
-          "cardId": "VAC_407",
-          "name": "Болтливый ара",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_407.webp"
-        },
-        {
-          "cardId": "VAC_410",
-          "name": "Разъяренные птахи",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_410.webp"
-        },
-        {
-          "cardId": "VAC_416",
-          "name": "Смертельный захват",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_416.webp"
-        }
-      ],
-      "winRate": 52.77,
-      "classKey": "hunter"
     },
     {
       "keyCard": {
@@ -1797,8 +1797,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_365.webp"
         }
       ],
-      "winRate": 52.92,
+      "winRate": 52.16,
       "classKey": "warrior"
+    },
+    {
+      "keyCard": {
+        "cardId": "TTN_903",
+        "name": "Хранительница жизни Эонар",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_903.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e0aec61f6a27e026375caa6309599113c8923fc0d7fcbac8f57297373c865203.png"
+      },
+      "cards": [
+        {
+          "cardId": "TLC_231",
+          "name": "История о Барнабусе",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_231.webp"
+        },
+        {
+          "cardId": "VAC_907",
+          "name": "Сон под звездами",
+          "cost": 8,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_907.webp"
+        },
+        {
+          "cardId": "BT_129",
+          "name": "Почкование",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_129.webp"
+        }
+      ],
+      "winRate": 47.6,
+      "classKey": "druid"
     },
     {
       "keyCard": {
@@ -1827,8 +1857,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_009.webp"
         }
       ],
-      "winRate": 46.78,
+      "winRate": 46.41,
       "classKey": "paladin"
+    },
+    {
+      "keyCard": {
+        "cardId": "TTN_862",
+        "name": "Аргус Изумрудная Звезда",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_862.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6b90498c2de061ad95caf4e1b4ff91e335fb5d85bfba4b07b68b52e083bb746b.png"
+      },
+      "cards": [
+        {
+          "cardId": "TTN_861",
+          "name": "Приверженец Аргуса",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_861.webp"
+        },
+        {
+          "cardId": "TOY_643",
+          "name": "Коробка с сюрпризом",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_643.webp"
+        },
+        {
+          "cardId": "BT_487",
+          "name": "Огромный архидемон",
+          "cost": 8,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_487.webp"
+        }
+      ],
+      "winRate": 37.25,
+      "classKey": "demon-hunter"
     },
     {
       "keyCard": {
@@ -1857,7 +1917,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_RLK_066.webp"
         }
       ],
-      "winRate": 52.55,
+      "winRate": 53.17,
       "classKey": "death-knight"
     },
     {
@@ -1887,67 +1947,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_854.webp"
         }
       ],
-      "winRate": 44.98,
-      "classKey": "priest"
-    },
-    {
-      "keyCard": {
-        "cardId": "TTN_903",
-        "name": "Хранительница жизни Эонар",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_903.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/e0aec61f6a27e026375caa6309599113c8923fc0d7fcbac8f57297373c865203.png"
-      },
-      "cards": [
-        {
-          "cardId": "TLC_231",
-          "name": "История о Барнабусе",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_231.webp"
-        },
-        {
-          "cardId": "VAC_907",
-          "name": "Сон под звездами",
-          "cost": 8,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_907.webp"
-        },
-        {
-          "cardId": "BT_129",
-          "name": "Почкование",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_129.webp"
-        }
-      ],
-      "winRate": 49.02,
-      "classKey": "druid"
-    },
-    {
-      "keyCard": {
-        "cardId": "BT_198",
-        "name": "Зеркало души",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_198.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b5adccb90fbdc41cc70ae427ecd8da552c1b51002c4a94b6c4b1eb1ead107bac.png"
-      },
-      "cards": [
-        {
-          "cardId": "MIS_714",
-          "name": "Зеркальный лабиринт",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_714.webp"
-        },
-        {
-          "cardId": "UNG_029",
-          "name": "Темные видения",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_029.webp"
-        },
-        {
-          "cardId": "SCH_512",
-          "name": "Посвящение",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_512.webp"
-        }
-      ],
-      "winRate": 41.68,
+      "winRate": 43.93,
       "classKey": "priest"
     },
     {
@@ -1977,206 +1977,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_424.webp"
         }
       ],
-      "winRate": 51.84,
+      "winRate": 51.81,
       "classKey": "death-knight"
-    },
-    {
-      "keyCard": {
-        "cardId": "TTN_862",
-        "name": "Аргус Изумрудная Звезда",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_862.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/6b90498c2de061ad95caf4e1b4ff91e335fb5d85bfba4b07b68b52e083bb746b.png"
-      },
-      "cards": [
-        {
-          "cardId": "TTN_861",
-          "name": "Приверженец Аргуса",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_861.webp"
-        },
-        {
-          "cardId": "TOY_643",
-          "name": "Коробка с сюрпризом",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_643.webp"
-        },
-        {
-          "cardId": "BT_487",
-          "name": "Огромный архидемон",
-          "cost": 8,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_487.webp"
-        }
-      ],
-      "winRate": 35.42,
-      "classKey": "demon-hunter"
-    },
-    {
-      "keyCard": {
-        "cardId": "SCH_507",
-        "name": "Инструктор Огненное Сердце",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_507.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8e8637631aeea45c04fae954f4b33107ef5e64bef338953358c995f82d8b38d3.png"
-      },
-      "cards": [
-        {
-          "cardId": "DED_509",
-          "name": "Сверкающий ара",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_509.webp"
-        },
-        {
-          "cardId": "SCH_236",
-          "name": "Составитель конспектов",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_236.webp"
-        },
-        {
-          "cardId": "SCH_235",
-          "name": "Стрелы инволюции",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_235.webp"
-        }
-      ],
-      "winRate": 46.15,
-      "classKey": "shaman"
-    },
-    {
-      "keyCard": {
-        "cardId": "ONY_028",
-        "name": "Ми'да Чистый Свет",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_028.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/dbe1f67f78e555738b61fb14c0cc606cd23942057c63e117df7ba1bdfe1d3ed5.png"
-      },
-      "cards": [
-        {
-          "cardId": "SW_441",
-          "name": "Осколок наару",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_441.webp"
-        },
-        {
-          "cardId": "AV_330",
-          "name": "Дар наару",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_330.webp"
-        },
-        {
-          "cardId": "ETC_338",
-          "name": "Аккорд силы: синхронность",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_338.webp"
-        }
-      ],
-      "winRate": 40.38,
-      "classKey": "priest"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_875",
-        "name": "Гарона Полуорчиха",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_875.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/32dff74bf393c61e978da9c9d7bc84223469590ea0aeba0ab7b45efc4773079c.png"
-      },
-      "cards": [
-        {
-          "cardId": "TIME_875t",
-          "name": "Король Ллейн",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_875t.webp"
-        },
-        {
-          "cardId": "TIME_875t1",
-          "name": "Убийцы Королей",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_875t1.webp"
-        }
-      ],
-      "winRate": 52.87,
-      "classKey": "rogue"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_020",
-        "name": "Броксигар",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_020.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8331fa8b66720a1a4516e377817e197da836f8d315c1ad0f085d0014862c06b3.png"
-      },
-      "cards": [
-        {
-          "cardId": "TIME_020t1",
-          "name": "Топор Кенария",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_020t1.webp"
-        },
-        {
-          "cardId": "TIME_020t2",
-          "name": "Первый портал на Аргус",
-          "cost": 0,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_020t2.webp"
-        }
-      ],
-      "winRate": 39.55,
-      "classKey": "demon-hunter"
-    },
-    {
-      "keyCard": {
-        "cardId": "ONY_005",
-        "name": "Казакусан",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_005.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/633f1b73cf1d79ebb9048fb6a9968e5ae0c6729fa14b9a388c6f415374f70a86.png"
-      },
-      "cards": [
-        {
-          "cardId": "EDR_572",
-          "name": "Истерзанный грознокрыл",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_572.webp"
-        },
-        {
-          "cardId": "CATA_556",
-          "name": "Дракончик-носильщик",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp"
-        },
-        {
-          "cardId": "CATA_556",
-          "name": "Дракончик-носильщик",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp"
-        }
-      ],
-      "winRate": 47.59,
-      "classKey": "any"
-    },
-    {
-      "keyCard": {
-        "cardId": "TTN_858",
-        "name": "Амитус Миротворица",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_858.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/7a20ec03b1546b5c7c2e7f4948b7bfbc6b089e830ec7e8dc3cfcaa3257d47157.png"
-      },
-      "cards": [
-        {
-          "cardId": "BOT_909",
-          "name": "Кристаллология",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BOT_909.webp"
-        },
-        {
-          "cardId": "ONY_022",
-          "name": "Боевой викарий",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_022.webp"
-        },
-        {
-          "cardId": "SCH_149",
-          "name": "Хвастун из Авангарда",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_149.webp"
-        }
-      ],
-      "winRate": 47.42,
-      "classKey": "paladin"
     },
     {
       "keyCard": {
@@ -2205,7 +2007,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GILA_BOSS_35t.webp"
         }
       ],
-      "winRate": 32.22,
+      "winRate": 29.55,
       "classKey": "warlock"
     },
     {
@@ -2235,38 +2037,176 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_418.webp"
         }
       ],
-      "winRate": 49.6,
+      "winRate": 49.18,
       "classKey": "hunter"
     },
     {
       "keyCard": {
-        "cardId": "TOY_524",
-        "name": "Гейм-мастер Немси",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_524.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ab58d9453c6dad22c1c4997dc1821564ff09b73459f4b06156df57c67ae73477.png"
+        "cardId": "TIME_020",
+        "name": "Броксигар",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_020.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8331fa8b66720a1a4516e377817e197da836f8d315c1ad0f085d0014862c06b3.png"
       },
       "cards": [
         {
-          "cardId": "TOY_914",
-          "name": "Проклятая королева",
-          "cost": 8,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_914.webp"
+          "cardId": "TIME_020t1",
+          "name": "Топор Кенария",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_020t1.webp"
         },
         {
-          "cardId": "ETC_082",
-          "name": "Унылая баллада",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_082.webp"
-        },
-        {
-          "cardId": "TOY_886",
-          "name": "Эндшпиль",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_886.webp"
+          "cardId": "TIME_020t2",
+          "name": "Первый портал на Аргус",
+          "cost": 0,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_020t2.webp"
         }
       ],
-      "winRate": 42.22,
-      "classKey": "warlock"
+      "winRate": 39.58,
+      "classKey": "demon-hunter"
+    },
+    {
+      "keyCard": {
+        "cardId": "TIME_875",
+        "name": "Гарона Полуорчиха",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_875.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/32dff74bf393c61e978da9c9d7bc84223469590ea0aeba0ab7b45efc4773079c.png"
+      },
+      "cards": [
+        {
+          "cardId": "TIME_875t",
+          "name": "Король Ллейн",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_875t.webp"
+        },
+        {
+          "cardId": "TIME_875t1",
+          "name": "Убийцы Королей",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_875t1.webp"
+        }
+      ],
+      "winRate": 53.19,
+      "classKey": "rogue"
+    },
+    {
+      "keyCard": {
+        "cardId": "BT_198",
+        "name": "Зеркало души",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_198.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/b5adccb90fbdc41cc70ae427ecd8da552c1b51002c4a94b6c4b1eb1ead107bac.png"
+      },
+      "cards": [
+        {
+          "cardId": "MIS_714",
+          "name": "Зеркальный лабиринт",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_714.webp"
+        },
+        {
+          "cardId": "UNG_029",
+          "name": "Темные видения",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_029.webp"
+        },
+        {
+          "cardId": "SCH_512",
+          "name": "Посвящение",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_512.webp"
+        }
+      ],
+      "winRate": 41.7,
+      "classKey": "priest"
+    },
+    {
+      "keyCard": {
+        "cardId": "SCH_507",
+        "name": "Инструктор Огненное Сердце",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_507.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8e8637631aeea45c04fae954f4b33107ef5e64bef338953358c995f82d8b38d3.png"
+      },
+      "cards": [
+        {
+          "cardId": "DED_509",
+          "name": "Сверкающий ара",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_509.webp"
+        },
+        {
+          "cardId": "SCH_236",
+          "name": "Составитель конспектов",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_236.webp"
+        },
+        {
+          "cardId": "SCH_235",
+          "name": "Стрелы инволюции",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_235.webp"
+        }
+      ],
+      "winRate": 46.34,
+      "classKey": "shaman"
+    },
+    {
+      "keyCard": {
+        "cardId": "TTN_858",
+        "name": "Амитус Миротворица",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_858.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/7a20ec03b1546b5c7c2e7f4948b7bfbc6b089e830ec7e8dc3cfcaa3257d47157.png"
+      },
+      "cards": [
+        {
+          "cardId": "BOT_909",
+          "name": "Кристаллология",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BOT_909.webp"
+        },
+        {
+          "cardId": "ONY_022",
+          "name": "Боевой викарий",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_022.webp"
+        },
+        {
+          "cardId": "SCH_149",
+          "name": "Хвастун из Авангарда",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_149.webp"
+        }
+      ],
+      "winRate": 47.62,
+      "classKey": "paladin"
+    },
+    {
+      "keyCard": {
+        "cardId": "ONY_028",
+        "name": "Ми'да Чистый Свет",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_028.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/dbe1f67f78e555738b61fb14c0cc606cd23942057c63e117df7ba1bdfe1d3ed5.png"
+      },
+      "cards": [
+        {
+          "cardId": "SW_441",
+          "name": "Осколок наару",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_441.webp"
+        },
+        {
+          "cardId": "AV_330",
+          "name": "Дар наару",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_330.webp"
+        },
+        {
+          "cardId": "ETC_338",
+          "name": "Аккорд силы: синхронность",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_338.webp"
+        }
+      ],
+      "winRate": 41.15,
+      "classKey": "priest"
     },
     {
       "keyCard": {
@@ -2295,38 +2235,68 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AT_033.webp"
         }
       ],
-      "winRate": 50.73,
+      "winRate": 50.83,
       "classKey": "rogue"
     },
     {
       "keyCard": {
-        "cardId": "EDR_259",
-        "name": "Урсол",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_259.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c95ce0520fc7b0357805e5917e7ce821963c720fc5d8d5f95dfb08eccd6ac13f.png"
+        "cardId": "ONY_005",
+        "name": "Казакусан",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ONY_005.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/633f1b73cf1d79ebb9048fb6a9968e5ae0c6729fa14b9a388c6f415374f70a86.png"
       },
       "cards": [
         {
-          "cardId": "EDR_255",
-          "name": "Огни обновления",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_255.webp"
+          "cardId": "EDR_572",
+          "name": "Истерзанный грознокрыл",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_572.webp"
         },
         {
-          "cardId": "CORE_TSC_076",
-          "name": "Вечная жизнь в камне",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_TSC_076.webp"
+          "cardId": "CATA_556",
+          "name": "Дракончик-носильщик",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp"
         },
         {
-          "cardId": "EDR_253",
-          "name": "Медвежья кувалда",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_253.webp"
+          "cardId": "CATA_556",
+          "name": "Дракончик-носильщик",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_556.webp"
         }
       ],
-      "winRate": 45.54,
-      "classKey": "paladin"
+      "winRate": 47.58,
+      "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "ICC_830",
+        "name": "Темный жнец Андуин",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ICC_830.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cab6230fd0d7289495dcba028bed39e701ab032a05bf84dd8271603fcb71a37c.png"
+      },
+      "cards": [
+        {
+          "cardId": "TOY_381",
+          "name": "Бумажный ангел",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_381.webp"
+        },
+        {
+          "cardId": "DEEP_021",
+          "name": "Слово Тьмы: Кража",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_021.webp"
+        },
+        {
+          "cardId": "UNG_029",
+          "name": "Темные видения",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_029.webp"
+        }
+      ],
+      "winRate": 42.08,
+      "classKey": "priest"
     },
     {
       "keyCard": {
@@ -2360,33 +2330,63 @@
     },
     {
       "keyCard": {
-        "cardId": "ICC_830",
-        "name": "Темный жнец Андуин",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ICC_830.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/cab6230fd0d7289495dcba028bed39e701ab032a05bf84dd8271603fcb71a37c.png"
+        "cardId": "TOY_524",
+        "name": "Гейм-мастер Немси",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_524.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ab58d9453c6dad22c1c4997dc1821564ff09b73459f4b06156df57c67ae73477.png"
       },
       "cards": [
         {
-          "cardId": "TOY_381",
-          "name": "Бумажный ангел",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_381.webp"
+          "cardId": "TOY_914",
+          "name": "Проклятая королева",
+          "cost": 8,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_914.webp"
         },
         {
-          "cardId": "DEEP_021",
-          "name": "Слово Тьмы: Кража",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_021.webp"
+          "cardId": "ETC_082",
+          "name": "Унылая баллада",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_082.webp"
         },
         {
-          "cardId": "UNG_029",
-          "name": "Темные видения",
+          "cardId": "TOY_886",
+          "name": "Эндшпиль",
           "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/UNG_029.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_886.webp"
         }
       ],
-      "winRate": 41.6,
-      "classKey": "priest"
+      "winRate": 45.54,
+      "classKey": "warlock"
+    },
+    {
+      "keyCard": {
+        "cardId": "EDR_259",
+        "name": "Урсол",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_259.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c95ce0520fc7b0357805e5917e7ce821963c720fc5d8d5f95dfb08eccd6ac13f.png"
+      },
+      "cards": [
+        {
+          "cardId": "EDR_255",
+          "name": "Огни обновления",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_255.webp"
+        },
+        {
+          "cardId": "CORE_TSC_076",
+          "name": "Вечная жизнь в камне",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_TSC_076.webp"
+        },
+        {
+          "cardId": "EDR_253",
+          "name": "Медвежья кувалда",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_253.webp"
+        }
+      ],
+      "winRate": 45.66,
+      "classKey": "paladin"
     },
     {
       "keyCard": {
@@ -2415,7 +2415,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WORK_015.webp"
         }
       ],
-      "winRate": 50.3,
+      "winRate": 50.84,
       "classKey": "demon-hunter"
     },
     {
@@ -2445,7 +2445,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_323.webp"
         }
       ],
-      "winRate": 50.45,
+      "winRate": 50.4,
       "classKey": "shaman"
     },
     {
@@ -2475,68 +2475,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_476.webp"
         }
       ],
-      "winRate": 42.73,
+      "winRate": 43.39,
       "classKey": "mage"
-    },
-    {
-      "keyCard": {
-        "cardId": "TTN_092",
-        "name": "Агграмар Мститель",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_092.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d28513094f90048f51e5b0b649e70d12a07d86121fb2ac12aab60e547d82471b.png"
-      },
-      "cards": [
-        {
-          "cardId": "RLK_827",
-          "name": "Острый глаз",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_827.webp"
-        },
-        {
-          "cardId": "RLK_825",
-          "name": "Громострел",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_825.webp"
-        },
-        {
-          "cardId": "LOOT_222",
-          "name": "Свечкострел",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_222.webp"
-        }
-      ],
-      "winRate": 54.27,
-      "classKey": "hunter"
-    },
-    {
-      "keyCard": {
-        "cardId": "EDR_209",
-        "name": "Лесной властелин Кенарий",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_209.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9504cbb100c284f84cbed9be206e7f011dd003ce712f17724866cfd647ac85a4.png"
-      },
-      "cards": [
-        {
-          "cardId": "EDR_060",
-          "name": "Оберег земли",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_060.webp"
-        },
-        {
-          "cardId": "VAC_508",
-          "name": "Походный перекус",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_508.webp"
-        },
-        {
-          "cardId": "VAC_949",
-          "name": "Новые высоты",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_949.webp"
-        }
-      ],
-      "winRate": 49.5,
-      "classKey": "druid"
     },
     {
       "keyCard": {
@@ -2565,7 +2505,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_709.webp"
         }
       ],
-      "winRate": 54.2,
+      "winRate": 54.96,
       "classKey": "death-knight"
     },
     {
@@ -2595,92 +2535,68 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_916.webp"
         }
       ],
-      "winRate": 47.13,
+      "winRate": 47.76,
       "classKey": "paladin"
     },
     {
       "keyCard": {
-        "cardId": "RLK_225",
-        "name": "Визгун",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_225.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ade7efb187891241ba34c6f4e0e61b0d2177f3aad9993e4127e0b914aed10540.png"
+        "cardId": "EDR_209",
+        "name": "Лесной властелин Кенарий",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_209.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/9504cbb100c284f84cbed9be206e7f011dd003ce712f17724866cfd647ac85a4.png"
       },
       "cards": [
         {
-          "cardId": "RLK_018",
-          "name": "Удар чумы",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_018.webp"
+          "cardId": "EDR_060",
+          "name": "Оберег земли",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_060.webp"
         },
         {
-          "cardId": "RLK_116",
-          "name": "Мертвый гробовщик",
+          "cardId": "VAC_508",
+          "name": "Походный перекус",
           "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_116.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_508.webp"
         },
         {
-          "cardId": "RLK_118",
-          "name": "Стражи гробницы",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_118.webp"
+          "cardId": "VAC_949",
+          "name": "Новые высоты",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_949.webp"
         }
       ],
-      "winRate": 54.07,
-      "classKey": "death-knight"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_211",
-        "name": "Леди Азшара",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/862c461305a3729cf98f5a29aac8e235fe13c5a9458bec9f96cc959d4d65206b.png"
-      },
-      "cards": [
-        {
-          "cardId": "TIME_211t1",
-          "name": "Источник Вечности",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211t1.webp"
-        },
-        {
-          "cardId": "TIME_211t2",
-          "name": "Зин-Азшари",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211t2.webp"
-        }
-      ],
-      "winRate": 48.22,
+      "winRate": 48.19,
       "classKey": "druid"
     },
     {
       "keyCard": {
-        "cardId": "CATA_570",
-        "name": "Морхок",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_570.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/175aafddce543dc89a0233cfc2e2c68c0df080b0304127c32c4ef14d5b0cfc84.png"
+        "cardId": "TTN_092",
+        "name": "Агграмар Мститель",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_092.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d28513094f90048f51e5b0b649e70d12a07d86121fb2ac12aab60e547d82471b.png"
       },
       "cards": [
         {
-          "cardId": "DED_509",
-          "name": "Сверкающий ара",
+          "cardId": "RLK_827",
+          "name": "Острый глаз",
           "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_509.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_827.webp"
         },
         {
-          "cardId": "TOY_507",
-          "name": "Сказочный лес",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_507.webp"
+          "cardId": "RLK_825",
+          "name": "Громострел",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_825.webp"
         },
         {
-          "cardId": "TLC_888",
-          "name": "Облачный змей",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_888.webp"
+          "cardId": "LOOT_222",
+          "name": "Свечкострел",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_222.webp"
         }
       ],
-      "winRate": 44.45,
-      "classKey": "shaman"
+      "winRate": 50.68,
+      "classKey": "hunter"
     },
     {
       "keyCard": {
@@ -2709,8 +2625,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_025.webp"
         }
       ],
-      "winRate": 32.61,
+      "winRate": 38.89,
       "classKey": "warlock"
+    },
+    {
+      "keyCard": {
+        "cardId": "RLK_225",
+        "name": "Визгун",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_225.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ade7efb187891241ba34c6f4e0e61b0d2177f3aad9993e4127e0b914aed10540.png"
+      },
+      "cards": [
+        {
+          "cardId": "RLK_018",
+          "name": "Удар чумы",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_018.webp"
+        },
+        {
+          "cardId": "RLK_116",
+          "name": "Мертвый гробовщик",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_116.webp"
+        },
+        {
+          "cardId": "RLK_118",
+          "name": "Стражи гробницы",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_118.webp"
+        }
+      ],
+      "winRate": 54.11,
+      "classKey": "death-knight"
     },
     {
       "keyCard": {
@@ -2739,152 +2685,62 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_601.webp"
         }
       ],
-      "winRate": 49.88,
+      "winRate": 50.33,
       "classKey": "rogue"
     },
     {
       "keyCard": {
-        "cardId": "TIME_705",
-        "name": "Крона, хранитель эпох",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_705.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/55e9d3aba79db22267a1c2b25a4da9e67b19b79545c07660a474c9a550cb96fa.png"
+        "cardId": "CATA_570",
+        "name": "Морхок",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_570.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/175aafddce543dc89a0233cfc2e2c68c0df080b0304127c32c4ef14d5b0cfc84.png"
       },
       "cards": [
         {
-          "cardId": "TSC_908",
-          "name": "Лоцман сэр Финли",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_908.webp"
-        },
-        {
-          "cardId": "TIME_730",
-          "name": "Калдорай-культиватор",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_730.webp"
-        },
-        {
-          "cardId": "TIME_023",
-          "name": "Запасной план",
+          "cardId": "DED_509",
+          "name": "Сверкающий ара",
           "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_023.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_509.webp"
+        },
+        {
+          "cardId": "TOY_507",
+          "name": "Сказочный лес",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_507.webp"
+        },
+        {
+          "cardId": "TLC_888",
+          "name": "Облачный змей",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_888.webp"
         }
       ],
-      "winRate": 46.7,
-      "classKey": "druid"
+      "winRate": 44.44,
+      "classKey": "shaman"
     },
     {
       "keyCard": {
-        "cardId": "END_006",
-        "name": "Хроникар",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_006.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f54e72c7a15967519128e31101566ed1ea15d7cd4520c8d0f91595f2f4a8409c.png"
+        "cardId": "TIME_211",
+        "name": "Леди Азшара",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/862c461305a3729cf98f5a29aac8e235fe13c5a9458bec9f96cc959d4d65206b.png"
       },
       "cards": [
         {
-          "cardId": "BT_354",
-          "name": "Танец клинков",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_354.webp"
-        },
-        {
-          "cardId": "EDR_842",
-          "name": "Оскверненное копье",
+          "cardId": "TIME_211t1",
+          "name": "Источник Вечности",
           "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_842.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211t1.webp"
         },
         {
-          "cardId": "DMF_226",
-          "name": "Дама с клинками",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_226.webp"
+          "cardId": "TIME_211t2",
+          "name": "Зин-Азшари",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_211t2.webp"
         }
       ],
-      "winRate": 47.41,
-      "classKey": "demon-hunter"
-    },
-    {
-      "keyCard": {
-        "cardId": "CATA_481",
-        "name": "Изо'рат",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_481.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/04cc18120838b2cf5f3242fb2f7d76d9cb94c9bade6b68d494405e14d12af3b2.png"
-      },
-      "cards": [
-        {
-          "cardId": "DMF_071",
-          "name": "Тэнь-у Красный Дым",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_071.webp"
-        },
-        {
-          "cardId": "ETC_076",
-          "name": "Брейкданс",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_076.webp"
-        },
-        {
-          "cardId": "EX1_144",
-          "name": "Шаг сквозь тень",
-          "cost": 0,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_144.webp"
-        }
-      ],
-      "winRate": 43.31,
-      "classKey": "rogue"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_850",
-        "name": "Кровавый боец Ло'гош",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/36033cca08cf607e2aa14fce5d336db2f983ee7e96a371307a71dbbfbe5e6274.png"
-      },
-      "cards": [
-        {
-          "cardId": "TIME_850t",
-          "name": "Кровавый боец Бролл",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850t.webp"
-        },
-        {
-          "cardId": "TIME_850t1",
-          "name": "Кровавый боец Валира",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850t1.webp"
-        }
-      ],
-      "winRate": 47.99,
-      "classKey": "warrior"
-    },
-    {
-      "keyCard": {
-        "cardId": "OG_134",
-        "name": "Йогг-Сарон",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/OG_134.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/aa1fb23a28051f98ce3a0b0f944055277e083096aafc78868c8736bbb8a6722f.png"
-      },
-      "cards": [
-        {
-          "cardId": "DMF_004",
-          "name": "Йогг-Сарон, Владыка Судьбы",
-          "cost": 10,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_004.webp"
-        },
-        {
-          "cardId": "OG_087",
-          "name": "Слуга Йогг-Сарона",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/OG_087.webp"
-        },
-        {
-          "cardId": "YOG_515",
-          "name": "Око хаоса",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_515.webp"
-        }
-      ],
-      "winRate": 48.3,
-      "classKey": "any"
+      "winRate": 47.68,
+      "classKey": "druid"
     },
     {
       "keyCard": {
@@ -2913,38 +2769,92 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MAW_022.webp"
         }
       ],
-      "winRate": 41.96,
+      "winRate": 41.55,
       "classKey": "priest"
     },
     {
       "keyCard": {
-        "cardId": "VAC_702",
-        "name": "Менеджер Марин",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_702.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a6f5bb3284f29763609ce0089444725c639f4a47778ad97828f2a0b7f606409d.png"
+        "cardId": "CATA_481",
+        "name": "Изо'рат",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_481.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/04cc18120838b2cf5f3242fb2f7d76d9cb94c9bade6b68d494405e14d12af3b2.png"
       },
       "cards": [
         {
-          "cardId": "NEW1_016",
-          "name": "Попугай капитана",
+          "cardId": "DMF_071",
+          "name": "Тэнь-у Красный Дым",
           "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/NEW1_016.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_071.webp"
         },
         {
-          "cardId": "VAC_304",
-          "name": "Ученик из лужи",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_304.webp"
+          "cardId": "ETC_076",
+          "name": "Брейкданс",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_076.webp"
         },
         {
-          "cardId": "VAC_523",
-          "name": "Миксолог",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_523.webp"
+          "cardId": "EX1_144",
+          "name": "Шаг сквозь тень",
+          "cost": 0,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_144.webp"
         }
       ],
-      "winRate": 46.4,
+      "winRate": 43.66,
+      "classKey": "rogue"
+    },
+    {
+      "keyCard": {
+        "cardId": "OG_134",
+        "name": "Йогг-Сарон",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/OG_134.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/aa1fb23a28051f98ce3a0b0f944055277e083096aafc78868c8736bbb8a6722f.png"
+      },
+      "cards": [
+        {
+          "cardId": "DMF_004",
+          "name": "Йогг-Сарон, Владыка Судьбы",
+          "cost": 10,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_004.webp"
+        },
+        {
+          "cardId": "OG_087",
+          "name": "Слуга Йогг-Сарона",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/OG_087.webp"
+        },
+        {
+          "cardId": "YOG_515",
+          "name": "Око хаоса",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_515.webp"
+        }
+      ],
+      "winRate": 48.47,
       "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "TIME_850",
+        "name": "Кровавый боец Ло'гош",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/36033cca08cf607e2aa14fce5d336db2f983ee7e96a371307a71dbbfbe5e6274.png"
+      },
+      "cards": [
+        {
+          "cardId": "TIME_850t",
+          "name": "Кровавый боец Бролл",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850t.webp"
+        },
+        {
+          "cardId": "TIME_850t1",
+          "name": "Кровавый боец Валира",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_850t1.webp"
+        }
+      ],
+      "winRate": 48.57,
+      "classKey": "warrior"
     },
     {
       "keyCard": {
@@ -2973,38 +2883,98 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOG_524.webp"
         }
       ],
-      "winRate": 46.91,
+      "winRate": 46.99,
       "classKey": "shaman"
     },
     {
       "keyCard": {
-        "cardId": "EDR_853",
-        "name": "Бролл Медвежья Шкура",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_853.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/58adee09aa07678b0673c418a03e2ca4e1f1e2215d525369da69e296831800f9.png"
+        "cardId": "TIME_705",
+        "name": "Крона, хранитель эпох",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_705.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/55e9d3aba79db22267a1c2b25a4da9e67b19b79545c07660a474c9a550cb96fa.png"
       },
       "cards": [
         {
-          "cardId": "ETC_201",
-          "name": "Связка бананов",
+          "cardId": "TSC_908",
+          "name": "Лоцман сэр Финли",
           "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_201.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_908.webp"
         },
         {
-          "cardId": "SW_460",
-          "name": "Всепожирающий рой",
-          "cost": 0,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_460.webp"
+          "cardId": "TIME_730",
+          "name": "Калдорай-культиватор",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_730.webp"
         },
         {
-          "cardId": "EDR_262",
-          "name": "Узы духа",
+          "cardId": "TIME_023",
+          "name": "Запасной план",
           "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_262.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_023.webp"
         }
       ],
-      "winRate": 46.71,
-      "classKey": "hunter"
+      "winRate": 46.46,
+      "classKey": "druid"
+    },
+    {
+      "keyCard": {
+        "cardId": "VAC_702",
+        "name": "Менеджер Марин",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_702.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a6f5bb3284f29763609ce0089444725c639f4a47778ad97828f2a0b7f606409d.png"
+      },
+      "cards": [
+        {
+          "cardId": "NEW1_016",
+          "name": "Попугай капитана",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/NEW1_016.webp"
+        },
+        {
+          "cardId": "VAC_304",
+          "name": "Ученик из лужи",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_304.webp"
+        },
+        {
+          "cardId": "VAC_523",
+          "name": "Миксолог",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_523.webp"
+        }
+      ],
+      "winRate": 46.28,
+      "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "END_006",
+        "name": "Хроникар",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/END_006.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/f54e72c7a15967519128e31101566ed1ea15d7cd4520c8d0f91595f2f4a8409c.png"
+      },
+      "cards": [
+        {
+          "cardId": "BT_354",
+          "name": "Танец клинков",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_354.webp"
+        },
+        {
+          "cardId": "EDR_842",
+          "name": "Оскверненное копье",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_842.webp"
+        },
+        {
+          "cardId": "DMF_226",
+          "name": "Дама с клинками",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_226.webp"
+        }
+      ],
+      "winRate": 49.56,
+      "classKey": "demon-hunter"
     },
     {
       "keyCard": {
@@ -3033,38 +3003,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOD_008.webp"
         }
       ],
-      "winRate": 45.25,
+      "winRate": 45.82,
       "classKey": "mage"
-    },
-    {
-      "keyCard": {
-        "cardId": "CORE_CATA_002",
-        "name": "Калия Менетил",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_002.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c7f11d68b3ebc9f957844e358f1d3a08bb7b07b7dce50ae3a664d42e70944502.png"
-      },
-      "cards": [
-        {
-          "cardId": "MIS_305",
-          "name": "Отложенный товар",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_305.webp"
-        },
-        {
-          "cardId": "AT_015",
-          "name": "Обращение",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AT_015.webp"
-        },
-        {
-          "cardId": "BAR_069",
-          "name": "Раненый мародер",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_069.webp"
-        }
-      ],
-      "winRate": 46.24,
-      "classKey": "priest"
     },
     {
       "keyCard": {
@@ -3093,38 +3033,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_517.webp"
         }
       ],
-      "winRate": 50.44,
+      "winRate": 49.95,
       "classKey": "mage"
-    },
-    {
-      "keyCard": {
-        "cardId": "TLC_522",
-        "name": "Незримый Опу",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_522.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3820b43ebaac66bedc13ab395b939d44223551611e6a16cff421bd9cd7ae6ae0.png"
-      },
-      "cards": [
-        {
-          "cardId": "EX1_129",
-          "name": "Веер клинков",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_129.webp"
-        },
-        {
-          "cardId": "TTN_726",
-          "name": "Разлив дегтя",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_726.webp"
-        },
-        {
-          "cardId": "TLC_515",
-          "name": "Карта сектантов",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_515.webp"
-        }
-      ],
-      "winRate": 51.61,
-      "classKey": "rogue"
     },
     {
       "keyCard": {
@@ -3153,38 +3063,68 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WON_113.webp"
         }
       ],
-      "winRate": 47.08,
+      "winRate": 47.12,
       "classKey": "any"
     },
     {
       "keyCard": {
-        "cardId": "CORE_CATA_001",
-        "name": "Тихондрий",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_001.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a8d7b1a814b7251e7ee6cb068f136ff31fe535385e2ef4e7e528a56e1abefccb.png"
+        "cardId": "CORE_CATA_002",
+        "name": "Калия Менетил",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_002.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c7f11d68b3ebc9f957844e358f1d3a08bb7b07b7dce50ae3a664d42e70944502.png"
       },
       "cards": [
         {
-          "cardId": "RLK_212",
-          "name": "Жестокий аннигиляр",
-          "cost": 9,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_212.webp"
+          "cardId": "MIS_305",
+          "name": "Отложенный товар",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/MIS_305.webp"
         },
         {
-          "cardId": "CORE_TTN_866",
-          "name": "Мифический ужас",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_TTN_866.webp"
+          "cardId": "AT_015",
+          "name": "Обращение",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AT_015.webp"
         },
         {
-          "cardId": "SCH_702",
-          "name": "Сквернософия",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_702.webp"
+          "cardId": "BAR_069",
+          "name": "Раненый мародер",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_069.webp"
         }
       ],
-      "winRate": 28.38,
-      "classKey": "demon-hunter"
+      "winRate": 49.22,
+      "classKey": "priest"
+    },
+    {
+      "keyCard": {
+        "cardId": "TLC_522",
+        "name": "Незримый Опу",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_522.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/3820b43ebaac66bedc13ab395b939d44223551611e6a16cff421bd9cd7ae6ae0.png"
+      },
+      "cards": [
+        {
+          "cardId": "EX1_129",
+          "name": "Веер клинков",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_129.webp"
+        },
+        {
+          "cardId": "TTN_726",
+          "name": "Разлив дегтя",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_726.webp"
+        },
+        {
+          "cardId": "TLC_515",
+          "name": "Карта сектантов",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_515.webp"
+        }
+      ],
+      "winRate": 51.39,
+      "classKey": "rogue"
     },
     {
       "keyCard": {
@@ -3243,7 +3183,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_715.webp"
         }
       ],
-      "winRate": 49.57,
+      "winRate": 49.92,
       "classKey": "warrior"
     },
     {
@@ -3273,7 +3213,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DED_502.webp"
         }
       ],
-      "winRate": 42.86,
+      "winRate": 43.39,
       "classKey": "paladin"
     },
     {
@@ -3303,8 +3243,68 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_914.webp"
         }
       ],
-      "winRate": 49.78,
+      "winRate": 49.94,
       "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "EDR_853",
+        "name": "Бролл Медвежья Шкура",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_853.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/58adee09aa07678b0673c418a03e2ca4e1f1e2215d525369da69e296831800f9.png"
+      },
+      "cards": [
+        {
+          "cardId": "ETC_201",
+          "name": "Связка бананов",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_201.webp"
+        },
+        {
+          "cardId": "SW_460",
+          "name": "Всепожирающий рой",
+          "cost": 0,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_460.webp"
+        },
+        {
+          "cardId": "EDR_262",
+          "name": "Узы духа",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_262.webp"
+        }
+      ],
+      "winRate": 46.93,
+      "classKey": "hunter"
+    },
+    {
+      "keyCard": {
+        "cardId": "CORE_CATA_001",
+        "name": "Тихондрий",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_001.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a8d7b1a814b7251e7ee6cb068f136ff31fe535385e2ef4e7e528a56e1abefccb.png"
+      },
+      "cards": [
+        {
+          "cardId": "RLK_212",
+          "name": "Жестокий аннигиляр",
+          "cost": 9,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_212.webp"
+        },
+        {
+          "cardId": "CORE_TTN_866",
+          "name": "Мифический ужас",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_TTN_866.webp"
+        },
+        {
+          "cardId": "SCH_702",
+          "name": "Сквернософия",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SCH_702.webp"
+        }
+      ],
+      "winRate": 35.71,
+      "classKey": "demon-hunter"
     },
     {
       "keyCard": {
@@ -3333,38 +3333,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_044.webp"
         }
       ],
-      "winRate": 51.97,
+      "winRate": 51.9,
       "classKey": "paladin"
-    },
-    {
-      "keyCard": {
-        "cardId": "GDB_470",
-        "name": "Экзарх Маладаар",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_470.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a8def9c13a8f071dc0ac5aeea03104be712f6e86b237f80e6ca6eb97a4baf358.png"
-      },
-      "cards": [
-        {
-          "cardId": "GDB_468",
-          "name": "Пробудитель душ",
-          "cost": 10,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_468.webp"
-        },
-        {
-          "cardId": "RLK_744",
-          "name": "Лоскутный великан",
-          "cost": 9,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_744.webp"
-        },
-        {
-          "cardId": "DEEP_017",
-          "name": "Происшествие в шахте",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_017.webp"
-        }
-      ],
-      "winRate": 50.41,
-      "classKey": "death-knight"
     },
     {
       "keyCard": {
@@ -3393,38 +3363,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_460.webp"
         }
       ],
-      "winRate": 49.86,
+      "winRate": 50.14,
       "classKey": "hunter"
     },
     {
       "keyCard": {
-        "cardId": "EDR_489",
-        "name": "Агамагган",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_489.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8067d247d2e6853102fb6dda077f8d38265f616cd358be85861e78e198f70281.png"
+        "cardId": "GDB_470",
+        "name": "Экзарх Маладаар",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_470.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a8def9c13a8f071dc0ac5aeea03104be712f6e86b237f80e6ca6eb97a4baf358.png"
       },
       "cards": [
         {
-          "cardId": "WW_351",
-          "name": "Угонщица скота",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_351.webp"
+          "cardId": "GDB_468",
+          "name": "Пробудитель душ",
+          "cost": 10,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_468.webp"
         },
         {
-          "cardId": "TOY_601",
-          "name": "Фабричный бот-сборщик",
-          "cost": 10,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_601.webp"
+          "cardId": "RLK_744",
+          "name": "Лоскутный великан",
+          "cost": 9,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_744.webp"
         },
         {
-          "cardId": "TOY_883",
-          "name": "Ход доской",
-          "cost": 10,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_883.webp"
+          "cardId": "DEEP_017",
+          "name": "Происшествие в шахте",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_017.webp"
         }
       ],
-      "winRate": 45.1,
-      "classKey": "warlock"
+      "winRate": 50.51,
+      "classKey": "death-knight"
     },
     {
       "keyCard": {
@@ -3453,7 +3423,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_780.webp"
         }
       ],
-      "winRate": 49.4,
+      "winRate": 49.38,
       "classKey": "any"
     },
     {
@@ -3483,53 +3453,17 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_504.webp"
         }
       ],
-      "winRate": 44.04,
+      "winRate": 44.05,
       "classKey": "shaman"
     },
     {
       "keyCard": {
-        "cardId": "WW_400",
-        "name": "Змеиные глазки",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_400.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8e902c59a4801a4a2a154461af996d6dea0ced7be284706ec8ec9a52afaa543f.png"
+        "cardId": "EDR_489",
+        "name": "Агамагган",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_489.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8067d247d2e6853102fb6dda077f8d38265f616cd358be85861e78e198f70281.png"
       },
       "cards": [
-        {
-          "cardId": "WW_404",
-          "name": "Оазисные бандиты",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_404.webp"
-        },
-        {
-          "cardId": "TSC_826",
-          "name": "Крушащий каратель",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_826.webp"
-        },
-        {
-          "cardId": "BT_761",
-          "name": "Воевода Кривого Клыка",
-          "cost": 8,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_761.webp"
-        }
-      ],
-      "winRate": 41.33,
-      "classKey": "demon-hunter"
-    },
-    {
-      "keyCard": {
-        "cardId": "EDR_819",
-        "name": "Урсок",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_819.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bd872dd76faa740532bcdcb6c7cc9265821884008d6e829660314d551acf9549.png"
-      },
-      "cards": [
-        {
-          "cardId": "JAM_004",
-          "name": "Тощая Гончая",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_004.webp"
-        },
         {
           "cardId": "WW_351",
           "name": "Угонщица скота",
@@ -3537,44 +3471,20 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_351.webp"
         },
         {
-          "cardId": "JAM_005",
-          "name": "Вопли йодля",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_005.webp"
-        }
-      ],
-      "winRate": 52.18,
-      "classKey": "death-knight"
-    },
-    {
-      "keyCard": {
-        "cardId": "REV_934",
-        "name": "Дециматор Ольгра",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_934.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ab813c2e08faf7a37a8568433ed41e0acd4e5e60584f3e23704d9cde6777f1dd.png"
-      },
-      "cards": [
-        {
-          "cardId": "REV_332",
-          "name": "Экстрактор анимы",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_332.webp"
+          "cardId": "TOY_601",
+          "name": "Фабричный бот-сборщик",
+          "cost": 10,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_601.webp"
         },
         {
-          "cardId": "REV_933",
-          "name": "Усиленный топор",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_933.webp"
-        },
-        {
-          "cardId": "ULD_720",
-          "name": "Кровавая наемница",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ULD_720.webp"
+          "cardId": "TOY_883",
+          "name": "Ход доской",
+          "cost": 10,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_883.webp"
         }
       ],
-      "winRate": 51.83,
-      "classKey": "warrior"
+      "winRate": 49.02,
+      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -3603,67 +3513,37 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_301.webp"
         }
       ],
-      "winRate": 44.03,
+      "winRate": 40.73,
       "classKey": "priest"
     },
     {
       "keyCard": {
-        "cardId": "RLK_222",
-        "name": "Асталор Кровавая Клятва",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_222.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d372498cf0e5cdfd88df857e78944a4adf1bdd41ba4481d6c11d38e2bb1d475f.png"
+        "cardId": "EDR_819",
+        "name": "Урсок",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_819.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bd872dd76faa740532bcdcb6c7cc9265821884008d6e829660314d551acf9549.png"
       },
       "cards": [
         {
-          "cardId": "RLK_518",
-          "name": "Часовой Луносвета",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_518.webp"
+          "cardId": "JAM_004",
+          "name": "Тощая Гончая",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_004.webp"
         },
         {
-          "cardId": "WW_423",
-          "name": "Хмелевар из салуна",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_423.webp"
+          "cardId": "WW_351",
+          "name": "Угонщица скота",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_351.webp"
         },
         {
-          "cardId": "RLK_951",
-          "name": "Коронер",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_951.webp"
-        }
-      ],
-      "winRate": 49.32,
-      "classKey": "any"
-    },
-    {
-      "keyCard": {
-        "cardId": "CATA_470",
-        "name": "Виктор Нефарий",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_470.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2db028614f227f98ff1822b1f5e936b8b2616227679efc9ff8802ab32b3d253a.png"
-      },
-      "cards": [
-        {
-          "cardId": "CATA_469",
-          "name": "Хроматическая праматерь",
+          "cardId": "JAM_005",
+          "name": "Вопли йодля",
           "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_469.webp"
-        },
-        {
-          "cardId": "CATA_464",
-          "name": "Эксперимент Крыла Тьмы",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_464.webp"
-        },
-        {
-          "cardId": "CATA_467",
-          "name": "Управление клешней",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_467.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/JAM_005.webp"
         }
       ],
-      "winRate": 50.94,
+      "winRate": 51.84,
       "classKey": "death-knight"
     },
     {
@@ -3698,33 +3578,123 @@
     },
     {
       "keyCard": {
-        "cardId": "CORE_CATA_004",
-        "name": "Регар Ярость Земли",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_004.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/309f8399b96fdb7712537e568fcbe598cb01666c964a55d886ae81d0097a0670.png"
+        "cardId": "WW_400",
+        "name": "Змеиные глазки",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_400.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/8e902c59a4801a4a2a154461af996d6dea0ced7be284706ec8ec9a52afaa543f.png"
       },
       "cards": [
         {
-          "cardId": "TSC_631",
-          "name": "Стая на охоте",
+          "cardId": "WW_404",
+          "name": "Оазисные бандиты",
           "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_631.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_404.webp"
         },
         {
-          "cardId": "TSC_631",
-          "name": "Стая на охоте",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_631.webp"
+          "cardId": "TSC_826",
+          "name": "Крушащий каратель",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_826.webp"
         },
         {
-          "cardId": "CORE_BOT_451",
-          "name": "Перенапряжение",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_BOT_451.webp"
+          "cardId": "BT_761",
+          "name": "Воевода Кривого Клыка",
+          "cost": 8,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_761.webp"
         }
       ],
-      "winRate": 41.64,
-      "classKey": "shaman"
+      "winRate": 40.54,
+      "classKey": "demon-hunter"
+    },
+    {
+      "keyCard": {
+        "cardId": "REV_934",
+        "name": "Дециматор Ольгра",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_934.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/ab813c2e08faf7a37a8568433ed41e0acd4e5e60584f3e23704d9cde6777f1dd.png"
+      },
+      "cards": [
+        {
+          "cardId": "REV_332",
+          "name": "Экстрактор анимы",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_332.webp"
+        },
+        {
+          "cardId": "REV_933",
+          "name": "Усиленный топор",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_933.webp"
+        },
+        {
+          "cardId": "ULD_720",
+          "name": "Кровавая наемница",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ULD_720.webp"
+        }
+      ],
+      "winRate": 51.66,
+      "classKey": "warrior"
+    },
+    {
+      "keyCard": {
+        "cardId": "CATA_470",
+        "name": "Виктор Нефарий",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_470.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2db028614f227f98ff1822b1f5e936b8b2616227679efc9ff8802ab32b3d253a.png"
+      },
+      "cards": [
+        {
+          "cardId": "CATA_469",
+          "name": "Хроматическая праматерь",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_469.webp"
+        },
+        {
+          "cardId": "CATA_464",
+          "name": "Эксперимент Крыла Тьмы",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_464.webp"
+        },
+        {
+          "cardId": "CATA_467",
+          "name": "Управление клешней",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_467.webp"
+        }
+      ],
+      "winRate": 50.35,
+      "classKey": "death-knight"
+    },
+    {
+      "keyCard": {
+        "cardId": "RLK_222",
+        "name": "Асталор Кровавая Клятва",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_222.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/d372498cf0e5cdfd88df857e78944a4adf1bdd41ba4481d6c11d38e2bb1d475f.png"
+      },
+      "cards": [
+        {
+          "cardId": "RLK_518",
+          "name": "Часовой Луносвета",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_518.webp"
+        },
+        {
+          "cardId": "WW_423",
+          "name": "Хмелевар из салуна",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/WW_423.webp"
+        },
+        {
+          "cardId": "RLK_951",
+          "name": "Коронер",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_951.webp"
+        }
+      ],
+      "winRate": 48.81,
+      "classKey": "any"
     },
     {
       "keyCard": {
@@ -3753,38 +3723,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ETC_382.webp"
         }
       ],
-      "winRate": 44.99,
+      "winRate": 45.83,
       "classKey": "druid"
     },
     {
       "keyCard": {
-        "cardId": "GDB_118",
-        "name": "Зор'тот Сокрушитель Звезд",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_118.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/74c6fd43f2c9ae5434825820d8a9982376f1dde385ddbe454c96821ceb539f5d.png"
+        "cardId": "CORE_CATA_004",
+        "name": "Регар Ярость Земли",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_CATA_004.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/309f8399b96fdb7712537e568fcbe598cb01666c964a55d886ae81d0097a0670.png"
       },
       "cards": [
         {
-          "cardId": "REV_507",
-          "name": "Уничтожение улик",
-          "cost": 0,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_507.webp"
-        },
-        {
-          "cardId": "REV_511",
-          "name": "Клещ-библиофил",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_511.webp"
-        },
-        {
-          "cardId": "BT_175",
-          "name": "Двойной удар",
+          "cardId": "TSC_631",
+          "name": "Стая на охоте",
           "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_175.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_631.webp"
+        },
+        {
+          "cardId": "TSC_631",
+          "name": "Стая на охоте",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_631.webp"
+        },
+        {
+          "cardId": "CORE_BOT_451",
+          "name": "Перенапряжение",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_BOT_451.webp"
         }
       ],
-      "winRate": 49.15,
-      "classKey": "demon-hunter"
+      "winRate": 40.81,
+      "classKey": "shaman"
     },
     {
       "keyCard": {
@@ -3813,38 +3783,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/LOOT_149.webp"
         }
       ],
-      "winRate": 46.22,
+      "winRate": 45.85,
       "classKey": "druid"
     },
     {
       "keyCard": {
-        "cardId": "RLK_572",
-        "name": "Мастер-зельевар Мерзоцид",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_572.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2a27e882355d0501c193d459ceed1aa200b0bf7959eb92f7b2cb0139fbe43ea6.png"
+        "cardId": "TIME_013",
+        "name": "Предсказательница Во",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_013.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/63c5c6bd10e579deebc3c6df6afed3a38f4f015f45915b375402ec0600b7421c.png"
       },
       "cards": [
         {
-          "cardId": "RLK_569",
-          "name": "Пояс со склянками",
+          "cardId": "TIME_217",
+          "name": "Буреклюв",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_217.webp"
+        },
+        {
+          "cardId": "TIME_215",
+          "name": "Громовой раскат",
           "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_569.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_215.webp"
         },
         {
-          "cardId": "RLK_568",
-          "name": "Зельевар",
-          "cost": 1,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_568.webp"
-        },
-        {
-          "cardId": "RLK_571",
-          "name": "Зловещий аптекарь",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_571.webp"
+          "cardId": "TIME_218",
+          "name": "Статический разряд",
+          "cost": 0,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_218.webp"
         }
       ],
-      "winRate": 46.48,
-      "classKey": "rogue"
+      "winRate": 43.34,
+      "classKey": "shaman"
     },
     {
       "keyCard": {
@@ -3873,7 +3843,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_391.webp"
         }
       ],
-      "winRate": 41.98,
+      "winRate": 42.31,
       "classKey": "any"
     },
     {
@@ -3903,8 +3873,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_458.webp"
         }
       ],
-      "winRate": 47.87,
+      "winRate": 47.17,
       "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "GDB_118",
+        "name": "Зор'тот Сокрушитель Звезд",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_118.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/74c6fd43f2c9ae5434825820d8a9982376f1dde385ddbe454c96821ceb539f5d.png"
+      },
+      "cards": [
+        {
+          "cardId": "REV_507",
+          "name": "Уничтожение улик",
+          "cost": 0,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_507.webp"
+        },
+        {
+          "cardId": "REV_511",
+          "name": "Клещ-библиофил",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_511.webp"
+        },
+        {
+          "cardId": "BT_175",
+          "name": "Двойной удар",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_175.webp"
+        }
+      ],
+      "winRate": 50.94,
+      "classKey": "demon-hunter"
     },
     {
       "keyCard": {
@@ -3933,68 +3933,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_553.webp"
         }
       ],
-      "winRate": 43.07,
+      "winRate": 43.06,
       "classKey": "shaman"
     },
     {
       "keyCard": {
-        "cardId": "TIME_013",
-        "name": "Предсказательница Во",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_013.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/63c5c6bd10e579deebc3c6df6afed3a38f4f015f45915b375402ec0600b7421c.png"
+        "cardId": "RLK_572",
+        "name": "Мастер-зельевар Мерзоцид",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_572.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/2a27e882355d0501c193d459ceed1aa200b0bf7959eb92f7b2cb0139fbe43ea6.png"
       },
       "cards": [
         {
-          "cardId": "TIME_217",
-          "name": "Буреклюв",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_217.webp"
-        },
-        {
-          "cardId": "TIME_215",
-          "name": "Громовой раскат",
+          "cardId": "RLK_569",
+          "name": "Пояс со склянками",
           "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_215.webp"
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_569.webp"
         },
         {
-          "cardId": "TIME_218",
-          "name": "Статический разряд",
-          "cost": 0,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_218.webp"
+          "cardId": "RLK_568",
+          "name": "Зельевар",
+          "cost": 1,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_568.webp"
+        },
+        {
+          "cardId": "RLK_571",
+          "name": "Зловещий аптекарь",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_571.webp"
         }
       ],
-      "winRate": 44.03,
-      "classKey": "shaman"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_618",
-        "name": "Вечный жнец Пустотел",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_618.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/dcd733402ebc6598df8135d2fa1bcb274299e8dad011dff5e527380b84ecbca7.png"
-      },
-      "cards": [
-        {
-          "cardId": "DEEP_005",
-          "name": "Обсидиановый загробник",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_005.webp"
-        },
-        {
-          "cardId": "CORE_RLK_062",
-          "name": "Нерубский страж роя",
-          "cost": 4,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_RLK_062.webp"
-        },
-        {
-          "cardId": "DEEP_017",
-          "name": "Происшествие в шахте",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_017.webp"
-        }
-      ],
-      "winRate": 47.84,
-      "classKey": "death-knight"
+      "winRate": 46.56,
+      "classKey": "rogue"
     },
     {
       "keyCard": {
@@ -4023,38 +3993,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/GDB_226.webp"
         }
       ],
-      "winRate": 43.9,
+      "winRate": 46.2,
       "classKey": "warrior"
     },
     {
       "keyCard": {
-        "cardId": "EDR_000",
-        "name": "Изера, изумрудный Аспект",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_000.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5ee736c166d34a91513b7312c96ba63fd27d38f3106f38dbf9f410acbb59d1b6.png"
+        "cardId": "TIME_618",
+        "name": "Вечный жнец Пустотел",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_618.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/dcd733402ebc6598df8135d2fa1bcb274299e8dad011dff5e527380b84ecbca7.png"
       },
       "cards": [
         {
-          "cardId": "CS3_033",
-          "name": "Изера Дремлющая",
-          "cost": 9,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS3_033.webp"
+          "cardId": "DEEP_005",
+          "name": "Обсидиановый загробник",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_005.webp"
         },
         {
-          "cardId": "EX1_572",
-          "name": "Изера",
-          "cost": 9,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_572.webp"
+          "cardId": "CORE_RLK_062",
+          "name": "Нерубский страж роя",
+          "cost": 4,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CORE_RLK_062.webp"
         },
         {
-          "cardId": "EDR_572",
-          "name": "Истерзанный грознокрыл",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_572.webp"
+          "cardId": "DEEP_017",
+          "name": "Происшествие в шахте",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DEEP_017.webp"
         }
       ],
-      "winRate": 44.65,
-      "classKey": "any"
+      "winRate": 48.68,
+      "classKey": "death-knight"
     },
     {
       "keyCard": {
@@ -4083,7 +4053,37 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_051.webp"
         }
       ],
-      "winRate": 47.57,
+      "winRate": 47.21,
+      "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "EDR_000",
+        "name": "Изера, изумрудный Аспект",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_000.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/5ee736c166d34a91513b7312c96ba63fd27d38f3106f38dbf9f410acbb59d1b6.png"
+      },
+      "cards": [
+        {
+          "cardId": "CS3_033",
+          "name": "Изера Дремлющая",
+          "cost": 9,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CS3_033.webp"
+        },
+        {
+          "cardId": "EX1_572",
+          "name": "Изера",
+          "cost": 9,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_572.webp"
+        },
+        {
+          "cardId": "EDR_572",
+          "name": "Истерзанный грознокрыл",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_572.webp"
+        }
+      ],
+      "winRate": 44.78,
       "classKey": "any"
     },
     {
@@ -4113,38 +4113,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_528.webp"
         }
       ],
-      "winRate": 47.99,
+      "winRate": 47.83,
       "classKey": "warrior"
-    },
-    {
-      "keyCard": {
-        "cardId": "TLC_100",
-        "name": "Навигатор Элиза",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_100.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/58c2c85aef11e3fb06b82cba544503cb5215491934ce921360f61772c2556edb.png"
-      },
-      "cards": [
-        {
-          "cardId": "RLK_590",
-          "name": "Солнечный Колодец",
-          "cost": 9,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_590.webp"
-        },
-        {
-          "cardId": "SW_062",
-          "name": "Гнолл из Златоземья",
-          "cost": 10,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_062.webp"
-        },
-        {
-          "cardId": "EX1_105",
-          "name": "Горный великан",
-          "cost": 12,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_105.webp"
-        }
-      ],
-      "winRate": 44.21,
-      "classKey": "any"
     },
     {
       "keyCard": {
@@ -4173,8 +4143,38 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AV_339.webp"
         }
       ],
-      "winRate": 47.17,
+      "winRate": 46.38,
       "classKey": "paladin"
+    },
+    {
+      "keyCard": {
+        "cardId": "TLC_100",
+        "name": "Навигатор Элиза",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_100.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/58c2c85aef11e3fb06b82cba544503cb5215491934ce921360f61772c2556edb.png"
+      },
+      "cards": [
+        {
+          "cardId": "RLK_590",
+          "name": "Солнечный Колодец",
+          "cost": 9,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_590.webp"
+        },
+        {
+          "cardId": "SW_062",
+          "name": "Гнолл из Златоземья",
+          "cost": 10,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/SW_062.webp"
+        },
+        {
+          "cardId": "EX1_105",
+          "name": "Горный великан",
+          "cost": 12,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EX1_105.webp"
+        }
+      ],
+      "winRate": 44.26,
+      "classKey": "any"
     },
     {
       "keyCard": {
@@ -4203,7 +4203,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_840.webp"
         }
       ],
-      "winRate": 42.96,
+      "winRate": 44.36,
       "classKey": "warrior"
     },
     {
@@ -4233,38 +4233,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/VAC_439.webp"
         }
       ],
-      "winRate": 45.11,
+      "winRate": 44.38,
       "classKey": "druid"
-    },
-    {
-      "keyCard": {
-        "cardId": "CATA_494",
-        "name": "Малориак",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_494.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c80cc8ea621c1637dba41d63d20fe84d481afb2ed1c69fb22c24cd3c2cb351de.png"
-      },
-      "cards": [
-        {
-          "cardId": "BT_300",
-          "name": "Рука Гул'дана",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_300.webp"
-        },
-        {
-          "cardId": "CATA_490",
-          "name": "Окулярный оккультист",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_490.webp"
-        },
-        {
-          "cardId": "ULD_163",
-          "name": "Торговка гнильем",
-          "cost": 2,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ULD_163.webp"
-        }
-      ],
-      "winRate": 8.33,
-      "classKey": "warlock"
     },
     {
       "keyCard": {
@@ -4293,67 +4263,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/RLK_915.webp"
         }
       ],
-      "winRate": 48.34,
-      "classKey": "any"
-    },
-    {
-      "keyCard": {
-        "cardId": "EDR_846",
-        "name": "Шаладрассил",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_846.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0b82c0274dabccbe55af407ba75826b6db4571eedae52ee5fe5f12e41f947f07.png"
-      },
-      "cards": [
-        {
-          "cardId": "EDR_571",
-          "name": "Арденвельдский трюкач",
-          "cost": 3,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_571.webp"
-        },
-        {
-          "cardId": "TSC_020",
-          "name": "Чародейка-варвар",
-          "cost": 6,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_020.webp"
-        },
-        {
-          "cardId": "DREAM_05",
-          "name": "Кошмар",
-          "cost": 0,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DREAM_05.webp"
-        }
-      ],
-      "winRate": 48.59,
-      "classKey": "any"
-    },
-    {
-      "keyCard": {
-        "cardId": "TLC_106",
-        "name": "Вестница гибели Умбра",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_106.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bac9c9cf8a950fa46389e2aae1c3984273dba2be6b31dd2d8e2741aaad30b2a5.png"
-      },
-      "cards": [
-        {
-          "cardId": "TTN_700",
-          "name": "Устройство сдерживания",
-          "cost": 7,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_700.webp"
-        },
-        {
-          "cardId": "REV_251",
-          "name": "Кошмарный конь",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_251.webp"
-        },
-        {
-          "cardId": "BAR_072",
-          "name": "Послушник Пылающего Клинка",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_072.webp"
-        }
-      ],
-      "winRate": 46.41,
+      "winRate": 46.92,
       "classKey": "any"
     },
     {
@@ -4388,6 +4298,96 @@
     },
     {
       "keyCard": {
+        "cardId": "TLC_106",
+        "name": "Вестница гибели Умбра",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TLC_106.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/bac9c9cf8a950fa46389e2aae1c3984273dba2be6b31dd2d8e2741aaad30b2a5.png"
+      },
+      "cards": [
+        {
+          "cardId": "TTN_700",
+          "name": "Устройство сдерживания",
+          "cost": 7,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_700.webp"
+        },
+        {
+          "cardId": "REV_251",
+          "name": "Кошмарный конь",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/REV_251.webp"
+        },
+        {
+          "cardId": "BAR_072",
+          "name": "Послушник Пылающего Клинка",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_072.webp"
+        }
+      ],
+      "winRate": 46.04,
+      "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "EDR_846",
+        "name": "Шаладрассил",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_846.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/0b82c0274dabccbe55af407ba75826b6db4571eedae52ee5fe5f12e41f947f07.png"
+      },
+      "cards": [
+        {
+          "cardId": "EDR_571",
+          "name": "Арденвельдский трюкач",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/EDR_571.webp"
+        },
+        {
+          "cardId": "TSC_020",
+          "name": "Чародейка-варвар",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_020.webp"
+        },
+        {
+          "cardId": "DREAM_05",
+          "name": "Кошмар",
+          "cost": 0,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DREAM_05.webp"
+        }
+      ],
+      "winRate": 48.34,
+      "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "CATA_494",
+        "name": "Малориак",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_494.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/c80cc8ea621c1637dba41d63d20fe84d481afb2ed1c69fb22c24cd3c2cb351de.png"
+      },
+      "cards": [
+        {
+          "cardId": "BT_300",
+          "name": "Рука Гул'дана",
+          "cost": 6,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BT_300.webp"
+        },
+        {
+          "cardId": "CATA_490",
+          "name": "Окулярный оккультист",
+          "cost": 3,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/CATA_490.webp"
+        },
+        {
+          "cardId": "ULD_163",
+          "name": "Торговка гнильем",
+          "cost": 2,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/ULD_163.webp"
+        }
+      ],
+      "winRate": 33.33,
+      "classKey": "warlock"
+    },
+    {
+      "keyCard": {
         "cardId": "DMF_254",
         "name": "К'Тун Расколотый",
         "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/DMF_254.webp",
@@ -4413,7 +4413,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TTN_712.webp"
         }
       ],
-      "winRate": 27.22,
+      "winRate": 26.79,
       "classKey": "any"
     },
     {
@@ -4443,32 +4443,8 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TSC_645.webp"
         }
       ],
-      "winRate": 41.03,
+      "winRate": 41.57,
       "classKey": "any"
-    },
-    {
-      "keyCard": {
-        "cardId": "TIME_852",
-        "name": "Лазурная королева Синдрагоса",
-        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852.webp",
-        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a9e2cbbb691cce809ff4da41b3e3a7bc7ef8a4e8430350f5f6ce4f861b18b72d.png"
-      },
-      "cards": [
-        {
-          "cardId": "TIME_852t1",
-          "name": "Лазурный король Малигос",
-          "cost": 5,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852t1.webp"
-        },
-        {
-          "cardId": "TIME_852t3",
-          "name": "Лазурный камень клятвы",
-          "cost": 8,
-          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852t3.webp"
-        }
-      ],
-      "winRate": 41.16,
-      "classKey": "mage"
     },
     {
       "keyCard": {
@@ -4497,8 +4473,32 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TOY_896.webp"
         }
       ],
-      "winRate": 47.14,
+      "winRate": 45.75,
       "classKey": "any"
+    },
+    {
+      "keyCard": {
+        "cardId": "TIME_852",
+        "name": "Лазурная королева Синдрагоса",
+        "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852.webp",
+        "imageRu": "https://d15f34w2p8l1cc.cloudfront.net/hearthstone/a9e2cbbb691cce809ff4da41b3e3a7bc7ef8a4e8430350f5f6ce4f861b18b72d.png"
+      },
+      "cards": [
+        {
+          "cardId": "TIME_852t1",
+          "name": "Лазурный король Малигос",
+          "cost": 5,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852t1.webp"
+        },
+        {
+          "cardId": "TIME_852t3",
+          "name": "Лазурный камень клятвы",
+          "cost": 8,
+          "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_852t3.webp"
+        }
+      ],
+      "winRate": 41.18,
+      "classKey": "mage"
     },
     {
       "keyCard": {
@@ -4527,7 +4527,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_004.webp"
         }
       ],
-      "winRate": 47.49,
+      "winRate": 44.76,
       "classKey": "any"
     },
     {
@@ -4557,7 +4557,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/AT_080.webp"
         }
       ],
-      "winRate": 38.32,
+      "winRate": 37.8,
       "classKey": "any"
     },
     {
@@ -4587,7 +4587,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/BAR_069.webp"
         }
       ],
-      "winRate": 34.84,
+      "winRate": 34.19,
       "classKey": "any"
     },
     {
@@ -4617,7 +4617,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/YOP_034.webp"
         }
       ],
-      "winRate": 36.92,
+      "winRate": 35.98,
       "classKey": "any"
     },
     {
@@ -4647,7 +4647,7 @@
           "imageHa": "https://cdn.heartharena.com/images/renders/ruRU/TIME_003.webp"
         }
       ],
-      "winRate": 29.41,
+      "winRate": 31.63,
       "classKey": "any"
     },
     {
@@ -4681,6 +4681,6 @@
       "classKey": "any"
     }
   ],
-  "updatedAt": "2026-04-12T13:34:04.444Z",
+  "updatedAt": "2026-04-12T19:07:09.672Z",
   "source": "hsreplay.net"
 }
