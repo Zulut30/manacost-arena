@@ -42,6 +42,23 @@ function getClientIp(req: import('express').Request): string {
   return (raw ? raw.split(',')[0] : req.socket?.remoteAddress ?? '').trim();
 }
 
+function loadClassPositionsData() {
+  return loadData('class_positions.json') ?? { positions: {}, updatedAt: null };
+}
+
+function withClassPositions(data: any) {
+  const positionsData = loadClassPositionsData();
+  const positions = positionsData?.positions ?? {};
+  return {
+    ...data,
+    classPositions: positions,
+    sections: (data?.sections ?? []).map((section: any) => ({
+      ...section,
+      classPosition: positions[section.id] ?? '',
+    })),
+  };
+}
+
 const app = express();
 const PORT = 3001;
 
@@ -138,11 +155,11 @@ app.get('/api/tierlist', (req, res) => {
     // Fall back to HearthArena if HSReplay file doesn't exist yet
     if (source === 'hsreplay') {
       const fallback = loadDataCached('tierlist.json');
-      if (fallback) return sendCached(req, res, fallback, CACHE_6H);
+      if (fallback) return sendCached(req, res, { ...fallback, data: withClassPositions(fallback.data) }, CACHE_6H);
     }
     return res.status(404).json({ error: 'No data available' });
   }
-  return sendCached(req, res, entry, CACHE_6H);
+  return sendCached(req, res, { ...entry, data: withClassPositions(entry.data) }, CACHE_6H);
 });
 
 app.get('/api/legendaries', (req, res) => {
@@ -226,6 +243,35 @@ app.post('/api/admin-articles', adminIpGuard, (req, res) => {
     writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf-8');
     res.json({ success: true, article: newArticle });
   } catch (err: any) { res.status(500).json({ error: err.message }); }
+});
+
+app.get('/api/admin-class-positions', adminIpGuard, (_req, res) => {
+  try {
+    res.json(loadClassPositionsData());
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin-class-positions', adminIpGuard, (req, res) => {
+  if (!adminAuth(req.body)) return res.status(401).json({ error: 'РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ' });
+  const positions = req.body?.positions;
+  if (!positions || typeof positions !== 'object' || Array.isArray(positions)) {
+    return res.status(400).json({ error: 'positions must be an object' });
+  }
+  try {
+    const normalized = Object.fromEntries(
+      Object.entries(positions)
+        .map(([key, value]) => [key, String(value ?? '').trim()])
+        .filter(([, value]) => value.length > 0)
+    );
+    const payload = { positions: normalized, updatedAt: new Date().toISOString() };
+    const filePath = join(DATA_DIR, 'class_positions.json');
+    writeFileSync(filePath, JSON.stringify(payload, null, 2), 'utf-8');
+    res.json({ success: true, ...payload });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ─── Image generation (/api/admin/gen-image) ──────────────────────────────────

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo, memo, useDeferredValue } from 'react';
 import { createPortal } from 'react-dom';
 import { Trophy, Scroll, RefreshCw, AlertTriangle, X, Search, Star, Home, BookOpen, Menu, Briefcase, Info } from 'lucide-react';
 
@@ -54,6 +54,7 @@ interface ClassSection {
   name:       string;
   color:      string;
   textDark:   boolean;
+  classPosition?: string;
   tiers:      TierSection[];
   totalCards: number;
 }
@@ -125,6 +126,7 @@ interface WinratesData {
 interface TierlistData {
   sections:  ClassSection[];
   cards:     Record<string, CardLookup>;
+  classPositions?: Record<string, string>;
   updatedAt: string | null;
   source:    string;
 }
@@ -750,6 +752,19 @@ const ClassTabs: React.FC<{
                   style={{ boxShadow: '0 0 4px rgba(252,211,77,0.8)' }}
                 />
               )}
+              {sec.classPosition && (
+                <div
+                  className="absolute -top-2 -right-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold leading-none"
+                  style={{
+                    background: 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+                    color: '#fcd34d',
+                    border: '1px solid rgba(252,211,77,0.5)',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
+                  }}
+                >
+                  {sec.classPosition}
+                </div>
+              )}
             </button>
           );
         })}
@@ -998,7 +1013,21 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds, t
                     style={{ background: activeSection.color }}>⚔</div>
                 )}
                 <div>
-                  <h3 className="font-hs text-lg sm:text-xl text-[#4a3018] leading-tight">{activeSection.name}</h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="font-hs text-lg sm:text-xl text-[#4a3018] leading-tight">{activeSection.name}</h3>
+                    {activeSection.classPosition && (
+                      <span
+                        className="text-[11px] sm:text-xs px-2 py-0.5 rounded-full"
+                        style={{
+                          background: 'linear-gradient(135deg,#6b4c2a,#3a2210)',
+                          color: '#fcd34d',
+                          border: '1px solid rgba(252,211,77,0.35)',
+                        }}
+                      >
+                        Позиция: {activeSection.classPosition}
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[#8b6c42] text-xs">
                     {isAllCardsTab
                       ? `${allCardsSection.totalCards} уникальных карт`
@@ -1728,7 +1757,16 @@ interface AdminForm {
   title: string; tag: string; excerpt: string; image: string; url: string;
 }
 
+type AdminSectionId = 'overview' | 'add' | 'list' | 'media';
+type AdminMessage = { type: 'ok' | 'err'; text: string };
+
 const EMPTY_FORM: AdminForm = { title: '', tag: '', excerpt: '', image: '', url: '' };
+const ADMIN_SECTIONS: { id: AdminSectionId; label: string; description: string }[] = [
+  { id: 'overview', label: 'Обзор', description: 'Статус панели и быстрые действия' },
+  { id: 'add', label: 'Новая статья', description: 'Создание и публикация новой карточки' },
+  { id: 'list', label: 'Статьи', description: 'Поиск, фильтрация и удаление материалов' },
+  { id: 'media', label: 'Медиа', description: 'Генерация и скачивание промо-изображений' },
+];
 
 const ADMIN_INPUT: React.CSSProperties = {
   background: '#ecddb0',
@@ -1741,15 +1779,123 @@ const ADMIN_INPUT: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
-function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; onRefresh: () => void; clientIp: string }) {
+const ADMIN_SECONDARY_BUTTON: React.CSSProperties = {
+  background: 'rgba(139,69,19,0.08)',
+  color: '#5a3517',
+  border: '1px solid #c4a46a',
+  borderRadius: '8px',
+  padding: '8px 12px',
+  fontSize: '13px',
+  cursor: 'pointer',
+};
+
+
+function AdminStatCard({ label, value, hint }: { label: string; value: string; hint: string }) {
+  return (
+    <div style={{
+      background: 'rgba(255,255,255,0.42)',
+      border: '1px solid #d3b372',
+      borderRadius: '12px',
+      padding: '14px 16px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '4px',
+    }}>
+      <span style={{ color: '#8b6c42', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</span>
+      <strong style={{ color: '#3d2208', fontFamily: 'var(--font-display)', fontSize: '1.05rem' }}>{value}</strong>
+      <span style={{ color: '#7a6040', fontSize: '12px' }}>{hint}</span>
+    </div>
+  );
+}
+
+const AdminArticleRow = memo(function AdminArticleRow({
+  article,
+  deleting,
+  onDelete,
+}: {
+  article: Article;
+  deleting: boolean;
+  onDelete: (id: string, title: string) => void;
+}) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: '12px',
+      padding: '10px 14px',
+      background: 'rgba(139,69,19,0.06)',
+      border: '1px solid #c4a46a',
+      borderRadius: '10px',
+    }}>
+      {article.image ? (
+        <img src={article.image} alt=""
+          style={{ width: '52px', height: '40px', objectFit: 'cover', borderRadius: '6px', flexShrink: 0 }}
+          onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+      ) : (
+        <div style={{ width: '52px', height: '40px', borderRadius: '6px', background: 'rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <span style={{ fontSize: '20px', opacity: 0.4 }}>📰</span>
+        </div>
+      )}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: 'var(--font-display)', color: '#3d2208', fontSize: '13px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {article.title}
+        </div>
+        <div style={{ color: '#8b6c42', fontSize: '11px', marginTop: '2px' }}>
+          {article.date}{article.tag ? ` · ${article.tag}` : ''}
+        </div>
+      </div>
+      {article.url && article.url !== '#' && (
+        <a href={article.url} target="_blank" rel="noreferrer"
+          style={{ fontSize: '11px', color: '#8b4513', textDecoration: 'none', flexShrink: 0 }}>
+          ↗
+        </a>
+      )}
+      <button
+        onClick={() => onDelete(article.id, article.title)}
+        disabled={deleting}
+        style={{
+          background: '#fee2e2', color: '#991b1b',
+          border: '1px solid #fca5a5', borderRadius: '6px',
+          padding: '5px 11px', cursor: deleting ? 'not-allowed' : 'pointer',
+          fontSize: '12px', flexShrink: 0,
+          opacity: deleting ? 0.6 : 1,
+        }}
+      >
+        {deleting ? '…' : 'Удалить'}
+      </button>
+    </div>
+  );
+});
+
+function AdminPanel({
+  articles,
+  loadingArticles,
+  articlesUpdatedAt,
+  tierlistSections,
+  onRefresh,
+  onRefreshTierlist,
+  clientIp,
+}: {
+  articles: Article[];
+  loadingArticles: boolean;
+  articlesUpdatedAt: string | null;
+  tierlistSections: ClassSection[];
+  onRefresh: (options?: { bust?: boolean; silent?: boolean }) => Promise<void>;
+  onRefreshTierlist: () => Promise<void>;
+  clientIp: string;
+}) {
   // Persist password in session so user doesn't retype on refresh
   const [password,  setPassword]  = useState(() => sessionStorage.getItem('ap') || '');
   const [authed,    setAuthed]    = useState(() => !!sessionStorage.getItem('ap'));
-  const [activeSection, setActiveSection] = useState<'add' | 'list'>('list');
+  const [activeSection, setActiveSection] = useState<AdminSectionId>('overview');
   const [form,      setForm]      = useState<AdminForm>(EMPTY_FORM);
   const [saving,    setSaving]    = useState(false);
   const [deleting,  setDeleting]  = useState<string | null>(null);
-  const [msg,       setMsg]       = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [msg,       setMsg]       = useState<AdminMessage | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  const [tagFilter, setTagFilter] = useState<'all' | string>('all');
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'title'>('newest');
+  const [classPositionsDraft, setClassPositionsDraft] = useState<Record<string, string>>({});
+  const [savingPositions, setSavingPositions] = useState(false);
 
   // ── Image generation state ────────────────────────────────────────────────
   const [genBusy,   setGenBusy]   = useState(false);
@@ -1757,9 +1903,48 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
   const [genImgUrl, setGenImgUrl] = useState<string | null>(null);
   const genPollRef  = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const stopPoll = () => {
+  const stopPoll = useCallback(() => {
     if (genPollRef.current) { clearInterval(genPollRef.current); genPollRef.current = null; }
-  };
+  }, []);
+
+  useEffect(() => () => stopPoll(), [stopPoll]);
+
+  const articleTags = useMemo(() => {
+    const tags = new Set<string>();
+    articles.forEach(article => {
+      const tag = article.tag?.trim();
+      if (tag) tags.add(tag);
+    });
+    return Array.from(tags).sort((a, b) => a.localeCompare(b, 'ru'));
+  }, [articles]);
+
+  useEffect(() => {
+    const nextDraft = Object.fromEntries(
+      tierlistSections.map(section => [section.id, section.classPosition ?? ''])
+    );
+    setClassPositionsDraft(nextDraft);
+  }, [tierlistSections]);
+
+  const filteredArticles = useMemo(() => {
+    const normalizedSearch = deferredSearchTerm.trim().toLowerCase();
+    const list = articles.filter(article => {
+      if (tagFilter !== 'all' && (article.tag?.trim() || '') !== tagFilter) return false;
+      if (!normalizedSearch) return true;
+      const haystack = [article.title, article.excerpt, article.tag, article.url]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return haystack.includes(normalizedSearch);
+    });
+
+    list.sort((a, b) => {
+      if (sortBy === 'title') return a.title.localeCompare(b.title, 'ru');
+      const direction = sortBy === 'oldest' ? 1 : -1;
+      return (new Date(a.date).getTime() - new Date(b.date).getTime()) * direction;
+    });
+
+    return list;
+  }, [articles, deferredSearchTerm, sortBy, tagFilter]);
 
   const handleGenImage = async () => {
     if (genBusy) return;
@@ -1841,7 +2026,8 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
       if (!res.ok) throw new Error(data.error || 'Ошибка');
       setMsg({ type: 'ok', text: '✓ Статья добавлена!' });
       setForm(EMPTY_FORM);
-      onRefresh();
+      setActiveSection('list');
+      await onRefresh({ bust: true });
     } catch (err: any) {
       setMsg({ type: 'err', text: err.message });
     } finally {
@@ -1864,11 +2050,35 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
       try { data = await res.json(); } catch { /* non-json body */ }
       if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
       setMsg({ type: 'ok', text: '✓ Статья удалена' });
-      onRefresh();
+      await onRefresh({ bust: true });
     } catch (err: any) {
       setMsg({ type: 'err', text: `Ошибка удаления: ${err.message}` });
     } finally {
       setDeleting(null);
+    }
+  };
+
+  const handlePositionChange = (classId: string, value: string) => {
+    setClassPositionsDraft(current => ({ ...current, [classId]: value }));
+  };
+
+  const handleSaveClassPositions = async () => {
+    setSavingPositions(true);
+    setMsg(null);
+    try {
+      const res = await fetch('/api/admin-class-positions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, positions: classPositionsDraft }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Ошибка сохранения');
+      setMsg({ type: 'ok', text: 'Позиции классов сохранены.' });
+      await onRefreshTierlist();
+    } catch (err: any) {
+      setMsg({ type: 'err', text: err.message });
+    } finally {
+      setSavingPositions(false);
     }
   };
 
@@ -1969,6 +2179,76 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
         padding: '20px',
         marginBottom: '32px',
       }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '12px', marginBottom: '18px' }}>
+          <AdminStatCard label="Статей" value={String(articles.length)} hint="Текущий опубликованный список" />
+          <AdminStatCard
+            label="Показываем"
+            value={loadingArticles ? 'Загрузка...' : `${filteredArticles.length} из ${articles.length}`}
+            hint="С учётом поиска и фильтров"
+          />
+          <AdminStatCard
+            label="Обновлено"
+            value={articlesUpdatedAt ? new Date(articlesUpdatedAt).toLocaleString('ru-RU') : '—'}
+            hint="Последняя синхронизация списка"
+          />
+        </div>
+
+        <div style={{
+          background: 'rgba(61,34,8,0.05)',
+          border: '1.5px solid #c4a46a',
+          borderRadius: '12px',
+          padding: '18px',
+          marginBottom: '22px',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
+            <div>
+              <h3 style={{ fontFamily: 'var(--font-display)', color: '#6b4c2a', marginBottom: '6px', fontSize: '1rem' }}>
+                Позиции классов для тир-листа
+              </h3>
+              <p style={{ color: '#8b6c42', fontSize: '13px' }}>
+                Эти значения показываются на странице тир-листа у классов и в их иконках.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleSaveClassPositions}
+              disabled={savingPositions}
+              style={{
+                ...ADMIN_SECONDARY_BUTTON,
+                opacity: savingPositions ? 0.7 : 1,
+                cursor: savingPositions ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {savingPositions ? 'Сохраняем...' : 'Сохранить позиции'}
+            </button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+            {tierlistSections.map(section => (
+              <label
+                key={section.id}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px',
+                  padding: '12px',
+                  borderRadius: '10px',
+                  background: 'rgba(255,255,255,0.42)',
+                  border: '1px solid #d3b372',
+                }}
+              >
+                <span style={{ color: '#5a3517', fontSize: '13px', fontWeight: 600 }}>{section.name}</span>
+                <input
+                  style={ADMIN_INPUT}
+                  value={classPositionsDraft[section.id] ?? ''}
+                  onChange={e => handlePositionChange(section.id, e.target.value)}
+                  placeholder="Например: #1"
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+
         <h3 style={{ fontFamily: 'var(--font-display)', color: '#6b4c2a', marginBottom: '16px', fontSize: '1rem' }}>
           + Добавить статью
         </h3>
@@ -2130,11 +2410,30 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
       <h3 style={{ fontFamily: 'var(--font-display)', color: '#6b4c2a', marginBottom: '12px', fontSize: '1rem' }}>
         Текущие статьи ({articles.length})
       </h3>
-      {articles.length === 0 ? (
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1.4fr) minmax(160px, 0.8fr) minmax(140px, 0.7fr)', gap: '10px', marginBottom: '14px' }}>
+        <input
+          style={ADMIN_INPUT}
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          placeholder="РџРѕРёСЃРє РїРѕ Р·Р°РіРѕР»РѕРІРєСѓ, С‚РµРіСѓ, РѕРїРёСЃР°РЅРёСЋ РёР»Рё URL"
+        />
+        <select style={ADMIN_INPUT} value={tagFilter} onChange={e => setTagFilter(e.target.value)}>
+          <option value="all">Р’СЃРµ С‚РµРіРё</option>
+          {articleTags.map(tag => <option key={tag} value={tag}>{tag}</option>)}
+        </select>
+        <select style={ADMIN_INPUT} value={sortBy} onChange={e => setSortBy(e.target.value as 'newest' | 'oldest' | 'title')}>
+          <option value="newest">РЎРЅР°С‡Р°Р»Р° РЅРѕРІС‹Рµ</option>
+          <option value="oldest">РЎРЅР°С‡Р°Р»Р° СЃС‚Р°СЂС‹Рµ</option>
+          <option value="title">РџРѕ Р°Р»С„Р°РІРёС‚Сѓ</option>
+        </select>
+      </div>
+      {loadingArticles ? (
+        <p style={{ color: '#8b6c42', fontSize: '14px' }}>Р—Р°РіСЂСѓР¶Р°РµРј СЃС‚Р°С‚СЊРёвЂ¦</p>
+      ) : filteredArticles.length === 0 ? (
         <p style={{ color: '#8b6c42', fontSize: '14px' }}>Нет статей</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {articles.map(a => (
+          {filteredArticles.map(a => (
             <div key={a.id} style={{
               display: 'flex', alignItems: 'center', gap: '12px',
               padding: '10px 14px',
@@ -2860,7 +3159,7 @@ export default function App() {
     groups: [], updatedAt: null, source: 'manacost.ru',
   });
   const [articlesData, setArticlesData] = useState<ArticlesData>({ articles: [], updatedAt: null });
-  const [loadingArticles, setLoadingArticles] = useState(true);
+  const [loadingArticles, setLoadingArticles] = useState(false);
 
   const [loadingWinrates,    setLoadingWinrates]    = useState(false); // false = show fallback immediately
   const [loadingTierlist,    setLoadingTierlist]    = useState(true);
@@ -2874,6 +3173,7 @@ export default function App() {
   // Generation counters prevent race conditions when two fetches run simultaneously
   const wrGenRef = useRef(0);
   const tlGenRef = useRef(0);
+  const articlesRequestedRef = useRef(false);
 
   const fetchWinrates = useCallback(async (src: 'hsreplay' | 'firestone' = 'hsreplay') => {
     const gen = ++wrGenRef.current;
@@ -2891,16 +3191,26 @@ export default function App() {
     finally  { if (gen === wrGenRef.current) { setLoadingWinrates(false); setSwitchingSource(false); } }
   }, []);
 
-  const fetchTierlist = useCallback(async (src: 'heartharena' | 'hsreplay' = 'heartharena') => {
+  const fetchTierlist = useCallback(async (src: 'heartharena' | 'hsreplay' = 'heartharena', bust = false) => {
     const gen = ++tlGenRef.current;
     const cacheKey = src === 'hsreplay' ? 'tl_hsr' : 'tl';
-    const url      = src === 'hsreplay' ? '/api/tierlist?source=hsreplay' : '/api/tierlist';
+    const baseUrl  = src === 'hsreplay' ? '/api/tierlist?source=hsreplay' : '/api/tierlist';
+    const url      = bust ? `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}t=${Date.now()}` : baseUrl;
     try {
       // Show persisted cache instantly
-      const cached = cacheGet<any>(cacheKey);
+      const cached = bust ? null : cacheGet<any>(cacheKey);
       if (cached && gen === tlGenRef.current) { setTierlistData(cached); setLoadingTierlist(false); }
       // ETag: only re-download if data actually changed
-      const result = await fetchWithETag(url, cacheKey);
+      const result = bust
+        ? await (async () => {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (!res.ok) return null;
+            const data = await res.json();
+            cacheSet(cacheKey, data);
+            localStorage.removeItem(`etag_${cacheKey}`);
+            return { data, fresh: true };
+          })()
+        : await fetchWithETag(url, cacheKey);
       if (!result || gen !== tlGenRef.current) return;
       setTierlistData(result.data);
       setErrorTierlist(false);
@@ -2920,13 +3230,16 @@ export default function App() {
     finally  { setLoadingLegendaries(false); }
   }, []);
 
-  const fetchArticles = useCallback(async (bust = false) => {
+  const fetchArticles = useCallback(async (options: { bust?: boolean; silent?: boolean } = {}) => {
+    const { bust = false, silent = false } = options;
+    if (!silent) setLoadingArticles(true);
     try {
       // bust=true adds timestamp so browser & CDN don't serve stale cache
       const url = bust ? `/api/articles?t=${Date.now()}` : '/api/articles';
       const res = await fetch(url, bust ? { cache: 'no-store' } : {});
       if (!res.ok) throw new Error('not ok');
       setArticlesData(await res.json());
+      articlesRequestedRef.current = true;
     } catch {
       // keep empty
     } finally { setLoadingArticles(false); }
@@ -2936,13 +3249,18 @@ export default function App() {
   useEffect(() => {
     // Tier 1 — immediately visible on first tab: winrates (small) + articles (small)
     fetchWinrates();
-    fetchArticles();
     // Tier 2 — tierlist needed for Tier-list tab: load right away but don't block
     fetchTierlist();
     // Tier 3 — legendaries (165 KB) deferred 300ms to not compete with critical requests
     const t = setTimeout(fetchLegendaries, 300);
     return () => clearTimeout(t);
   }, [fetchWinrates, fetchArticles, fetchTierlist, fetchLegendaries]);
+
+  useEffect(() => {
+    const needsArticles = activeTab === 'articles' || wantsAdmin;
+    if (!needsArticles || articlesRequestedRef.current) return;
+    void fetchArticles();
+  }, [activeTab, wantsAdmin, fetchArticles]);
 
   // Set of cardIds that are companion cards in legendary groups (not the key legendary itself)
   const companionIds = useMemo(() => {
@@ -3151,7 +3469,15 @@ export default function App() {
           <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-16 sm:h-16 border-b-2 sm:border-b-4 border-r-2 sm:border-r-4 border-gold rounded-br-xl opacity-50" />
 
           {isAdminMode ? (
-            <AdminPanel articles={articlesData.articles} onRefresh={() => fetchArticles(true)} clientIp={clientIp} />
+            <AdminPanel
+              articles={articlesData.articles}
+              loadingArticles={loadingArticles}
+              articlesUpdatedAt={articlesData.updatedAt}
+              tierlistSections={tierlistData.sections}
+              onRefresh={fetchArticles}
+              onRefreshTierlist={() => fetchTierlist(tierlistSourceRef.current, true)}
+              clientIp={clientIp}
+            />
           ) : wantsAdmin && adminIpChecked && !adminIpAllowed ? (
             /* Access denied screen */
             <div style={{ padding: '60px 24px', textAlign: 'center' }}>
