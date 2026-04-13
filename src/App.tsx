@@ -471,11 +471,12 @@ const UpdateBadge: React.FC<{ updatedAt: string | null; source: string; onRefres
 
 // ─── Winrates tab ─────────────────────────────────────────────────────────────
 
-function Winrates({ classes, loading, switching, error, updatedAt, source, onRefresh, refreshing, winrateSource, onSourceChange }: {
+function Winrates({ classes, loading, switching, error, updatedAt, source, onRefresh, refreshing, winrateSource, onSourceChange, onNavigate }: {
   classes: ClassData[]; loading: boolean; switching: boolean; error: boolean;
   updatedAt: string | null; source: string; onRefresh: () => void; refreshing: boolean;
   winrateSource: 'hsreplay' | 'firestone';
   onSourceChange: (src: 'hsreplay' | 'firestone') => void;
+  onNavigate: (tab: string) => void;
 }) {
   // Trigger bar fill animation after mount
   const [barsVisible, setBarsVisible] = useState(false);
@@ -491,6 +492,18 @@ function Winrates({ classes, loading, switching, error, updatedAt, source, onRef
   return (
     <div>
       <SectionBanner title="Классы" subtitle="Статистика побед на Арене — текущий патч" />
+      <Breadcrumbs items={[
+        { name: 'Главная', href: '/', onClick: () => onNavigate('home') },
+        { name: 'Классы', href: '/classes' },
+      ]} />
+      <section aria-label="Описание раздела">
+        <p className="text-[#6b4c2a] text-sm leading-relaxed mb-5 px-1"
+          style={{ borderLeft: '3px solid #c4a46a', paddingLeft: '12px' }}>
+          Винрейт классов на Арене Hearthstone показывает процент побед каждого из 11 классов.
+          Данные основаны на миллионах реальных партий и обновляются автоматически каждые 6 часов.
+          Рейтинг помогает выбрать лучший класс для драфта на текущем патче.
+        </p>
+      </section>
       {/* Source toggle + UpdateBadge row */}
       <div className="flex items-center justify-between mb-6 -mt-2 flex-wrap gap-2">
         {/* Source switcher */}
@@ -626,6 +639,13 @@ function Winrates({ classes, loading, switching, error, updatedAt, source, onRef
               );
             })}
       </div>
+
+      <InternalLinks links={[
+        { label: 'Тир-лист карт →', href: '/tierlist', onClick: () => onNavigate('tierlist') },
+        { label: 'Легендарки →', href: '/legendaries', onClick: () => onNavigate('legendaries') },
+        { label: 'Статьи о Арене →', href: '/articles', onClick: () => onNavigate('articles') },
+      ]} />
+      <FAQSection />
     </div>
   );
 }
@@ -794,13 +814,14 @@ const RARITY_OPTIONS = [
 
 const ALL_CARDS_ID = '__all__';
 
-function TierList({ data, loading, error, onRefresh, refreshing, companionIds, tierlistSource, onTierlistSourceChange, switchingTierlistSource }: {
+function TierList({ data, loading, error, onRefresh, refreshing, companionIds, tierlistSource, onTierlistSourceChange, switchingTierlistSource, onNavigate }: {
   data: TierlistData; loading: boolean; error: boolean;
   onRefresh: () => void; refreshing: boolean;
   companionIds: Set<string>;
   tierlistSource: 'heartharena' | 'hsreplay';
   onTierlistSourceChange: (src: 'heartharena' | 'hsreplay') => void;
   switchingTierlistSource: boolean;
+  onNavigate: (tab: string) => void;
 }) {
   const [activeClassId, setActiveClassId] = useState<string>(ALL_CARDS_ID);
   const [searchQuery, setSearchQuery]     = useState('');
@@ -878,6 +899,18 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds, t
   return (
     <div>
       <SectionBanner title="Тир-лист" subtitle="Оценки карт для каждого класса — текущий патч" />
+      <Breadcrumbs items={[
+        { name: 'Главная', href: '/', onClick: () => onNavigate('home') },
+        { name: 'Тир-лист', href: '/tierlist' },
+      ]} />
+      <section aria-label="Описание раздела">
+        <p className="text-[#6b4c2a] text-sm leading-relaxed mb-5 px-1"
+          style={{ borderLeft: '3px solid #c4a46a', paddingLeft: '12px' }}>
+          Тир-лист карт Арены Hearthstone — рейтинг всех карт по классам с оценками от S (авто-пик) до F (не брать).
+          Выберите класс, чтобы увидеть лучшие карты для текущего патча.
+          Данные обновляются автоматически на основе HearthArena и HSReplay.
+        </p>
+      </section>
       {/* Source toggle + UpdateBadge row */}
       <div className="flex items-center justify-between mb-4 -mt-2 flex-wrap gap-2">
         {/* Source switcher */}
@@ -1062,6 +1095,13 @@ function TierList({ data, loading, error, onRefresh, refreshing, companionIds, t
       {modalCard && (
         <CardModal card={modalCard.card} tier={modalCard.tier} onClose={() => setModalCard(null)} />
       )}
+
+      <InternalLinks links={[
+        { label: 'Винрейт классов →', href: '/classes', onClick: () => onNavigate('winrates') },
+        { label: 'Легендарки →', href: '/legendaries', onClick: () => onNavigate('legendaries') },
+        { label: 'Статьи о Арене →', href: '/articles', onClick: () => onNavigate('articles') },
+      ]} />
+      <FAQSection />
     </div>
   );
 }
@@ -1141,8 +1181,9 @@ const LEGEND_CLASSES: Array<{ id: string; name: string; color: string }> = [
   { id: 'any',           name: 'Нейтральные',        color: '#6b6b6b' },
 ];
 
-function Legendaries({ data, loading, error }: {
+function Legendaries({ data, loading, error, onNavigate }: {
   data: LegendariesData; loading: boolean; error: boolean;
+  onNavigate: (tab: string) => void;
 }) {
   const [activeClass, setActiveClass] = useState<string>('all');
   const [modalCard, setModalCard] = useState<{ card: CardData; tier: string } | null>(null);
@@ -1168,6 +1209,18 @@ function Legendaries({ data, loading, error }: {
   return (
     <div>
       <SectionBanner title="Легендарки" subtitle="Наборы карт для выбора первой легендарки на Арене" />
+      <Breadcrumbs items={[
+        { name: 'Главная', href: '/', onClick: () => onNavigate('home') },
+        { name: 'Легендарки', href: '/legendaries' },
+      ]} />
+      <section aria-label="Описание раздела">
+        <p className="text-[#6b4c2a] text-sm leading-relaxed mb-5 px-1"
+          style={{ borderLeft: '3px solid #c4a46a', paddingLeft: '12px' }}>
+          На Арене Hearthstone легендарная карта предлагается в качестве первого выбора.
+          На этой странице собраны все группы первого выбора с винрейтом каждой группы.
+          Выбирайте группу с наивысшим процентом побед для максимальной эффективности на текущем патче.
+        </p>
+      </section>
       {/* Count row */}
       <div className="flex justify-end mb-4 -mt-2">
         <div className="text-[#8b6c42] text-sm font-bold px-3 py-1.5 rounded-full flex-shrink-0"
@@ -1298,6 +1351,12 @@ function Legendaries({ data, loading, error }: {
       {modalCard && (
         <CardModal card={modalCard.card} tier={modalCard.tier} onClose={() => setModalCard(null)} />
       )}
+
+      <InternalLinks links={[
+        { label: 'Тир-лист карт →', href: '/tierlist', onClick: () => onNavigate('tierlist') },
+        { label: 'Винрейт классов →', href: '/classes', onClick: () => onNavigate('winrates') },
+        { label: 'Статьи о Арене →', href: '/articles', onClick: () => onNavigate('articles') },
+      ]} />
     </div>
   );
 }
@@ -1381,6 +1440,7 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
       </div>
 
       {/* Stats grid */}
+      <section aria-label="Разделы сайта">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {HOME_NAV_CARDS.map(card => (
           <div
@@ -1398,20 +1458,23 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
               <h3 className="font-hs text-[#3d2208] text-lg mb-1">{card.title}</h3>
               <p className="text-[#8b6c42] text-sm leading-relaxed">{card.desc}</p>
             </div>
-            <button
-              onClick={() => onNavigate(card.id)}
+            <a
+              href={TABS.find(t => t.id === card.id)?.slug ?? '/'}
+              onClick={(e: React.MouseEvent) => { e.preventDefault(); onNavigate(card.id); }}
               className="mt-auto self-start px-4 py-2 rounded-lg text-[#fcd34d] text-sm font-hs border border-[#a88a45] transition-all hover:brightness-110"
-              style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)' }}
+              style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', textDecoration: 'none' }}
             >
               Перейти →
-            </button>
+            </a>
           </div>
         ))}
       </div>
+      </section>
 
       {/* Top classes row */}
+      <section aria-labelledby="top-classes-heading">
       <div className="flex flex-col gap-3">
-        <h3 className="font-hs text-[#3d2208] text-xl">Топ классы по винрейту</h3>
+        <h3 id="top-classes-heading" className="font-hs text-[#3d2208] text-xl">Топ классы по винрейту</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {loadingWinrates
             ? [0, 1, 2].map(i => (
@@ -1440,17 +1503,21 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
           }
         </div>
       </div>
+      </section>
 
       {/* Top cards from tier list */}
+      <section aria-labelledby="top-cards-heading">
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-hs text-[#3d2208] text-xl">Лучшие карты</h3>
-          <button
-            onClick={() => onNavigate('tierlist')}
+          <h3 id="top-cards-heading" className="font-hs text-[#3d2208] text-xl">Лучшие карты</h3>
+          <a
+            href="/tierlist"
+            onClick={(e: React.MouseEvent) => { e.preventDefault(); onNavigate('tierlist'); }}
             className="text-sm font-hs text-[#8b4513] hover:text-[#fcd34d] transition-colors"
+            style={{ textDecoration: 'none' }}
           >
             Тир-лист →
-          </button>
+          </a>
         </div>
         <div className="flex gap-2 overflow-x-auto scrollbar-hs pb-2">
           {loadingTierlist
@@ -1461,11 +1528,12 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
             : topCards.map(({ card, lookup }) => {
                 const imgSrc = lookup?.imageRu || lookup?.imageHa || null;
                 return (
-                  <button
+                  <a
                     key={card.cardId}
-                    onClick={() => onNavigate('tierlist')}
+                    href="/tierlist"
+                    onClick={(e: React.MouseEvent) => { e.preventDefault(); onNavigate('tierlist'); }}
                     className="flex-shrink-0 flex flex-col items-center gap-1 group"
-                    style={{ WebkitTapHighlightColor: 'transparent', background: 'none', border: 'none', padding: 0 }}
+                    style={{ WebkitTapHighlightColor: 'transparent', textDecoration: 'none' }}
                   >
                     {imgSrc ? (
                       <img
@@ -1487,23 +1555,27 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                       </div>
                     )}
                     <span className="font-hs text-[#3d2208] text-[10px] sm:text-[11px] text-center leading-tight max-w-[5rem] sm:max-w-[6rem] line-clamp-2">{card.name}</span>
-                  </button>
+                  </a>
                 );
               })
           }
         </div>
       </div>
+      </section>
 
       {/* Top legendaries */}
+      <section aria-labelledby="top-legendaries-heading">
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-hs text-[#3d2208] text-xl">Лучшие легендарки</h3>
-          <button
-            onClick={() => onNavigate('legendaries')}
+          <h3 id="top-legendaries-heading" className="font-hs text-[#3d2208] text-xl">Лучшие легендарки</h3>
+          <a
+            href="/legendaries"
+            onClick={(e: React.MouseEvent) => { e.preventDefault(); onNavigate('legendaries'); }}
             className="text-sm font-hs text-[#8b4513] hover:text-[#fcd34d] transition-colors"
+            style={{ textDecoration: 'none' }}
           >
             Все →
-          </button>
+          </a>
         </div>
         <div className="flex gap-3 overflow-x-auto scrollbar-hs pb-2">
           {loadingLegendaries
@@ -1515,11 +1587,12 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                 const kc = g.keyCard;
                 const imgSrc = kc.imageRu || kc.imageHa || null;
                 return (
-                  <button
+                  <a
                     key={kc.cardId}
-                    onClick={() => onNavigate('legendaries')}
+                    href="/legendaries"
+                    onClick={(e: React.MouseEvent) => { e.preventDefault(); onNavigate('legendaries'); }}
                     className="flex-shrink-0 flex flex-col items-center gap-1 group cursor-pointer"
-                    style={{ WebkitTapHighlightColor: 'transparent', background: 'none', border: 'none', padding: 0 }}
+                    style={{ WebkitTapHighlightColor: 'transparent', textDecoration: 'none' }}
                   >
                     <div className="relative">
                       {imgSrc ? (
@@ -1550,14 +1623,16 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
                       )}
                     </div>
                     <span className="font-hs text-[#3d2208] text-[11px] sm:text-xs text-center leading-tight max-w-[5rem] sm:max-w-[6rem] line-clamp-2">{kc.name}</span>
-                  </button>
+                  </a>
                 );
               })
           }
         </div>
       </div>
+      </section>
 
       {/* ── Promo banners ──────────────────────────────────────────────────── */}
+      <aside aria-label="Сообщество и поддержка">
       <div className="flex flex-col gap-3">
         {/* Telegram */}
         <a
@@ -1639,6 +1714,10 @@ function HomeTab({ winratesData, loadingWinrates, legendariesData, loadingLegend
           </div>
         </a>
       </div>
+      </aside>
+
+      {/* FAQ */}
+      <FAQSection />
     </div>
   );
 }
@@ -2107,6 +2186,213 @@ function AdminPanel({ articles, onRefresh, clientIp }: { articles: Article[]; on
   );
 }
 
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+function SiteFooter({ onNavigate, updatedAt }: { onNavigate: (tab: string) => void; updatedAt: string | null }) {
+  const year = new Date().getFullYear();
+  const navLinks = [
+    { label: 'Главная',    href: '/',            tab: 'home'        },
+    { label: 'Классы',     href: '/classes',     tab: 'winrates'    },
+    { label: 'Тир-лист',  href: '/tierlist',    tab: 'tierlist'    },
+    { label: 'Легендарки', href: '/legendaries', tab: 'legendaries' },
+    { label: 'Статьи',     href: '/articles',    tab: 'articles'    },
+    { label: 'Работа',     href: '/jobs',        tab: 'jobs'        },
+  ];
+  return (
+    <footer
+      className="mt-8"
+      style={{
+        background: 'linear-gradient(180deg,#1a0e04 0%,#0d0702 100%)',
+        borderTop: '2px solid #8b5a1a',
+        color: '#c4a46a',
+      }}
+      aria-label="Подвал сайта"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-3 gap-6">
+        {/* Col 1: Навигация */}
+        <div>
+          <h3 className="font-hs text-[#fcd34d] text-sm mb-3 uppercase tracking-wide">Разделы</h3>
+          <nav aria-label="Навигация по сайту">
+            <ul className="flex flex-col gap-1.5">
+              {navLinks.map(l => (
+                <li key={l.tab}>
+                  <a
+                    href={l.href}
+                    onClick={(e: React.MouseEvent) => { e.preventDefault(); onNavigate(l.tab); }}
+                    className="text-sm hover:text-[#fcd34d] transition-colors"
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+
+        {/* Col 2: Сообщество */}
+        <div>
+          <h3 className="font-hs text-[#fcd34d] text-sm mb-3 uppercase tracking-wide">Сообщество</h3>
+          <ul className="flex flex-col gap-1.5 text-sm">
+            <li><a href="https://t.me/manacost_ru" target="_blank" rel="noopener noreferrer" className="hover:text-[#fcd34d] transition-colors" style={{ color: 'inherit', textDecoration: 'none' }}>Telegram</a></li>
+            <li><a href="https://boosty.to/kolodahearthstone" target="_blank" rel="noopener noreferrer" className="hover:text-[#fcd34d] transition-colors" style={{ color: 'inherit', textDecoration: 'none' }}>Boosty</a></li>
+            <li><a href="https://github.com/Zulut30/manacost-arena" target="_blank" rel="noopener noreferrer" className="hover:text-[#fcd34d] transition-colors" style={{ color: 'inherit', textDecoration: 'none' }}>GitHub</a></li>
+          </ul>
+        </div>
+
+        {/* Col 3: О проекте */}
+        <div>
+          <h3 className="font-hs text-[#fcd34d] text-sm mb-3 uppercase tracking-wide">О проекте</h3>
+          <p className="text-xs leading-relaxed" style={{ color: '#a88a45' }}>
+            HS-Arena.ru — ведущий портал по Арене Hearthstone от команды Manacost.
+            Актуальная статистика: тир-листы, винрейты, легендарки.
+          </p>
+          {updatedAt && (
+            <p className="text-xs mt-2" style={{ color: '#6b5040' }}>
+              Данные актуальны на: {new Date(updatedAt).toLocaleDateString('ru-RU')}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t py-4 px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2"
+        style={{ borderColor: 'rgba(139,90,26,0.35)' }}>
+        <p className="text-xs" style={{ color: '#6b5040' }}>
+          © 2024–{year} Manacost. Все права защищены.
+        </p>
+        <p className="text-xs" style={{ color: '#6b5040' }}>
+          Hearthstone® — зарегистрированная торговая марка Blizzard Entertainment.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
+
+const FAQ_ITEMS = [
+  {
+    q: 'Какой класс лучший на Арене Hearthstone?',
+    a: 'По данным HSReplay и Firestone, в текущем патче топ-3 классы меняются с каждым обновлением. Актуальный рейтинг классов по проценту побед смотрите на странице «Классы».',
+  },
+  {
+    q: 'Как пользоваться тир-листом карт?',
+    a: 'Выберите класс в верхней панели тир-листа, чтобы увидеть оценки всех карт именно для него. Карты класса S — авто-пик, A — отличные, B — хорошие, C и ниже — ситуативные.',
+  },
+  {
+    q: 'Как выбрать легендарку на Арене?',
+    a: 'На старте Арены вам предлагают группу из трёх легендарных карт. Выбирайте ту группу, у которой наивысший процент побед — это показывает страница «Легендарки».',
+  },
+  {
+    q: 'Как часто обновляются данные?',
+    a: 'Данные о винрейтах классов и тир-лист карт обновляются автоматически несколько раз в сутки на основе HSReplay, Firestone и HearthArena.',
+  },
+  {
+    q: 'Что такое винрейт класса на Арене?',
+    a: 'Винрейт — процент матчей, выигранных игроками этого класса. Например, 55% означает, что из 100 партий класс выигрывает в среднем 55.',
+  },
+  {
+    q: 'Сколько побед нужно для окупаемости Арены?',
+    a: 'Для полной окупаемости (получить золото ≥ стоимости входа) обычно нужно 7+ побед. При 12 победах вы получаете максимальные награды.',
+  },
+];
+
+function FAQSection() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <section aria-labelledby="faq-heading" className="mt-8 mb-2">
+      <h2 id="faq-heading" className="font-hs text-[#3d2208] text-xl mb-4">Частые вопросы</h2>
+      <div className="flex flex-col gap-2">
+        {FAQ_ITEMS.map((item, i) => (
+          <div key={i} className="rounded-xl overflow-hidden"
+            style={{ border: '1.5px solid #c4a46a', background: 'linear-gradient(135deg,#f5ead0,#ede0c0)' }}>
+            <button
+              className="w-full text-left flex items-center justify-between px-4 py-3 gap-2"
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              onClick={() => setOpen(open === i ? null : i)}
+              aria-expanded={open === i}
+            >
+              <span className="font-hs text-[#3d2208] text-sm sm:text-base">{item.q}</span>
+              <span className="flex-shrink-0 text-[#8b4513] font-bold text-lg leading-none">{open === i ? '−' : '+'}</span>
+            </button>
+            {open === i && (
+              <div className="px-4 pb-4 pt-1">
+                <p className="text-[#5c3a21] text-sm leading-relaxed">{item.a}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Breadcrumbs ──────────────────────────────────────────────────────────────
+
+function Breadcrumbs({ items }: { items: { name: string; href: string; onClick?: () => void }[] }) {
+  return (
+    <nav aria-label="Breadcrumb" className="mb-3">
+      <ol
+        className="flex items-center gap-1 flex-wrap text-xs text-[#8b6c42]"
+        itemScope
+        itemType="https://schema.org/BreadcrumbList"
+      >
+        {items.map((item, i) => (
+          <li key={i} className="flex items-center gap-1"
+            itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+            {i < items.length - 1 ? (
+              <>
+                <a
+                  itemProp="item"
+                  href={item.href}
+                  onClick={item.onClick ? (e: React.MouseEvent) => { e.preventDefault(); item.onClick!(); } : undefined}
+                  className="hover:text-[#4a3018] transition-colors"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <span itemProp="name">{item.name}</span>
+                </a>
+                <span className="opacity-50">›</span>
+              </>
+            ) : (
+              <span itemProp="name" className="text-[#4a3018] font-medium">{item.name}</span>
+            )}
+            <meta itemProp="position" content={String(i + 1)} />
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+// ─── InternalLinks ────────────────────────────────────────────────────────────
+
+function InternalLinks({ links }: { links: { label: string; href: string; onClick?: () => void }[] }) {
+  return (
+    <section aria-label="Смотри также" className="mt-8 pt-4" style={{ borderTop: '1px solid #c4a46a55' }}>
+      <p className="text-[#8b6c42] text-xs mb-2 uppercase tracking-wide font-hs">Смотри также</p>
+      <div className="flex flex-wrap gap-2">
+        {links.map((link, i) => (
+          <a
+            key={i}
+            href={link.href}
+            onClick={link.onClick ? (e: React.MouseEvent) => { e.preventDefault(); link.onClick!(); } : undefined}
+            className="px-4 py-2 rounded-lg text-sm font-hs transition-all hover:brightness-110"
+            style={{
+              background: 'linear-gradient(135deg,#ede0c0,#e0cc9e)',
+              border: '1.5px solid #c4a46a',
+              color: '#4a3018',
+              textDecoration: 'none',
+            }}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── SectionBanner ────────────────────────────────────────────────────────────
 
 function SectionBanner({ title, subtitle }: { title: string; subtitle: string }) {
@@ -2192,7 +2478,7 @@ interface ArticlesData {
 function ArticleCard({ article, idx }: { article: Article; idx: number }) {
   const [imgErr, setImgErr] = useState(false);
   return (
-    <div
+    <article
       className="anim-scale-in rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-200"
       style={{
         animationDelay: `${idx * 0.06}s`,
@@ -2247,7 +2533,7 @@ function ArticleCard({ article, idx }: { article: Article; idx: number }) {
           <span className="text-[#8b4513] text-xs font-bold">Читать →</span>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -2287,10 +2573,14 @@ const VACANCIES = [
   },
 ];
 
-function JobsTab() {
+function JobsTab({ onNavigate }: { onNavigate: (tab: string) => void }) {
   return (
     <div>
       <SectionBanner title="Работа" subtitle="Открытые вакансии в команду Manacost Arena" />
+      <Breadcrumbs items={[
+        { name: 'Главная', href: '/', onClick: () => onNavigate('home') },
+        { name: 'Работа', href: '/jobs' },
+      ]} />
       <div className="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-8">
         {/* Vacancy cards */}
         {VACANCIES.map(v => (
@@ -2299,7 +2589,7 @@ function JobsTab() {
             {/* Header */}
             <div className="px-6 py-4 flex items-center justify-between"
               style={{ background: 'linear-gradient(135deg,#6b4c2a,#3a2210)', borderBottom: '1px solid #a88a45' }}>
-              <h2 className="font-hs text-[#fcd34d] text-lg">{v.title}</h2>
+              <h3 className="font-hs text-[#fcd34d] text-lg">{v.title}</h3>
               <a
                 href={v.formUrl}
                 target="_blank"
@@ -2344,10 +2634,14 @@ function JobsTab() {
   );
 }
 
-function ArticlesTab({ data, loading }: { data: ArticlesData; loading: boolean }) {
+function ArticlesTab({ data, loading, onNavigate }: { data: ArticlesData; loading: boolean; onNavigate: (tab: string) => void }) {
   return (
     <div>
       <SectionBanner title="Статьи" subtitle="Гайды, разборы мета и советы по режиму Арена" />
+      <Breadcrumbs items={[
+        { name: 'Главная', href: '/', onClick: () => onNavigate('home') },
+        { name: 'Статьи', href: '/articles' },
+      ]} />
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -2409,7 +2703,7 @@ const PAGE_META: Record<string, { title: string; description: string; slug: stri
     slug:        '/articles',
   },
   jobs:        {
-    title:       'Вакансии — Работа автором | HS-Arena Arena',
+    title:       'Вакансии — Работа в команде | HS-Arena',
     description: 'Открытые вакансии авторов по Арене и Полям Сражений Hearthstone. Присоединяйся к команде Manacost.',
     slug:        '/jobs',
   },
@@ -2518,6 +2812,7 @@ export default function App() {
     setActiveTab(tab);
     setMobileMenuOpen(false);
     applyPageMeta(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   /** Handle browser back / forward */
@@ -2713,11 +3008,12 @@ export default function App() {
           style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 flex flex-col items-center justify-center relative">
           {/* Logo — click to go home */}
-          <button
-            onClick={() => navigate('home')}
+          <a
+            href="/"
+            onClick={(e) => { e.preventDefault(); navigate('home'); }}
             className="flex items-center gap-4 sm:gap-6 focus:outline-none group"
             aria-label="На главную"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+            style={{ textDecoration: 'none' }}
           >
             {/* Emblem */}
             <div className="relative flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105"
@@ -2770,7 +3066,7 @@ export default function App() {
                 <div className="h-px flex-grow bg-gradient-to-r from-transparent via-[#fcd34d]/60 to-transparent" style={{ minWidth: '20px' }} />
               </div>
             </div>
-          </button>
+          </a>
         </div>
       </header>
 
@@ -2806,13 +3102,14 @@ export default function App() {
               {TABS.map(tab => {
                 const Icon = tab.icon; const active = activeTab === tab.id;
                 return (
-                  <button key={tab.id} onClick={() => navigate(tab.id)}
+                  <a key={tab.id} href={tab.slug} onClick={(e) => { e.preventDefault(); navigate(tab.id); }}
                     className="flex items-center gap-3 px-4 py-3 rounded-xl w-full text-left transition-all"
-                    style={{ background: active ? 'linear-gradient(135deg,#6b4c2a,#3a2210)' : 'rgba(255,255,255,0.05)', border: `1.5px solid ${active ? '#a88a45' : 'rgba(168,138,69,0.2)'}`, color: active ? '#fcd34d' : 'rgba(255,255,255,0.75)' }}>
+                    aria-current={active ? 'page' : undefined}
+                    style={{ background: active ? 'linear-gradient(135deg,#6b4c2a,#3a2210)' : 'rgba(255,255,255,0.05)', border: `1.5px solid ${active ? '#a88a45' : 'rgba(168,138,69,0.2)'}`, color: active ? '#fcd34d' : 'rgba(255,255,255,0.75)', textDecoration: 'none' }}>
                     <Icon size={18} className="flex-shrink-0" />
                     <span className="font-hs text-base">{tab.label}</span>
                     {active && <div className="ml-auto w-2 h-2 rounded-full bg-[#fcd34d]" />}
-                  </button>
+                  </a>
                 );
               })}
             </nav>
@@ -2823,16 +3120,18 @@ export default function App() {
             {TABS.map(tab => {
               const Icon = tab.icon; const active = activeTab === tab.id;
               return (
-                <button key={tab.id} onClick={() => navigate(tab.id)}
+                <a key={tab.id} href={tab.slug} onClick={(e: React.MouseEvent) => { e.preventDefault(); navigate(tab.id); }}
+                  aria-current={active ? 'page' : undefined}
                   className={`relative px-3 sm:px-5 md:px-8 py-2 sm:py-3 font-hs text-xs sm:text-sm md:text-lg rounded-t-xl transition-all flex items-center gap-1.5 sm:gap-2 border-t-[3px] border-x-[3px] flex-shrink-0 ${
                     active
                       ? 'bg-parchment border-[#6b4c2a] text-[#4a3018] shadow-[0_-4px_10px_rgba(0,0,0,0.15)] z-20 pb-3 sm:pb-4'
                       : 'bg-parchment-inactive border-[#8b5a2b] text-[#5c3a21] hover:text-[#4a3018] hover:brightness-105 shadow-[inset_0_-3px_6px_rgba(0,0,0,0.2)] z-0 mt-1 sm:mt-2'
-                  }`}>
+                  }`}
+                  style={{ textDecoration: 'none' }}>
                   <Icon size={16} className={`flex-shrink-0 ${active ? 'text-[#8b4513]' : 'opacity-70'}`} />
                   <span className="drop-shadow-sm whitespace-nowrap">{tab.label}</span>
                   {active && <div className="absolute -bottom-[3px] left-0 right-0 h-[3px] bg-[#f4e4bc] z-30" />}
-                </button>
+                </a>
               );
             })}
             {/* О проекте — desktop info button */}
@@ -2873,7 +3172,7 @@ export default function App() {
             <TabTransition tabKey={activeTab}>
               <>
                 {activeTab === 'home' && (
-                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} legendariesData={legendariesData} loadingLegendaries={loadingLegendaries} tierlistData={tierlistData} loadingTierlist={loadingTierlist} onNavigate={tab => navigate(tab as TabId)} />
+                  <HomeTab winratesData={winratesData} loadingWinrates={loadingWinrates} legendariesData={legendariesData} loadingLegendaries={loadingLegendaries} tierlistData={tierlistData} loadingTierlist={loadingTierlist} onNavigate={(tab: string) => navigate(tab as TabId)} />
                 )}
                 {activeTab === 'winrates' && (
                   <Winrates classes={winratesData.classes} loading={loadingWinrates} error={errorWinrates}
@@ -2881,6 +3180,7 @@ export default function App() {
                     onRefresh={handleRefresh} refreshing={refreshing}
                     winrateSource={winrateSource}
                     switching={switchingSource}
+                    onNavigate={(tab: string) => navigate(tab as TabId)}
                     onSourceChange={async (src) => {
                       setWinrateSource(src);
                       winrateSourceRef.current = src;
@@ -2893,6 +3193,7 @@ export default function App() {
                     onRefresh={handleRefresh} refreshing={refreshing} companionIds={companionIds}
                     tierlistSource={tierlistSource}
                     switchingTierlistSource={switchingTierlistSource}
+                    onNavigate={(tab: string) => navigate(tab as TabId)}
                     onTierlistSourceChange={async (src) => {
                       setTierlistSource(src);
                       tierlistSourceRef.current = src;
@@ -2902,19 +3203,21 @@ export default function App() {
                     }} />
                 )}
                 {activeTab === 'legendaries' && (
-                  <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} />
+                  <Legendaries data={legendariesData} loading={loadingLegendaries} error={errorLegendaries} onNavigate={(tab: string) => navigate(tab as TabId)} />
                 )}
                 {activeTab === 'articles' && (
-                  <ArticlesTab data={articlesData} loading={loadingArticles} />
+                  <ArticlesTab data={articlesData} loading={loadingArticles} onNavigate={(tab: string) => navigate(tab as TabId)} />
                 )}
                 {activeTab === 'jobs' && (
-                  <JobsTab />
+                  <JobsTab onNavigate={(tab: string) => navigate(tab as TabId)} />
                 )}
               </>
             </TabTransition>
           )}
         </div>
       </main>
+
+      <SiteFooter onNavigate={(tab: string) => navigate(tab as TabId)} updatedAt={winratesData.updatedAt} />
 
       {/* О проекте modal */}
       {aboutOpen && (
