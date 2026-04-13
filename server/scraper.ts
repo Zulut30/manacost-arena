@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
+import { createRequire } from 'module';
 import { config as dotenvConfig } from 'dotenv';
 
 dotenvConfig({ path: join(dirname(fileURLToPath(import.meta.url)), '../.env') });
@@ -14,6 +15,14 @@ const __dirname  = dirname(__filename);
 const DATA_DIR   = join(__dirname, 'data');
 
 if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+const require = createRequire(import.meta.url);
+
+let cloudscraper: any = null;
+try {
+  cloudscraper = require('cloudscraper');
+} catch {
+  // Optional dependency for bypassing anti-bot protection on HSReplay.
+}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -157,9 +166,11 @@ function tryParseClassList(rows: any[]): Array<{ id: string; name: string; color
       }
       const info = key ? CLASS_SECTIONS[key] : null;
       if (!key || !info) return null;
-      const winrate = row.win_rate ?? row.winrate ?? row.winRate;
+      let winrate = row.win_rate ?? row.winrate ?? row.winRate;
       const games   = row.num_drafts ?? row.total_games ?? row.totalGames ?? row.games;
       if (winrate == null) return null;
+      // Normalize: some API versions return decimals (0.54) instead of percentages (54)
+      if (winrate > 0 && winrate <= 1) winrate = winrate * 100;
       return { id: key, name: info.name, color: info.color, textDark: info.textDark ?? false, winrate: Math.round(winrate * 10) / 10, games: games ?? 0 };
     })
     .filter(Boolean) as any[];
@@ -206,58 +217,147 @@ function parseHSReplayClassStats(raw: any): Array<{ id: string; name: string; co
   return null;
 }
 
+const HSR_BROWSER_HEADERS = {
+  'User-Agent':       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Accept':           'application/json, text/plain, */*',
+  'Accept-Language':  'en-US,en;q=0.9',
+  'Referer':          'https://hsreplay.net/',
+  'X-Requested-With': 'XMLHttpRequest',
+};
+
+const HSR_CLASS_STATS_URLS = [
+  'https://hsreplay.net/api/v1/arena/classes_stats/',
+  'https://hsreplay.net/api/v1/arena/classes_stats/?GameType=ARENA',
+];
+
+const HSR_ARENA_CARDS_URLS = [
+  'https://hsreplay.net/api/v1/arena/cards/',
+  'https://hsreplay.net/api/v1/arena/cards/?GameType=ARENA',
+  'https://hsreplay.net/api/v1/arena/cards/?GameType=ARENA&tiering=winrate',
+  'https://hsreplay.net/api/v1/arena/cards/?game_type=arena&tiering=winrate',
+];
+
+const HSR_TIERING_PAGE_URL = 'https://hsreplay.net/arena/cards/#tiering=winrate';
+
+async function cloudRequestText(url: string): Promise<string | null> {
+  if (!cloudscraper) return null;
+  try {
+    const body = await cloudscraper.get({
+      uri: url,
+      headers: HSR_BROWSER_HEADERS,
+      gzip: true,
+      timeout: 60000,
+    });
+    return typeof body === 'string' ? body : String(body ?? '');
+  } catch (e) {
+    console.log(`[Scraper] cloudscraper text ${url} error: ${(e as Error).message}`);
+    return null;
+  }
+}
+
+async function cloudRequestJson(url: string): Promise<any | null> {
+  const text = await cloudRequestText(url);
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
+async function discoverHSReplayCardsApiUrlsFromPage(): Promise<string[]> {
+  const html = await cloudRequestText(HSR_TIERING_PAGE_URL);
+  if (!html) return [];
+  const found = new Set<string>();
+  const absRe = /https:\/\/hsreplay\.net\/api\/v1\/arena\/cards\/[^"'\\\s<)]*/gi;
+  const relRe = /\/api\/v1\/arena\/cards\/[^"'\\\s<)]*/gi;
+  for (const m of html.matchAll(absRe)) found.add(m[0].replace(/&amp;/g, '&'));
+  for (const m of html.matchAll(relRe)) found.add(`https://hsreplay.net${m[0].replace(/&amp;/g, '&')}`);
+  return [...found];
+}
+
+async function tryFetchHSReplayClassStats(): Promise<any[] | null> {
+  for (const url of HSR_CLASS_STATS_URLS) {
+    try {
+      const res = await fetch(url, { headers: HSR_BROWSER_HEADERS });
+      if (!res.ok) { console.log(`[Scraper] HSReplay class stats direct ${url}: HTTP ${res.status}`); continue; }
+      const ct = res.headers.get('content-type') ?? '';
+      if (!ct.includes('json')) continue;
+      const json = await res.json();
+      const classes = parseHSReplayClassStats(json);
+      if (classes && classes.length >= 8) {
+        console.log(`[Scraper] HSReplay class stats direct OK: ${classes.length} classes from ${url}`);
+        return classes;
+      }
+    } catch (e) {
+      console.log(`[Scraper] HSReplay class stats direct ${url} error: ${(e as Error).message}`);
+    }
+  }
+  return null;
+}
+
 export async function scrapeHSReplayClassWinrates(): Promise<boolean> {
   console.log('[Scraper] HSReplay: fetching arena class stats...');
 
-  // ── Intercept via puppeteer (classes_stats requires browser session) ────
-  console.log('[Scraper] HSReplay: launching browser for classes_stats...');
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
-  });
-  try {
-    const page = await browser.newPage();
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    );
+  // ── Attempt 1: direct API fetch ───────────────────────────────────────────
+  let intercepted: any = await tryFetchHSReplayClassStats();
 
-    let intercepted: any = null;
-    page.on('response', async (response) => {
-      if (intercepted) return;
-      const url = response.url();
-      if (!url.includes('hsreplay.net')) return;
-      const ct = response.headers()['content-type'] || '';
-      if (!ct.includes('json')) return;
-      try {
-        const text = await response.text();
-        const json = JSON.parse(text);
-        const classes = parseHSReplayClassStats(json);
-        if (classes && classes.length >= 8) {
-          console.log('[Scraper] HSReplay: matched class stats from:', url);
-          intercepted = classes;
-        }
-      } catch { /* skip */ }
+  // ── Attempt 2: Puppeteer browser interception ─────────────────────────────
+  if (!intercepted) {
+    console.log('[Scraper] HSReplay: falling back to Puppeteer for class stats...');
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
     });
+    try {
+      const page = await browser.newPage();
+      await page.setUserAgent(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      );
 
-    await page.goto('https://hsreplay.net/arena/', { waitUntil: 'networkidle2', timeout: 60000 });
-    await new Promise(r => setTimeout(r, 10000));
+      const pendingResponses: Promise<void>[] = [];
+      page.on('response', (response) => {
+        const url = response.url();
+        if (!url.includes('hsreplay.net')) return;
+        const ct = response.headers()['content-type'] || '';
+        if (!ct.includes('json') && !ct.includes('javascript')) return;
+        const p = (async () => {
+          if (intercepted) return;
+          try {
+            const text = await response.text();
+            const json = JSON.parse(text);
+            const classes = parseHSReplayClassStats(json);
+            if (classes && classes.length >= 8) {
+              console.log('[Scraper] HSReplay: matched class stats from:', url);
+              intercepted = classes;
+            }
+          } catch { /* skip */ }
+        })();
+        pendingResponses.push(p);
+      });
 
-    if (!intercepted) throw new Error('class_stats response not intercepted');
-
-    saveData('winrates.json', {
-      classes: intercepted.sort((a: any, b: any) => b.winrate - a.winrate),
-      updatedAt: new Date().toISOString(),
-      source: 'hsreplay.net',
-    });
-    console.log(`[Scraper] HSReplay: saved ${intercepted.length} classes (browser)`);
-    return true;
-
-  } catch (err) {
-    console.error('[Scraper] HSReplay class stats error:', (err as Error).message);
-    return false;
-  } finally {
-    await browser.close();
+      await page.goto('https://hsreplay.net/arena/', { waitUntil: 'networkidle2', timeout: 60000 });
+      await new Promise(r => setTimeout(r, 10000));
+      await Promise.allSettled(pendingResponses);
+    } catch (err) {
+      console.error('[Scraper] HSReplay class stats Puppeteer error:', (err as Error).message);
+    } finally {
+      await browser.close();
+    }
   }
+
+  if (!intercepted) {
+    console.error('[Scraper] HSReplay: no class stats from any source');
+    return false;
+  }
+
+  saveData('winrates.json', {
+    classes: intercepted.sort((a: any, b: any) => b.winrate - a.winrate),
+    updatedAt: new Date().toISOString(),
+    source: 'hsreplay.net',
+  });
+  console.log(`[Scraper] HSReplay: saved ${intercepted.length} classes`);
+  return true;
 }
 
 // ─── HSReplay Arena Cards Tier List ──────────────────────────────────────────
@@ -301,6 +401,92 @@ interface HsrCardRow {
   player_class?: string;
   deck_win_rate?: number;
   win_rate?: number;
+  [key: string]: unknown;
+}
+
+/** Normalize API class key (DRUID, death_knight, Death Knight) → UPPER compact for HSREPLAY_CARD_CLASS_MAP */
+function normalizeHsrClassKeyForMap(cls: string): string {
+  return cls
+    .toUpperCase()
+    .replace(/\s+/g, '')
+    .replace(/-/g, '_');
+}
+
+const HSREPLAY_CARD_CLASS_ALIASES: Record<string, string> = {
+  DEATHKNIGHT:   'death-knight',
+  DEATH_KNIGHT:  'death-knight',
+  DK:            'death-knight',
+  DEMONHUNTER:   'demon-hunter',
+  DEMON_HUNTER:  'demon-hunter',
+  DH:            'demon-hunter',
+  DRUID:         'druid',
+  HUNTER:        'hunter',
+  MAGE:          'mage',
+  PALADIN:       'paladin',
+  PRIEST:        'priest',
+  ROGUE:         'rogue',
+  SHAMAN:        'shaman',
+  WARLOCK:       'warlock',
+  WARRIOR:       'warrior',
+  NEUTRAL:       'any',
+  ANY:           'any',
+};
+
+function mapHsrPlayerClass(clsRaw: string): string {
+  const u = normalizeHsrClassKeyForMap(clsRaw);
+  return HSREPLAY_CARD_CLASS_ALIASES[u] ?? HSREPLAY_CARD_CLASS_MAP[u] ?? HSREPLAY_CARD_CLASS_MAP[clsRaw.toUpperCase()] ?? 'any';
+}
+
+/** Card id from row — HSReplay may use card_id, id, cardId */
+function pickHsrCardId(row: Record<string, unknown>): string {
+  const a = row.card_id ?? row.cardId ?? row.id;
+  if (typeof a === 'string' && a.length >= 2) return a;
+  if (typeof a === 'number' && Number.isFinite(a)) return String(a);
+  return '';
+}
+
+/** Deck / arena winrate from row — multiple naming conventions */
+function pickHsrDeckWinrate(row: Record<string, unknown>): number {
+  const candidates = [
+    row.deck_win_rate,
+    row.deckWinRate,
+    row.deck_winrate,
+    row.win_rate,
+    row.winRate,
+    row.winrate,
+    row.adjusted_win_rate,
+    row.adjustedWinRate,
+    row.deck_win_rate_percent,
+  ];
+  for (const v of candidates) {
+    if (typeof v === 'number' && Number.isFinite(v)) return v;
+  }
+  return 0;
+}
+
+function isLikelyClassKeyedArenaData(obj: Record<string, unknown>): boolean {
+  if (!obj || typeof obj !== 'object') return false;
+  let hits = 0;
+  for (const k of Object.keys(obj)) {
+    const mapped = mapHsrPlayerClass(k);
+    if (mapped !== 'any' || k.toUpperCase() === 'NEUTRAL' || k.toUpperCase() === 'ANY') hits++;
+  }
+  return hits >= 4;
+}
+
+function pushClassKeyedCardArrays(
+  rows: Array<HsrCardRow & { player_class?: string }>,
+  obj: Record<string, unknown>,
+): void {
+  for (const [cls, cards] of Object.entries(obj)) {
+    if (!Array.isArray(cards)) continue;
+    if (!HSREPLAY_CARD_CLASS_MAP[cls.toUpperCase()] && mapHsrPlayerClass(cls) === 'any' && cls.toUpperCase() !== 'NEUTRAL' && cls.toUpperCase() !== 'ANY') {
+      continue;
+    }
+    for (const card of cards) {
+      if (card && typeof card === 'object') rows.push({ player_class: cls, ...(card as object) });
+    }
+  }
 }
 
 /**
@@ -319,38 +505,96 @@ function parseHSReplayCards(
 
   // Format 1: { series: { data: { DRUID: [{dbf_id/card_id, deck_win_rate}] } } }
   if (raw?.series?.data && typeof raw.series.data === 'object' && !Array.isArray(raw.series.data)) {
-    for (const [cls, cards] of Object.entries(raw.series.data) as [string, any][]) {
-      if (Array.isArray(cards)) {
-        for (const card of cards) rows.push({ player_class: cls, ...card });
+    pushClassKeyedCardArrays(rows, raw.series.data as Record<string, unknown>);
+  }
+
+  // Format 1b: { series: [...] } — array of buckets with class + rows
+  if (rows.length === 0 && Array.isArray(raw?.series)) {
+    for (const bucket of raw.series) {
+      if (!bucket || typeof bucket !== 'object') continue;
+      const b = bucket as Record<string, unknown>;
+      const cls = (b.player_class ?? b.class ?? b.name ?? '') as string;
+      const data = b.data ?? b.cards ?? b.rows;
+      if (Array.isArray(data) && cls) {
+        for (const card of data) {
+          if (card && typeof card === 'object') rows.push({ player_class: cls, ...(card as object) });
+        }
       }
     }
   }
 
-  // Format 2: flat array or data.ALL array
+  // Format 2: flat array or data.ALL / data array / data.arena
   if (rows.length === 0) {
+    const d = raw?.data;
     const arr = Array.isArray(raw)
       ? raw
-      : (Array.isArray(raw?.data?.ALL) ? raw.data.ALL : (Array.isArray(raw?.data) ? raw.data : null));
-    if (arr) rows = arr;
+      : (Array.isArray(d?.ALL)
+        ? d.ALL
+        : Array.isArray(d?.all)
+          ? d.all
+          : Array.isArray(d?.Arena)
+            ? d.Arena
+            : Array.isArray(d?.arena)
+              ? d.arena
+              : Array.isArray(d)
+                ? d
+                : null);
+    if (arr) rows = arr as typeof rows;
+  }
+
+  // Format 3: { data: { DRUID: [{...}], NEUTRAL: [{...}] } } — class-keyed object under data
+  if (rows.length === 0 && raw?.data && typeof raw.data === 'object' && !Array.isArray(raw.data)) {
+    pushClassKeyedCardArrays(rows, raw.data as Record<string, unknown>);
+  }
+
+  // Format 3b: { payload: { ... class-keyed } } or { result: { ... } }
+  for (const nestKey of ['payload', 'result', 'results', 'response'] as const) {
+    if (rows.length > 0) break;
+    const nest = raw?.[nestKey];
+    if (nest && typeof nest === 'object' && !Array.isArray(nest)) {
+      const n = nest as Record<string, unknown>;
+      if (Array.isArray(n.data)) {
+        rows = n.data as typeof rows;
+      } else if (n.data && typeof n.data === 'object' && !Array.isArray(n.data) && isLikelyClassKeyedArenaData(n.data as Record<string, unknown>)) {
+        pushClassKeyedCardArrays(rows, n.data as Record<string, unknown>);
+      } else if (isLikelyClassKeyedArenaData(n)) {
+        pushClassKeyedCardArrays(rows, n);
+      }
+    }
+  }
+
+  // Format 4: top-level class-keyed object { DRUID: [{...}], NEUTRAL: [{...}] }
+  if (rows.length === 0 && raw && typeof raw === 'object' && !Array.isArray(raw)) {
+    const top = raw as Record<string, unknown>;
+    if (isLikelyClassKeyedArenaData(top)) {
+      pushClassKeyedCardArrays(rows, top);
+    }
+  }
+
+  // Format 5: { cards: [...] } or { data: { cards: [...] } } with per-row class
+  if (rows.length === 0) {
+    const list = Array.isArray(raw?.cards)
+      ? raw.cards
+      : Array.isArray(raw?.data?.cards)
+        ? raw.data.cards
+        : Array.isArray(raw?.results)
+          ? raw.results
+          : null;
+    if (list) rows = list as typeof rows;
   }
 
   if (rows.length < 20) return null;
 
   const result = rows
     .map(row => {
-      // Resolve cardId: prefer string card_id, fallback to dbf_id lookup
-      let cardId: string | undefined;
-      if (row.card_id) {
-        cardId = row.card_id;
-      } else if (row.dbf_id) {
-        cardId = dbfToCardId.get(row.dbf_id);
-      }
+      const r = row as Record<string, unknown>;
+      const cardId = pickHsrCardId(r);
       if (!cardId) return null;
-
-      const cls = (row.player_class ?? '').toUpperCase();
-      const playerClass = HSREPLAY_CARD_CLASS_MAP[cls] ?? 'any';
-      const winrate = row.deck_win_rate ?? row.win_rate ?? 0;
-      if (!winrate || winrate < 20 || winrate > 80) return null; // sanity check
+      const clsRaw = String(r.player_class ?? r.playerClass ?? r.class ?? r.card_class ?? r.hero_class ?? '');
+      const playerClass = mapHsrPlayerClass(clsRaw);
+      let winrate = pickHsrDeckWinrate(r);
+      if (winrate > 0 && winrate <= 1) winrate = winrate * 100;
+      if (!winrate || winrate < 10 || winrate > 92) return null;
       return { cardId, playerClass, winrate: Math.round(winrate * 10) / 10 };
     })
     .filter(Boolean) as Array<{ cardId: string; playerClass: string; winrate: number }>;
@@ -358,60 +602,102 @@ function parseHSReplayCards(
   return result.length >= 20 ? result : null;
 }
 
+async function tryFetchHSReplayCards(): Promise<Array<{ cardId: string; playerClass: string; winrate: number }> | null> {
+  for (const url of HSR_ARENA_CARDS_URLS) {
+    try {
+      const res = await fetch(url, { headers: HSR_BROWSER_HEADERS });
+      if (!res.ok) { console.log(`[Scraper] HSReplay direct fetch ${url}: HTTP ${res.status}`); continue; }
+      const ct = res.headers.get('content-type') ?? '';
+      if (!ct.includes('json')) { console.log(`[Scraper] HSReplay direct fetch ${url}: non-JSON content-type: ${ct}`); continue; }
+      const json = await res.json();
+      const cards = parseHSReplayCards(json);
+      if (cards && cards.length >= 20) {
+        console.log(`[Scraper] HSReplay direct fetch OK: ${cards.length} cards from ${url}`);
+        return cards;
+      }
+      console.log(`[Scraper] HSReplay direct fetch ${url}: parsed 0 cards (unexpected format)`);
+    } catch (e) {
+      console.log(`[Scraper] HSReplay direct fetch ${url} error: ${(e as Error).message}`);
+    }
+  }
+
+  // Anti-bot fallback for Cloudflare-protected responses
+  if (!cloudscraper) {
+    console.log('[Scraper] cloudscraper not installed, skipping Cloudflare fallback');
+    return null;
+  }
+
+  const dynamicUrls = await discoverHSReplayCardsApiUrlsFromPage();
+  const urlsToTry = [...new Set([...HSR_ARENA_CARDS_URLS, ...dynamicUrls])];
+  for (const url of urlsToTry) {
+    const json = await cloudRequestJson(url);
+    if (!json) continue;
+    const cards = parseHSReplayCards(json);
+    if (cards && cards.length >= 20) {
+      console.log(`[Scraper] HSReplay cloudscraper OK: ${cards.length} cards from ${url}`);
+      return cards;
+    }
+  }
+
+  return null;
+}
+
 export async function scrapeHSReplayTierlist(): Promise<boolean> {
   console.log('[Scraper] HSReplay: fetching arena cards tier list...');
 
-  // ── Build dbf_id → cardId map from cards_ru.json (before browser launch) ──
-  const dbfToCardId = new Map<number, string>();
-  try {
-    const cardsRuRaw = JSON.parse(readFileSync(join(DATA_DIR, 'cards_ru.json'), 'utf-8'));
-    for (const [cardId, data] of Object.entries(cardsRuRaw) as [string, any][]) {
-      if (typeof data.dbf === 'number') dbfToCardId.set(data.dbf, cardId);
+  // ── Attempt 1: direct API fetch (faster, no browser overhead) ────────────
+  let intercepted = await tryFetchHSReplayCards();
+
+  // ── Attempt 2: Puppeteer browser interception ─────────────────────────────
+  if (!intercepted) {
+    console.log('[Scraper] HSReplay: falling back to Puppeteer...');
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
+    });
+    try {
+      const page = await browser.newPage();
+      await page.setUserAgent(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      );
+
+      const pendingResponses: Promise<void>[] = [];
+      page.on('response', (response) => {
+        const url = response.url();
+        if (!url.includes('hsreplay.net')) return;
+        const ct = response.headers()['content-type'] ?? '';
+        if (!ct.includes('json') && !ct.includes('javascript')) return;
+        const p = (async () => {
+          if (intercepted) return;
+          try {
+            const text = await response.text();
+            const json = JSON.parse(text);
+            const cards = parseHSReplayCards(json);
+            if (cards && cards.length >= 20) {
+              console.log(`[Scraper] HSReplay cards: intercepted ${cards.length} cards from: ${url}`);
+              intercepted = cards;
+            }
+          } catch { /* skip */ }
+        })();
+        pendingResponses.push(p);
+      });
+
+      await page.goto('https://hsreplay.net/arena/cards/', { waitUntil: 'networkidle2', timeout: 60000 });
+      await new Promise(r => setTimeout(r, 10000));
+      await Promise.allSettled(pendingResponses);
+    } catch (err) {
+      console.error('[Scraper] HSReplay Puppeteer error:', (err as Error).message);
+    } finally {
+      await browser.close();
     }
-    console.log(`[Scraper] HSReplay: dbf map built: ${dbfToCardId.size} entries`);
-  } catch (e) {
-    console.warn('[Scraper] HSReplay: could not load cards_ru.json for dbf map:', (e as Error).message);
   }
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
-  });
+  if (!intercepted) {
+    console.error('[Scraper] HSReplay tierlist: no data from direct fetch or Puppeteer');
+    return false;
+  }
 
   try {
-    const page = await browser.newPage();
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    );
-
-    let intercepted: Array<{ cardId: string; playerClass: string; winrate: number }> | null = null;
-
-    page.on('response', async (response) => {
-      if (intercepted) return;
-      const url = response.url();
-      if (!url.includes('hsreplay.net')) return;
-      const ct = response.headers()['content-type'] ?? '';
-      if (!ct.includes('json')) return;
-      try {
-        const text = await response.text();
-        const json = JSON.parse(text);
-        const cards = parseHSReplayCards(json, dbfToCardId);
-        if (cards && cards.length >= 20) {
-          console.log(`[Scraper] HSReplay cards: intercepted ${cards.length} cards from: ${url}`);
-          intercepted = cards;
-        } else if (json && typeof json === 'object') {
-          // Log any JSON response for debugging
-          const keys = Object.keys(json).slice(0, 5).join(', ');
-          console.log(`[Scraper] HSReplay: skipped JSON from ${url} (keys: ${keys})`);
-        }
-      } catch { /* skip */ }
-    });
-
-    await page.goto('https://hsreplay.net/arena/cards/', { waitUntil: 'networkidle2', timeout: 60000 });
-    await new Promise(r => setTimeout(r, 12000));
-
-    if (!intercepted) throw new Error('arena cards response not intercepted');
-
     // Load existing HearthArena card lookup for images + stats
     const existingTierlist = loadData('tierlist.json');
     const cardImages: Record<string, any> = existingTierlist?.cards ?? {};
@@ -487,12 +773,9 @@ export async function scrapeHSReplayTierlist(): Promise<boolean> {
     });
     console.log(`[Scraper] HSReplay tierlist: ${sections.length} classes, ${intercepted.length} cards saved`);
     return true;
-
   } catch (err) {
     console.error('[Scraper] HSReplay tierlist error:', (err as Error).message);
     return false;
-  } finally {
-    await browser.close();
   }
 }
 

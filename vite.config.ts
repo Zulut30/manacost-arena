@@ -25,6 +25,8 @@ export default defineConfig(({mode}) => {
       },
     },
     build: {
+      target: 'es2022',
+      cssMinify: true,
       rollupOptions: {
         output: {
           manualChunks: {
@@ -33,6 +35,8 @@ export default defineConfig(({mode}) => {
           },
         },
       },
+      reportCompressedSize: false,
+      chunkSizeWarningLimit: 600,
     },
   };
 });

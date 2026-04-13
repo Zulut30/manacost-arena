@@ -1,9 +1,30 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /?admin
 
 # Sitemap location
 Sitemap: https://manacost-arena.vercel.app/sitemap.xml
 
-# Don't index admin panel
-Disallow: /?admin
+# Crawl rate hint
+Crawl-delay: 1
+
+# Allow indexing of all public assets
+Allow: /assets/
+Allow: /class_icon/
+Allow: /main_assets/
+Allow: /wallpaper/
+Allow: /fonts/
+
+# Yandex specific
+User-agent: YandexBot
+Allow: /
 Disallow: /api/
+Disallow: /?admin
+Crawl-delay: 2
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /?admin

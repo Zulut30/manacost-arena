@@ -1,35 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <url>
     <loc>https://manacost-arena.vercel.app/</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://manacost-arena.vercel.app/assets/og-preview.png</image:loc>
+      <image:title>HS-Arena — статистика Арены Hearthstone</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://manacost-arena.vercel.app/classes</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://manacost-arena.vercel.app/main_assets/winrate-classes.png</image:loc>
+      <image:title>Винрейт классов Арены Hearthstone</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://manacost-arena.vercel.app/tierlist</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://manacost-arena.vercel.app/main_assets/tier-list.png</image:loc>
+      <image:title>Тир-лист карт Арены Hearthstone</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://manacost-arena.vercel.app/legendaries</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://manacost-arena.vercel.app/main_assets/legendary_group.png</image:loc>
+      <image:title>Легендарные группы Арены Hearthstone</image:title>
+    </image:image>
   </url>
 
   <url>
     <loc>https://manacost-arena.vercel.app/articles</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://manacost-arena.vercel.app/jobs</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

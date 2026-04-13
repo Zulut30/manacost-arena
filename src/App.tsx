@@ -2774,7 +2774,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center">
+      <main className="flex-grow p-2 sm:p-4 md:p-8 relative flex flex-col items-center" role="main">
         {/* Tab bar wrapper — hidden in admin mode */}
         <div className={`relative w-full max-w-6xl flex flex-col items-center ${isAdminMode ? 'hidden' : ''}`}>
           {/* Mobile nav bar */}
@@ -2800,7 +2800,8 @@ export default function App() {
 
           {/* Mobile dropdown */}
           {mobileMenuOpen && (
-            <div className="sm:hidden absolute top-0 left-0 right-0 z-40 px-3 pt-2 pb-3 flex flex-col gap-1.5"
+            <nav className="sm:hidden absolute top-0 left-0 right-0 z-40 px-3 pt-2 pb-3 flex flex-col gap-1.5"
+              aria-label="Мобильная навигация"
               style={{ background: 'linear-gradient(180deg,#2c1e16,#1a0e04)', borderBottom: '2px solid #8b5a1a', boxShadow: '0 8px 24px rgba(0,0,0,0.7)' }}>
               {TABS.map(tab => {
                 const Icon = tab.icon; const active = activeTab === tab.id;
@@ -2814,11 +2815,11 @@ export default function App() {
                   </button>
                 );
               })}
-            </div>
+            </nav>
           )}
 
           {/* Desktop tab bar */}
-          <div className="hidden sm:flex justify-center gap-1 md:gap-2 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 w-full max-w-6xl flex-wrap">
+          <nav className="hidden sm:flex justify-center gap-1 md:gap-2 -mb-[3px] sm:-mb-[4px] relative z-10 px-2 w-full max-w-6xl flex-wrap" aria-label="Основная навигация">
             {TABS.map(tab => {
               const Icon = tab.icon; const active = activeTab === tab.id;
               return (
@@ -2840,7 +2841,7 @@ export default function App() {
               aria-label="О проекте">
               <Info size={16} className="opacity-70" />
             </button>
-          </div>
+          </nav>
         </div>
 
         {/* Parchment container */}
