@@ -2,6 +2,7 @@
 
 const ALLOWED_IPS = [
   '83.5.235.154', // admin
+  '83.5.170.78',  // admin
   '127.0.0.1',    // localhost
   '::1',          // localhost IPv6
 ];

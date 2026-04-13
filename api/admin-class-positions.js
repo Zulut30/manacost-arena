@@ -20,6 +20,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 
 const ALLOWED_IPS = [
   '83.5.235.154',
+  '83.5.170.78',
   '127.0.0.1',
   '::1',
 ];

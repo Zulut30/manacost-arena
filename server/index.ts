@@ -34,7 +34,7 @@ function loadDataCached(filename: string): CacheEntry | null {
 function invalidateDataCache() { dataCache.clear(); }
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'manacost2026';
 
-const ALLOWED_IPS = ['83.5.235.154', '127.0.0.1', '::1', '::ffff:127.0.0.1'];
+const ALLOWED_IPS = ['83.5.235.154', '83.5.170.78', '127.0.0.1', '::1', '::ffff:127.0.0.1'];
 
 function getClientIp(req: import('express').Request): string {
   const forwarded = req.headers['x-forwarded-for'];
