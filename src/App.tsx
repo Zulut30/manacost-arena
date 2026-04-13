@@ -2674,7 +2674,7 @@ const TABS = [
 
 // ─── Per-tab SEO meta ─────────────────────────────────────────────────────────
 
-const SITE_URL = 'https://manacost-arena.vercel.app';
+const SITE_URL = 'https://hs-arena.ru';
 
 const PAGE_META: Record<string, { title: string; description: string; slug: string }> = {
   home:        {

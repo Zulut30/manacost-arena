@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 
-const SITE_URL = 'https://manacost-arena.vercel.app';
+const SITE_URL = 'https://hs-arena.ru';
 
 const PAGES = {
   '/': {
