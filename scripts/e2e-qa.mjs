@@ -1088,6 +1088,11 @@ async function mockApplicationApi(page, {
         enabled: true,
         mode: 'oidc',
         authUrl: '/api/auth/telegram/start',
+        socialProviders: [
+          { provider: 'google', authUrl: '/api/auth/google/start' },
+          { provider: 'discord', authUrl: '/api/auth/discord/start' },
+          { provider: 'yandex', authUrl: '/api/auth/yandex/start' },
+        ],
       }));
       return;
     }
@@ -5505,12 +5510,13 @@ for (const [device, viewport] of [
   try {
     await page.goto(`${BASE}/?login`, { waitUntil: 'domcontentloaded', timeout: 45_000 });
     await page.waitForSelector('.login-card', { visible: true, timeout: 20_000 });
-    await page.waitForSelector('.login-telegram-link', { visible: true, timeout: 10_000 });
+    await page.waitForSelector('.login-provider-grid', { visible: true, timeout: 10_000 });
     const loginState = await page.evaluate(() => {
       const card = document.querySelector('.login-card');
       const emblem = document.querySelector('.login-card__emblem');
       const input = document.querySelector('.login-field input');
       const actionable = [...document.querySelectorAll('.login-card :is(button, a)')];
+      const socialProviders = [...document.querySelectorAll('.login-provider')];
       const cardStyle = getComputedStyle(card);
       const inputStyle = getComputedStyle(input);
       return {
@@ -5524,6 +5530,15 @@ for (const [device, viewport] of [
         inlineOwners: document.querySelectorAll('.login-page [style]').length,
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         labelledFields: [...document.querySelectorAll('.login-field')].every(label => Boolean(label.querySelector(':scope > span'))),
+        socialProviderCount: socialProviders.length,
+        socialProvidersSquare: socialProviders.every(provider => {
+          const { width, height } = provider.getBoundingClientRect();
+          return width >= 44 && Math.abs(width - height) < 1;
+        }),
+        socialIconsLoaded: socialProviders.every(provider => {
+          const icon = provider.querySelector('img');
+          return icon?.complete && icon.naturalWidth > 0;
+        }),
       };
     });
     if (!loginState.stylesheetLoaded
@@ -5535,7 +5550,10 @@ for (const [device, viewport] of [
       || loginState.smallestAction < 44
       || loginState.inlineOwners !== 0
       || loginState.horizontalOverflow
-      || !loginState.labelledFields) {
+      || !loginState.labelledFields
+      || loginState.socialProviderCount !== 4
+      || !loginState.socialProvidersSquare
+      || !loginState.socialIconsLoaded) {
       failures.push(`public auth [${device}]: material or geometry changed (${JSON.stringify(loginState)})`);
     }
 
