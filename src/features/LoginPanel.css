@@ -256,46 +256,7 @@
 .login-social-links {
   display: grid;
   gap: 0.5rem;
-  margin-top: 0.5rem;
 }
-
-.login-telegram--followup {
-  margin-top: 0.5rem;
-}
-
-.login-social-link {
-  display: flex;
-  min-height: 42px;
-  align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  border: 1px solid rgba(91, 13, 18, 0.35);
-  border-radius: 2px;
-  color: #3e2818;
-  font: 700 0.8125rem var(--font-display);
-  text-decoration: none;
-  background: #fff9ea;
-}
-
-.login-social-link:hover {
-  background: #fff1d0;
-}
-
-.login-social-link__mark {
-  display: inline-flex;
-  width: 22px;
-  height: 22px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: #fff;
-  font: 700 0.75rem/1 sans-serif;
-  background: #6b4c2a;
-}
-
-.login-social-link--google .login-social-link__mark { background: #4285f4; }
-.login-social-link--discord .login-social-link__mark { background: #5865f2; }
-.login-social-link--yandex .login-social-link__mark { background: #fc3f1d; }
 
 @media (max-width: 640px) {
   .login-card {
