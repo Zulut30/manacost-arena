@@ -55,6 +55,17 @@ Telegram OIDC должен разрешать callback
 ставит host-only Secure cookie на HearthPulse, а callback не возвращает ошибку
 redirect URI.
 
+Для входа через внешние сервисы зарегистрируйте ровно следующие redirect URI:
+
+- Google: `https://hearthpulse.net/api/auth/google/callback`
+- Discord: `https://hearthpulse.net/api/auth/discord/callback`
+- Яндекс ID: `https://hearthpulse.net/api/auth/yandex/callback`
+
+В Google также разрешите JavaScript origin `https://hearthpulse.net`. В Яндекс
+ID поле Suggest Hostname оставьте пустым. Не добавляйте ключи в репозиторий:
+сервер показывает кнопку конкретного провайдера только после задания пары
+переменных окружения `*_OAUTH_CLIENT_ID` и `*_OAUTH_CLIENT_SECRET`.
+
 ## Проверка
 
 ```bash
