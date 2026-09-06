@@ -12,7 +12,8 @@ Patreon является способом подтвердить доступ к
 
 - `PATREON_CLIENT_ID` и `PATREON_CLIENT_SECRET` — OAuth-клиент Patreon API v2;
 - `PATREON_CAMPAIGN_ID` — идентификатор кампании Манакоста;
-- `PATREON_FULL_ACCESS_TIER_IDS` — ID уровня «Алмаз» и каждого уровня выше через запятую;
+- `PATREON_FULL_ACCESS_TIER_IDS` — ID уровня «Алмаз» и каждого уровня выше
+  через запятую;
 - `PATREON_TOKEN_ENCRYPTION_KEY` — отдельный секрет длиной не менее 32 символов.
 
 В приложении Patreon зарегистрирован только callback
