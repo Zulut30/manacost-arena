@@ -17,3 +17,8 @@ export {
   type TrackerSummaryCounts,
 } from './model.js';
 export { parseTrackerBatch, TrackerBatchError, type ParsedBatchEvent } from './schema.js';
+export {
+  TRACKER_PROFILE_TABLES_SQL,
+  createSqliteTrackerProfileRepository,
+  initializeTrackerProfileRepository,
+} from './repository.js';

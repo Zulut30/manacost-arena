@@ -158,10 +158,19 @@
       "contracts": ["server/modules/trackerProfile/model.ts", "server/modules/trackerProfile/schema.ts"],
       "jobs": [],
       "cacheNamespaces": [],
-      "dataStores": [],
+      "dataStores": [
+        "sqlite:tracker_events",
+        "sqlite:tracker_matches",
+        "sqlite:tracker_arena_runs",
+        "sqlite:tracker_arena_picks",
+        "sqlite:tracker_battlegrounds_matches",
+        "sqlite:tracker_collections",
+        "sqlite:tracker_collection_cards"
+      ],
       "externalServices": [],
       "tests": [
-        "tests/tracker-profile-model.test.ts"
+        "tests/tracker-profile-model.test.ts",
+        "tests/tracker-profile-repository.test.ts"
       ],
       "allowedDependencies": ["server/shared", "Node.js crypto/sqlite", "Express and express-rate-limit at the routes boundary"],
       "forbiddenImports": ["src/**", "other server module internals"]
