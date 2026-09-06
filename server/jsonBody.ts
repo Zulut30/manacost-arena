@@ -1,9 +1,12 @@
 import express, { type RequestHandler } from 'express';
+import { TRACKER_LIMITS } from './modules/trackerProfile/public.js';
 
 type JsonBodyParserOptions = {
   defaultLimit?: string | number;
   adminUploadMaxBytes: number;
   galleryUploadMaxBytes: number;
+  /** Tracker batch bodies default to the module's 5 MiB contract limit. */
+  trackerBatchMaxBytes?: number;
 };
 
 type UploadAuthorizationGuardOptions = {
@@ -12,12 +15,13 @@ type UploadAuthorizationGuardOptions = {
   setPrivateNoStore?: (response: express.Response) => void;
 };
 
-function largeJsonRoute(req: express.Request): 'admin-image' | 'gallery' | null {
+function largeJsonRoute(req: express.Request): 'admin-image' | 'gallery' | 'tracker-batch' | null {
   if (req.method !== 'POST') return null;
   try {
     const pathname = new URL(req.originalUrl || req.url, 'http://local.invalid').pathname;
     if (pathname === '/api/admin/uploads/image') return 'admin-image';
     if (pathname === '/api/admin/gallery') return 'gallery';
+    if (pathname === '/api/v1/tracker/events/batch') return 'tracker-batch';
   } catch {
     return null;
   }
@@ -33,6 +37,7 @@ export function createRouteAwareJsonParser(options: JsonBodyParserOptions): Requ
   const defaultParser = express.json({ limit: options.defaultLimit || '1mb' });
   const adminImageParser = express.json({ limit: jsonLimitForBase64Binary(options.adminUploadMaxBytes) });
   const galleryImageParser = express.json({ limit: jsonLimitForBase64Binary(options.galleryUploadMaxBytes) });
+  const trackerBatchParser = express.json({ limit: options.trackerBatchMaxBytes ?? TRACKER_LIMITS.batchBodyBytes });
 
   return (req, res, next) => {
     const route = largeJsonRoute(req);
@@ -41,6 +46,9 @@ export function createRouteAwareJsonParser(options: JsonBodyParserOptions): Requ
     }
     if (route === 'gallery') {
       return galleryImageParser(req, res, next);
+    }
+    if (route === 'tracker-batch') {
+      return trackerBatchParser(req, res, next);
     }
     return defaultParser(req, res, next);
   };

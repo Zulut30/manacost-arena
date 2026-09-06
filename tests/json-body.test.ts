@@ -24,6 +24,7 @@ app.use(createRouteAwareJsonParser({
   defaultLimit: 100,
   adminUploadMaxBytes: 300,
   galleryUploadMaxBytes: 600,
+  trackerBatchMaxBytes: 400,
 }));
 app.post('*', (req, res) => res.json({ length: String(req.body?.value || '').length }));
 app.use((error: { status?: number }, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
@@ -58,6 +59,9 @@ try {
   assert.equal((await post('/api/admin/uploads/image', 150, 'admin')).status, 200);
   assert.equal((await post('/api/admin/gallery?source=test', 400, 'admin')).status, 200);
   assert.equal((await post('/api/admin/gallery-other', 150)).status, 413);
+  assert.equal((await post('/api/v1/tracker/events/batch', 300)).status, 200);
+  assert.equal((await post('/api/v1/tracker/events/batch', 500)).status, 413);
+  assert.equal((await post('/api/v1/tracker/events/batch-other', 150)).status, 413);
 } finally {
   await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
 }
