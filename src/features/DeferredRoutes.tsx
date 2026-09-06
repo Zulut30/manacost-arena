@@ -18,7 +18,7 @@ import FAQSection from '../components/FAQSection';
 import TierlistEarlyStatsNotice from './TierlistEarlyStatsNotice';
 import { Breadcrumbs, SectionBanner } from './EditorialRouteChrome';
 import { ArenaTierListSearchIntro } from '../modules/searchLanding/arena';
-import SocialLoginLinks, { parseSocialLoginProviders, type SocialLoginProvider } from './SocialLoginLinks';
+const SocialLoginLinks = React.lazy(() => import('./SocialLoginLinks'));
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -3193,7 +3193,7 @@ export function LoginPanel({
   const [telegramCallbackUrl, setTelegramCallbackUrl] = useState('');
   const [telegramBotUsername, setTelegramBotUsername] = useState('');
   const [telegramMode, setTelegramMode] = useState<TelegramAuthMode>('disabled');
-  const [telegramEnabled, setTelegramEnabled] = useState(false); const [socialLoginProviders, setSocialLoginProviders] = useState<SocialLoginProvider[]>([]);
+  const [telegramEnabled, setTelegramEnabled] = useState(false); const [socialLoginProviders, setSocialLoginProviders] = useState<unknown>([]);
   const [telegramLinkCode, setTelegramLinkCode] = useState('');
   const [telegramLinkExpiresAt, setTelegramLinkExpiresAt] = useState('');
   const [telegramLinkLoading, setTelegramLinkLoading] = useState(false);
@@ -3219,7 +3219,7 @@ export function LoginPanel({
     fetch('/api/auth/telegram/config')
       .then(async res => {
         const data = await res.json().catch(() => ({}));
-        setSocialLoginProviders(parseSocialLoginProviders(data.socialProviders));
+        setSocialLoginProviders(data.socialProviders);
         if (!res.ok || !data.enabled || !data.authUrl) return;
         setTelegramAuthUrl(String(data.authUrl || '/api/auth/telegram/start'));
         setTelegramCallbackUrl(String(data.callbackUrl || data.authUrl || '/api/auth/telegram/callback'));
@@ -4051,36 +4051,23 @@ export function LoginPanel({
             {loading ? 'Проверяем...' : authStep === 'password' ? 'Получить код' : authMode === 'reset' ? 'Сменить пароль' : 'Войти'}
           </button>
         </form>
-        {authStep === 'password' && authMode === 'login' && telegramEnabled && (
+        {authStep === 'password' && authMode === 'login' && telegramEnabled && telegramMode === 'legacy-widget' && (
           <div className="login-telegram">
             <div className="login-divider">
               <span className="login-divider__line" />
               <span>или</span>
               <span className="login-divider__line" />
             </div>
-            {telegramEnabled && (telegramMode === 'legacy-widget' && telegramBotUsername ? (
+            {telegramBotUsername ? (
               <TelegramLoginWidget
                 botUsername={telegramBotUsername}
                 authUrl={telegramLoginUrl}
                 label="Войти через Telegram"
               />
-            ) : (
-              <a
-                href={telegramLoginUrl || '/api/auth/telegram/start'}
-                className={`login-telegram-link${loading ? ' login-telegram-link--disabled' : ''}`}
-                aria-disabled={loading}
-              >
-                <span className="login-telegram-link__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" focusable="false">
-                    <path fill="#ffffff" d="M21.7 3.3c.3-.9-.6-1.6-1.4-1.2L2.9 8.8c-1 .4-.9 1.8.1 2.1l4.4 1.4 1.7 5.3c.3.9 1.5 1.1 2.1.4l2.4-2.8 4.6 3.4c.8.6 1.9.1 2.1-.9l2.9-14.4ZM8.1 11.8l9.5-5.9-7.4 7.7-.3 3.2-1.8-5Z" />
-                  </svg>
-                </span>
-                <span>Войти через Telegram</span>
-              </a>
-            ))}
+            ) : null}
           </div>
         )}
-        {authStep === 'password' && authMode === 'login' && <SocialLoginLinks disabled={loading} providers={socialLoginProviders} withDivider={!telegramEnabled} />}
+        {authStep === 'password' && authMode === 'login' && <React.Suspense fallback={null}><SocialLoginLinks disabled={loading} providers={socialLoginProviders} telegramAuthUrl={telegramEnabled && telegramMode !== 'legacy-widget' ? telegramLoginUrl || '/api/auth/telegram/start' : ''} withDivider={telegramMode !== 'legacy-widget'} /></React.Suspense>}
         {authStep === 'password' && authMode === 'login' && (
           <button
             type="button"
