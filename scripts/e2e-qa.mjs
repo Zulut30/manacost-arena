@@ -1092,6 +1092,7 @@ async function mockApplicationApi(page, {
           { provider: 'google', authUrl: '/api/auth/google/start' },
           { provider: 'discord', authUrl: '/api/auth/discord/start' },
           { provider: 'yandex', authUrl: '/api/auth/yandex/start' },
+          { provider: 'patreon', authUrl: '/api/auth/patreon/start' },
         ],
       }));
       return;
@@ -5551,7 +5552,7 @@ for (const [device, viewport] of [
       || loginState.inlineOwners !== 0
       || loginState.horizontalOverflow
       || !loginState.labelledFields
-      || loginState.socialProviderCount !== 4
+      || loginState.socialProviderCount !== 5
       || !loginState.socialProvidersSquare
       || !loginState.socialIconsLoaded) {
       failures.push(`public auth [${device}]: material or geometry changed (${JSON.stringify(loginState)})`);
