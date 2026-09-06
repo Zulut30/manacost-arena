@@ -154,7 +154,12 @@
       "paths": ["server/modules/trackerProfile"],
       "publicEntrypoints": ["server/modules/trackerProfile/public.ts"],
       "frontendRoutes": [],
-      "backendRoutes": [],
+      "backendRoutes": [
+        { "method": "POST", "path": "/api/v1/tracker/events/batch" },
+        { "method": "GET", "path": "/api/v1/tracker/profile/summary" },
+        { "method": "GET", "path": "/api/v1/tracker/profile/matches" },
+        { "method": "GET", "path": "/api/v1/tracker/profile/arena/runs" }
+      ],
       "contracts": ["server/modules/trackerProfile/model.ts", "server/modules/trackerProfile/schema.ts"],
       "jobs": [],
       "cacheNamespaces": [],
@@ -170,7 +175,8 @@
       "externalServices": [],
       "tests": [
         "tests/tracker-profile-model.test.ts",
-        "tests/tracker-profile-repository.test.ts"
+        "tests/tracker-profile-repository.test.ts",
+        "tests/tracker-profile-routes.test.ts"
       ],
       "allowedDependencies": ["server/shared", "Node.js crypto/sqlite", "Express and express-rate-limit at the routes boundary"],
       "forbiddenImports": ["src/**", "other server module internals"]

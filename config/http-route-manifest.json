@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "scope": "Authored Express route and middleware registrations under server/",
   "summary": {
-    "sourceFiles": 70,
-    "routeRegistrations": 214,
-    "middlewareRegistrations": 107,
-    "explicitGuardRouteRegistrations": 56,
+    "sourceFiles": 72,
+    "routeRegistrations": 218,
+    "middlewareRegistrations": 108,
+    "explicitGuardRouteRegistrations": 57,
     "unresolvedPaths": 0
   },
   "registrations": [
@@ -899,6 +899,19 @@
       "guardSignals": [],
       "source": "server/app/registerPublicApi.ts",
       "sourceOrder": 1
+    },
+    {
+      "kind": "middleware",
+      "paths": [
+        "/api/v1"
+      ],
+      "receiver": "dependencies.app",
+      "handlers": [
+        "createTrackerProfileRouter(...)"
+      ],
+      "guardSignals": [],
+      "source": "server/app/registerTrackerProfile.ts",
+      "sourceOrder": 0
     },
     {
       "kind": "route",
@@ -3761,6 +3774,62 @@
       "guardSignals": [],
       "source": "server/modules/publicApi/routes.ts",
       "sourceOrder": 26
+    },
+    {
+      "kind": "route",
+      "method": "POST",
+      "path": "/tracker/events/batch",
+      "pathKind": "string",
+      "receiver": "router",
+      "middleware": [
+        "ipLimiter",
+        "authenticateWriter",
+        "userLimiter"
+      ],
+      "handler": "guarded(...)",
+      "guardSignals": [
+        "ipLimiter",
+        "authenticateWriter",
+        "userLimiter"
+      ],
+      "source": "server/modules/trackerProfile/routes.ts",
+      "sourceOrder": 0
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/tracker/profile/summary",
+      "pathKind": "string",
+      "receiver": "router",
+      "middleware": [],
+      "handler": "guarded(...)",
+      "guardSignals": [],
+      "source": "server/modules/trackerProfile/routes.ts",
+      "sourceOrder": 1
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/tracker/profile/matches",
+      "pathKind": "string",
+      "receiver": "router",
+      "middleware": [],
+      "handler": "guarded(...)",
+      "guardSignals": [],
+      "source": "server/modules/trackerProfile/routes.ts",
+      "sourceOrder": 2
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/tracker/profile/arena/runs",
+      "pathKind": "string",
+      "receiver": "router",
+      "middleware": [],
+      "handler": "guarded(...)",
+      "guardSignals": [],
+      "source": "server/modules/trackerProfile/routes.ts",
+      "sourceOrder": 3
     },
     {
       "kind": "route",

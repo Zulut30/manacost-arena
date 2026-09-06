@@ -22,3 +22,8 @@ export {
   createSqliteTrackerProfileRepository,
   initializeTrackerProfileRepository,
 } from './repository.js';
+export {
+  createTrackerProfileRouter,
+  type TrackerAccessTokens,
+  type TrackerProfileRouterDependencies,
+} from './routes.js';
