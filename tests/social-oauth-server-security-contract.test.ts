@@ -9,7 +9,7 @@ assert.match(source, /states\(dependencies, request, provider\)\.filter\(item =>
 assert.match(source, /if \(result\.changes !== 1\) throw new Error/);
 
 const identityWrite = source.indexOf('const result = dependencies.database().prepare(`INSERT INTO identities');
-const sessionWrite = source.indexOf('const token = createAuthSession(store, user);', identityWrite);
+const sessionWrite = source.indexOf('const token = dependencies.createAuthSession(store, user);', identityWrite);
 assert.ok(identityWrite >= 0 && sessionWrite > identityWrite, 'identity must be reserved before the auth session is created');
 
 console.log('social OAuth server security contract passed');
