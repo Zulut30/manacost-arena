@@ -31,6 +31,15 @@ import { requestLoggingMiddleware, structuredErrorMiddleware } from './observabi
 import { createScrapeQueueHandler } from './scrapeQueue.js';
 import { decodeSignedStateCookie, encodeSignedStateCookie, safeAuthReturnTo } from './authRedirect.js';
 import { registerSocialOAuthRoutes, socialLoginProviderConfiguration } from './socialOAuthRoutes.js';
+import { registerPatreonOAuthRoutes } from './patreonOAuthRoutes.js';
+import { provisionPatreonAccount } from './patreonAccount.js';
+import { createPatreonSubscriptionService } from './patreonSubscription.js';
+import { fetchBoostyServiceStatus as requestBoostyServiceStatus } from './boostyServiceStatus.js';
+import { applyBoostyGrace } from './boostyGrace.js';
+import {
+  createPatreonTokenCipher,
+  type PatreonAuthorization,
+} from './patreonOAuth.js';
 import { csrfRequestAllowed } from './csrf.js';
 import { configureLoopbackProxyTrust, corsOriginAllowed, getTrustedClientIp } from './networkBoundary.js';
 import { isPublicMediaApiRequest } from './apiRateLimitPolicy.js';
@@ -517,6 +526,13 @@ const BOOSTY_ALL_ACCESS_LEVEL_NAMES = (process.env.BOOSTY_ALL_ACCESS_LEVEL_NAMES
   .split(',')
   .map(item => item.trim())
   .filter(Boolean);
+const PATREON_CLIENT_ID = (process.env.PATREON_CLIENT_ID || '').trim();
+const PATREON_CLIENT_SECRET = (process.env.PATREON_CLIENT_SECRET || '').trim();
+const PATREON_CAMPAIGN_ID = (process.env.PATREON_CAMPAIGN_ID || '').trim();
+const PATREON_FULL_ACCESS_TIER_IDS = (process.env.PATREON_FULL_ACCESS_TIER_IDS || '').split(',').map(value => value.trim()).filter(Boolean);
+const PATREON_TOKEN_ENCRYPTION_KEY = process.env.PATREON_TOKEN_ENCRYPTION_KEY || '';
+const PATREON_CLIENT = PATREON_CLIENT_ID && PATREON_CLIENT_SECRET && PATREON_CAMPAIGN_ID && PATREON_FULL_ACCESS_TIER_IDS.length > 0 && PATREON_TOKEN_ENCRYPTION_KEY.trim().length >= 32 ? { clientId: PATREON_CLIENT_ID, clientSecret: PATREON_CLIENT_SECRET } : null;
+const PATREON_TOKEN_CIPHER = PATREON_CLIENT ? createPatreonTokenCipher(PATREON_TOKEN_ENCRYPTION_KEY) : null;
 const KHA_VIP_BOT_TOKEN = process.env.KHA_VIP_BOT_TOKEN || '';
 const KHA_VIP_PROFILES_FILE = process.env.KHA_VIP_PROFILES_FILE || '/var/lib/docker/volumes/kha-vip-bot_bot_cache/_data/profiles.json';
 const KHA_VIP_WP_BASE_URL = (process.env.KHA_VIP_WP_BASE_URL || process.env.WP_BASE_URL || 'https://kolodahearthstone.com').replace(/\/$/, '');
@@ -607,6 +623,7 @@ interface SubscriptionStatus {
   entitlements: SubscriptionEntitlements;
   boosty: Record<string, any>;
   telegram: Record<string, any>;
+  patreon: Record<string, unknown>;
 }
 
 type SubscriptionEntitlementKey =
@@ -1040,9 +1057,11 @@ function db(): DatabaseSync {
       stale INTEGER NOT NULL DEFAULT 0,
       boosty_json TEXT NOT NULL DEFAULT '{}',
       telegram_json TEXT NOT NULL DEFAULT '{}',
+      patreon_json TEXT NOT NULL DEFAULT '{}',
       updated_at TEXT NOT NULL,
       FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     );
+    CREATE TABLE IF NOT EXISTS patreon_connections (user_id TEXT PRIMARY KEY, patreon_user_id TEXT NOT NULL UNIQUE, access_token_ciphertext TEXT NOT NULL, refresh_token_ciphertext TEXT NOT NULL, token_expires_at INTEGER NOT NULL, connected_at TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);
     CREATE TABLE IF NOT EXISTS subscription_checks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id TEXT NOT NULL,
@@ -1218,11 +1237,9 @@ function db(): DatabaseSync {
   ecosystemDb.exec('CREATE INDEX IF NOT EXISTS idx_archetype_translations_source ON archetype_translations(source, updated_at DESC);');
   ecosystemDb.exec('CREATE INDEX IF NOT EXISTS idx_archetype_deck_codes_updated ON archetype_deck_codes(updated_at DESC);');
   repairLegacyConstructedMechanicTranslations(ecosystemDb);
-  const userColumns = new Set((ecosystemDb.prepare('PRAGMA table_info(users)').all() as any[]).map(row => String(row.name)));
-  if (!userColumns.has('contact_vk_url')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN contact_vk_url TEXT');
-  if (!userColumns.has('contact_telegram')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN contact_telegram TEXT');
-  if (!userColumns.has('contact_email')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN contact_email TEXT');
-  if (!userColumns.has('blocked_at')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN blocked_at TEXT');
+  const userColumns = new Set((ecosystemDb.prepare('PRAGMA table_info(users)').all() as Array<{ name?: unknown }>).map(row => String(row.name))); if (!userColumns.has('contact_vk_url')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN contact_vk_url TEXT'); if (!userColumns.has('contact_telegram')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN contact_telegram TEXT');
+  if (!userColumns.has('contact_email')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN contact_email TEXT'); if (!userColumns.has('blocked_at')) ecosystemDb.exec('ALTER TABLE users ADD COLUMN blocked_at TEXT');
+  const subscriptionColumns = new Set((ecosystemDb.prepare('PRAGMA table_info(subscriptions)').all() as Array<{ name?: unknown }>).map(row => String(row.name))); if (!subscriptionColumns.has('patreon_json')) ecosystemDb.exec("ALTER TABLE subscriptions ADD COLUMN patreon_json TEXT NOT NULL DEFAULT '{}'");
   ensurePublicProfileIds(ecosystemDb, { preferredUserIds: [...ADMIN_USER_IDS] });
   const manualGrantColumns = new Set((ecosystemDb.prepare('PRAGMA table_info(manual_subscription_grants)').all() as any[]).map(row => String(row.name)));
   if (!manualGrantColumns.has('expires_at')) ecosystemDb.exec('ALTER TABLE manual_subscription_grants ADD COLUMN expires_at TEXT');
@@ -2140,6 +2157,8 @@ function allEntitlements(): SubscriptionEntitlements {
   };
 }
 
+const patreonSubscriptionService = createPatreonSubscriptionService({ database: db, client: PATREON_CLIENT, campaignId: PATREON_CAMPAIGN_ID, fullAccessTierIds: PATREON_FULL_ACCESS_TIER_IDS, cipher: PATREON_TOKEN_CIPHER, allEntitlements, emptyEntitlements });
+
 function mergeEntitlements(...items: Array<Partial<SubscriptionEntitlements> | null | undefined>): SubscriptionEntitlements {
   const merged = emptyEntitlements();
   for (const item of items) {
@@ -2220,6 +2239,24 @@ function normalizeTelegramSubscriptionDetail(detail: Record<string, any>): Recor
   };
 }
 
+function normalizePatreonSubscriptionDetail(detail: Record<string, unknown>): Record<string, unknown> {
+  if (!detail || typeof detail !== 'object' || Array.isArray(detail)) return {};
+  const entitlements = detail.hasAccess ? allEntitlements() : emptyEntitlements();
+  return {
+    configured: Boolean(detail.configured),
+    connected: Boolean(detail.connected),
+    checked: Boolean(detail.checked),
+    stale: Boolean(detail.stale),
+    hasAccess: Boolean(detail.hasAccess) && hasAnyEntitlement(entitlements),
+    tierTitles: Array.isArray(detail.tierTitles)
+      ? detail.tierTitles.map((value: unknown) => String(value).slice(0, 240)).filter(Boolean).slice(0, 8)
+      : [],
+    highestTierAmountCents: Math.max(0, Math.floor(Number(detail.highestTierAmountCents || 0))),
+    message: String(detail.message || '').slice(0, 500),
+    entitlements,
+  };
+}
+
 function boostyLevelRank(levelName: string): number {
   const normalized = normalizeBoostyLevelName(levelName);
   if (!normalized) return -1;
@@ -2257,6 +2294,7 @@ function applyKhaSubscriptionSnapshot(user: AdminUser, profile: Record<string, a
     entitlements,
     boosty,
     telegram: {},
+    patreon: {},
   };
   writeSubscriptionStatus(user, status);
   writeSubscriptionCheck(user, 'boosty:kha-vip-bot', hasAccess, boosty);
@@ -3411,6 +3449,7 @@ function emptySubscriptionStatus(message = 'Подписка пока не по�
     entitlements: emptyEntitlements(),
     boosty: {},
     telegram: {},
+    patreon: {},
   };
 }
 
@@ -3419,19 +3458,23 @@ function deriveStoredEntitlements(
   source: string,
   boosty: Record<string, any>,
   telegram: Record<string, any>,
+  patreon: Record<string, unknown> = {},
 ): SubscriptionEntitlements {
   void hasAccess;
   const normalizedBoosty = normalizeBoostySubscriptionDetail(boosty);
   const normalizedTelegram = normalizeTelegramSubscriptionDetail(telegram);
+  const normalizedPatreon = normalizePatreonSubscriptionDetail(patreon);
   const stored = mergeEntitlements(
     normalizeEntitlements(normalizedBoosty.entitlements),
     normalizeEntitlements(normalizedTelegram.entitlements),
+    normalizeEntitlements(normalizedPatreon.entitlements),
   );
   if (hasAnyEntitlement(stored)) return stored;
 
   const derivedBoosty = normalizedBoosty.levelName ? boostyEntitlementsForLevel(String(normalizedBoosty.levelName)) : emptyEntitlements();
   const derivedTelegram = normalizedTelegram.hasAccess || source.includes('telegram') ? allEntitlements() : emptyEntitlements();
-  const derived = mergeEntitlements(derivedBoosty, derivedTelegram);
+  const derivedPatreon = normalizedPatreon.hasAccess ? allEntitlements() : emptyEntitlements();
+  const derived = mergeEntitlements(derivedBoosty, derivedTelegram, derivedPatreon);
   if (hasAnyEntitlement(derived)) return derived;
 
   return emptyEntitlements();
@@ -3481,9 +3524,10 @@ function readSubscriptionStatus(userId: string): SubscriptionStatus | null {
   const shouldRetryStaleProvider = providerMarkedStale && age > SUBSCRIPTION_STALE_RETRY_MS;
   const boosty = normalizeBoostySubscriptionDetail(safeJsonObject(row.boosty_json));
   const telegram = normalizeTelegramSubscriptionDetail(safeJsonObject(row.telegram_json));
+  const patreon = normalizePatreonSubscriptionDetail(safeJsonObject(row.patreon_json));
   const hasAccess = Boolean(row.has_access);
   const source = String(row.source || 'none');
-  const entitlements = deriveStoredEntitlements(hasAccess, source, boosty, telegram);
+  const entitlements = deriveStoredEntitlements(hasAccess, source, boosty, telegram, patreon);
   return applyManualSubscriptionGrant(userId, {
     hasAccess: hasAnyEntitlement(entitlements),
     source,
@@ -3493,6 +3537,7 @@ function readSubscriptionStatus(userId: string): SubscriptionStatus | null {
     entitlements,
     boosty,
     telegram,
+    patreon,
   });
 }
 
@@ -3509,12 +3554,13 @@ function writeSubscriptionStatus(user: AdminUser, status: SubscriptionStatus) {
   const nowIso = new Date().toISOString();
   const boosty = normalizeBoostySubscriptionDetail(status.boosty);
   const telegram = normalizeTelegramSubscriptionDetail(status.telegram);
-  const entitlements = mergeEntitlements(status.entitlements, boosty.entitlements, telegram.entitlements);
+  const patreon = normalizePatreonSubscriptionDetail(status.patreon);
+  const entitlements = mergeEntitlements(status.entitlements, boosty.entitlements, telegram.entitlements, patreon.entitlements);
   const hasAccess = hasAnyEntitlement(entitlements);
   dbRun(`
     INSERT INTO subscriptions (
-      user_id, has_access, source, message, checked_at, stale, boosty_json, telegram_json, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      user_id, has_access, source, message, checked_at, stale, boosty_json, telegram_json, patreon_json, updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(user_id) DO UPDATE SET
       has_access = excluded.has_access,
       source = excluded.source,
@@ -3523,9 +3569,10 @@ function writeSubscriptionStatus(user: AdminUser, status: SubscriptionStatus) {
       stale = excluded.stale,
       boosty_json = excluded.boosty_json,
       telegram_json = excluded.telegram_json,
+      patreon_json = excluded.patreon_json,
       updated_at = excluded.updated_at
   `, user.id, hasAccess ? 1 : 0, status.source, status.message, status.checkedAt, status.stale ? 1 : 0,
-    JSON.stringify(boosty), JSON.stringify(telegram), nowIso);
+    JSON.stringify(boosty), JSON.stringify(telegram), JSON.stringify(patreon), nowIso);
 }
 
 function writeSubscriptionCheck(user: AdminUser, source: string, hasAccess: boolean, detail: Record<string, any>) {
@@ -3540,103 +3587,11 @@ function boostyProviderUnavailable(boosty: Record<string, any>): boolean {
 }
 
 function applyBoostyGracePeriod(boosty: Record<string, any>, previous: SubscriptionStatus | null): Record<string, any> {
-  const current = normalizeBoostySubscriptionDetail(boosty);
-  if (!boostyProviderUnavailable(current)) return current;
-  if (!previous?.checkedAt) {
-    return {
-      ...current,
-      hasAccess: false,
-      entitlements: emptyEntitlements(),
-      message: current.message || 'Boosty временно недоступен, последней успешной проверки нет.',
-    };
-  }
-
-  const previousBoosty = normalizeBoostySubscriptionDetail(previous.boosty);
-  const previousEntitlements = normalizeEntitlements(previousBoosty.entitlements);
-  if (!previousBoosty.hasAccess || !hasAnyEntitlement(previousEntitlements)) {
-    return {
-      ...current,
-      hasAccess: false,
-      entitlements: emptyEntitlements(),
-    };
-  }
-
-  const graceStartedAt = String(previousBoosty.graceStartedAt || previous.checkedAt);
-  const checkedAtMs = Date.parse(graceStartedAt);
-  if (!Number.isFinite(checkedAtMs)) return current;
-  const graceUntilMs = checkedAtMs + BOOSTY_ACCESS_GRACE_MS;
-  if (Date.now() > graceUntilMs) {
-    return {
-      ...current,
-      hasAccess: false,
-      entitlements: emptyEntitlements(),
-      graceExpiredAt: new Date(graceUntilMs).toISOString(),
-      message: 'Boosty временно недоступен, 24-часовой резервный доступ истёк.',
-    };
-  }
-
-  return {
-    ...previousBoosty,
-    hasAccess: true,
-    entitlements: previousEntitlements,
-    stale: true,
-    grace: true,
-    graceStartedAt,
-    graceUntil: new Date(graceUntilMs).toISOString(),
-    providerMessage: current.message || '',
-    message: 'Boosty временно недоступен, доступ сохранён на 24 часа по последней успешной проверке.',
-  };
+  return applyBoostyGrace({ boosty, previous, graceMs: BOOSTY_ACCESS_GRACE_MS, normalize: normalizeBoostySubscriptionDetail, normalizeEntitlements, hasAny: hasAnyEntitlement, empty: emptyEntitlements });
 }
 
 async function fetchBoostyServiceStatus(): Promise<Record<string, any>> {
-  if (!BOOSTY_AUTH_API_URL) {
-    return {
-      configured: false,
-      ok: false,
-      importStatus: 'not-configured',
-      source: 'none',
-      stale: true,
-      checkedAt: new Date().toISOString(),
-      graceHours: Math.round(BOOSTY_ACCESS_GRACE_MS / (60 * 60 * 1000)),
-      message: 'Boosty API не настроен.',
-    };
-  }
-  try {
-    const response = await fetch(`${BOOSTY_AUTH_API_URL}/api/audit`, { signal: AbortSignal.timeout(12000) });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data?.detail || data?.error || `HTTP ${response.status}`);
-    const importStatus = String(data?.importStatus || '');
-    const stale = Boolean(data?.subscriberStale ?? data?.stale ?? importStatus === 'stale');
-    return {
-      configured: true,
-      ok: !stale && importStatus !== 'stale' && importStatus !== 'quarantined',
-      importStatus: importStatus || (stale ? 'stale' : 'unknown'),
-      source: String(data?.subscriberSource || data?.source || ''),
-      stale,
-      snapshotAgeSeconds: data?.snapshotAgeSeconds ?? null,
-      lastErrorCategory: data?.lastErrorCategory || null,
-      lastErrorMessage: data?.lastErrorMessage || null,
-      warnings: Array.isArray(data?.warnings) ? data.warnings : [],
-      summary: data?.summary && typeof data.summary === 'object' ? data.summary : {},
-      checkedAt: new Date().toISOString(),
-      graceHours: Math.round(BOOSTY_ACCESS_GRACE_MS / (60 * 60 * 1000)),
-    };
-  } catch (err: any) {
-    return {
-      configured: true,
-      ok: false,
-      importStatus: 'error',
-      source: 'unavailable',
-      stale: true,
-      snapshotAgeSeconds: null,
-      lastErrorCategory: 'request-failed',
-      lastErrorMessage: err?.message || 'Boosty API временно недоступен.',
-      warnings: ['boosty-api-unavailable'],
-      summary: {},
-      checkedAt: new Date().toISOString(),
-      graceHours: Math.round(BOOSTY_ACCESS_GRACE_MS / (60 * 60 * 1000)),
-    };
-  }
+  return requestBoostyServiceStatus(BOOSTY_AUTH_API_URL, BOOSTY_ACCESS_GRACE_MS);
 }
 
 async function fetchBoostySubscribers(includeInactive = true): Promise<Record<string, any>> {
@@ -3820,39 +3775,54 @@ async function checkTelegramSubscription(user: AdminUser): Promise<Record<string
   };
 }
 
+function savePatreonAuthorization(user: AdminUser, authorization: PatreonAuthorization): void {
+  patreonSubscriptionService.saveAuthorization(user, authorization);
+}
+function provisionPatreonLogin(authorization: PatreonAuthorization): { user: AdminUser; token: string } | null {
+  return provisionPatreonAccount({ authorization, database: db, loadStore: loadAuthStore, saveStore: saveAuthStore, createSession: createAuthSession, identityOwner, sha256, hashSecret }) as { user: AdminUser; token: string } | null;
+}
+async function checkPatreonSubscription(user: AdminUser): Promise<Record<string, unknown>> {
+  return patreonSubscriptionService.checkSubscription(user);
+}
 async function refreshSubscriptionForUserNow(user: AdminUser): Promise<SubscriptionStatus> {
   const previous = readSubscriptionStatus(user.id);
-  const [rawBoosty, rawTelegram] = await Promise.all([
+  const [rawBoosty, rawTelegram, rawPatreon] = await Promise.all([
     checkBoostySubscription(user),
     checkTelegramSubscription(user),
+    checkPatreonSubscription(user),
   ]);
   const boosty = applyBoostyGracePeriod(rawBoosty, previous);
   const telegram = normalizeTelegramSubscriptionDetail(rawTelegram);
+  const patreon = normalizePatreonSubscriptionDetail(rawPatreon);
   writeSubscriptionCheck(user, 'boosty', Boolean(boosty.hasAccess), boosty);
   writeSubscriptionCheck(user, 'telegram', Boolean(telegram.hasAccess), telegram);
+  writeSubscriptionCheck(user, 'patreon', Boolean(patreon.hasAccess), patreon);
 
   const entitlements = mergeEntitlements(
     normalizeEntitlements(boosty.entitlements),
     normalizeEntitlements(telegram.entitlements),
+    normalizeEntitlements(patreon.entitlements),
   );
   const sources = [
     boosty.hasAccess ? 'boosty' : '',
     telegram.hasAccess ? 'telegram' : '',
+    patreon.hasAccess ? 'patreon' : '',
   ].filter(Boolean);
   const hasAccess = hasAnyEntitlement(entitlements);
   const status: SubscriptionStatus = {
     hasAccess,
     source: hasAccess ? sources.join(',') : 'none',
     checkedAt: new Date().toISOString(),
-    stale: Boolean(boosty.stale || telegram.stale),
+    stale: Boolean(boosty.stale || telegram.stale || patreon.stale),
     message: hasAccess
       ? boosty.grace
         ? 'Boosty временно недоступен, доступ сохранён на 24 часа.'
         : 'Подписка Манакоста подтверждена.'
-      : boosty.message || telegram.message || 'Подписка пока не подтверждена.',
+      : boosty.message || telegram.message || patreon.message || 'Подписка пока не подтверждена.',
     entitlements,
     boosty,
     telegram,
+    patreon,
   };
   writeSubscriptionStatus(user, status);
   return applyManualSubscriptionGrant(user.id, status) ?? status;
@@ -3865,7 +3835,6 @@ async function refreshSubscriptionForUser(user: AdminUser, force = false): Promi
     const pending = subscriptionRefreshInFlight.get(user.id);
     if (pending) return pending;
   }
-
   const promise = refreshSubscriptionForUserNow(user)
     .finally(() => subscriptionRefreshInFlight.delete(user.id));
   if (!force) subscriptionRefreshInFlight.set(user.id, promise);
@@ -8536,10 +8505,26 @@ app.get('/api/auth/telegram/config', (_req, res) => {
     botUsername: enabled ? TELEGRAM_AUTH_BOT_USERNAME : '',
     authUrl: enabled ? (useLegacyWidget ? `${APP_URL}/api/auth/telegram/callback` : `${APP_URL}/api/auth/telegram/start`) : '',
     callbackUrl: enabled ? `${APP_URL}/api/auth/telegram/callback` : '',
-    socialProviders: socialLoginProviderConfiguration(),
+    socialProviders: [
+      ...socialLoginProviderConfiguration(),
+      ...(PATREON_CLIENT ? [{ provider: 'patreon', authUrl: '/api/auth/patreon/start' }] : []),
+    ],
   });
 });
 registerSocialOAuthRoutes(app, { appUrl: APP_URL, cookieValue, cookieSecure: telegramOidcCookieSecure, cookieDomain: authCookieDomain, setPrivateNoStore, userAuth, setAuthCookie, loadAuthStore, saveAuthStore, createAuthSession, identityOwner, database: db, sha256, hashSecret, sha256Base64Url });
+registerPatreonOAuthRoutes(app, {
+  appUrl: APP_URL,
+  client: PATREON_CLIENT,
+  cookieValue,
+  cookieSecure: telegramOidcCookieSecure,
+  cookieDomain: authCookieDomain,
+  setPrivateNoStore,
+  userAuth,
+  setAuthCookie,
+  provisionUser: provisionPatreonLogin,
+  saveAuthorization: savePatreonAuthorization,
+  refreshSubscription: refreshSubscriptionForUser,
+});
 async function sendTelegramAuthBotMessage(chatId: string | number, text: string): Promise<void> {
   if (!TELEGRAM_AUTH_BOT_TOKEN) return;
   const startedAt = Date.now();
@@ -9151,13 +9136,14 @@ app.use('/api', createAdminUserReadRouter({
   subscriptionForUser: (row, manualAccess) => {
     const boosty = normalizeBoostySubscriptionDetail(safeJsonObject(row.boosty_json));
     const telegram = normalizeTelegramSubscriptionDetail(safeJsonObject(row.telegram_json));
+    const patreon = normalizePatreonSubscriptionDetail(safeJsonObject(row.patreon_json));
     const providerSource = String(row.subscription_source || 'none');
     const source = manualAccess.enabled
       ? providerSource === 'none' ? 'manual-access' : `${providerSource},manual-access`
       : providerSource;
     const entitlements = manualAccess.enabled
       ? allEntitlements()
-      : deriveStoredEntitlements(Boolean(row.has_access), source, boosty, telegram);
+      : deriveStoredEntitlements(Boolean(row.has_access), source, boosty, telegram, patreon);
     return {
       hasAccess: hasAnyEntitlement(entitlements), source,
       message: manualAccess.enabled
@@ -9167,14 +9153,15 @@ app.use('/api', createAdminUserReadRouter({
         : String(row.subscription_message || ''),
       checkedAt: row.subscription_checked_at ? String(row.subscription_checked_at) : '',
       updatedAt: row.subscription_updated_at ? String(row.subscription_updated_at) : '',
-      entitlements, boosty, telegram,
+      entitlements, boosty, telegram, patreon,
     };
   },
   subscriptionForSearchUser: row => {
     const source = String(row.subscription_source || 'none');
     const boosty = normalizeBoostySubscriptionDetail(safeJsonObject(row.boosty_json));
     const telegram = normalizeTelegramSubscriptionDetail(safeJsonObject(row.telegram_json));
-    const entitlements = deriveStoredEntitlements(Boolean(row.has_access), source, boosty, telegram);
+    const patreon = normalizePatreonSubscriptionDetail(safeJsonObject(row.patreon_json));
+    const entitlements = deriveStoredEntitlements(Boolean(row.has_access), source, boosty, telegram, patreon);
     return {
       hasAccess: hasAnyEntitlement(entitlements), source,
       checkedAt: row.subscription_checked_at ? String(row.subscription_checked_at) : '', entitlements,

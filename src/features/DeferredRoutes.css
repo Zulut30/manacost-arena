@@ -1712,6 +1712,23 @@
   object-fit: contain;
 }
 
+.profile-workspace .profile-subscription-source__brand {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 1.18rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.profile-workspace .profile-subscription-source__brand--patreon {
+  background: #ff424d;
+}
+
 .profile-workspace .profile-subscription-source strong {
   font-size: 0.8rem;
 }
@@ -1739,6 +1756,17 @@
   font-size: 0.75rem;
   font-weight: 800;
   text-decoration: none;
+}
+
+.profile-workspace .profile-subscription-source__link--button {
+  display: inline-flex;
+  min-height: 34px;
+  padding: 0.45rem 0.65rem;
+  align-items: center;
+  border: 1px solid rgba(111, 68, 29, 0.4);
+  border-radius: 2px;
+  color: #6c3d1d;
+  background: rgba(255, 243, 210, 0.72);
 }
 
 .profile-workspace .profile-subscription-source .profile-subscription-source__expiry,
@@ -2270,9 +2298,21 @@
   background: #fff4d8;
 }
 
+.arena-app-profile .profile-workspace .profile-subscription-source__brand {
+  border: 1px solid rgba(107, 68, 31, 0.24);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(67, 35, 14, 0.12);
+}
+
 .arena-app-profile .profile-workspace .profile-subscription-source button {
   border-color: rgba(111, 68, 29, 0.4);
   border-radius: 2px;
+  color: #6c3d1d;
+  background: rgba(255, 243, 210, 0.72);
+}
+
+.arena-app-profile .profile-workspace .profile-subscription-source__link--button {
+  border-color: rgba(111, 68, 29, 0.4);
   color: #6c3d1d;
   background: rgba(255, 243, 210, 0.72);
 }

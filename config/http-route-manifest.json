@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "scope": "Authored Express route and middleware registrations under server/",
   "summary": {
-    "sourceFiles": 69,
-    "routeRegistrations": 212,
+    "sourceFiles": 70,
+    "routeRegistrations": 214,
     "middlewareRegistrations": 107,
     "explicitGuardRouteRegistrations": 56,
     "unresolvedPaths": 0
@@ -3850,6 +3850,30 @@
       "handler": "<inline-handler>",
       "guardSignals": [],
       "source": "server/passwordResetRoutes.ts",
+      "sourceOrder": 1
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/api/auth/patreon/start",
+      "pathKind": "string",
+      "receiver": "app",
+      "middleware": [],
+      "handler": "<inline-handler>",
+      "guardSignals": [],
+      "source": "server/patreonOAuthRoutes.ts",
+      "sourceOrder": 0
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/api/auth/patreon/callback",
+      "pathKind": "string",
+      "receiver": "app",
+      "middleware": [],
+      "handler": "<inline-handler>",
+      "guardSignals": [],
+      "source": "server/patreonOAuthRoutes.ts",
       "sourceOrder": 1
     },
     {

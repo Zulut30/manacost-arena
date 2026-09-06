@@ -13,8 +13,8 @@ assert.match(socialLoginLinks, /auth-icons\/\$\{provider\}\.svg/);
 assert.match(socialLoginLinks, /aria-disabled=\{disabled \|\| undefined\}/);
 assert.match(socialLoginLinks, /tabIndex=\{disabled \? -1 : undefined\}/);
 assert.match(socialLoginLinks, /onClick=\{disabled \? event => event\.preventDefault\(\) : undefined\}/);
-assert.match(socialLoginStyles, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
-for (const provider of ['telegram', 'google', 'discord', 'yandex']) {
+assert.match(socialLoginStyles, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
+for (const provider of ['telegram', 'google', 'discord', 'yandex', 'patreon']) {
   assert.ok(existsSync(new URL(`../public/auth-icons/${provider}.svg`, import.meta.url)), `missing ${provider} icon`);
 }
 

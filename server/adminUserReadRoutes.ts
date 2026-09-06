@@ -61,7 +61,8 @@ const SEARCH_SELECT = `
     s.source AS subscription_source,
     s.checked_at AS subscription_checked_at,
     s.boosty_json,
-    s.telegram_json
+    s.telegram_json,
+    s.patreon_json
   FROM users u
   LEFT JOIN identities tg ON tg.user_id = u.id AND tg.provider = 'telegram'
   LEFT JOIN subscriptions s ON s.user_id = u.id
@@ -154,6 +155,7 @@ export function createAdminUserReadRouter(dependencies: AdminUserReadDependencie
           s.updated_at AS subscription_updated_at,
           s.boosty_json,
           s.telegram_json,
+          s.patreon_json,
           CASE WHEN COALESCE(g.active, 0) = 1 AND (
             g.expires_at IS NULL OR g.expires_at > strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
           ) THEN 1 ELSE 0 END AS manual_access,

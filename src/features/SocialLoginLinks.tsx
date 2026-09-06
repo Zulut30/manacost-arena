@@ -1,17 +1,17 @@
 import './SocialLoginLinks.css';
 
-type Provider = 'discord' | 'google' | 'yandex';
+type Provider = 'discord' | 'google' | 'yandex' | 'patreon';
 type LoginProvider = Provider | 'telegram';
 type SocialLoginProvider = { provider: Provider; authUrl: string };
 
-const labels: Record<LoginProvider, string> = { google: 'Google', discord: 'Discord', yandex: 'Яндекс ID', telegram: 'Telegram' };
+const labels: Record<LoginProvider, string> = { google: 'Google', discord: 'Discord', yandex: 'Яндекс ID', patreon: 'Patreon', telegram: 'Telegram' };
 
 export function parseSocialLoginProviders(value: unknown): SocialLoginProvider[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((item: unknown): SocialLoginProvider[] => {
     if (!item || typeof item !== 'object') return [];
     const candidate = item as { provider?: unknown; authUrl?: unknown };
-    if ((candidate.provider !== 'discord' && candidate.provider !== 'google' && candidate.provider !== 'yandex') || typeof candidate.authUrl !== 'string') return [];
+    if ((candidate.provider !== 'discord' && candidate.provider !== 'google' && candidate.provider !== 'yandex' && candidate.provider !== 'patreon') || typeof candidate.authUrl !== 'string') return [];
     return [{ provider: candidate.provider, authUrl: candidate.authUrl }];
   });
 }

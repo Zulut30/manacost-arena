@@ -2873,6 +2873,7 @@ type SubscriptionStatus = {
     message?: string;
     chats?: Array<{ chatId: string; ok: boolean; status?: string; isMember?: boolean; error?: string }>;
   };
+  patreon: { configured?: boolean; connected?: boolean; checked?: boolean; hasAccess?: boolean; tierTitles?: string[]; highestTierAmountCents?: number; message?: string };
 };
 
 type SubscriptionEntitlementKey = keyof NonNullable<SubscriptionStatus['entitlements']>;
@@ -3557,6 +3558,7 @@ export function LoginPanel({
     telegramMode === 'legacy-widget' ? telegramCallbackUrl : telegramAuthUrl,
     '/?login&telegram=linked',
   );
+  const patreonLinkUrl = authUrlWithReturnTo('/api/auth/patreon/start', '/?login&patreon=linked');
 
   const handleTelegramLinkCodeRequest = async () => {
     setTelegramLinkLoading(true);
@@ -3729,7 +3731,7 @@ export function LoginPanel({
               </button>
             </div>
             <p className="profile-subscription-copy">
-              {subscription?.message || 'Подтвердите подписку через Boosty или Telegram VIP-канал.'}
+              {subscription?.message || 'Подтвердите подписку через Boosty, Patreon или Telegram VIP-канал.'}
             </p>
             {subscriptionAccessLabels.length > 0 && (
               <div className="profile-access-list">
@@ -3791,6 +3793,16 @@ export function LoginPanel({
                 <p className="profile-subscription-source__tip">
                   Для Boosty-почты в боте: /email name@example.com.
                 </p>
+                </div>
+              </div>
+              <div className="profile-subscription-source profile-subscription-source--patreon">
+                <span className="profile-subscription-source__brand profile-subscription-source__brand--patreon" aria-hidden="true">P</span>
+                <div>
+                  <strong>Patreon</strong>
+                  <p>{subscription?.patreon?.hasAccess ? `${subscription.patreon.tierTitles?.join(' · ') || 'Алмаз'} · полный доступ` : subscription?.patreon?.message || 'Привяжите Patreon для проверки подписки.'}</p>
+                  {subscription?.patreon?.configured ? (
+                    <div className="profile-subscription-source__actions"><a href={patreonLinkUrl} className="profile-subscription-source__link profile-subscription-source__link--button">{subscription.patreon.connected ? 'Обновить Patreon' : 'Привязать Patreon'}</a></div>
+                  ) : null}
                 </div>
               </div>
             </div>

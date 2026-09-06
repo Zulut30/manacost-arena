@@ -391,8 +391,8 @@ type SubscriptionStatus = {
     message?: string;
     chats?: Array<{ chatId: string; ok: boolean; status?: string; isMember?: boolean; error?: string }>;
   };
+  patreon: { configured?: boolean; connected?: boolean; checked?: boolean; hasAccess?: boolean; tierTitles?: string[]; highestTierAmountCents?: number; message?: string };
 };
-
 type SubscriptionEntitlementKey = keyof NonNullable<SubscriptionStatus['entitlements']>;
 
 function hasSubscriptionEntitlement(
