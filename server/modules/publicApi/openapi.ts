@@ -1513,7 +1513,7 @@ export const PUBLIC_API_OPENAPI = {
           client_id: { type: 'string', const: 'manacost-tracker' },
           scope: {
             type: 'string',
-            example: 'profile.read subscription.read catalog.read images.read statistics.read',
+            example: 'profile.read subscription.read catalog.read images.read statistics.read tracker.write tracker.read',
           },
         },
       },

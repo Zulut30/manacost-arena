@@ -54,6 +54,7 @@
     "test:auth-security": "tsx tests/auth-security.test.ts",
     "test:application-auth": "tsx tests/application-auth-model.test.ts && tsx tests/application-auth-repository.test.ts && tsx tests/application-auth-profile.test.ts && tsx tests/application-auth-routes.test.ts",
     "test:application-connect": "tsx tests/application-connect-api.test.ts && tsx tests/application-connect-page.test.ts",
+    "test:tracker-profile": "tsx tests/tracker-profile-model.test.ts",
     "test:csrf": "tsx tests/csrf.test.ts",
     "test:metrics": "tsx tests/metrics.test.ts",
     "test:network-boundary": "tsx tests/network-boundary.test.ts && tsx tests/api-rate-limit-policy.test.ts",

@@ -52,6 +52,8 @@ export function registerApplicationAuth<User extends { id: string }, Subscriptio
         'catalog.read',
         'images.read',
         'statistics.read',
+        'tracker.write',
+        'tracker.read',
       ],
     }],
     verificationUri: `${dependencies.appUrl.replace(/\/+$/, '')}/connect/`,

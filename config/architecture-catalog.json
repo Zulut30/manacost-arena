@@ -147,6 +147,26 @@
       "forbiddenImports": ["src/**", "other server module internals"]
     },
     {
+      "name": "backend-tracker-profile",
+      "status": "modular",
+      "owner": "tracker-platform",
+      "purpose": "Own idempotent personal tracker ingestion from the desktop companion and the owner-scoped profile read API.",
+      "paths": ["server/modules/trackerProfile"],
+      "publicEntrypoints": ["server/modules/trackerProfile/public.ts"],
+      "frontendRoutes": [],
+      "backendRoutes": [],
+      "contracts": ["server/modules/trackerProfile/model.ts", "server/modules/trackerProfile/schema.ts"],
+      "jobs": [],
+      "cacheNamespaces": [],
+      "dataStores": [],
+      "externalServices": [],
+      "tests": [
+        "tests/tracker-profile-model.test.ts"
+      ],
+      "allowedDependencies": ["server/shared", "Node.js crypto/sqlite", "Express and express-rate-limit at the routes boundary"],
+      "forbiddenImports": ["src/**", "other server module internals"]
+    },
+    {
       "name": "frontend-account-route",
       "status": "transitional",
       "owner": "identity-platform",
