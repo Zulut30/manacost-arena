@@ -1129,6 +1129,7 @@ async function mockApplicationApi(page, {
         user: {
           id: admin ? 'qa-admin' : 'qa-subscriber',
           profileId: admin ? 'qa-admin' : 'qa-subscriber',
+          publicProfileId: admin ? '901' : '902',
           email: 'qa@example.test',
           name: admin ? 'QA Administrator' : 'QA Subscriber',
           role: admin ? 'admin' : 'user',
@@ -1149,6 +1150,7 @@ async function mockApplicationApi(page, {
         user: {
           id: admin ? 'qa-admin' : 'qa-subscriber',
           profileId: admin ? 'qa-admin' : 'qa-subscriber',
+          publicProfileId: admin ? '901' : '902',
           email: 'qa@example.test',
           name: admin ? 'QA Administrator' : 'QA Subscriber',
           role: admin ? 'admin' : 'user',
@@ -3869,6 +3871,7 @@ for (const [device, viewport] of [
         const computed = getComputedStyle(element);
         return {
           minHeight: computed.minHeight,
+          borderLeftWidth: computed.borderLeftWidth,
           borderRadius: computed.borderRadius,
           borderImageSource: computed.borderImageSource,
           backgroundColor: computed.backgroundColor,
@@ -3910,7 +3913,11 @@ for (const [device, viewport] of [
           contests: material('.profile-contests'),
           statusChip: material('.profile-status-chip'),
           input: material('.profile-settings-form input:not([type="checkbox"])'),
+          publicProfile: material('.profile-public-link a'),
+          copyProfile: material('.profile-public-link button'),
         },
+        publicProfileActionCount: document.querySelectorAll('.profile-public-link :is(a, button)').length,
+        logoutGridColumn: getComputedStyle(document.querySelector('.profile-account-actions__logout')).gridColumn,
         adminMetaHref: document.querySelector('[data-profile-admin-destination="standard-meta"]')?.getAttribute('href') || '',
       };
     });
@@ -3957,10 +3964,10 @@ for (const [device, viewport] of [
       || surface.borderRadius !== '0px')) {
       failures.push(`profile [${device}]: settings or subscription frame changed (${JSON.stringify(framedProfileSurfaces)})`);
     }
-    if (!profileState.materials.source?.borderImageSource.includes('deck-border.png')
-      || profileState.materials.source?.minHeight !== '78px'
+    if (profileState.materials.source?.borderImageSource !== 'none'
+      || profileState.materials.source?.borderLeftWidth !== '4px'
       || profileState.materials.source?.borderRadius !== '0px') {
-      failures.push(`profile [${device}]: subscription source frame changed (${JSON.stringify(profileState.materials.source)})`);
+      failures.push(`profile [${device}]: subscription source list row changed (${JSON.stringify(profileState.materials.source)})`);
     }
     if (!profileState.materials.contests?.borderImageSource.includes('main-page-rail-border.png')
       || profileState.materials.contests?.borderRadius !== '0px') {
@@ -3969,6 +3976,16 @@ for (const [device, viewport] of [
     if (!profileState.materials.statusChip?.backgroundImage.includes('deck-border.png')
       || profileState.materials.statusChip?.minHeight !== '38px') {
       failures.push(`profile [${device}]: status chip material changed (${JSON.stringify(profileState.materials.statusChip)})`);
+    }
+    if (profileState.publicProfileActionCount !== 2
+      || profileState.materials.publicProfile?.backgroundColor === profileState.materials.copyProfile?.backgroundColor
+      || profileState.logoutGridColumn !== '1 / -1') {
+      failures.push(`profile [${device}]: profile actions lost their hierarchy or logout layout (${JSON.stringify({
+        count: profileState.publicProfileActionCount,
+        primary: profileState.materials.publicProfile,
+        secondary: profileState.materials.copyProfile,
+        logoutGridColumn: profileState.logoutGridColumn,
+      })})`);
     }
     if (profileState.materials.input?.borderRadius !== '2px'
       || profileState.materials.input?.color !== 'rgb(61, 43, 31)'

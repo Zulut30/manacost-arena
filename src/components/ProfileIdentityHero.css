@@ -131,6 +131,84 @@
   outline-offset: 2px;
 }
 
+/* Profile route details live with the already-split identity surface so the
+ * global editorial route bundle remains stable. Extra specificity deliberately
+ * wins over the legacy route defaults regardless of CSS chunk load order. */
+html .profile-workspace .profile-public-link a {
+  border-color: rgba(240, 200, 117, 0.72);
+  background: rgba(93, 12, 17, 0.76);
+  box-shadow: inset 0 0 0 1px rgba(255, 230, 167, 0.12);
+}
+
+html .profile-workspace .profile-public-link button {
+  border-color: rgba(222, 184, 100, 0.3);
+  color: #e8d1a2;
+  background: rgba(40, 3, 7, 0.34);
+}
+
+html .profile-workspace .profile-subscription-sources {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.65rem;
+}
+
+html .profile-workspace .profile-subscription-source {
+  grid-template-columns: 42px minmax(0, 1fr);
+  padding: 0.85rem 1rem;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+html .arena-app-profile .profile-workspace .profile-subscription-source {
+  min-height: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(111, 68, 29, 0.28);
+  border-left: 4px solid #ed8d37;
+  border-image: none;
+  background: rgba(255, 247, 224, 0.62);
+  box-shadow: none;
+}
+
+html .arena-app-profile .profile-workspace .profile-subscription-source--telegram {
+  border-left-color: #319bd7;
+}
+
+html .arena-app-profile .profile-workspace .profile-subscription-source--patreon {
+  border-left-color: #ff424d;
+}
+
+html .arena-app-profile .profile-workspace .profile-subscription-source--active {
+  border-color: rgba(62, 111, 67, 0.42);
+  border-left-color: #4e7e4d;
+  background: rgba(237, 245, 218, 0.7);
+}
+
+html .profile-workspace .profile-account-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0.35rem 0 0;
+  padding: 0.9rem 0 0;
+}
+
+html .profile-workspace .profile-account-actions :where(button, a) {
+  min-width: 0;
+}
+
+html .profile-workspace .profile-account-actions__logout {
+  grid-column: 1 / -1;
+}
+
+html .arena-app-profile .profile-workspace .profile-account-actions {
+  padding: 1rem;
+  border-top: 1px solid var(--profile-line);
+  background: rgba(249, 233, 195, 0.38);
+}
+
+html .arena-app-profile .profile-workspace .profile-account-actions__logout {
+  border-color: rgba(123, 21, 27, 0.46);
+  color: #7b151b;
+  background: rgba(255, 246, 219, 0.88);
+}
+
 .profile-workspace .profile-status-chips {
   display: flex;
   min-height: 0;
@@ -201,6 +279,16 @@
 
   .profile-workspace .profile-hero h1 {
     font-size: 1.65rem;
+  }
+
+  html .profile-workspace .profile-account-actions {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 0.75rem;
+    padding: 1rem 0 calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  html .profile-workspace .profile-account-actions :where(button, a) {
+    min-height: 48px;
   }
 }
 
