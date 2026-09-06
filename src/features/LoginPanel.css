@@ -1,7 +1,15 @@
 /* Public authentication owns its material in this route-only stylesheet. */
 .login-page {
+  /* Keep the auth route branded when the shared shell stylesheet is late or unavailable. */
+  min-height: calc(100vh - 3rem);
   padding: clamp(2rem, 6vw, 5rem) 0;
   color: var(--arena-ink);
+  background-color: #ead6a7;
+  background-image:
+    linear-gradient(rgba(249, 235, 202, 0.72), rgba(236, 213, 166, 0.78)),
+    url('/wallpaper/arena-parchment.jpg');
+  background-position: center;
+  background-size: cover;
 }
 
 .login-card {
