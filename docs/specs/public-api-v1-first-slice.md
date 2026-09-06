@@ -169,8 +169,11 @@ provider refresh.
 
 The same bearer token can access catalog and image resources when it includes
 `catalog.read` and `images.read`, and aggregate card statistics when it
-includes `statistics.read`. Server-to-server integrations may continue to use
-a scoped `X-API-Key`; API keys never represent an end user.
+includes `statistics.read`. Personal tracker ingestion and profile reads use the
+`tracker.write` and `tracker.read` scopes specified in
+`docs/specs/tracker-profile-ingestion-v1.md`. Server-to-server integrations
+may continue to use a scoped `X-API-Key`; API keys never represent an end
+user.
 
 ### Administrator key management
 
