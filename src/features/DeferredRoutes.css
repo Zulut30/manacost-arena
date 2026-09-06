@@ -1686,26 +1686,6 @@
   line-height: 1.45;
 }
 
-.profile-workspace .profile-subscription-source {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  min-height: 0;
-  padding: 0.8rem;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.profile-workspace .profile-subscription-sources {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.profile-workspace .profile-subscription-source--telegram {
-  align-items: flex-start;
-}
-
 .profile-workspace .profile-subscription-source img {
   width: 34px;
   height: 34px;
@@ -1727,16 +1707,6 @@
 
 .profile-workspace .profile-subscription-source__brand--patreon {
   background: #ff424d;
-}
-
-.profile-workspace .profile-subscription-source strong {
-  font-size: 0.8rem;
-}
-
-.profile-workspace .profile-subscription-source p {
-  margin: 0.25rem 0 0;
-  font-size: 0.75rem;
-  line-height: 1.35;
 }
 
 .profile-workspace .profile-subscription-source__actions {
@@ -2266,21 +2236,6 @@
 
 .arena-app-profile .profile-workspace .profile-access-item::before {
   color: #4e7e4d;
-}
-
-.arena-app-profile .profile-workspace .profile-subscription-source {
-  position: relative;
-  min-height: 78px;
-  padding: 0.9rem;
-  border: 6px solid transparent;
-  border-image-source: url('/wallpaper/deck-border.png');
-  border-image-slice: 16;
-  border-image-width: 6px;
-  border-image-outset: 0;
-  border-image-repeat: stretch;
-  border-radius: 0;
-  background: rgba(255, 245, 217, 0.72);
-  box-shadow: 0 6px 12px rgba(67, 35, 14, 0.09);
 }
 
 .arena-app-profile .profile-workspace .profile-subscription-source strong {

@@ -147,11 +147,14 @@ html .profile-workspace .profile-public-link button {
 }
 
 html .profile-workspace .profile-subscription-sources {
+  display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0.65rem;
+  margin-bottom: 0.75rem;
 }
 
 html .profile-workspace .profile-subscription-source {
+  display: grid;
   grid-template-columns: 42px minmax(0, 1fr);
   padding: 0.85rem 1rem;
   align-items: flex-start;
@@ -159,6 +162,7 @@ html .profile-workspace .profile-subscription-source {
 }
 
 html .arena-app-profile .profile-workspace .profile-subscription-source {
+  position: relative;
   min-height: 0;
   padding: 0.9rem 1rem;
   border: 1px solid rgba(111, 68, 29, 0.28);
@@ -166,6 +170,20 @@ html .arena-app-profile .profile-workspace .profile-subscription-source {
   border-image: none;
   background: rgba(255, 247, 224, 0.62);
   box-shadow: none;
+}
+
+html .profile-workspace .profile-subscription-source--telegram {
+  align-items: flex-start;
+}
+
+html .profile-workspace .profile-subscription-source strong {
+  font-size: 0.8rem;
+}
+
+html .profile-workspace .profile-subscription-source p {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.35;
 }
 
 html .arena-app-profile .profile-workspace .profile-subscription-source--telegram {
