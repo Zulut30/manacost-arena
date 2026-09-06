@@ -30,7 +30,7 @@ import { createClientErrorRouter } from './clientErrorRoutes.js';
 import { requestLoggingMiddleware, structuredErrorMiddleware } from './observability.js';
 import { createScrapeQueueHandler } from './scrapeQueue.js';
 import { decodeSignedStateCookie, encodeSignedStateCookie, safeAuthReturnTo } from './authRedirect.js';
-import { SOCIAL_PROVIDERS, createSocialAuthorizationUrl, fetchSocialProfile, isSocialProvider, type SocialProvider, type SocialProfile } from './socialOAuth.js';
+import { registerSocialOAuthRoutes, socialLoginProviderConfiguration } from './socialOAuthRoutes.js';
 import { csrfRequestAllowed } from './csrf.js';
 import { configureLoopbackProxyTrust, corsOriginAllowed, getTrustedClientIp } from './networkBoundary.js';
 import { isPublicMediaApiRequest } from './apiRateLimitPolicy.js';
@@ -495,12 +495,6 @@ const TELEGRAM_OIDC_ISSUER = 'https://oauth.telegram.org';
 const TELEGRAM_OIDC_DISCOVERY_URL = `${TELEGRAM_OIDC_ISSUER}/.well-known/openid-configuration`;
 const TELEGRAM_OIDC_COOKIE_NAME = 'manacost_tg_oidc';
 const TELEGRAM_OIDC_STATE_TTL_MS = 10 * 60 * 1000;
-const SOCIAL_OAUTH_STATE_TTL_MS = 10 * 60 * 1000;
-const SOCIAL_OAUTH_CLIENTS: Record<SocialProvider, { clientId: string; clientSecret: string }> = {
-  discord: { clientId: (process.env.DISCORD_OAUTH_CLIENT_ID || '').trim(), clientSecret: (process.env.DISCORD_OAUTH_CLIENT_SECRET || '').trim() },
-  google: { clientId: (process.env.GOOGLE_OAUTH_CLIENT_ID || '').trim(), clientSecret: (process.env.GOOGLE_OAUTH_CLIENT_SECRET || '').trim() },
-  yandex: { clientId: (process.env.YANDEX_OAUTH_CLIENT_ID || '').trim(), clientSecret: (process.env.YANDEX_OAUTH_CLIENT_SECRET || '').trim() },
-};
 const BOOSTY_AUTH_API_URL = (process.env.BOOSTY_AUTH_API_URL || 'http://127.0.0.1:18082').replace(/\/$/, '');
 const loadBoostyArticleAnalytics = createBoostyAnalyticsLoader({
   boostyBaseUrl: BOOSTY_AUTH_API_URL,
@@ -2604,78 +2598,6 @@ function readTelegramOidcState(req: import('express').Request, stateValue = ''):
   const states = readTelegramOidcStates(req);
   if (stateValue) return states.find(item => item.state === stateValue) ?? null;
   return states[states.length - 1] ?? null;
-}
-
-type SocialOauthState = { state: string; codeVerifier: string; returnTo: string; linkUserId: string; expiresAt: number };
-type SocialOauthCookie = { states?: unknown } & Partial<SocialOauthState>;
-
-function socialOauthEnabled(provider: SocialProvider): boolean {
-  const client = SOCIAL_OAUTH_CLIENTS[provider];
-  return Boolean(client.clientId && client.clientSecret);
-}
-
-function socialOauthCallbackUrl(provider: SocialProvider): string {
-  return `${APP_URL}/api/auth/${provider}/callback`;
-}
-
-function socialOauthCookieName(provider: SocialProvider): string {
-  return `manacost_${provider}_oauth`;
-}
-
-function readSocialOauthStates(req: import('express').Request, provider: SocialProvider): SocialOauthState[] {
-  const client = SOCIAL_OAUTH_CLIENTS[provider];
-  const raw = cookieValue(req, socialOauthCookieName(provider));
-  if (!raw || !client.clientSecret) return [];
-  try {
-    const value = decodeSignedStateCookie(raw, client.clientSecret) as SocialOauthCookie | null;
-    const candidates = Array.isArray(value?.states) ? value.states : [value];
-    return candidates.flatMap(candidate => {
-      if (!candidate || typeof candidate !== 'object') return [];
-      const item = candidate as Partial<SocialOauthState>;
-      if (typeof item.state !== 'string' || !item.codeVerifier || Number(item.expiresAt) <= Date.now()) return [];
-      return [{
-        state: item.state,
-        codeVerifier: String(item.codeVerifier),
-        returnTo: safeAuthReturnTo(item.returnTo),
-        linkUserId: typeof item.linkUserId === 'string' ? item.linkUserId : '',
-        expiresAt: Number(item.expiresAt),
-      }];
-    });
-  } catch { return []; }
-}
-
-function readSocialOauthState(req: import('express').Request, provider: SocialProvider, requestedState: string): SocialOauthState | null {
-  return readSocialOauthStates(req, provider).find(item => item.state === requestedState) ?? null;
-}
-
-function clearSocialOauthCookie(req: import('express').Request, res: import('express').Response, provider: SocialProvider) {
-  res.append('Set-Cookie', [
-    `${socialOauthCookieName(provider)}=`, 'Path=/api/auth', 'Max-Age=0', 'HttpOnly', 'SameSite=Lax',
-    telegramOidcCookieSecure(req) ? 'Secure' : '', authCookieDomain(req),
-  ].filter(Boolean).join('; '));
-}
-
-function consumeSocialOauthState(req: import('express').Request, res: import('express').Response, provider: SocialProvider, state: SocialOauthState) {
-  const client = SOCIAL_OAUTH_CLIENTS[provider];
-  const states = readSocialOauthStates(req, provider).filter(item => item.state !== state.state);
-  if (!states.length) return clearSocialOauthCookie(req, res, provider);
-  const value = encodeSignedStateCookie({ states }, client.clientSecret);
-  res.append('Set-Cookie', [
-    `${socialOauthCookieName(provider)}=${encodeURIComponent(value)}`, 'Path=/api/auth',
-    `Max-Age=${Math.ceil(SOCIAL_OAUTH_STATE_TTL_MS / 1000)}`, 'HttpOnly', 'SameSite=Lax',
-    telegramOidcCookieSecure(req) ? 'Secure' : '', authCookieDomain(req),
-  ].filter(Boolean).join('; '));
-}
-
-function writeSocialOauthState(req: import('express').Request, res: import('express').Response, provider: SocialProvider, state: SocialOauthState) {
-  const client = SOCIAL_OAUTH_CLIENTS[provider];
-  const states = [...readSocialOauthStates(req, provider), state].slice(-4);
-  const value = encodeSignedStateCookie({ states }, client.clientSecret);
-  res.append('Set-Cookie', [
-    `${socialOauthCookieName(provider)}=${encodeURIComponent(value)}`, 'Path=/api/auth',
-    `Max-Age=${Math.ceil(SOCIAL_OAUTH_STATE_TTL_MS / 1000)}`, 'HttpOnly', 'SameSite=Lax',
-    telegramOidcCookieSecure(req) ? 'Secure' : '', authCookieDomain(req),
-  ].filter(Boolean).join('; '));
 }
 
 async function verifyTelegramOidcIdToken(idToken: string, expectedNonce: string): Promise<Record<string, any>> {
@@ -8614,89 +8536,10 @@ app.get('/api/auth/telegram/config', (_req, res) => {
     botUsername: enabled ? TELEGRAM_AUTH_BOT_USERNAME : '',
     authUrl: enabled ? (useLegacyWidget ? `${APP_URL}/api/auth/telegram/callback` : `${APP_URL}/api/auth/telegram/start`) : '',
     callbackUrl: enabled ? `${APP_URL}/api/auth/telegram/callback` : '',
+    socialProviders: socialLoginProviderConfiguration(),
   });
 });
-
-function upsertSocialOauthUser(provider: SocialProvider, profile: SocialProfile, linkUserId?: string) {
-  const identityProvider = `${provider}_oauth`;
-  const now = new Date().toISOString();
-  const store = loadAuthStore();
-  const owner = identityOwner(identityProvider, profile.subject);
-  const linkedUser = linkUserId ? store.users.find(user => user.id === linkUserId) : undefined;
-  const identityUser = owner?.user_id ? store.users.find(user => user.id === owner.user_id) : undefined;
-  if (linkedUser && identityUser && linkedUser.id !== identityUser.id) throw new Error('Этот внешний аккаунт уже привязан к другому профилю');
-  let user = linkedUser ?? identityUser;
-  let createdUser = false;
-  if (!user) {
-    const suffix = sha256(`${provider}:${profile.subject}`).slice(0, 20);
-    user = {
-      id: `${provider}_${suffix}`,
-      email: `${provider}_${suffix}@social.local`,
-      name: profile.name,
-      role: 'user', country: '', newsletterOptIn: false,
-      avatarInitials: profile.name.slice(0, 2).toUpperCase(), photoUrl: profile.photoUrl,
-      passwordHash: hashSecret(randomBytes(24).toString('hex')), createdAt: now, updatedAt: now,
-    };
-    store.users.push(user);
-    createdUser = true;
-  } else {
-    user.name = user.name || profile.name;
-    user.photoUrl = profile.photoUrl || user.photoUrl;
-    user.updatedAt = now;
-  }
-  if (createdUser) saveAuthStore(store);
-  const identityResult = db().prepare(`INSERT INTO identities (user_id, provider, provider_user_id, email, username, photo_url, verified_at, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(provider, provider_user_id) DO UPDATE SET username = excluded.username, photo_url = excluded.photo_url, updated_at = excluded.updated_at
-    WHERE identities.user_id = excluded.user_id`).run(user.id, identityProvider, profile.subject, profile.email, profile.username, profile.photoUrl, now, now, now);
-  if (identityResult.changes !== 1) throw new Error('Этот внешний аккаунт уже привязан к другому профилю');
-  const token = createAuthSession(store, user);
-  saveAuthStore(store);
-  return token;
-}
-
-async function socialOauthHandler(req: import('express').Request, res: import('express').Response, next: import('express').NextFunction) {
-  const providerValue = String(req.params.provider || '');
-  if (!isSocialProvider(providerValue)) return next();
-  const provider = providerValue;
-  setPrivateNoStore(res);
-  if (!socialOauthEnabled(provider)) return res.redirect(`/?login&${provider}=error`);
-  const client = SOCIAL_OAUTH_CLIENTS[provider];
-  if (req.path.endsWith('/start')) {
-    const state = randomBytes(24).toString('base64url');
-    const codeVerifier = randomBytes(48).toString('base64url');
-    const returnTo = safeAuthReturnTo(req.query.returnTo);
-    writeSocialOauthState(req, res, provider, {
-      state,
-      codeVerifier,
-      returnTo,
-      linkUserId: userAuth(req)?.id || '',
-      expiresAt: Date.now() + SOCIAL_OAUTH_STATE_TTL_MS,
-    });
-    return res.redirect(createSocialAuthorizationUrl({ provider, clientId: client.clientId, redirectUri: socialOauthCallbackUrl(provider), state, codeChallenge: sha256Base64Url(codeVerifier) }));
-  }
-  const state = readSocialOauthState(req, provider, String(req.query.state || ''));
-  if (!state || !req.query.code) return res.redirect(`/?login&${provider}=error`);
-  consumeSocialOauthState(req, res, provider, state);
-  try {
-    const profile = await fetchSocialProfile({ provider, code: String(req.query.code), codeVerifier: state.codeVerifier, clientId: client.clientId, clientSecret: client.clientSecret, redirectUri: socialOauthCallbackUrl(provider) });
-    if (!profile) throw new Error('provider profile unavailable');
-    if (state.linkUserId && userAuth(req)?.id !== state.linkUserId) throw new Error('auth session changed during identity link');
-    const token = upsertSocialOauthUser(provider, profile, state.linkUserId || undefined);
-    setAuthCookie(req, res, token);
-    return res.redirect(safeAuthReturnTo(state.returnTo));
-  } catch {
-    return res.redirect(`/?login&${provider}=error`);
-  }
-}
-
-app.get('/api/auth/:provider/start', socialOauthHandler);
-app.get('/api/auth/:provider/callback', socialOauthHandler);
-
-app.get('/api/auth/social/config', (_req, res) => {
-  res.json({ providers: SOCIAL_PROVIDERS.filter(socialOauthEnabled).map(provider => ({ provider, authUrl: `/api/auth/${provider}/start` })) });
-});
-
+registerSocialOAuthRoutes(app, { appUrl: APP_URL, cookieValue, cookieSecure: telegramOidcCookieSecure, cookieDomain: authCookieDomain, setPrivateNoStore, userAuth, setAuthCookie, loadAuthStore, saveAuthStore, createAuthSession, identityOwner, database: db, sha256, hashSecret, sha256Base64Url });
 async function sendTelegramAuthBotMessage(chatId: string | number, text: string): Promise<void> {
   if (!TELEGRAM_AUTH_BOT_TOKEN) return;
   const startedAt = Date.now();

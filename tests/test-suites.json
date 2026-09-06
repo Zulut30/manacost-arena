@@ -227,12 +227,15 @@
         "tests/security-tooling-contract.test.mjs",
         "tests/sentry-privacy.test.ts",
         "tests/seo-registry.test.ts",
+        "tests/social-login-ui-contract.test.ts",
+        "tests/social-oauth-server-security-contract.test.ts",
         "tests/snapshots.test.ts",
         "tests/soft-paywall-ui-contract.test.ts",
         "tests/standard-meta-contract.test.ts",
         "tests/standard-meta-preview-cache-policy.test.ts",
         "tests/standard-meta-ui-contract.test.ts",
         "tests/storybook-mcp-contract.test.mjs",
+        "tests/socialOAuth.test.ts",
         "tests/test-discovery.test.mjs",
         "tests/workflow-contract.test.mjs"
       ]

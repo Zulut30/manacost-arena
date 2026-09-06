@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "scope": "Authored Express route and middleware registrations under server/",
   "summary": {
-    "sourceFiles": 68,
-    "routeRegistrations": 209,
+    "sourceFiles": 69,
+    "routeRegistrations": 212,
     "middlewareRegistrations": 107,
     "explicitGuardRouteRegistrations": 56,
     "unresolvedPaths": 0
@@ -3918,6 +3918,42 @@
         "dependencies.adminGuard"
       ],
       "source": "server/referralRoutes.ts",
+      "sourceOrder": 2
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/api/auth/:provider/start",
+      "pathKind": "string",
+      "receiver": "app",
+      "middleware": [],
+      "handler": "handler",
+      "guardSignals": [],
+      "source": "server/socialOAuthRoutes.ts",
+      "sourceOrder": 0
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/api/auth/:provider/callback",
+      "pathKind": "string",
+      "receiver": "app",
+      "middleware": [],
+      "handler": "handler",
+      "guardSignals": [],
+      "source": "server/socialOAuthRoutes.ts",
+      "sourceOrder": 1
+    },
+    {
+      "kind": "route",
+      "method": "GET",
+      "path": "/api/auth/social/config",
+      "pathKind": "string",
+      "receiver": "app",
+      "middleware": [],
+      "handler": "<inline-handler>",
+      "guardSignals": [],
+      "source": "server/socialOAuthRoutes.ts",
       "sourceOrder": 2
     },
     {

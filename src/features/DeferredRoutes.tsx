@@ -18,6 +18,7 @@ import FAQSection from '../components/FAQSection';
 import TierlistEarlyStatsNotice from './TierlistEarlyStatsNotice';
 import { Breadcrumbs, SectionBanner } from './EditorialRouteChrome';
 import { ArenaTierListSearchIntro } from '../modules/searchLanding/arena';
+import SocialLoginLinks, { parseSocialLoginProviders, type SocialLoginProvider } from './SocialLoginLinks';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -2910,15 +2911,6 @@ type TelegramAuthPayload = {
 };
 
 type TelegramAuthMode = 'legacy-widget' | 'oidc' | 'disabled';
-type SocialAuthProvider = 'discord' | 'google' | 'yandex';
-type SocialAuthConfig = { provider: SocialAuthProvider; authUrl: string };
-
-const SOCIAL_AUTH_LABELS: Record<SocialAuthProvider, string> = {
-  google: 'Google',
-  discord: 'Discord',
-  yandex: 'Яндекс ID',
-};
-
 declare global {
   interface Window {
     onHsArenaTelegramAuth?: (user: TelegramAuthPayload) => void;
@@ -3201,8 +3193,7 @@ export function LoginPanel({
   const [telegramCallbackUrl, setTelegramCallbackUrl] = useState('');
   const [telegramBotUsername, setTelegramBotUsername] = useState('');
   const [telegramMode, setTelegramMode] = useState<TelegramAuthMode>('disabled');
-  const [telegramEnabled, setTelegramEnabled] = useState(false);
-  const [socialProviders, setSocialProviders] = useState<SocialAuthConfig[]>([]);
+  const [telegramEnabled, setTelegramEnabled] = useState(false); const [socialLoginProviders, setSocialLoginProviders] = useState<SocialLoginProvider[]>([]);
   const [telegramLinkCode, setTelegramLinkCode] = useState('');
   const [telegramLinkExpiresAt, setTelegramLinkExpiresAt] = useState('');
   const [telegramLinkLoading, setTelegramLinkLoading] = useState(false);
@@ -3220,38 +3211,21 @@ export function LoginPanel({
   const [contestHistory, setContestHistory] = useState<ContestHistoryItem[]>([]);
   const [contestHistoryLoading, setContestHistoryLoading] = useState(false);
   const [publicLinkCopied, setPublicLinkCopied] = useState(false);
-
   const authHeaders = useCallback((extra: Record<string, string> = {}) => ({
     ...extra,
     'X-CSRF-Request': '1',
   }), []);
-
   useEffect(() => {
     fetch('/api/auth/telegram/config')
       .then(async res => {
         const data = await res.json().catch(() => ({}));
+        setSocialLoginProviders(parseSocialLoginProviders(data.socialProviders));
         if (!res.ok || !data.enabled || !data.authUrl) return;
         setTelegramAuthUrl(String(data.authUrl || '/api/auth/telegram/start'));
         setTelegramCallbackUrl(String(data.callbackUrl || data.authUrl || '/api/auth/telegram/callback'));
         setTelegramBotUsername(String(data.botUsername || ''));
         setTelegramMode(data.mode === 'legacy-widget' ? 'legacy-widget' : data.mode === 'oidc' ? 'oidc' : 'disabled');
         setTelegramEnabled(true);
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    fetch('/api/auth/social/config')
-      .then(async res => {
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !Array.isArray(data.providers)) return;
-        const providers = data.providers.flatMap((item: unknown): SocialAuthConfig[] => {
-          if (!item || typeof item !== 'object') return [];
-          const value = item as { provider?: unknown; authUrl?: unknown };
-          if ((value.provider !== 'discord' && value.provider !== 'google' && value.provider !== 'yandex') || typeof value.authUrl !== 'string') return [];
-          return [{ provider: value.provider, authUrl: value.authUrl }];
-        });
-        setSocialProviders(providers);
       })
       .catch(() => {});
   }, []);
@@ -3583,10 +3557,6 @@ export function LoginPanel({
     telegramMode === 'legacy-widget' ? telegramCallbackUrl : telegramAuthUrl,
     '/?login&telegram=linked',
   );
-  const socialLoginProviders = socialProviders.map(item => ({
-    ...item,
-    authUrl: authUrlWithReturnTo(item.authUrl, `/?login&${item.provider}=ok`),
-  }));
 
   const handleTelegramLinkCodeRequest = async () => {
     setTelegramLinkLoading(true);
@@ -4081,7 +4051,7 @@ export function LoginPanel({
             {loading ? 'Проверяем...' : authStep === 'password' ? 'Получить код' : authMode === 'reset' ? 'Сменить пароль' : 'Войти'}
           </button>
         </form>
-        {authStep === 'password' && authMode === 'login' && (telegramEnabled || socialLoginProviders.length > 0) && (
+        {authStep === 'password' && authMode === 'login' && telegramEnabled && (
           <div className="login-telegram">
             <div className="login-divider">
               <span className="login-divider__line" />
@@ -4108,23 +4078,9 @@ export function LoginPanel({
                 <span>Войти через Telegram</span>
               </a>
             ))}
-            {socialLoginProviders.length > 0 && (
-              <div className="login-social-links">
-                {socialLoginProviders.map(({ provider, authUrl }) => (
-                  <a
-                    key={provider}
-                    href={authUrl}
-                    className={`login-social-link login-social-link--${provider}${loading ? ' login-telegram-link--disabled' : ''}`}
-                    aria-disabled={loading}
-                  >
-                    <span className="login-social-link__mark" aria-hidden="true">{SOCIAL_AUTH_LABELS[provider].slice(0, 1)}</span>
-                    <span>Войти через {SOCIAL_AUTH_LABELS[provider]}</span>
-                  </a>
-                ))}
-              </div>
-            )}
           </div>
         )}
+        {authStep === 'password' && authMode === 'login' && <SocialLoginLinks disabled={loading} providers={socialLoginProviders} withDivider={!telegramEnabled} />}
         {authStep === 'password' && authMode === 'login' && (
           <button
             type="button"
